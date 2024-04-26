@@ -1,8 +1,12 @@
-//
-//  Project.swift
-//  ProjectDescriptionHelpers
-//
-//  Created by 조영준 on 4/26/24.
-//
+import ProjectDescription
+import ProjectDescriptionHelpers
+import DependencyPlugin
 
-import Foundation
+let project = Project.makeModule(
+    name: "Core",
+    platform: .iOS,
+    product: .staticFramework,
+    dependencies: [
+        .Module.thirdPartyLib
+    ]
+)

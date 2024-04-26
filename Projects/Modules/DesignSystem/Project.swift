@@ -1,8 +1,20 @@
-//
-//  Project.swift
-//  ProjectDescriptionHelpers
-//
-//  Created by 조영준 on 4/26/24.
-//
+import ProjectDescription
+import ProjectDescriptionHelpers
+import DependencyPlugin
 
-import Foundation
+let project = Project.makeModule(
+    name: "DesignSystem",
+    resources: ["Resources/**"],
+    resourceSynthesizers: .default + [
+        .custom(
+            name: "Lottie",
+            parser: .json,
+            extensions: ["json"]
+        )
+    ],
+    platform: .iOS,
+    product: .framework,
+    dependencies: [
+        .Projects.core
+    ]
+)
