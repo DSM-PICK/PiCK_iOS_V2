@@ -1,8 +1,10 @@
-//
-//  Path+XCConfig.swift
-//  MyPlugin
-//
-//  Created by 조영준 on 4/26/24.
-//
+import ProjectDescription
 
-import Foundation
+public extension ProjectDescription.Path {
+    static func relativeToXCConfig(type: ProjectDeployTarget, name: String) -> Self {
+        return .relativeToRoot("XCConfig/\(name)/\(type.rawValue).xcconfig")
+    }
+    static var shared: Self {
+        return .relativeToRoot("XCConfig/Shared.xcconfig")
+    }
+}

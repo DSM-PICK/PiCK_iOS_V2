@@ -1,8 +1,7 @@
-//
-//  Codesign.swift
-//  ProjectDescriptionHelpers
-//
-//  Created by 조영준 on 4/26/24.
-//
+import ProjectDescription
 
-import Foundation
+public extension SettingsDictionary {
+    static let codeSign = SettingsDictionary()
+        .codeSignIdentityAppleDevelopment()
+        .automaticCodeSigning(devTeam: "Z25H7B85Z8")
+}

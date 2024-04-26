@@ -1,8 +1,23 @@
-//
-//  Project.swift
-//  ProjectDescriptionHelpers
-//
-//  Created by 조영준 on 4/26/24.
-//
+import ProjectDescription
+import ProjectDescriptionHelpers
+import DependencyPlugin
 
-import Foundation
+let project = Project.makeModule(
+    name: "ThirdPartyLib",
+    platform: .iOS,
+    product: .framework,
+    dependencies: [
+        .SPM.SnapKit,
+        .SPM.Then,
+        .SPM.RxFlow,
+        .SPM.RxSwift,
+        .SPM.RxCocoa,
+        .SPM.KeychainSwift,
+        .SPM.Kingfisher,
+        .SPM.Moya,
+        .SPM.RxMoya,
+        .SPM.RxGesture,
+        .SPM.Swinject,
+        .SPM.Lottie
+    ]
+)
