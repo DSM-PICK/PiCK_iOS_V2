@@ -1,7 +1,8 @@
 import ProjectDescription
+import EnvironmentPlugin
 
 let workspace = Workspace(
-    name: "PiCK-iOS-V2",
+    name: env.appName,
     projects: [
         "Projects/**"
     ]
