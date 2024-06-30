@@ -12,12 +12,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        let appFlow = AppFlow(window: window!, container: AppDelegate.container)
-        self.coordinator.coordinate(
-            flow: appFlow,
-            with: AppStepper(),
-            allowStepWhenDismissed: false
-        )
+//        let appFlow = AppFlow(window: window!, container: AppDelegate.container)
+//        self.coordinator.coordinate(
+//            flow: appFlow,
+//            with: AppStepper(),
+//            allowStepWhenDismissed: false
+//        )
         window?.makeKeyAndVisible()
     }
 
