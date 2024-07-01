@@ -9,7 +9,7 @@ public final class PresentationAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-//        onboarding
+        //onboarding
         container.register(OnboardingViewController.self) { resolver in
             OnboardingViewController(viewModel: resolver.resolve(OnboardingViewModel.self)!)
         }
