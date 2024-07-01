@@ -7,7 +7,7 @@ import RxFlow
 public enum PiCKStep: Step {
     
     //start
-    case onBoardingIsRequired
+    case onboardingIsRequired
     case loginIsRequired
     
     //test
