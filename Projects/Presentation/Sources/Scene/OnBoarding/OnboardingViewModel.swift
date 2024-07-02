@@ -17,7 +17,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
     public struct Input {
 //        let viewWillAppear: Observable<Void>
 //        let componentAppear: Observable<Void>
-        let loginButtonDidClick: Observable<Void>
+        let onboardingButtonDidClick: Observable<Void>
     }
     public struct Output {
 //        let animate: Signal<Void>
@@ -40,7 +40,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 //            .bind(to: showComponet)
 //            .disposed(by: disposeBag)
         
-        input.loginButtonDidClick
+        input.onboardingButtonDidClick
             .map { PiCKStep.loginIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
