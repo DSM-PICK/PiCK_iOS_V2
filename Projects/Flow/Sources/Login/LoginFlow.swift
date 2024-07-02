@@ -24,27 +24,22 @@ public class LoginFlow: Flow {
         switch step {
             case .loginIsRequired:
                 return navigateToLogin()
-//            case .mainRequired:
-//                return navigateToMain()
+            case .mainIsRequired:
+                return navigateToMain()
             default:
                 return .none
         }
     }
     
     private func navigateToLogin() -> FlowContributors {
-        let viewModel = container.resolve(LoginViewModel.self)!
-        let vc = LoginViewController(
-            viewModel: viewModel
-        )
-        self.rootViewController.navigationItem.hidesBackButton = true
         return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextPresentable: rootViewController,
+            withNextStepper: rootViewController.viewModel
         ))
     }
     
-//    private func navigateToMain() -> FlowContributors {
-//        return .end(forwardToParentFlowWithStep: PiCKStep.mainRequired)
-//    }
+    private func navigateToMain() -> FlowContributors {
+        return .end(forwardToParentFlowWithStep: PiCKStep.mainIsRequired)
+    }
 
 }
