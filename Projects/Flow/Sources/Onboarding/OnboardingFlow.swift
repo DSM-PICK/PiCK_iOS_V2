@@ -8,7 +8,7 @@ import Presentation
 
 public class OnboardingFlow: Flow {
     public let container: Container
-    private let rootViewController = BaseNavigationController()
+    private var rootViewController = BaseNavigationController()
     public var root: Presentable {
         return rootViewController
     }
@@ -32,18 +32,28 @@ public class OnboardingFlow: Flow {
     
     private func navigateToOnboarding() -> FlowContributors {
         let viewModel = container.resolve(OnboardingViewModel.self)!
-        let onboardingViewController = OnboardingViewController(
+        let vc = OnboardingViewController(
             viewModel: viewModel
         )
-        self.rootViewController.pushViewController(onboardingViewController, animated: true)
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: onboardingViewController,
-            withNextStepper: onboardingViewController.viewModel
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
     private func navigateToLogin() -> FlowContributors {
-        return .end(forwardToParentFlowWithStep: PiCKStep.loginIsRequired)
+        let loginFlow = LoginFlow(container: self.container)
+
+           Flows.use(loginFlow, when: .created) { root in
+               self.rootViewController.pushViewController(root, animated: true)
+               root.navigationItem.hidesBackButton = true
+           }
+
+           return .one(flowContributor: .contribute(
+               withNextPresentable: loginFlow,
+               withNextStepper: OneStepper(withSingleStep: PiCKStep.loginIsRequired)
+           ))
     }
 
 }
