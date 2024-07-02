@@ -3,6 +3,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+import Core
+import DesignSystem
+
 open class BaseViewController<ViewModel: BaseViewModel>: UIViewController {
     
     public let disposeBag = DisposeBag()
@@ -40,7 +43,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController {
         //viewDidLayoutSubviews에서 네비게이션바 관련 코드를 호출하는 함수
     }
     open func attribute() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         //뷰 관련 코드를 설정하는 함수
     }
     open func bindAction() {
