@@ -6,7 +6,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-open class BaseViewController<ViewModel: BaseViewModel>: UIViewController {
+open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGestureRecognizerDelegate {
     
     public let disposeBag = DisposeBag()
     public var viewModel: ViewModel
@@ -44,6 +44,8 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController {
     }
     open func attribute() {
         view.backgroundColor = .background
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         //뷰 관련 코드를 설정하는 함수
     }
     open func bindAction() {
