@@ -14,10 +14,16 @@ public class LoginViewModel: BaseViewModel, Stepper {
     
     public init() {}
     
-    public struct Input {}
+    public struct Input {
+        let loginButtonClick: Observable<Void>
+    }
     public struct Output {}
     
     public func transform(input: Input) -> Output {
+        input.loginButtonClick
+            .map { PiCKStep.mainIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
         return Output()
     }
     
