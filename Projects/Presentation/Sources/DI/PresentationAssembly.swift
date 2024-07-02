@@ -18,12 +18,12 @@ public final class PresentationAssembly: Assembly {
         }
         
         //login
-//        container.register(LoginViewController.self) { resolver in
-//            LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
-//        }
-//        container.register(LoginViewModel.self) { resolver in
-//            LoginViewModel()
-//        }
+        container.register(LoginViewController.self) { resolver in
+            LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
+        }
+        container.register(LoginViewModel.self) { resolver in
+            LoginViewModel()
+        }
     }
     
 }
