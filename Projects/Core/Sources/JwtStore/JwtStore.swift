@@ -1,8 +1,9 @@
 import Foundation
 
 public enum KeychainType: String {
-    case accessToken = "ACCESS-TOKEN"
-    case refreshToken = "REFRESH-TOKEN"
+    case accessToken = "access_token"
+    case refreshToken = "refresh_token"
+    case tokenIsEmpty
 }
 
 public protocol Keychain {
