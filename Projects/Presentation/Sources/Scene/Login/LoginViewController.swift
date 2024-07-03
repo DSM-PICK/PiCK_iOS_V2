@@ -14,6 +14,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     private let titleLabel = UILabel().then {
         $0.text = "PiCK에 로그인하기"
         $0.textColor = .black
+        $0.changePointColor(targetString: "PiCK", color: .main500)
         $0.font = .heading2
     }
     private let explainLabel = UILabel().then {
