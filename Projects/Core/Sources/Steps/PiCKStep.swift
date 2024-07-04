@@ -10,6 +10,9 @@ public enum PiCKStep: Step {
     case onboardingIsRequired
     case loginIsRequired
     
+    //main
+    case mainIsRequired
+    
     //test
     case testIsRequired
 
