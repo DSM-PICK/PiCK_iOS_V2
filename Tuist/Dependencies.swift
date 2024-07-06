@@ -42,13 +42,20 @@ let dependencies = Dependencies.init(
                 url: "https://github.com/RxSwiftCommunity/RxGesture",
                 requirement: .upToNextMajor(from: "4.0.0")
             ),
+            //Swinject
             .remote(
                 url: "https://github.com/Swinject/Swinject.git",
                 requirement: .upToNextMajor(from: "2.8.0")
             ),
+            //Lottie
             .remote(
                 url: "https://github.com/airbnb/lottie-ios",
                 requirement: .upToNextMajor(from: "4.3.3")
+            ),
+            //SkeletonView
+            .remote(
+                url: "https://github.com/Juanpe/SkeletonView.git",
+                requirement: .upToNextMajor(from: "1.7.0")
             )
         ],
         baseSettings: .settings(
