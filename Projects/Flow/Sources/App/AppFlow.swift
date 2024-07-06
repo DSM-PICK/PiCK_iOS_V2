@@ -29,8 +29,8 @@ public class AppFlow: Flow {
 //                return presentLoginView()
             case .mainIsRequired:
                 return presentMainView()
-//            case .testIsRequired:
-//                return presentTestView()
+            case .testIsRequired:
+                return presentTestView()
             default:
                 return .none
         }
@@ -65,15 +65,15 @@ public class AppFlow: Flow {
     }
 
     
-//    private func presentTestView() -> FlowContributors {
-//        let testFlow = TestFlow()
-//        Flows.use(testFlow, when: .created) { [weak self] root in
-//            self?.window.rootViewController = root
-//        }
-//        return .one(flowContributor: .contribute(
-//            withNextPresentable: testFlow,
-//            withNextStepper: OneStepper(withSingleStep: PiCKStep.testIsRequired)
-//        ))
-//    }
+    private func presentTestView() -> FlowContributors {
+        let testFlow = TestFlow(container: self.container)
+        Flows.use(testFlow, when: .created) { [weak self] root in
+            self?.window.rootViewController = root
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: testFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.testIsRequired)
+        ))
+    }
     
 }
