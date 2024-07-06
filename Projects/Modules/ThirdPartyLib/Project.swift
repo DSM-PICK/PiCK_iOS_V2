@@ -18,6 +18,7 @@ let project = Project.makeModule(
         .SPM.RxMoya,
         .SPM.RxGesture,
         .SPM.Swinject,
-        .SPM.Lottie
+        .SPM.Lottie,
+        .SPM.SkeletonView
     ]
 )

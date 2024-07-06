@@ -17,4 +17,5 @@ public extension TargetDependency.SPM {
     static let RxGesture = TargetDependency.external(name: "RxGesture")
     static let Swinject = TargetDependency.external(name: "Swinject")
     static let Lottie = TargetDependency.external(name: "Lottie")
+    static let SkeletonView = TargetDependency.external(name: "SkeletonView")
 }
