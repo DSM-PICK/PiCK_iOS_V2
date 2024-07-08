@@ -24,8 +24,8 @@ public class LoginFlow: Flow {
         switch step {
             case .loginIsRequired:
                 return navigateToLogin()
-            case .mainIsRequired:
-                return navigateToMain()
+            case .tabIsRequired:
+                return navigateToTab()
             default:
                 return .none
         }
@@ -38,8 +38,8 @@ public class LoginFlow: Flow {
         ))
     }
     
-    private func navigateToMain() -> FlowContributors {
-        return .end(forwardToParentFlowWithStep: PiCKStep.mainIsRequired)
+    private func navigateToTab() -> FlowContributors {
+        return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
     }
 
 }
