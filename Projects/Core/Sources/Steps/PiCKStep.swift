@@ -8,8 +8,22 @@ public enum PiCKStep: Step {
     case onboardingIsRequired
     case loginIsRequired
     
-    //main
-    case mainIsRequired
+    case tabIsRequired
+    
+    //home
+    case homeIsRequired
+    
+    //schoolMeal
+    case schoolMealIsRequired
+    
+    //apply
+    case applyIsRequired
+    
+    //schedule
+    case scheduleIsRequired
+    
+    //allTab
+    case allTabIsRequired
     
     //test
     case testIsRequired
