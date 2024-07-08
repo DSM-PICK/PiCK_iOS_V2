@@ -1,22 +1,3 @@
-//import UIKit
-//
-//class PiCKTextField: BaseTextField {
-//    
-//    var borderColor: UIColor {
-//        isEditing ? .main500 : .clear
-//    }
-//    
-//    override func attribute() {
-//        self.backgroundColor = .gray50
-//        self.layer.cornerRadius = 8
-//        self.layer.borderColor = borderColor.cgColor
-//        self.layer.borderWidth = 1
-//        
-//        self.tintColor = .red
-//    }
-//}
-
-
 import UIKit
 
 import SnapKit
