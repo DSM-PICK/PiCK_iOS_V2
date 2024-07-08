@@ -29,8 +29,8 @@ public class TestFlow: Flow {
     }
     
     private func navigateToTest() -> FlowContributors {
-        let viewModel = MainViewModel()
-        let vc = MainViewController(
+        let viewModel = HomeViewModel()
+        let vc = HomeViewController(
             viewModel: viewModel
         )
         self.rootViewController.pushViewController(vc, animated: true)
