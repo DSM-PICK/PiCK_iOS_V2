@@ -21,7 +21,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
     
     public func transform(input: Input) -> Output {
         input.loginButtonClick
-            .map { PiCKStep.homeIsRequired }
+            .map { PiCKStep.tabIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
         return Output()
