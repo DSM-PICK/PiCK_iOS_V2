@@ -20,12 +20,12 @@ public class PiCKTextField: UITextField {
     }
     
     private let titleLabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .modeBlack
         $0.font = .label1
     }
     private let textHideButton = UIButton(type: .system).then {
         $0.setImage(.eyeOff, for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .modeBlack
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
     }
