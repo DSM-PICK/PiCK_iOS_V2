@@ -12,6 +12,7 @@ public extension UIImage {
     static let notice = DesignSystemAsset.Image.newNotice.image
     static let eyeOn = DesignSystemAsset.Image.eyeOn.image
     static let eyeOff = DesignSystemAsset.Image.eyeOff.image
+    static let bottomArrow = DesignSystemAsset.Image.bottomArrow.image
     //MARK: TabBarIcon
     static let homeIcon = DesignSystemAsset.Image.homeIcon.image
     static let schoolMealIcon = DesignSystemAsset.Image.schoolMealIcon.image
