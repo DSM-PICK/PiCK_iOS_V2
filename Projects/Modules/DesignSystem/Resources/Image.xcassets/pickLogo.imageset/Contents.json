@@ -2,8 +2,7 @@
   "images" : [
     {
       "filename" : "로고1.svg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "idiom" : "universal"
     },
     {
       "appearances" : [
@@ -13,8 +12,7 @@
         }
       ],
       "filename" : "로고1 1.svg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "idiom" : "universal"
     },
     {
       "appearances" : [
@@ -24,56 +22,7 @@
         }
       ],
       "filename" : "로고1 2.svg",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {
