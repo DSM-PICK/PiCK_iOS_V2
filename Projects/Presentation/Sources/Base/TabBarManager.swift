@@ -14,8 +14,13 @@ public class TabBarManager: UITabBarController {
     private func setupTabBar() {
         self.tabBar.tintColor = .main500
         self.tabBar.isTranslucent = false
-        self.tabBar.standardAppearance.backgroundColor = .white
-        self.tabBar.scrollEdgeAppearance?.backgroundColor = .white
+        self.tabBar.backgroundColor = .background
+        
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.shadowColor = UIColor.clear
+        appearance.backgroundColor = .background
+        tabBar.standardAppearance = appearance
     }
     
 }
