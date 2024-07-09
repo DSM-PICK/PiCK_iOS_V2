@@ -11,22 +11,22 @@ import Core
 public class PiCKMainNavigationBar: BaseView {
     
     public var viewSettingButtonTap: ControlEvent<Void> {
-         return viewSettingButton.rx.tap
+         return viewSettingButton.buttonTap
     }
     public var displayModeButtonTap: ControlEvent<Void> {
-         return displayModeButton.rx.tap
+         return displayModeButton.buttonTap
      }
     public var alertButtonTap: ControlEvent<Void> {
-         return alertButton.rx.tap
+         return alertButton.buttonTap
      }
     
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
         $0.contentMode = .scaleAspectFit
     }
     
-    private let viewSettingButton = PiCKImageButton(type: .system, image: .navigationSetting)
-    private let displayModeButton = PiCKImageButton(type: .system, image: .displayMode)
-    private let alertButton = PiCKImageButton(type: .system, image: .alert)
+    private let viewSettingButton = PiCKImageButton(type: .system, image: .navigationSetting, imageColor: .modeBlack)
+    private let displayModeButton = PiCKImageButton(type: .system, image: .displayMode, imageColor: .modeBlack)
+    private let alertButton = PiCKImageButton(type: .system, image: .alert, imageColor: .modeBlack)
     private lazy var rightItemStackView = UIStackView(
         arrangedSubviews: [
             viewSettingButton,
