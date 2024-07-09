@@ -60,9 +60,6 @@ public class TabsFlow: Flow {
                 schedule,
                 allTab
             ], animated: true)
-            self.rootViewController.navigationController?.isNavigationBarHidden = true
-            self.rootViewController.tabBar.backgroundColor = .background
-            self.rootViewController.tabBar.isTranslucent = false
         }
         return .multiple(flowContributors: [
             .contribute(
