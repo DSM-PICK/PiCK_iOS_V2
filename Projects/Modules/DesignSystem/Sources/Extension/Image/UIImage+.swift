@@ -9,7 +9,7 @@ public extension UIImage {
     static let alert = DesignSystemAsset.Image.alert.image
     static let profile = DesignSystemAsset.Image.profile.image
     static let newNotice = DesignSystemAsset.Image.newNotice.image
-    static let notice = DesignSystemAsset.Image.newNotice.image
+    static let notice = DesignSystemAsset.Image.notice.image
     static let eyeOn = DesignSystemAsset.Image.eyeOn.image
     static let eyeOff = DesignSystemAsset.Image.eyeOff.image
     static let bottomArrow = DesignSystemAsset.Image.bottomArrow.image
