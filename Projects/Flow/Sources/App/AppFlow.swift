@@ -9,8 +9,10 @@ public class AppFlow: Flow {
     
     private var window: UIWindow
     private let container: Container
+    private let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
     
     public var root: RxFlow.Presentable {
+        window.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
         return window
     }
     
@@ -20,7 +22,9 @@ public class AppFlow: Flow {
     }
     
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
-        guard let step = step as? PiCKStep else { return .none }
+        guard let step = step as? PiCKStep else {
+            return .none
+        }
         
         switch step {
             case .onboardingIsRequired:
@@ -35,7 +39,7 @@ public class AppFlow: Flow {
                 return .none
         }
     }
-    
+
     private func presentOnboardingView() -> FlowContributors {
         let onboardingFlow = OnboardingFlow(container: self.container)
         Flows.use(onboardingFlow, when: .created) { [weak self] root in
