@@ -43,7 +43,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     }
     public override func bind() {
         let input = LoginViewModel.Input(
-            loginButtonClick: loginButton.buttonTap.asObservable()
+            clickLoginButton: loginButton.buttonTap.asObservable()
         )
         _ = viewModel.transform(input: input)
     }
@@ -79,7 +79,6 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         }
         loginButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(47)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
