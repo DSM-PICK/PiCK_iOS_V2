@@ -15,12 +15,12 @@ public class LoginViewModel: BaseViewModel, Stepper {
     public init() {}
     
     public struct Input {
-        let loginButtonClick: Observable<Void>
+        let clickLoginButton: Observable<Void>
     }
     public struct Output {}
     
     public func transform(input: Input) -> Output {
-        input.loginButtonClick
+        input.clickLoginButton
             .map { PiCKStep.tabIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)

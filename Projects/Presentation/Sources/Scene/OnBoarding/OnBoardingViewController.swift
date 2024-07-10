@@ -19,7 +19,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
     }
     public override func bind() {
         let input = OnboardingViewModel.Input(
-            onboardingButtonDidClick: onboardingButton.buttonTap.asObservable()
+            clickOnboardingButton: onboardingButton.buttonTap.asObservable()
         )
         _ = viewModel.transform(input: input)
     }
@@ -33,7 +33,6 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
     public override func setLayout() {
         onboardingButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(47)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
