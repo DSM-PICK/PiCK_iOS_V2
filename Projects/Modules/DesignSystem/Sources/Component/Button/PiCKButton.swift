@@ -40,5 +40,10 @@ public class PiCKButton: BaseButton {
         self.titleLabel?.font = .button1
         self.layer.cornerRadius = 8
     }
+    public override func layout() {
+        self.snp.makeConstraints {
+            $0.height.equalTo(47)
+        }
+    }
 
 }
