@@ -14,7 +14,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     public override func attribute() {
         super.attribute()
         
-        view.backgroundColor = .yellow
+        view.backgroundColor = .background
     }
 
 }

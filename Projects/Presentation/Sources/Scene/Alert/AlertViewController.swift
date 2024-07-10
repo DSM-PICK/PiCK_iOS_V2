@@ -9,12 +9,12 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
+public class AlertViewController: BaseViewController<AlertViewModel> {
 
     public override func attribute() {
         super.attribute()
         
-        view.backgroundColor = .background
+        view.backgroundColor = .red
     }
 
 }
