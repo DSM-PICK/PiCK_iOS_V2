@@ -7,5 +7,9 @@ public final class KeychainAssembly: Assembly {
         container.register(Keychain.self) { _ in
             KeychainImpl()
         }
+        
+        container.register(UserDefault.self) { _ in
+            UserDefaultsManager()
+        }
     }
 }
