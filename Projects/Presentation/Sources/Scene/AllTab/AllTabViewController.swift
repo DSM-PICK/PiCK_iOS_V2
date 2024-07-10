@@ -14,7 +14,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     public override func attribute() {
         super.attribute()
         
-        view.backgroundColor = .red
+        view.backgroundColor = .background
     }
 
 }

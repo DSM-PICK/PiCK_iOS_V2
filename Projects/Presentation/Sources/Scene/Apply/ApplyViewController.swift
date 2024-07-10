@@ -14,7 +14,7 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
     public override func attribute() {
         super.attribute()
         
-        view.backgroundColor = .blue
+        view.backgroundColor = .background
     }
 
 }
