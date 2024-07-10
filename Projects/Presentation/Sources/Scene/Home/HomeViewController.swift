@@ -32,15 +32,25 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.textColor = .gray700
         $0.font = .label1
     }
-    private let topCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
+    private lazy var topCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
+//        $0.itemSize = .init(width: self.view.frame.width, height: 44)
+        $0.itemSize = .init(width: self.view.frame.width, height: 102)
     }
     //TODO: 시간표가 바뀌었다는 알림을 headerView로 표현?
     private lazy var topCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: topCollectionViewFlowLayout
     ).then {
-        $0.backgroundColor = .red
+        $0.backgroundColor = .background
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.register(
+            SchoolMealCollectionViewCell.self,
+            forCellWithReuseIdentifier: SchoolMealCollectionViewCell.identifier
+        )
+        $0.delegate = self
+        $0.dataSource = self
     }
     private let selfStudyBannerView = PiCKMainBannerView()
     private let recentNoticeLabel = UILabel().then {
@@ -60,29 +70,40 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
-    private let bottomCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
+    private lazy var bottomCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
+        $0.itemSize = .init(width: self.view.frame.width, height: 81)
     }
     private lazy var bottomCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: bottomCollectionViewFlowLayout
     ).then {
-        $0.backgroundColor = .blue
+        $0.backgroundColor = .background
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.register(
+            NoticeCollectionViewCell.self,
+            forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
+        )
+        $0.delegate = self
+        $0.dataSource = self
     }
 
     public override func configureNavigationBar() {
         navigationController?.isNavigationBarHidden = true
     }
     
+    public override func bind() {
+        let input = HomeViewModel.Input(
+            clickAlertButton: navigationBar.alertButtonTap.asObservable()
+        )
+        _ = viewModel.transform(input: input)
+    }
     public override func bindAction() {
         navigationBar.viewSettingButtonTap
             .bind(onNext: { [weak self] in
                 let vc = PiCKBottomSheetAlert(type: .viewType)
-//                let vc = PiCKBottomSheetAlert(
-//                    explainText: "픽은 라이트 모드 또는 다크 모드로 변경할 수 있어요",
-//                    questionText: "픽을 다크 모드로 설정 하시겠어요?",
-//                    buttonText: "다크 모드로 설정하기"
-//                )
+
                 let customDetents = UISheetPresentationController.Detent.custom(
                     identifier: .init("sheetHeight")
                 ) { _ in
@@ -97,12 +118,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         navigationBar.displayModeButtonTap
             .bind(onNext: { [weak self] in
                 let vc = PiCKBottomSheetAlert(type: .displayMode)
-//                let vc = PiCKBottomSheetAlert(
-//                    explainText: "픽은 메인 페이지를 커스텀 할 수 있어요!",
-//                    questionText: "메인에서 오늘의 급식 보기 ",
-//                    buttonText: "급식으로 설정하기",
-//                    typeLabel: "지금은 시간표로 설정되어 있어요"
-//                )
+
+                vc.clickModeButton = { data in
+                    UserDefaultsManager.shared.set(to: data, forKey: .displayMode)
+                    let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
+                    UIView.transition(with: self!.view, duration: 0.7, options: .transitionCrossDissolve) {
+                        self?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
+                    }
+]
+                }
+                
                 let customDetents = UISheetPresentationController.Detent.custom(
                     identifier: .init("sheetHeight")
                 ) { _ in
@@ -186,6 +211,42 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(recentNoticeLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(350)//TODO: 높이 조절 필요
+        }
+    }
+
+}
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == topCollectionView {
+            return 7
+        } else {
+            return 6
+        }
+            
+    }
+
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == topCollectionView {
+            guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: SchoolMealCollectionViewCell.identifier, for: indexPath) as? SchoolMealCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+//            cell.setup(period: "\(indexPath.row + 1)", image: .alert, subject: "디지털 포렌식")
+            
+            cell.setup(
+                mealTime: "조식",
+                menu: "녹두찰밥\n스팸구이\n시리얼(블루베리)\n우유\n한우궁중떡볶이\n미니고구마파이",
+                kcal: "735.9kcal"
+            )
+            return cell
+        } else {
+            guard let cell = bottomCollectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
+            return cell
         }
     }
 
