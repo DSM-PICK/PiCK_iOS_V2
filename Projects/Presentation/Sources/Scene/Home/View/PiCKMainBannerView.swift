@@ -83,12 +83,12 @@ public class PiCKMainBannerView: BaseView {
             $0.leading.equalToSuperview().inset(22.5)
         }
         floorStackView.snp.makeConstraints {
-            $0.top.equalTo(explainLabel.snp.bottom).offset(26)
+            $0.top.equalTo(explainLabel.snp.bottom).offset(16)
             $0.leading.equalToSuperview().inset(22.5)
             $0.height.equalTo(75)
         }
         teacherStackView.snp.makeConstraints {
-            $0.top.equalTo(explainLabel.snp.bottom).offset(26)
+            $0.top.equalTo(explainLabel.snp.bottom).offset(16)
             $0.leading.equalTo(floorStackView.snp.trailing).offset(16)
             $0.height.equalTo(75)
         }
