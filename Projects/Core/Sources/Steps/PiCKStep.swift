@@ -12,6 +12,7 @@ public enum PiCKStep: Step {
     
     //home
     case homeIsRequired
+    case alertIsRequired
     
     //schoolMeal
     case schoolMealIsRequired
