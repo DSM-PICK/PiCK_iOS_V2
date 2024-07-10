@@ -25,6 +25,8 @@ public class OnboardingFlow: Flow {
                 return navigateToOnboarding()
             case .loginIsRequired:
                 return navigateToLogin()
+            case .tabIsRequired:
+                return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
             default:
                 return .none
         }
