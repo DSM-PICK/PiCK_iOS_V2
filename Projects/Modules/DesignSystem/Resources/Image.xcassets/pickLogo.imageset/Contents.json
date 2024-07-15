@@ -1,17 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "로고1.svg",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
-      "filename" : "로고1 1.svg",
+      "filename" : "whiteLogo.svg",
       "idiom" : "universal"
     },
     {
@@ -21,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "로고1 2.svg",
+      "filename" : "logo.svg",
       "idiom" : "universal"
     }
   ],
