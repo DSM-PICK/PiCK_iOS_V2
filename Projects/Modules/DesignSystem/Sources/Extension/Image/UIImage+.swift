@@ -13,6 +13,16 @@ public extension UIImage {
     static let eyeOn = DesignSystemAsset.Image.eyeOn.image
     static let eyeOff = DesignSystemAsset.Image.eyeOff.image
     static let bottomArrow = DesignSystemAsset.Image.bottomArrow.image
+    static let weekendMeal = DesignSystemAsset.Image.weekendMeal.image
+    static let classRoomMove = DesignSystemAsset.Image.classRoomMove.image
+    static let outing = DesignSystemAsset.Image.outing.image
+    static let earlyLeave = DesignSystemAsset.Image.earlyLeave.image
+    static let studentIDCard = DesignSystemAsset.Image.studentIdCard.image
+    static let voice = DesignSystemAsset.Image.voice.image
+    static let smile = DesignSystemAsset.Image.smile.image
+    static let bug = DesignSystemAsset.Image.bug.image
+    static let myPage = DesignSystemAsset.Image.myPage.image
+    static let logout = DesignSystemAsset.Image.logout.image
     //MARK: TabBarIcon
     static let homeIcon = DesignSystemAsset.Image.homeIcon.image
     static let schoolMealIcon = DesignSystemAsset.Image.schoolMealIcon.image
