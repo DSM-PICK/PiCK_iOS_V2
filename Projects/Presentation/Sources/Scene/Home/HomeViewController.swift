@@ -17,16 +17,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
     private let contentView = UIView()
     private let mainView = UIView()
-    
+
     private let navigationBar = PiCKMainNavigationBar()
-    private let profileImageView = UIImageView(image: .profile)
-    private let userInfoLabel = UILabel().then {
-        //TODO: 행간 조절
-        $0.text = "대덕소프트웨어마이스터고등학교\n2학년 4반 조영준"
-        $0.textColor = .modeBlack
-        $0.font = .label1
-        $0.numberOfLines = 0
-    }
+    private let profileView = PiCKProfileView()
+
     private let todayTimeTableLabel = UILabel().then {
         $0.text = "오늘의 시간표"
         $0.textColor = .gray700
@@ -125,7 +119,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                     UIView.transition(with: self!.view, duration: 0.7, options: .transitionCrossDissolve) {
                         self?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
                     }
-]
                 }
                 
                 let customDetents = UISheetPresentationController.Detent.custom(
@@ -144,8 +137,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     public override func addView() {
         [
             navigationBar,
-            profileImageView,
-            userInfoLabel,
+            profileView,
             scrollView
         ].forEach { view.addSubview($0) }
         
@@ -163,7 +155,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     
     public override func setLayout() {
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(10)
+            $0.top.equalTo(profileView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints {
@@ -179,14 +171,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
-        profileImageView.snp.makeConstraints {
+        profileView.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom).offset(36)
-            $0.leading.equalToSuperview().inset(24)
-            $0.width.height.equalTo(60)
-        }
-        userInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(46)
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(24)
+            $0.leading.trailing.equalToSuperview()
         }
 
         todayTimeTableLabel.snp.makeConstraints {
