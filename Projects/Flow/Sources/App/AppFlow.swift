@@ -59,7 +59,7 @@ public class AppFlow: Flow {
                 duration: 0.5,
                 options: .transitionCrossDissolve
             ) {
-                self!.window.rootViewController = root
+                self?.window.rootViewController = root
             }
         }
         return .one(flowContributor: .contribute(
@@ -79,5 +79,5 @@ public class AppFlow: Flow {
             withNextStepper: OneStepper(withSingleStep: PiCKStep.testIsRequired)
         ))
     }
-    
+
 }

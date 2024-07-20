@@ -22,13 +22,13 @@ public class ScheduleFlow: Flow {
         
         switch step {
         case .scheduleIsRequired:
-            return navigateToHome()
+            return navigateToSchedule()
         default:
             return .none
         }
     }
     
-    private func navigateToHome() -> FlowContributors {
+    private func navigateToSchedule() -> FlowContributors {
         let viewModel = ScheduleViewModel()
         let vc = ScheduleViewController(
             viewModel: viewModel
