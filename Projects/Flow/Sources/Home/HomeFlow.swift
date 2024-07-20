@@ -23,11 +23,13 @@ public class HomeFlow: Flow {
         switch step {
         case .homeIsRequired:
             return navigateToHome()
+        case .alertIsRequired:
+            return navigateToAlert()
         default:
             return .none
         }
     }
-    
+
     private func navigateToHome() -> FlowContributors {
         let viewModel = HomeViewModel()
         let vc = HomeViewController(
@@ -39,5 +41,18 @@ public class HomeFlow: Flow {
             withNextStepper: vc.viewModel
         ))
     }
-    
+
+    private func navigateToAlert() -> FlowContributors {
+        let viewModel = AlertViewModel()
+        let vc = AlertViewController(
+            viewModel: viewModel
+        )
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
 }
