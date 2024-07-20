@@ -5,9 +5,11 @@ import Moya
 import Core
 
 public protocol PiCKAPI: TargetType {
+    associatedtype ErrorType: Error
     var urlType: PiCKURL { get }
     var urlPath: String { get }
     var pickHeader: tokenType { get }
+    var errorMap: [Int: ErrorType]? { get }
 }
 
 public extension PiCKAPI {
