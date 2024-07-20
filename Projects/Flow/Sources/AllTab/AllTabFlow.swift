@@ -22,13 +22,21 @@ public class AllTabFlow: Flow {
         
         switch step {
         case .allTabIsRequired:
-            return navigateToHome()
+            return navigateToAllTab()
+        case .noticeIsRequired:
+            return navigateToNotice()
+        case .selfStudyIsRequired:
+            return navigateToSelfStudy()
+        case .bugIsRequired:
+            return navigateToBug()
+        case .myPageIsRequired:
+            return navigateToAllMyPage()
         default:
             return .none
         }
     }
-    
-    private func navigateToHome() -> FlowContributors {
+
+    private func navigateToAllTab() -> FlowContributors {
         let viewModel = AllTabViewModel()
         let vc = AllTabViewController(
             viewModel: viewModel
@@ -39,5 +47,65 @@ public class AllTabFlow: Flow {
             withNextStepper: vc.viewModel
         ))
     }
-    
+
+    private func navigateToNotice() -> FlowContributors {
+        let noticeFlow = NoticeFlow(container: self.container)
+        Flows.use(noticeFlow, when: .created) { [weak self] root in
+            root.hidesBottomBarWhenPushed = true
+            self?.rootViewController.pushViewController(root, animated: true)
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: noticeFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.noticeIsRequired)
+        ))
+    }
+
+    private func navigateToSelfStudy() -> FlowContributors {
+        let viewModel = AllTabViewModel()
+        let vc = AllTabViewController(
+            viewModel: viewModel
+        )
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToBug() -> FlowContributors {
+        let viewModel = AllTabViewModel()
+        let vc = AllTabViewController(
+            viewModel: viewModel
+        )
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToAllMyPage() -> FlowContributors {
+        let viewModel = AllTabViewModel()
+        let vc = AllTabViewController(
+            viewModel: viewModel
+        )
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+//        private func navigateToLogout() -> FlowContributors {
+//            let viewModel = AllTabViewModel()
+//            let vc = AllTabViewController(
+//                viewModel: viewModel
+//            )
+//            self.rootViewController.pushViewController(vc, animated: true)
+//            return .one(flowContributor: .contribute(
+//                withNextPresentable: vc,
+//                withNextStepper: vc.viewModel
+//            ))
+//        }
+
 }
