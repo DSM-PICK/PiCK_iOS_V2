@@ -22,7 +22,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         $0.textColor = .gray600
         $0.font = .body1
     }
-    private let loginTextField = PiCKTextField(
+    private let idTextField = PiCKTextField(
         titleText: "아이디",
         placeholder: "아이디를 입력해주세요",
         isHidden: true
@@ -35,7 +35,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         $0.isSecurity = true
     }
     private let loginButton = PiCKButton(type: .system, buttonText: "로그인하기")
-    
+
     public override func attribute() {
         super.attribute()
         
@@ -43,21 +43,31 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     }
     public override func bind() {
         let input = LoginViewModel.Input(
+            idText: idTextField.rx.text.orEmpty.asObservable(),
+            passwordText: passwordTextField.rx.text.orEmpty.asObservable(),
             clickLoginButton: loginButton.buttonTap.asObservable()
         )
-        _ = viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
+        
+        output.idErrorDescription.asObservable()
+            .bind(to: self.idTextField.errorMessage)
+            .disposed(by: disposeBag)
+        
+        output.passwordErrorDescription.asObservable()
+            .bind(to: self.passwordTextField.errorMessage)
+            .disposed(by: disposeBag)
     }
-    
+
     public override func addView() {
         [
             titleLabel,
             explainLabel,
-            loginTextField,
+            idTextField,
             passwordTextField,
             loginButton
         ].forEach { view.addSubview($0) }
     }
-    
+
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(124)
@@ -67,13 +77,13 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.equalToSuperview().inset(24)
         }
-        loginTextField.snp.makeConstraints {
+        idTextField.snp.makeConstraints {
             $0.top.equalTo(explainLabel.snp.bottom).offset(75)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
         }
         passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(loginTextField.snp.bottom).offset(71)
+            $0.top.equalTo(idTextField.snp.bottom).offset(71)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
         }
@@ -82,5 +92,5 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
+
 }
