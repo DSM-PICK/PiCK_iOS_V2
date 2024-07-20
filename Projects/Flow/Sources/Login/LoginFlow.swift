@@ -26,20 +26,26 @@ public class LoginFlow: Flow {
                 return navigateToLogin()
             case .tabIsRequired:
                 return navigateToTab()
+            case .testIsRequired:
+                return navigateToTest()
             default:
                 return .none
         }
     }
-    
+
     private func navigateToLogin() -> FlowContributors {
         return .one(flowContributor: .contribute(
             withNextPresentable: rootViewController,
             withNextStepper: rootViewController.viewModel
         ))
     }
-    
+
     private func navigateToTab() -> FlowContributors {
         return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
+    }
+
+    private func navigateToTest() -> FlowContributors {
+        return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
     }
 
 }

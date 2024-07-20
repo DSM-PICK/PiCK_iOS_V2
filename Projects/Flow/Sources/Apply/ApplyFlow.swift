@@ -16,19 +16,19 @@ public class ApplyFlow: Flow {
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
         
         switch step {
         case .applyIsRequired:
-            return navigateToHome()
+            return navigateToApply()
         default:
             return .none
         }
     }
-    
-    private func navigateToHome() -> FlowContributors {
+
+    private func navigateToApply() -> FlowContributors {
         let viewModel = ApplyViewModel()
         let vc = ApplyViewController(
             viewModel: viewModel
@@ -39,5 +39,5 @@ public class ApplyFlow: Flow {
             withNextStepper: vc.viewModel
         ))
     }
-    
+
 }

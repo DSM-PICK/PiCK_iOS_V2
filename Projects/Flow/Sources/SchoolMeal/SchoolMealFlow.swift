@@ -22,13 +22,13 @@ public class SchoolMealFlow: Flow {
         
         switch step {
         case .schoolMealIsRequired:
-            return navigateToHome()
+            return navigateToSchoolMeal()
         default:
             return .none
         }
     }
     
-    private func navigateToHome() -> FlowContributors {
+    private func navigateToSchoolMeal() -> FlowContributors {
         let viewModel = SchoolMealViewModel()
         let vc = SchoolMealViewController(
             viewModel: viewModel

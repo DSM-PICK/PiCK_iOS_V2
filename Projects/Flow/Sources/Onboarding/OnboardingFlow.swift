@@ -16,7 +16,7 @@ public class OnboardingFlow: Flow {
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
         
