@@ -10,6 +10,7 @@ public enum AuthAPI {
 }
 
 extension AuthAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
         .user
@@ -60,15 +61,9 @@ extension AuthAPI: PiCKAPI {
             return .tokenIsEmpty
         }
     }
-//    public var headers: [String : String]? {
-//        switch self {
-//            case .login:
-//            return
-////                return TokenStorage.shared.toHeader(.tokenIsEmpty)
-//            case .refreshToken:
-//                return TokenStorage.shared.toHeader(.refreshToken)
-//        }
-//    }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

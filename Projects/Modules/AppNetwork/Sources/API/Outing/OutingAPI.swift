@@ -10,6 +10,8 @@ public enum OutingAPI {
 }
 
 extension OutingAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .application
     }
@@ -51,6 +53,9 @@ extension OutingAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

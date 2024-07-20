@@ -9,6 +9,8 @@ public enum SelfStudyTeacherAPI {
 }
 
 extension SelfStudyTeacherAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .selfStudy
     }
@@ -40,6 +42,9 @@ extension SelfStudyTeacherAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

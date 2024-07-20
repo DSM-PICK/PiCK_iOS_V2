@@ -10,6 +10,7 @@ public enum ClassroomAPI {
 }
 
 extension ClassroomAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
         return .classRoom
@@ -56,7 +57,10 @@ extension ClassroomAPI: PiCKAPI {
             return .accessToken
         }
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }
 

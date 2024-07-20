@@ -10,6 +10,8 @@ public enum ProfileAPI {
 }
 
 extension ProfileAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .user
     }
@@ -34,5 +36,9 @@ extension ProfileAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

@@ -10,6 +10,8 @@ public enum TimeTableAPI{
 }
 
 extension TimeTableAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .timeTable
     }
@@ -34,6 +36,9 @@ extension TimeTableAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }
