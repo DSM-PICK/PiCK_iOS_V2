@@ -30,5 +30,6 @@ public extension UIImage {
     static let scheduleIcon = DesignSystemAsset.Image.scheduleIcon.image
     static let allTabIcon = DesignSystemAsset.Image.allTabIcon.image
     //MARK: Image
-    static let banner = DesignSystemAsset.Image.banner.image
+    static let mainBanner = DesignSystemAsset.Image.mainBanner.image
+    static let noticeBanner = DesignSystemAsset.Image.noticeBanner.image
 }
