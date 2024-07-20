@@ -10,7 +10,7 @@ import Core
 import DesignSystem
 
 public class AllTabViewController: BaseViewController<AllTabViewModel> {
-    
+
     private let navigationBar = PiCKMainNavigationBar()
     private let profileView = PiCKProfileView()
     private let helpSectionView = HelpSectionView()
@@ -20,6 +20,12 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         super.attribute()
         
         navigationController?.isNavigationBarHidden = true
+    }
+    public override func bind() {
+        let input = AllTabViewModel.Input(
+            clickNoticeTab: helpSectionView.getSelectedItem(type: .announcement).asObservable()
+        )
+        let output = viewModel.transform(input: input)
     }
     public override func bindAction() {
         navigationBar.viewSettingButtonTap
