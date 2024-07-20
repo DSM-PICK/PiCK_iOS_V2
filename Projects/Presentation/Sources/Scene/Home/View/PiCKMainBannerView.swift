@@ -8,7 +8,7 @@ import DesignSystem
 
 public class PiCKMainBannerView: BaseView {
     
-    private let bannerBackgroundImageView = UIImageView(image: .banner)
+    private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
     
     private let explainLabel = UILabel().then {
         $0.text = "오늘의 자습 감독 선생님 입니다"
