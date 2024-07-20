@@ -1,9 +1,9 @@
 import Foundation
 
+import Swinject
+
 import Core
 import Domain
-
-import Swinject
 
 public final class PresentationAssembly: Assembly {
     public init() {}
@@ -22,8 +22,25 @@ public final class PresentationAssembly: Assembly {
             LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
         }
         container.register(LoginViewModel.self) { resolver in
-            LoginViewModel()
+            LoginViewModel(loginUseCase: resolver.resolve(LoginUseCase.self)!)
         }
+        
+        //notice
+        container.register(NoticeListViewController.self) { resolver in
+            NoticeListViewController(viewModel: resolver.resolve(NoticeListViewModel.self)!)
+        }
+        container.register(NoticeListViewModel.self) { resolver in
+            NoticeListViewModel()
+        }
+
+        container.register(NoticeDetailViewController.self) { resolver in
+            NoticeDetailViewController(viewModel: resolver.resolve(NoticeDetailViewModel.self)!)
+        }
+        container.register(NoticeDetailViewModel.self) { resolver in
+            NoticeDetailViewModel()
+        }
+        
+        
     }
-    
+
 }
