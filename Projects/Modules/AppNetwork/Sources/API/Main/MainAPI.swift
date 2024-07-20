@@ -9,6 +9,8 @@ public enum MainAPI {
 }
 
 extension MainAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .main
     }
@@ -37,5 +39,9 @@ extension MainAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

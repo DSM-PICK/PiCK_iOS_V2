@@ -9,6 +9,8 @@ public enum SchoolMealAPI {
 }
 
 extension SchoolMealAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .meal
     }
@@ -37,7 +39,10 @@ extension SchoolMealAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }
 

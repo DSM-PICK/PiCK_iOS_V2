@@ -11,6 +11,8 @@ public enum NoticeAPI {
 }
 
 extension NoticeAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .notice
     }
@@ -37,6 +39,9 @@ extension NoticeAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

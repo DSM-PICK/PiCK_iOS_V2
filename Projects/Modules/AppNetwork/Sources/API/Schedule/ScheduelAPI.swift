@@ -4,11 +4,13 @@ import Moya
 
 import Core
 
-public enum ScheduelAPI {
+public enum ScheduleAPI {
     case fetchMonthAcademicSchedule(year: String, month: MonthType.RawValue)
 }
 
-extension ScheduelAPI: PiCKAPI {
+extension ScheduleAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .schedule
     }
@@ -42,5 +44,9 @@ extension ScheduelAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }

@@ -10,6 +10,8 @@ public enum WeekendMealAPI {
 }
 
 extension WeekendMealAPI: PiCKAPI {
+    public typealias ErrorType = PiCKError
+    
     public var urlType: PiCKURL {
         return .weekendMeal
     }
@@ -47,6 +49,10 @@ extension WeekendMealAPI: PiCKAPI {
     public var pickHeader: tokenType {
         return .accessToken
     }
-    
+
+    public var errorMap: [Int : PiCKError]? {
+        return nil
+    }
+
 }
 
