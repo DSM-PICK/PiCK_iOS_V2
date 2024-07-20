@@ -82,15 +82,15 @@ public class PiCKTextField: UITextField {
         
         titleLabel.snp.makeConstraints {
             $0.bottom.equalTo(self.snp.top).offset(-12)
-            $0.left.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
         textHideButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
         }
         errorLabel.snp.makeConstraints {
-            $0.top.equalTo(self.snp.bottom)
-            $0.left.equalToSuperview()
+            $0.top.equalTo(self.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview()
         }
     }
     
@@ -117,6 +117,7 @@ extension PiCKTextField {
             .subscribe(
                 onNext: { [weak self] borderColor in
                     self?.layer.borderColor = borderColor
+                    self?.errorMessage.accept(nil)
                 }
             )
             .disposed(by: disposeBag)
