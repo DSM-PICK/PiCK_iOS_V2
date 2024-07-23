@@ -15,15 +15,18 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     private let profileView = PiCKProfileView()
     private let helpSectionView = HelpSectionView()
     private let accountSectionView = AccountSectionView()
-    
-    public override func attribute() {
-        super.attribute()
-        
+
+    public override func configureNavigationBar() {
+        super.configureNavigationBar()
+
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {
         let input = AllTabViewModel.Input(
-            clickNoticeTab: helpSectionView.getSelectedItem(type: .announcement).asObservable()
+            clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
+            clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
+            clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
+            clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage)
         )
         let output = viewModel.transform(input: input)
     }
