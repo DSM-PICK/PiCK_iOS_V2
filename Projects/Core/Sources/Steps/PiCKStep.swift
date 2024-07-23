@@ -28,7 +28,7 @@ public enum PiCKStep: Step {
     case noticeIsRequired
     case noitceDetailIsRequired
     case selfStudyIsRequired
-    case bugIsRequired
+    case bugReportIsRequired
     case myPageIsRequired
     case logoutIsRequired
 
