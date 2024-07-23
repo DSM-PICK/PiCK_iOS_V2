@@ -20,7 +20,7 @@ open class BaseNavigationController: UINavigationController {
     func setNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         let appearance2 = UINavigationBarAppearance()
-        navigationBar.tintColor = .black
+        navigationBar.tintColor = .modeBlack
         appearance.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
         appearance2.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
         appearance.backgroundColor = .white
