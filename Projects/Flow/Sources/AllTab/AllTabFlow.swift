@@ -27,7 +27,7 @@ public class AllTabFlow: Flow {
             return navigateToNotice()
         case .selfStudyIsRequired:
             return navigateToSelfStudy()
-        case .bugIsRequired:
+        case .bugReportIsRequired:
             return navigateToBug()
         case .myPageIsRequired:
             return navigateToAllMyPage()
@@ -73,10 +73,11 @@ public class AllTabFlow: Flow {
     }
 
     private func navigateToBug() -> FlowContributors {
-        let viewModel = AllTabViewModel()
-        let vc = AllTabViewController(
+        let viewModel = BugReportViewModel()
+        let vc = BugReportViewController(
             viewModel: viewModel
         )
+        vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -85,10 +86,11 @@ public class AllTabFlow: Flow {
     }
 
     private func navigateToAllMyPage() -> FlowContributors {
-        let viewModel = AllTabViewModel()
-        let vc = AllTabViewController(
+        let viewModel = MyPageViewModel()
+        let vc = MyPageViewController(
             viewModel: viewModel
         )
+        vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
