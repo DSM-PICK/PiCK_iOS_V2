@@ -2,13 +2,13 @@ import UIKit
 
 import SnapKit
 import Then
+
 import RxSwift
 import RxCocoa
 
-public class PiCKTextField: UITextField {
-    
-    private let disposeBag = DisposeBag()
-    
+import Core
+
+public class PiCKTextField: BaseTextField {
     public var errorMessage = PublishRelay<String?>()
     
     public var isSecurity: Bool = false {
@@ -35,17 +35,15 @@ public class PiCKTextField: UITextField {
     }
     
     public init(
-        titleText: String,
-        placeholder: String,
-        isHidden: Bool
+        titleText: String? = nil,
+        placeholder: String? = nil,
+        isHidden: Bool? = nil
     ) {
         super.init(frame: .zero)
         self.titleLabel.text = titleText
         self.placeholder = placeholder
-        self.textHideButton.isHidden = isHidden
-        
-        setup()
-        bind()
+        self.textHideButton.isHidden = isHidden ?? true
+
         setPlaceholder()
     }
     required init?(coder: NSCoder) {
@@ -54,11 +52,10 @@ public class PiCKTextField: UITextField {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
         setPlaceholder()
     }
     
-    private func setup() {
+    public override func attribute() {
         self.textColor = .black
         self.font = .caption1
         self.backgroundColor = .gray50
@@ -73,7 +70,7 @@ public class PiCKTextField: UITextField {
         self.keyboardType = .alphabet
     }
     
-    private func layout() {
+    public override func layout() {
         [
             titleLabel,
             textHideButton,
@@ -106,12 +103,8 @@ public class PiCKTextField: UITextField {
             ]
         )
     }
-    
-}
 
-extension PiCKTextField {
-    
-    private func bind() {
+    public override func bindActions() {
         self.rx.text.orEmpty
             .map { $0.isEmpty ? UIColor.clear.cgColor : UIColor.main500.cgColor }
             .subscribe(
