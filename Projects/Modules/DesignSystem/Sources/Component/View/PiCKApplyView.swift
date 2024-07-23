@@ -11,15 +11,16 @@ import Core
 
 public class PiCKApplyView: BaseView {
     
-//    private var isClick: Bool = false {
-//        didSet {
-//            self.attribute()
-//        }
-//    }
-    public var isClick: Bool = false
+    private var isClick: Bool = false {
+        didSet {
+            self.attribute()
+//            self.layout()
+        }
+    }
+//    public var isClick: Bool = false
     
     private var borderColor: UIColor {
-        isClick ? .gray50 : .main500
+        isClick ? .main500 : .gray50
     }
     
     private let iconImageView = UIImageView()
@@ -56,15 +57,17 @@ public class PiCKApplyView: BaseView {
         self.backgroundColor = .background
         self.layer.cornerRadius = 8
         self.layer.border(color: borderColor, width: 1)
-        
+    }
+    public override func bind() {
         self.rx.tapGesture()
             .when(.recognized)
             .bind(onNext: { [weak self] _ in
                 self?.toggleHeight()
+                self?.isClick.toggle()
             }).disposed(by: disposeBag)
     }
     private func toggleHeight() {
-        let newHeight: CGFloat = isClick ? 60 : 156
+        let newHeight: CGFloat = isClick ? 156 : 60
            
         self.snp.remakeConstraints {
             $0.height.equalTo(newHeight)
@@ -73,11 +76,11 @@ public class PiCKApplyView: BaseView {
         self.explainLabel.isHidden = isClick
         UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve) {
 //            self.setNeedsLayout()
-//            self.layoutIfNeeded()
+            self.layoutIfNeeded()
 //            self.reloadInputViews()
+//            self.attribute()
         }
-        
-        self.isClick.toggle()
+
     }
     public override func layout() {
         [
