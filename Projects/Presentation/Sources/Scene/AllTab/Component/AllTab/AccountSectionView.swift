@@ -12,7 +12,7 @@ import DesignSystem
 class AccountSectionView: BaseView {
     
     enum HelpSectionType: Int {
-        case announcement
+        case myPage
     }
     
     private let accountSectionView = PiCKSectionView(
