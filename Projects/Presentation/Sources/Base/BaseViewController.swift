@@ -11,6 +11,12 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     public let disposeBag = DisposeBag()
     public var viewModel: ViewModel
     
+    public var navigationTitleText: String? = nil
+    private let navigationTitleLabel = UILabel().then {
+        $0.textColor = .modeBlack
+        $0.font = .body1
+    }
+    
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -38,15 +44,18 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     
     open func configureNavigationBar() {
         //네비게이션바 관련 코드를 설정하는 함수
+        navigationTitleLabel.text = navigationTitleText
+        navigationItem.titleView = navigationTitleLabel
     }
     open func configureNavgationBarLayOutSubviews() {
         //viewDidLayoutSubviews에서 네비게이션바 관련 코드를 호출하는 함수
     }
     open func attribute() {
+        //뷰 관련 코드를 설정하는 함수
         view.backgroundColor = .background
         
+        navigationController?.isNavigationBarHidden = false
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        //뷰 관련 코드를 설정하는 함수
     }
     open func bindAction() {
         //Rx 액션을 설정하는 함수
