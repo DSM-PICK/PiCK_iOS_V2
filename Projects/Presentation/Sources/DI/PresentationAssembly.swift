@@ -40,7 +40,22 @@ public final class PresentationAssembly: Assembly {
             NoticeDetailViewModel()
         }
         
-        
+        //allTab
+        //bug
+        container.register(BugReportViewController.self) { resolver in
+            BugReportViewController(viewModel: resolver.resolve(BugReportViewModel.self)!)
+        }
+        container.register(BugReportViewModel.self) { resolver in
+            BugReportViewModel()
+        }
+        //myPage
+        container.register(MyPageViewController.self) { resolver in
+            MyPageViewController(viewModel: resolver.resolve(MyPageViewModel.self)!)
+        }
+        container.register(MyPageViewModel.self) { resolver in
+            MyPageViewModel()
+        }
+
     }
 
 }
