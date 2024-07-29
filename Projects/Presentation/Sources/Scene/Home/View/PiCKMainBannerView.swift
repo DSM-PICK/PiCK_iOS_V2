@@ -10,61 +10,27 @@ public class PiCKMainBannerView: BaseView {
     
     private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
     
-    private let explainLabel = UILabel().then {
-        $0.text = "오늘의 자습 감독 선생님 입니다"
-        $0.textColor = .gray900
-        $0.font = .label2
+    private let explainLabel = PiCKLabel(
+        text: "오늘의 자습 감독 선생님 입니다",
+        textColor: .gray900,
+        font: .label2
+    ).then {
         $0.changePointFont(targetString: "자습 감독", font: .button2)
     }
-    private let secondFloorLabel = UILabel().then {
-        $0.text = "2층"
-        $0.textColor = .main900
-        $0.font = .label2
-    }
-    private let thirdFloorLabel = UILabel().then {
-        $0.text = "3층"
-        $0.textColor = .main900
-        $0.font = .label2
-    }
-    private let fourthFloorLabel = UILabel().then {
-        $0.text = "4층"
-        $0.textColor = .main900
-        $0.font = .label2
-    }
-    private lazy var floorStackView = UIStackView(arrangedSubviews: [
-        secondFloorLabel,
-        thirdFloorLabel,
-        fourthFloorLabel
-    ]).then {
+    private lazy var floorStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fillEqually
     }
-    private let secondFloorTeacherLabel = UILabel().then {
-        $0.text = "조영준 선생님"
-        $0.textColor = .modeBlack
-        $0.font = .subTitle3
-    }
-    private let thirdFloorTeacherLabel = UILabel().then {
-        $0.text = "육기준 선생님"
-        $0.textColor = .modeBlack
-        $0.font = .subTitle3
-    }
-    private let fourthFloorTeacherLabel = UILabel().then {
-        $0.text = "김희찬 선생님"
-        $0.textColor = .modeBlack
-        $0.font = .subTitle3
-    }
-    private lazy var teacherStackView = UIStackView(arrangedSubviews: [
-        secondFloorTeacherLabel,
-        thirdFloorTeacherLabel,
-        fourthFloorTeacherLabel
-    ]).then {
+    private lazy var teacherStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fillEqually
     }
-    
+
     public override func attribute() {
+        super.attribute()
+
         self.layer.cornerRadius = 12
+        setupBannerLabel()
     }
     
     public override func layout() {
@@ -91,6 +57,29 @@ public class PiCKMainBannerView: BaseView {
             $0.top.equalTo(explainLabel.snp.bottom).offset(16)
             $0.leading.equalTo(floorStackView.snp.trailing).offset(16)
             $0.height.equalTo(75)
+        }
+    }
+
+    private func setupBannerLabel() {
+        let floorArray = ["2층", "3층", "4층"]
+        for floor in floorArray {
+            let floorLabel = PiCKLabel(
+                text: floor,
+                textColor: .main900,
+                font: .label2, 
+                alignment: .center
+            )
+            floorStackView.addArrangedSubview(floorLabel)
+        }
+        
+        let teacherArray = ["조영준 선생님", "박현아 선생님", "육기준 선생님"]
+        for teacher in teacherArray {
+            let teacherLabel = PiCKLabel(
+                text: teacher,
+                textColor: .modeBlack,
+                font: .subTitle3
+            )
+            teacherStackView.addArrangedSubview(teacherLabel)
         }
     }
 
