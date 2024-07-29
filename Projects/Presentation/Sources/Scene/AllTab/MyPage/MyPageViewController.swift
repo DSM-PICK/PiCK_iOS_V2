@@ -16,31 +16,13 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         $0.titleLabel?.font = .body1
     }
 
-    private let nameLabel = MyPageLabel(type: .contentTitleLabel, text: "이름")
-    private let birthDateLabel = MyPageLabel(type: .contentTitleLabel, text: "생년월일")
-    private let studentIDLabel = MyPageLabel(type: .contentTitleLabel, text: "학번")
-    private let idLabel = MyPageLabel(type: .contentTitleLabel, text: "아이디")
-    private lazy var userInfoLabelStackView = UIStackView(arrangedSubviews: [
-        nameLabel,
-        birthDateLabel,
-        studentIDLabel,
-        idLabel
-    ]).then {
+    private lazy var userInfoLabelStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 32
         $0.distribution = .fillEqually
     }
 
-    private let userNameLabel = MyPageLabel(type: .contentLabel)
-    private let userBirthDateLabel = MyPageLabel(type: .contentLabel)
-    private let userStudentIDLabel = MyPageLabel(type: .contentLabel)
-    private let userIDLabel = MyPageLabel(type: .contentLabel)
-    private lazy var userInfoStackView = UIStackView(arrangedSubviews: [
-        userNameLabel,
-        userBirthDateLabel,
-        userStudentIDLabel,
-        userIDLabel
-    ]).then {
+    private lazy var userInfoStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 20
         $0.alignment = .trailing
@@ -51,6 +33,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         super.attribute()
 
         navigationTitleText = "마이 페이지"
+        setupMyPageLabel()
     }
     public override func addView() {
         [
@@ -76,6 +59,26 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         userInfoStackView.snp.makeConstraints {
             $0.top.equalTo(changeButton.snp.bottom).offset(76)
             $0.right.equalToSuperview().inset(24)
+        }
+    }
+
+    private func setupMyPageLabel() {
+        let titleArray = ["이름", "생년월일", "학번", "아이디"]
+        for title in titleArray {
+            let titleLabel = AllTabLabel(
+                type: .contentTitleLabel,
+                text: title
+            )
+            userInfoLabelStackView.addArrangedSubview(titleLabel)
+        }
+        
+        let userInfoArry = ["조영준 선생님", "박현아 선생님", "육기준 선생님"]
+        for userInfo in userInfoArry {
+            let userInfoLabel = AllTabLabel(
+                type: .contentLabel,
+                text: userInfo
+            )
+            userInfoStackView.addArrangedSubview(userInfoLabel)
         }
     }
 
