@@ -10,15 +10,9 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell {
     
     static let identifier = "TimeTableCollectionViewCell"
     
-    private let periodLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .subTitle2
-    }
+    private let periodLabel = PiCKLabel(textColor: .modeBlack, font: .subTitle2)
     private let subjectImageView = UIImageView()
-    private let subjectLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label1
-    }
+    private let subjectLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     
     public func setup(
         period: String,

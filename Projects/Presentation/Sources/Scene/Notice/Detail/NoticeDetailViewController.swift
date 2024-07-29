@@ -11,18 +11,18 @@ import DesignSystem
 
 public class NoticeDetailViewController: BaseViewController<NoticeDetailViewModel> {
     
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .subTitle1
-    }
-    private let dateLabel = UILabel().then {
-        $0.textColor = .gray500
-        $0.font = .body1
-    }
-    private let teacherNameLabel = UILabel().then {
-        $0.textColor = .gray500
-        $0.font = .body1
-    }
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .subTitle1
+    )
+    private let dateLabel = PiCKLabel(
+        textColor: .gray500,
+        font: .body1
+    )
+    private let teacherNameLabel = PiCKLabel(
+        textColor: .gray500,
+        font: .body1
+    )
     private lazy var subTextStackView = UIStackView(arrangedSubviews: [
         dateLabel,
         teacherNameLabel
@@ -37,10 +37,10 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let mainView = UIView()
-    private let contentLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .body1
-    }
+    private let contentLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .body1
+    )
 
     public override func attribute() {
         super.attribute()

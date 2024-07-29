@@ -8,34 +8,35 @@ import RxCocoa
 import RxGesture
 
 import Core
+import DesignSystem
 
 public class PiCKApplyView: BaseView {
     
     private var isClick: Bool = false {
         didSet {
-            self.attribute()
+//            self.attribute()
 //            self.layout()
+            
         }
     }
 //    public var isClick: Bool = false
-    
+
     private var borderColor: UIColor {
         isClick ? .main500 : .gray50
     }
-    
+
     private let iconImageView = UIImageView()
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label1
-    }
-    private let explainLabel = UILabel().then {
-        $0.textColor = .gray800
-        $0.font = .label2
-        $0.numberOfLines = 0
-    }.then {
-        $0.isHidden = true
-    }
-    private let applyButton = PiCKButton(type: .system, buttonText: "신청하기").then {
+    private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
+    private let explainLabel = PiCKLabel(
+        textColor: .gray800,
+        font: .label2,
+        numberOfLines: 0,
+        isHidden: true
+    )
+    private let applyButton = PiCKButton(
+        type: .system,
+        buttonText: "신청하기"
+    ).then {
         $0.isHidden = true
     }
     
@@ -76,8 +77,8 @@ public class PiCKApplyView: BaseView {
         self.explainLabel.isHidden = isClick
         UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve) {
 //            self.setNeedsLayout()
-            self.layoutIfNeeded()
-//            self.reloadInputViews()
+//            self.layoutIfNeeded()
+            self.reloadInputViews()
 //            self.attribute()
         }
 
