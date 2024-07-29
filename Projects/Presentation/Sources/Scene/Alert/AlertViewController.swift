@@ -11,11 +11,7 @@ import DesignSystem
 
 public class AlertViewController: BaseViewController<AlertViewModel> {
 
-    private let newAlertLabel = UILabel().then {
-        $0.text = "읽지 않은 알림 (0)"
-        $0.textColor = .modeBlack
-        $0.font = .subTitle2
-    }
+    private let newAlertLabel = PiCKLabel(text: "읽지 않은 알림 (0)", textColor: .modeBlack, font: .subTitle2)
     private let readAllButton = UIButton(type: .system).then {
         $0.setTitle("모두 읽음", for: .normal)
         $0.setTitleColor(.main500, for: .normal)
@@ -39,10 +35,7 @@ public class AlertViewController: BaseViewController<AlertViewModel> {
         $0.delegate = self
         $0.dataSource = self
     }
-    
-    public override func configureNavigationBar() {
-        navigationController?.isNavigationBarHidden = false
-    }
+
     public override func addView() {
         [
             alertStackView,
