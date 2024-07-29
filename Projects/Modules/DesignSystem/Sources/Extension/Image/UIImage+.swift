@@ -12,6 +12,9 @@ public extension UIImage {
     static let notice = DesignSystemAsset.Image.notice.image
     static let eyeOn = DesignSystemAsset.Image.eyeOn.image
     static let eyeOff = DesignSystemAsset.Image.eyeOff.image
+    static let topArrow = DesignSystemAsset.Image.topArrow.image
+    static let leftArrow = DesignSystemAsset.Image.leftArrow.image
+    static let rightArrow = DesignSystemAsset.Image.rightArrow.image
     static let bottomArrow = DesignSystemAsset.Image.bottomArrow.image
     static let weekendMeal = DesignSystemAsset.Image.weekendMeal.image
     static let classRoomMove = DesignSystemAsset.Image.classRoomMove.image
