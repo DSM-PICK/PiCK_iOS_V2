@@ -29,10 +29,8 @@ public class SchoolMealFlow: Flow {
     }
     
     private func navigateToSchoolMeal() -> FlowContributors {
-        let viewModel = SchoolMealViewModel()
-        let vc = SchoolMealViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(SchoolMealViewController.self)!
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
