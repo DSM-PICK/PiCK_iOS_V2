@@ -8,17 +8,17 @@ import RxCocoa
 import RxGesture
 
 import Core
+import DesignSystem
 
 public class PiCKProfileView: BaseView {
     
     private let profileImageView = UIImageView(image: .profile)
-    private let userInfoLabel = UILabel().then {
-        //TODO: 행간 조절
-        $0.text = "대덕소프트웨어마이스터고등학교\n2학년 4반 조영준"
-        $0.textColor = .modeBlack
-        $0.font = .label1
-        $0.numberOfLines = 0
-    }
+    private let userInfoLabel = PiCKLabel(
+        text: "대덕소프트웨어마이스터고등학교\n2학년 4반 조영준",
+        textColor: .modeBlack,
+        font: .label1,
+        numberOfLines: 0
+    )
     
     public func setup(
         image: UIImage,
