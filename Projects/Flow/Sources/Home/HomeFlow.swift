@@ -25,16 +25,16 @@ public class HomeFlow: Flow {
             return navigateToHome()
         case .alertIsRequired:
             return navigateToAlert()
+        case .noticeIsRequired:
+            return navigateToNotice()
         default:
             return .none
         }
     }
 
     private func navigateToHome() -> FlowContributors {
-        let viewModel = HomeViewModel()
-        let vc = HomeViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(HomeViewController.self)!
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -43,15 +43,30 @@ public class HomeFlow: Flow {
     }
 
     private func navigateToAlert() -> FlowContributors {
-        let viewModel = AlertViewModel()
-        let vc = AlertViewController(
-            viewModel: viewModel
-        )
-        vc.hidesBottomBarWhenPushed = true
-        self.rootViewController.pushViewController(vc, animated: true)
+        let alertFlow = AlertFlow(container: self.container)
+
+        Flows.use(alertFlow, when: .created) { root in
+            root.hidesBottomBarWhenPushed = true
+            self.rootViewController.pushViewController(root, animated: true)
+        }
+        
         return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextPresentable: alertFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.alertIsRequired)
+        ))
+    }
+
+    private func navigateToNotice() -> FlowContributors {
+        let noticeFlow = NoticeFlow(container: self.container)
+        
+        Flows.use(noticeFlow, when: .created) { root in
+            root.hidesBottomBarWhenPushed = true
+            self.rootViewController.pushViewController(root, animated: true)
+        }
+        
+        return .one(flowContributor: .contribute(
+            withNextPresentable: noticeFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.noticeIsRequired)
         ))
     }
 

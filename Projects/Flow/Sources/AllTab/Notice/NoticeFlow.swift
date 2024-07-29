@@ -32,10 +32,7 @@ public class NoticeFlow: Flow {
     }
 
     private func navigateToNotice() -> FlowContributors {
-        let viewModel = NoticeListViewModel()
-        let vc = NoticeListViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(NoticeListViewController.self)!
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
@@ -43,10 +40,7 @@ public class NoticeFlow: Flow {
     }
 
     private func navigateToNoticeDetail() -> FlowContributors {
-        let viewModel = NoticeDetailViewModel()
-        let vc = NoticeDetailViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(NoticeDetailViewController.self)!
         self.rootViewController.navigationController?.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

@@ -46,16 +46,16 @@ public class OnboardingFlow: Flow {
 
     private func navigateToLogin() -> FlowContributors {
         let loginFlow = LoginFlow(container: self.container)
-
-           Flows.use(loginFlow, when: .created) { root in
-               self.rootViewController.pushViewController(root, animated: true)
-               root.navigationItem.hidesBackButton = true
-           }
-
-           return .one(flowContributor: .contribute(
-               withNextPresentable: loginFlow,
-               withNextStepper: OneStepper(withSingleStep: PiCKStep.loginIsRequired)
-           ))
+        
+        Flows.use(loginFlow, when: .created) { root in
+            self.rootViewController.pushViewController(root, animated: true)
+            root.navigationItem.hidesBackButton = true
+        }
+        
+        return .one(flowContributor: .contribute(
+            withNextPresentable: loginFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.loginIsRequired)
+        ))
     }
 
 }

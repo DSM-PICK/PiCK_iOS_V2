@@ -29,10 +29,7 @@ public class ApplyFlow: Flow {
     }
 
     private func navigateToApply() -> FlowContributors {
-        let viewModel = ApplyViewModel()
-        let vc = ApplyViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(ApplyViewController.self)!
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

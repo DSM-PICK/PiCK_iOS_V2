@@ -29,10 +29,8 @@ public class ScheduleFlow: Flow {
     }
     
     private func navigateToSchedule() -> FlowContributors {
-        let viewModel = ScheduleViewModel()
-        let vc = ScheduleViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(ScheduleViewController.self)!
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

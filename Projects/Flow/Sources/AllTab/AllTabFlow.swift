@@ -28,19 +28,17 @@ public class AllTabFlow: Flow {
         case .selfStudyIsRequired:
             return navigateToSelfStudy()
         case .bugReportIsRequired:
-            return navigateToBug()
+            return navigateToBugReport()
         case .myPageIsRequired:
-            return navigateToAllMyPage()
+            return navigateToMyPage()
         default:
             return .none
         }
     }
 
     private func navigateToAllTab() -> FlowContributors {
-        let viewModel = AllTabViewModel()
-        let vc = AllTabViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(AllTabViewController.self)!
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -61,40 +59,44 @@ public class AllTabFlow: Flow {
     }
 
     private func navigateToSelfStudy() -> FlowContributors {
-        let viewModel = AllTabViewModel()
-        let vc = AllTabViewController(
-            viewModel: viewModel
-        )
-        self.rootViewController.pushViewController(vc, animated: true)
+        let selfStudyFlow = SelfStudyFlow(container: self.container)
+        
+        Flows.use(selfStudyFlow, when: .created) { root in
+            root.hidesBottomBarWhenPushed = true
+            self.rootViewController.pushViewController(root, animated: true)
+        }
+        
         return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextPresentable: selfStudyFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.selfStudyIsRequired)
         ))
     }
 
-    private func navigateToBug() -> FlowContributors {
-        let viewModel = BugReportViewModel()
-        let vc = BugReportViewController(
-            viewModel: viewModel
-        )
-        vc.hidesBottomBarWhenPushed = true
-        self.rootViewController.pushViewController(vc, animated: true)
+    private func navigateToBugReport() -> FlowContributors {
+        let bugReportFlow = BugReportFlow(container: self.container)
+        
+        Flows.use(bugReportFlow, when: .created) { root in
+            root.hidesBottomBarWhenPushed = true
+            self.rootViewController.pushViewController(root, animated: true)
+        }
+        
         return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextPresentable: bugReportFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.bugReportIsRequired)
         ))
     }
 
-    private func navigateToAllMyPage() -> FlowContributors {
-        let viewModel = MyPageViewModel()
-        let vc = MyPageViewController(
-            viewModel: viewModel
-        )
-        vc.hidesBottomBarWhenPushed = true
-        self.rootViewController.pushViewController(vc, animated: true)
+    private func navigateToMyPage() -> FlowContributors {
+        let myPageFlow = MyPageFlow(container: self.container)
+        
+        Flows.use(myPageFlow, when: .created) { root in
+            root.hidesBottomBarWhenPushed = true
+            self.rootViewController.pushViewController(root, animated: true)
+        }
+        
         return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextPresentable: myPageFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.myPageIsRequired)
         ))
     }
 
