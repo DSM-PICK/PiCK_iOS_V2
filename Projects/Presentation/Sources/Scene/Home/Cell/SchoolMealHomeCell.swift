@@ -6,28 +6,20 @@ import Then
 import Core
 import DesignSystem
 
-public class SchoolMealCollectionViewCell: BaseCollectionViewCell {
+public class SchoolMealHomeCell: BaseCollectionViewCell {
     
     static let identifier = "SchoolMealCollectionViewCell"
     
-    private let mealTimeLabel = UILabel().then {
-        $0.textColor = .main700
-        $0.font = .subTitle1
-    }
-    private let menuLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .body1
-        $0.numberOfLines = 0
-    }
-    private let kcalLabel = UILabel().then {
-        $0.textColor = .background
-        $0.font = .caption2
-        $0.backgroundColor = .main500
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.textAlignment = .center
-    }
-    
+    private let mealTimeLabel = PiCKLabel(textColor: .main700, font: .subTitle1)
+    private let menuLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 0)
+    private let kcalLabel = PiCKLabel(
+        textColor: .background,
+        font: .caption2,
+        alignment: .center,
+        backgroundColor: .main500,
+        cornerRadius: 12
+    )
+
     public func setup(
         mealTime: String,
         menu: String,

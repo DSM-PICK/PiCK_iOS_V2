@@ -11,17 +11,18 @@ import DesignSystem
 
 public class LoginViewController: BaseViewController<LoginViewModel> {
     
-    private let titleLabel = UILabel().then {
-        $0.text = "PiCK에 로그인하기"
-        $0.textColor = .modeBlack
+    private let titleLabel = PiCKLabel(
+        text: "PiCK에 로그인하기",
+        textColor: .modeBlack,
+        font: .heading2
+    ).then {
         $0.changePointColor(targetString: "PiCK", color: .main500)
-        $0.font = .heading2
     }
-    private let explainLabel = UILabel().then {
-        $0.text = "스퀘어 계정으로 로그인 해주세요."
-        $0.textColor = .gray600
-        $0.font = .body1
-    }
+    private let explainLabel = PiCKLabel(
+        text: "스퀘어 계정으로 로그인 해주세요.",
+        textColor: .gray600,
+        font: .body1
+    )
     private let idTextField = PiCKTextField(
         titleText: "아이디",
         placeholder: "아이디를 입력해주세요",

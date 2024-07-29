@@ -14,14 +14,14 @@ class NoticeCollectionViewCell: BaseCollectionViewCell {
     static let identifier = "NoticeCollectionViewCell"
     
     private let noticeImageView = UIImageView(image: .notice)
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label1
-    }
-    private let daysAgoLabel = UILabel().then {
-        $0.textColor = .gray600
-        $0.font = .body2
-    }
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
+    private let daysAgoLabel = PiCKLabel(
+        textColor: .gray600,
+        font: .body2
+    )
     private lazy var titleStackView = UIStackView(arrangedSubviews: [
         titleLabel,
         daysAgoLabel
