@@ -11,11 +11,5 @@ public final class UseCaseAssembly: Assembly {
         container.register(LoginUseCase.self) { resolver in
             LoginUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
-
-//        container.register(VerifyAuthCodeUseCase.self) { resolver in
-//            VerifyAuthCodeUseCase(
-//                authRepository: resolver.resolve(AuthRepository.self)!
-//            )
-//        }
     }
 }
