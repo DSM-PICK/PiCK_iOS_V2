@@ -11,14 +11,14 @@ import DesignSystem
 
 public class AllTabViewController: BaseViewController<AllTabViewModel> {
 
-    private let navigationBar = PiCKMainNavigationBar()
+    private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
     private let helpSectionView = HelpSectionView()
     private let accountSectionView = AccountSectionView()
 
-    public override func configureNavigationBar() {
-        super.configureNavigationBar()
-
+    public override func configureNavgationBarLayOutSubviews() {
+        super.configureNavgationBarLayOutSubviews()
+        
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {
@@ -30,47 +30,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         )
         let output = viewModel.transform(input: input)
     }
-    public override func bindAction() {
-        navigationBar.viewSettingButtonTap
-            .bind(onNext: { [weak self] in
-                let vc = PiCKBottomSheetAlert(type: .viewType)
-                
-                let customDetents = UISheetPresentationController.Detent.custom(
-                    identifier: .init("sheetHeight")
-                ) { _ in
-                    return 252
-                }
-                
-                if let sheet = vc.sheetPresentationController {
-                    sheet.detents = [customDetents]
-                }
-                self?.present(vc, animated: true)
-            }).disposed(by: disposeBag)
-        navigationBar.displayModeButtonTap
-            .bind(onNext: { [weak self] in
-                let vc = PiCKBottomSheetAlert(type: .displayMode)
-                
-                vc.clickModeButton = { data in
-                    UserDefaultsManager.shared.set(to: data, forKey: .displayMode)
-                    let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
-                    UIView.transition(with: self!.view, duration: 0.7, options: .transitionCrossDissolve) {
-                        self?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
-                    }
-                }
-                
-                let customDetents = UISheetPresentationController.Detent.custom(
-                    identifier: .init("sheetHeight")
-                ) { _ in
-                    return 228
-                }
-                
-                if let sheet = vc.sheetPresentationController {
-                    sheet.detents = [customDetents]
-                }
-                self?.present(vc, animated: true)
-            }).disposed(by: disposeBag)
-    }
-    
+
     public override func addView() {
         [
             navigationBar,
@@ -79,7 +39,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             accountSectionView
         ].forEach { view.addSubview($0) }
     }
-        
+
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
