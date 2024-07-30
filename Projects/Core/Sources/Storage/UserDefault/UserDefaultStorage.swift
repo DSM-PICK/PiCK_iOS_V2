@@ -14,7 +14,7 @@ public struct UserDefaultsManager: UserDefault {
     }
     
     public func get(forKey: UserDefaultKeys) -> Any? {
-        return UserDefaults.standard.object(forKey: forKey.rawValue)!
+        return UserDefaults.standard.object(forKey: forKey.rawValue)
     }
     
 }
