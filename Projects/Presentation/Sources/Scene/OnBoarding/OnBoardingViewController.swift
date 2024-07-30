@@ -13,15 +13,12 @@ import DesignSystem
 public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
     
     private let onboardingButton = PiCKButton(type: .system, buttonText: "로그인하고 PiCK사용하기")
-    
-    public override func attribute() {
-        super.attribute()
-    }
+
     public override func bind() {
         let input = OnboardingViewModel.Input(
             clickOnboardingButton: onboardingButton.buttonTap.asObservable()
         )
-        _ = viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
     }
 
     public override func addView() {
