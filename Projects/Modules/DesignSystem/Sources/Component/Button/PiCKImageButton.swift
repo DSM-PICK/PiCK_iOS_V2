@@ -9,11 +9,11 @@ import RxCocoa
 import Core
 
 public class PiCKImageButton: BaseButton {
-    
+
     public var buttonTap: ControlEvent<Void> {
         return self.rx.tap
     }
-    
+
     override public init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -22,12 +22,14 @@ public class PiCKImageButton: BaseButton {
     }
     
     convenience public init(
-        type: UIButton.ButtonType,
+        type: UIButton.ButtonType? = .system,
         image: UIImage,
+        selectedImage: UIImage? = UIImage(),
         imageColor: UIColor
     ) {
-        self.init(type: type)
+        self.init(type: type ?? .system)
         self.setImage(image, for: .normal)
+        self.setImage(selectedImage, for: .selected)
         self.tintColor = imageColor
     }
 }

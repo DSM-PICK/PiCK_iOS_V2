@@ -23,7 +23,7 @@ public class PiCKButton: BaseButton {
     }
     convenience public init(
         type: UIButton.ButtonType,
-        buttonText: String,
+        buttonText: String? = String(),
         isEnabled: Bool = true
     ) {
         self.init(type: type)

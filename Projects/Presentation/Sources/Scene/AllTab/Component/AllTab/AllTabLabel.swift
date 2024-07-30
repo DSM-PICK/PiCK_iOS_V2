@@ -3,28 +3,27 @@ import UIKit
 import Core
 import DesignSystem
 
-public enum MyPageLabelEnum {
+public enum AllTabLabelEnum {
     case contentTitleLabel
     case contentLabel
 }
 
-public class MyPageLabel: UILabel {
-    private var labelType: MyPageLabelEnum = .contentTitleLabel
+public class AllTabLabel: BaseLabel {
+    private var labelType: AllTabLabelEnum = .contentTitleLabel
     
     public init(
-        type: MyPageLabelEnum,
+        type: AllTabLabelEnum,
         text: String? = nil
     ) {
         super.init(frame: .zero)
         self.labelType = type
         self.text = text
-        setup()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    public override func attribute() {
         self.font = .body1
 
         switch labelType {
