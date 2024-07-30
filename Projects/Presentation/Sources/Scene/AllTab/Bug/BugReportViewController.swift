@@ -10,7 +10,6 @@ import Core
 import DesignSystem
 
 public class BugReportViewController: BaseViewController<BugReportViewModel> {
-
     private let bugLocationView = BugReportView(type: .location)
     private let bugExplainView = BugReportView(type: .explain)
     

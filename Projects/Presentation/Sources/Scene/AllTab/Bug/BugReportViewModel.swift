@@ -8,7 +8,6 @@ import Core
 import Domain
 
 public class BugReportViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
     
