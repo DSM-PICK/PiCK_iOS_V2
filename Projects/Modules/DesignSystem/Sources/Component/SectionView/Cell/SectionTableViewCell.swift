@@ -18,10 +18,10 @@ public class SectionTableViewCell: BaseTableViewCell {
     }
 
     private let sectionImageView = UIImageView()
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label1
-    }
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
 
     public func setup(
         model: SectionType

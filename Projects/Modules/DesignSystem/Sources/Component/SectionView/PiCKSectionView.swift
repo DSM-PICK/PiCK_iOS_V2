@@ -11,10 +11,10 @@ public class PiCKSectionView: BaseView {
 
     private var items: [SectionModel] = []
 
-    private var titleLabel = UILabel().then {
-        $0.textColor = .gray600
-        $0.font = .label1
-    }
+    private var titleLabel = PiCKLabel(
+        textColor: .gray600,
+        font: .label1
+    )
     private let sectionTableView = UITableView().then {
         $0.backgroundColor = .background
         $0.rowHeight = 60
