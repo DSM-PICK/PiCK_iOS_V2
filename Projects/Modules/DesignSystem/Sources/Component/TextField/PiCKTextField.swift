@@ -19,20 +19,20 @@ public class PiCKTextField: BaseTextField {
         }
     }
     
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label1
-    }
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
     private let textHideButton = UIButton(type: .system).then {
         $0.setImage(.eyeOff, for: .normal)
         $0.tintColor = .modeBlack
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
     }
-    private let errorLabel = UILabel().then {
-        $0.textColor = .error
-        $0.font = .caption2
-    }
+    private let errorLabel = PiCKLabel(
+        textColor: .error,
+        font: .caption2
+    )
     
     public init(
         titleText: String? = nil,

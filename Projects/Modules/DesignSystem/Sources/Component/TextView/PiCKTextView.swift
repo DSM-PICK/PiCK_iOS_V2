@@ -10,12 +10,11 @@ import Core
 
 public class PiCKTextView: BaseTextView {
     
-    private let placeholderLabel = UILabel().then {
-        $0.text = "내용을 입력해주세요"
-        $0.textColor = .gray500
-        $0.font = .caption2
-        $0.isHidden = false
-    }
+    private let placeholderLabel = PiCKLabel(
+        text: "내용을 입력해주세요",
+        textColor: .gray500,
+        font: .caption2
+    )
 
     public init(
         placeholder: String
