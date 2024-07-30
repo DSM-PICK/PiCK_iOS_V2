@@ -10,7 +10,7 @@ public struct KeychainImpl: Keychain {
     }
     
     public func load(type: KeychainType) -> String {
-        return keychain.get(type.rawValue) ?? ""
+        return keychain.get(type.rawValue) ?? "Failed To Load Keychain Value"
     }
     
     public func delete(type: KeychainType) {
