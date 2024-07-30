@@ -10,12 +10,11 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     
     public let disposeBag = DisposeBag()
     public var viewModel: ViewModel
-    
+
+    public var viewWillAppearRelay = PublishRelay<Void>()
+
     public var navigationTitleText: String? = nil
-    private let navigationTitleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .body1
-    }
+    private let navigationTitleLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
     
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -42,6 +41,12 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         configureNavgationBarLayOutSubviews()
     }
     
+    open func attribute() {
+        //뷰 관련 코드를 설정하는 함수
+        view.backgroundColor = .background
+
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
     open func configureNavigationBar() {
         //네비게이션바 관련 코드를 설정하는 함수
         navigationTitleLabel.text = navigationTitleText
@@ -49,13 +54,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     }
     open func configureNavgationBarLayOutSubviews() {
         //viewDidLayoutSubviews에서 네비게이션바 관련 코드를 호출하는 함수
-    }
-    open func attribute() {
-        //뷰 관련 코드를 설정하는 함수
-        view.backgroundColor = .background
-        
         navigationController?.isNavigationBarHidden = false
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     open func bindAction() {
         //Rx 액션을 설정하는 함수
