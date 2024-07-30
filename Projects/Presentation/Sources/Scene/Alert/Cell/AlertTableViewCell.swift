@@ -7,17 +7,10 @@ import Core
 import DesignSystem
 
 public class AlertTableViewCell: BaseTableViewCell {
-    
     static let identifier = "AlertTableViewCell"
 
-    private let titleLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .body1
-    }
-    private let daysAgoLabel = UILabel().then {
-        $0.textColor = .gray500
-        $0.font = .body2
-    }
+    private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
+    private let daysAgoLabel = PiCKLabel(textColor: .gray500, font: .body2)
 
     public func setup(
         title: String,
