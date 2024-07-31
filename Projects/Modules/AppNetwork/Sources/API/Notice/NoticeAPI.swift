@@ -19,12 +19,12 @@ extension NoticeAPI: PiCKAPI {
     
     public var urlPath: String {
         switch self {
-            case .fetchTodayNoticeList:
-                return "/today"
-            case .fetchNoticeList:
-                return "/simple"
-            case .fetchDetailNotice(let id):
-                return "/\(id)"
+        case .fetchTodayNoticeList:
+            return "/today"
+        case .fetchNoticeList:
+            return "/simple"
+        case .fetchDetailNotice(let id):
+            return "/\(id)"
         }
     }
     
@@ -37,7 +37,11 @@ extension NoticeAPI: PiCKAPI {
     }
     
     public var pickHeader: tokenType {
-        return .accessToken
+        switch self {
+        default:
+            return .accessToken
+        }
+//        return .accessToken
     }
 
     public var errorMap: [Int : PiCKError]? {
