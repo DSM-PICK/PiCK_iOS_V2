@@ -27,16 +27,16 @@ public class OnboardingFlow: Flow {
                 return navigateToLogin()
             case .tabIsRequired:
                 return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
+            case .testIsRequired:
+                return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
             default:
                 return .none
         }
     }
-    
+
     private func navigateToOnboarding() -> FlowContributors {
-        let viewModel = container.resolve(OnboardingViewModel.self)!
-        let vc = OnboardingViewController(
-            viewModel: viewModel
-        )
+        let vc = container.resolve(OnboardingViewController.self)!
+//        let vc = OnboardingViewController(viewModel: container.resolve(OnboardingViewModel.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -48,8 +48,8 @@ public class OnboardingFlow: Flow {
         let loginFlow = LoginFlow(container: self.container)
         
         Flows.use(loginFlow, when: .created) { root in
-            self.rootViewController.pushViewController(root, animated: true)
             root.navigationItem.hidesBackButton = true
+            self.rootViewController.pushViewController(root, animated: true)
         }
         
         return .one(flowContributor: .contribute(
