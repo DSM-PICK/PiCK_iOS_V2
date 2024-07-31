@@ -206,10 +206,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else {
             return 6
         }
-            
     }
 
-    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == topCollectionView {
             switch homeViewType {
@@ -245,14 +243,3 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
 }
-
-//extension HomeViewController: UICollectionViewDelegateFlowLayout {
-//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//                switch viewModeType {
-//                case .timeTable:
-//                    return .init(width: self.view.frame.width, height: 44)
-//                case .schoolMeal:
-//                  return .init(width: self.view.frame.width, height: 102)
-//                }
-//    }
-//}

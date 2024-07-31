@@ -4,9 +4,9 @@ import RxSwift
 
 public class LoginUseCase {
 
-    let repository: AuthRepository
+    let repository: any AuthRepository
     
-    public init(repository: AuthRepository) {
+    public init(repository: any AuthRepository) {
         self.repository = repository
     }
 

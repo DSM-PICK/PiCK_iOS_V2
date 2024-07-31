@@ -75,7 +75,7 @@ private extension BaseDataSource {
                 .flatMap { error -> Observable<Void> in
                     switch error {
                     case .expired:
-                        return self.reissueToken()
+                        return self.refreshToken()
                             .andThen(.just(()))
                     }
                 }
@@ -86,7 +86,7 @@ private extension BaseDataSource {
         return api.pickHeader == .accessToken
     }
 
-    func reissueToken() -> Completable {
+    func refreshToken() -> Completable {
         return AuthDataSourceImpl(keychain: keychain).refreshToken()
             .asCompletable()
     }

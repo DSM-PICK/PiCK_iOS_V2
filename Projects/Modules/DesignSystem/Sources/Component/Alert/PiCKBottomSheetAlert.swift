@@ -8,44 +8,49 @@ import RxCocoa
 
 import Core
 
-public enum AlertType {
-    case displayMode, viewType
+public enum BottomAlertType {
+    case homeViewType, displayMode
 }
 
 public class PiCKBottomSheetAlert: UIViewController {
     private let disposeBag = DisposeBag()
-    
-    public var clickModeButton: ((Int) -> Void)?
-    
-    private var type: AlertType? = nil
+    private let userDefaultStorage = UserDefaultsManager.shared
+
+    public var clickModeButton: ((Any) -> Void)?
+
+    private var type: BottomAlertType = .homeViewType
+    private var homeViewType: HomeViewType {
+        let value = userDefaultStorage.get(forKey: .homeViewMode) as? HomeViewType
+        return value == .timeTable ? .schoolMeal : .timeTable
+    }
     private var displayType: UIUserInterfaceStyle {
-        if UserDefaultsManager.shared.get(forKey: .displayMode) as! Int == 2 {
+        if userDefaultStorage.get(forKey: .displayMode) as? Int == 2 {
             return .light
         } else {
             return .dark
         }
     }
-    
-    private let dismissArrowButton = PiCKImageButton(type: .system, image: .bottomArrow, imageColor: .main500)
-    private let explainLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .label2
-    }
-    private let questionLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .subTitle1
-    }
-    private let settingTypeLabel = UILabel().then {
-        $0.textColor = .modeBlack
-        $0.font = .body3
-    }
-    private let changeModeButton = PiCKButton(type: .system, buttonText: "")
-    
+
+    private let dismissArrowButton = PiCKImageButton(image: .bottomArrow, imageColor: .main500)
+    private let explainLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label2
+    )
+    private let questionLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .subTitle1
+    )
+    private let settingTypeLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .body3
+    )
+    private let changeModeButton = PiCKButton(type: .system)
+
     public init(
-        type: AlertType? = nil
+        type: BottomAlertType? = nil
     ) {
         super.init(nibName: nil, bundle: nil)
-        self.type = type
+        self.type = type ?? .homeViewType
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,18 +58,14 @@ public class PiCKBottomSheetAlert: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .background
-        
+
         bindActions()
         layout()
-    }
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         typeLayout()
     }
-    
+
     private func bindActions() {
         dismissArrowButton.buttonTap
             .bind(onNext: { [weak self] in
@@ -74,14 +75,14 @@ public class PiCKBottomSheetAlert: UIViewController {
         changeModeButton.buttonTap
             .bind(onNext: { [weak self] in
                 switch self?.type {
-                case .viewType:
-//                    self?.clickModeButton!()
+                case .homeViewType:
+                    self?.clickModeButton!(self!.homeViewType.rawValue)
                     self?.dismiss(animated: true)
                 case .displayMode:
-                    self?.clickModeButton!((self?.displayType.rawValue)!)
+                    self?.clickModeButton!(self!.displayType.rawValue)
                     self?.dismiss(animated: true)
-                case .none:
-                    return
+                default:
+                    self?.dismiss(animated: true)
                 }
             }).disposed(by: disposeBag)
     }
@@ -123,29 +124,35 @@ public class PiCKBottomSheetAlert: UIViewController {
 extension PiCKBottomSheetAlert {
     private func typeLayout() {
         switch type {
-        case .viewType:
-            self.explainLabel.text = "픽은 메인 페이지를 커스텀 할 수 있어요!"
-            self.questionLabel.text = "메인에서 오늘의 급식 보기 "
-            self.settingTypeLabel.text = "지금은 시간표로 설정되어 있어요"
-            self.changeModeButton.setTitle("급식으로 설정하기", for: .normal)
+        case .homeViewType:
+            self.explainLabel.text = BottomSheetTextEnum.homeViewModeExplainText.rawValue
+            switch homeViewType {
+            case .timeTable:
+                self.questionLabel.text = BottomSheetTextEnum.timeTableSubText.rawValue
+                self.settingTypeLabel.text = BottomSheetTextEnum.timeTableExpainText.rawValue
+                self.changeModeButton.setTitle(BottomSheetTextEnum.timeTableButtonText.rawValue, for: .normal)
+            case .schoolMeal:
+                self.questionLabel.text = BottomSheetTextEnum.schoolMealSubText.rawValue
+                self.settingTypeLabel.text = BottomSheetTextEnum.schoolMealExpainText.rawValue
+                self.changeModeButton.setTitle(BottomSheetTextEnum.schoolMealButtonText.rawValue, for: .normal)
+            }
             self.changeModeButton.snp.remakeConstraints {
                 $0.top.equalTo(settingTypeLabel.snp.bottom).offset(34)
                 $0.leading.trailing.equalToSuperview().inset(30)
             }
         case .displayMode:
-            self.explainLabel.text = "픽은 라이트 모드 또는 다크 모드로 변경할 수 있어요"
+            self.explainLabel.text = BottomSheetTextEnum.displayModeExplainText.rawValue
             switch UITraitCollection.current.userInterfaceStyle {
             case .light:
-                self.questionLabel.text = "픽을 다크 모드로 설정 하시겠어요?"
+                self.questionLabel.text = BottomSheetTextEnum.lightSubExplainText.rawValue
                 self.questionLabel.changePointColor(targetString: "다크 모드", color: .main500)
-                self.changeModeButton.setTitle("다크 모드로 설정하기", for: .normal)
+                self.changeModeButton.setTitle(BottomSheetTextEnum.ligthButtonext.rawValue, for: .normal)
             default:
-                self.questionLabel.text = "픽을 라이트 모드로 설정 하시겠어요?"
+                self.questionLabel.text = BottomSheetTextEnum.darkSubExplainText.rawValue
                 self.questionLabel.changePointColor(targetString: "라이트 모드", color: .main500)
-                self.changeModeButton.setTitle("라이트 모드로 설정하기", for: .normal)
+                self.changeModeButton.setTitle(BottomSheetTextEnum.darkButtonext.rawValue, for: .normal)
             }
-        case .none:
-            return
         }
     }
+    
 }
