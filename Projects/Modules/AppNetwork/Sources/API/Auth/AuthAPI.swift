@@ -6,8 +6,7 @@ import Core
 
 public enum AuthAPI {
     case login(accountID: String, password: String)
-//    case refreshToken(refreshToken: String)
-    case refreshToken
+    case refreshToken(refreshToken: String)
 }
 
 extension AuthAPI: PiCKAPI {
@@ -45,13 +44,12 @@ extension AuthAPI: PiCKAPI {
                     ],
                     encoding: JSONEncoding.default
                 )
-        default:
-            return .requestPlain
-//            case .refreshToken(let refreshToken):
-//                return .requestParameters(
-//                    parameters: ["X-Refresh-Token": refreshToken],
-//                    encoding: JSONEncoding.default
-//                )
+                
+            case .refreshToken(let refreshToken):
+                return .requestParameters(
+                    parameters: ["X-Refresh-Token": refreshToken],
+                    encoding: JSONEncoding.default
+                )
         }
     }
     

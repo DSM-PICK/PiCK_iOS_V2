@@ -24,9 +24,9 @@ public extension PiCKAPI {
     var headers: [String : String]? {
         switch pickHeader {
         case .accessToken:
-            return TokenStorage.shared.toHeader(.accessToken)
+            return tokenType.accessToken.toHeader
         case .refreshToken:
-            return TokenStorage.shared.toHeader(.refreshToken)
+            return tokenType.refreshToken.toHeader
         case .tokenIsEmpty:
             return ["Content-Type": "application/json"]
         }
@@ -56,25 +56,22 @@ public enum PiCKURL: String {
 }
 
 public enum tokenType: String {
-    case accessToken
-    case refreshToken
+    case accessToken = "access_token"
+    case refreshToken = "refresh_token"
     case tokenIsEmpty
     
     var toHeader: [String : String] {
-//        let keychain = KeychainImpl()
         switch self {
         case .accessToken:
-            return TokenStorage.shared.toHeader(.accessToken)
-//            return [
-//                "content-type": "application/json",
-//                "Authorization": TokenStorage.shared.accessToken
-//            ]
+            return [
+                "content-type": "application/json",
+                "Authorization": KeychainType.accessToken.rawValue
+            ]
         case .refreshToken:
-            return TokenStorage.shared.toHeader(.refreshToken)
-//            return [
-//                "content-type": "application/json",
-//                "X-Refresh-Token": TokenStorage.shared.refreshToken.
-//            ]
+            return [
+                "content-type": "application/json",
+                "Authorization": KeychainType.refreshToken.rawValue
+            ]
         case .tokenIsEmpty:
             return ["Content-Type": "application/json"]
         }
