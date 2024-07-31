@@ -28,7 +28,6 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         collectionViewLayout: collectionViewFlowLayout
     ).then {
         $0.backgroundColor = .background
-        $0.showsVerticalScrollIndicator = false
         $0.register(
             SchoolMealCollectionViewCell.self,
             forCellWithReuseIdentifier: SchoolMealCollectionViewCell.identifier

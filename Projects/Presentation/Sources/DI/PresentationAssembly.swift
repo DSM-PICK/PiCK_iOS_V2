@@ -16,7 +16,7 @@ public final class PresentationAssembly: Assembly {
         container.register(OnboardingViewModel.self) { resolver in
             OnboardingViewModel()
         }
-
+        
         //MARK: Login
         container.register(LoginViewController.self) { resolver in
             LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
@@ -57,13 +57,6 @@ public final class PresentationAssembly: Assembly {
         container.register(ApplyViewModel.self) { resolver in
             ApplyViewModel()
         }
-        //WeekendMeal
-        container.register(WeekendMealViewController.self) { resolver in
-            WeekendMealViewController(viewModel: resolver.resolve(WeekendMealViewModel.self)!)
-        }
-        container.register(WeekendMealViewModel.self) { resolver in
-            WeekendMealViewModel()
-        }
 
         //MARK: Schedule
         container.register(ScheduleViewController.self) { resolver in
@@ -87,6 +80,7 @@ public final class PresentationAssembly: Assembly {
         container.register(NoticeListViewModel.self) { resolver in
             NoticeListViewModel()
         }
+
         container.register(NoticeDetailViewController.self) { resolver in
             NoticeDetailViewController(viewModel: resolver.resolve(NoticeDetailViewModel.self)!)
         }
