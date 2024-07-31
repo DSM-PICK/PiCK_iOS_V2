@@ -10,6 +10,7 @@ import Core
 import DesignSystem
 
 public class WeekendMealApplyView: BaseView {
+    public var applyState: Bool = false
     private let applyDate = Date()
     let calendar = Calendar.current
     lazy var nextMonth = calendar.date(byAdding: .month, value: 1, to: applyDate)
