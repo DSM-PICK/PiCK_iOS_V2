@@ -42,7 +42,11 @@ public class TestViewController: UIViewController, Stepper {
                     case .success(let result):
                         switch result.statusCode {
                         case 200...299:
-                            print("성공이다")
+                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
+                                print("성공이다")
+                                TokenStorage.shared.accessToken = data.accessToken
+                                TokenStorage.shared.refreshToken = data.refreshToken
+                            }
                         default:
                             print("Fail")
                         }
@@ -71,7 +75,7 @@ public class TestViewController: UIViewController, Stepper {
             }.disposed(by: disposeBag)
         button3.rx.tap
             .bind {
-//                TokenStorage.shared.removeToken()
+                TokenStorage.shared.removeToken()
             }.disposed(by: disposeBag)
     }
     private func layout() {
@@ -105,4 +109,17 @@ public class TestViewController: UIViewController, Stepper {
         }
     }
 
+}
+
+
+import Foundation
+
+struct TestDTO: Codable {
+    let accessToken: String
+    let refreshToken: String
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+    }
 }

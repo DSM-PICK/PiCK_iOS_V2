@@ -12,14 +12,14 @@ import DesignSystem
 
 public class PiCKApplyView: BaseView {
     
-    private var isClick: Bool = false {
-        didSet {
+//    private var isClick: Bool = false {
+//        didSet {
 //            self.attribute()
 //            self.layout()
             
-        }
-    }
-//    public var isClick: Bool = false
+//        }
+//    }
+    public var isClick: Bool = false
 
     private var borderColor: UIColor {
         isClick ? .main500 : .gray50
@@ -70,15 +70,16 @@ public class PiCKApplyView: BaseView {
     private func toggleHeight() {
         let newHeight: CGFloat = isClick ? 156 : 60
            
-        self.snp.remakeConstraints {
-            $0.height.equalTo(newHeight)
-        }
+
         self.applyButton.isHidden = isClick
         self.explainLabel.isHidden = isClick
         UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve) {
+            self.snp.remakeConstraints {
+                $0.height.equalTo(newHeight)
+            }
 //            self.setNeedsLayout()
 //            self.layoutIfNeeded()
-            self.reloadInputViews()
+//            self.reloadInputViews()
 //            self.attribute()
         }
 

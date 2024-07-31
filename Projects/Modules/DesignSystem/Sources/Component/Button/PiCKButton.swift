@@ -13,7 +13,11 @@ public class PiCKButton: BaseButton {
     public var buttonTap: ControlEvent<Void> {
         return self.rx.tap
     }
-    
+    public override var isSelected: Bool {
+        didSet {
+            self.attribute()
+        }
+    }
     private var bgColor: UIColor {
         isEnabled ? .main500 : .main100
     }
