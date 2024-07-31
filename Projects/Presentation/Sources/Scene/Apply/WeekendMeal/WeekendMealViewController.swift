@@ -47,4 +47,6 @@ public class WeekendMealViewController: BaseViewController<WeekendMealViewModel>
             $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
+    
+
 }
