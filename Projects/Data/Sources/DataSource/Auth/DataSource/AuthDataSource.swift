@@ -20,8 +20,7 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
     }
     
     func refreshToken() -> Single<TokenDTO> {
-//        return request(.refreshToken(refreshToken: TokenStorage.shared.refreshToken!))
-        return request(.refreshToken)
+        return request(.refreshToken(refreshToken: TokenStorage.shared.refreshToken!))
         .filterSuccessfulStatusCodes()
         .map(TokenDTO.self)
     }

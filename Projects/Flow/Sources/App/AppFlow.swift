@@ -9,10 +9,10 @@ public class AppFlow: Flow {
     
     private var window: UIWindow
     private let container: Container
-    private let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as? Int
+    private let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
     
     public var root: RxFlow.Presentable {
-        window.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue ?? 0) ?? .unspecified
+        window.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue) ?? .unspecified
         return window
     }
     
@@ -29,6 +29,8 @@ public class AppFlow: Flow {
         switch step {
             case .onboardingIsRequired:
                 return presentOnboardingView()
+//            case .loginIsRequired:
+//                return presentLoginView()
             case .tabIsRequired:
                 return presentTabView()
             case .testIsRequired:
@@ -40,24 +42,17 @@ public class AppFlow: Flow {
 
     private func presentOnboardingView() -> FlowContributors {
         let onboardingFlow = OnboardingFlow(container: self.container)
-
         Flows.use(onboardingFlow, when: .created) { [weak self] root in
             self?.window.rootViewController = root
         }
-
-        return .one(
-            flowContributor: .contribute(
-                withNextPresentable: onboardingFlow,
-                withNextStepper: OneStepper(
-                    withSingleStep: PiCKStep.onboardingIsRequired
-                )
-            )
-        )
+        return .one(flowContributor: .contribute(
+            withNextPresentable: onboardingFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.onboardingIsRequired)
+        ))
     }
     
     private func presentTabView() -> FlowContributors {
         let tabsFlow = TabsFlow(container: self.container)
-
         Flows.use(tabsFlow, when: .created) { [weak self] root in
             UIView.transition(
                 with: self!.window,
@@ -67,30 +62,22 @@ public class AppFlow: Flow {
                 self?.window.rootViewController = root
             }
         }
-
-        return .one(
-            flowContributor: .contribute(
-                withNextPresentable: tabsFlow,
-                withNextStepper: OneStepper(
-                    withSingleStep: PiCKStep.tabIsRequired
-                )
-            )
-        )
+        return .one(flowContributor: .contribute(
+            withNextPresentable: tabsFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.tabIsRequired)
+        ))
     }
 
+    
     private func presentTestView() -> FlowContributors {
         let testFlow = TestFlow(container: self.container)
         Flows.use(testFlow, when: .created) { [weak self] root in
             self?.window.rootViewController = root
         }
-        return .one(
-            flowContributor: .contribute(
-                withNextPresentable: testFlow,
-                withNextStepper: OneStepper(
-                    withSingleStep: PiCKStep.testIsRequired
-                )
-            )
-        )
+        return .one(flowContributor: .contribute(
+            withNextPresentable: testFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.testIsRequired)
+        ))
     }
 
 }
