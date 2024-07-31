@@ -47,10 +47,10 @@ public class PiCKBottomSheetAlert: UIViewController {
     private let changeModeButton = PiCKButton(type: .system)
 
     public init(
-        type: BottomAlertType? = nil
+        type: BottomAlertType? = .homeViewType
     ) {
-        super.init(nibName: nil, bundle: nil)
         self.type = type ?? .homeViewType
+        super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
