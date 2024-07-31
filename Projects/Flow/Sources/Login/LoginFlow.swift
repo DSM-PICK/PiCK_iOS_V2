@@ -15,7 +15,8 @@ public class LoginFlow: Flow {
     
     public init(container: Container) {
         self.container = container
-        self.rootViewController = container.resolve(LoginViewController.self)!
+        self.rootViewController = LoginViewController(viewModel: container.resolve(LoginViewModel.self)!)
+//        self.rootViewController = container.resolve(LoginViewController.self)!
     }
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
@@ -25,27 +26,20 @@ public class LoginFlow: Flow {
             case .loginIsRequired:
                 return navigateToLogin()
             case .tabIsRequired:
-                return navigateToTab()
+                return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
             case .testIsRequired:
-                return navigateToTest()
+                return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
             default:
                 return .none
         }
     }
 
     private func navigateToLogin() -> FlowContributors {
+//        let vc = container.resolve(LoginViewController.self)!
         return .one(flowContributor: .contribute(
             withNextPresentable: rootViewController,
             withNextStepper: rootViewController.viewModel
         ))
-    }
-
-    private func navigateToTab() -> FlowContributors {
-        return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
-    }
-
-    private func navigateToTest() -> FlowContributors {
-        return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
     }
 
 }
