@@ -17,7 +17,7 @@ public class PiCKBottomSheetAlert: UIViewController {
     
     public var clickModeButton: ((Int) -> Void)?
     
-    private var type: AlertType? = nil
+    private var type: AlertType
     private var displayType: UIUserInterfaceStyle {
         if UserDefaultsManager.shared.get(forKey: .displayMode) as! Int == 2 {
             return .light
