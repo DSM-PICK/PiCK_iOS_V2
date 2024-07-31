@@ -8,7 +8,7 @@ public class TokenStorage {
 
     public var accessToken: String? {
         set {
-            keyChain.save(type: .accessToken, value: KeychainType.accessToken.rawValue)
+            keyChain.save(type: .accessToken, value: newValue ?? "")
         }
         get {
             keyChain.load(type: KeychainType.accessToken)
@@ -17,7 +17,7 @@ public class TokenStorage {
 
     public var refreshToken: String? {
         set {
-            keyChain.save(type: .refreshToken, value: KeychainType.refreshToken.rawValue)
+            keyChain.save(type: .refreshToken, value: newValue ?? "")
         }
         get {
             keyChain.load(type: KeychainType.refreshToken)
@@ -50,5 +50,7 @@ public class TokenStorage {
     public func removeToken() {
         self.accessToken = nil
         self.refreshToken = nil
+        print(self.accessToken)
+        print(self.refreshToken)
     }
 }

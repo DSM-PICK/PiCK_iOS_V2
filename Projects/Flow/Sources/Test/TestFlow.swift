@@ -29,8 +29,8 @@ public class TestFlow: Flow {
     }
     
     private func navigateToTest() -> FlowContributors {
-        let viewModel = NoticeListViewModel()
-        let vc = NoticeListViewController(viewModel: viewModel)
+//        let vc = container.resolve(SelfStudyViewController.self)!
+        let vc = container.resolve(WeekendMealViewController.self)!
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
