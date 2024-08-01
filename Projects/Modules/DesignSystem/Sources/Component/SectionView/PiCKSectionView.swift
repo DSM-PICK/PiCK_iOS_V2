@@ -5,7 +5,7 @@ import RxCocoa
 
 import Core
 
-public typealias SectionModel = (title: String, icon: UIImage)
+public typealias SectionModel = (title: String, icon: UIImage, tintColor: UIColor)
 
 public class PiCKSectionView: BaseView {
 

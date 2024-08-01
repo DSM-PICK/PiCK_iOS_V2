@@ -13,7 +13,9 @@ class NoticeCollectionViewCell: BaseCollectionViewCell {
     
     static let identifier = "NoticeCollectionViewCell"
     
-    private let noticeImageView = UIImageView(image: .notice)
+    private let noticeImageView = UIImageView(image: .notice).then {
+        $0.tintColor = .main300
+    }
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1
@@ -30,7 +32,8 @@ class NoticeCollectionViewCell: BaseCollectionViewCell {
         $0.spacing = 8
     }
     private let newNoticeIcon = UIImageView(image: .newNotice).then {
-        $0.isHidden = true
+        $0.tintColor = .main400
+        $0.isHidden = false
     }
     
     public func setup(
