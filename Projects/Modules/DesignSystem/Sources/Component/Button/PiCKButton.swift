@@ -28,11 +28,13 @@ public class PiCKButton: BaseButton {
     convenience public init(
         type: UIButton.ButtonType,
         buttonText: String? = String(),
-        isEnabled: Bool = true
+        isEnabled: Bool = true,
+        isHidden: Bool = true
     ) {
         self.init(type: type)
         self.setTitle(buttonText, for: .normal)
         self.isEnabled = isEnabled
+        self.isHidden = isHidden
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
