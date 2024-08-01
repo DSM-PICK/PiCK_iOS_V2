@@ -5,7 +5,7 @@ import Then
 
 import Core
 
-public typealias SectionType = (String, UIImage)
+public typealias SectionType = (String, UIImage, UIColor)
 
 public class SectionTableViewCell: BaseTableViewCell {
 
@@ -27,6 +27,7 @@ public class SectionTableViewCell: BaseTableViewCell {
         model: SectionType
     ) {
         self.sectionImageView.image = model.1
+        self.sectionImageView.tintColor = model.2
         self.titleLabel.text = model.0
         self.selectionStyle = .none
     }
