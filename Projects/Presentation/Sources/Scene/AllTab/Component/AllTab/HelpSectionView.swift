@@ -20,9 +20,9 @@ class HelpSectionView: BaseView {
     private let helpSectionView = PiCKSectionView(
         menuText: "도움말",
         items: [
-            ("공지사항", .voice),
-            ("자습 감독 선생님 확인", .smile),
-            ("버그 제보", .bug)
+            ("공지사항", .voice, .main700),
+            ("자습 감독 선생님 확인", .smile, .main700),
+            ("버그 제보", .bug, .main700)
         ]
     )
 
