@@ -26,16 +26,16 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     private let idTextField = PiCKTextField(
         titleText: "아이디",
         placeholder: "아이디를 입력해주세요",
-        isHidden: true
+        buttonIsHidden: true
     )
     private let passwordTextField = PiCKTextField(
         titleText: "비밀번호",
         placeholder: "비밀번호를 입력해주세요",
-        isHidden: false
+        buttonIsHidden: false
     ).then {
         $0.isSecurity = true
     }
-    private let loginButton = PiCKButton(type: .system, buttonText: "로그인하기")
+    private let loginButton = PiCKButton(type: .system, buttonText: "로그인하기", isHidden: false)
 
     public override func attribute() {
         super.attribute()

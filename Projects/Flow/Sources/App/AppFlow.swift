@@ -29,6 +29,8 @@ public class AppFlow: Flow {
         switch step {
             case .onboardingIsRequired:
                 return presentOnboardingView()
+            case .loginIsRequired:
+                return presentLoginView()
             case .tabIsRequired:
                 return presentTabView()
             case .testIsRequired:
@@ -54,7 +56,30 @@ public class AppFlow: Flow {
             )
         )
     }
-    
+
+    private func presentLoginView() -> FlowContributors {
+        let loginFlow = LoginFlow(container: self.container)
+
+        Flows.use(loginFlow, when: .created) { [weak self] root in
+            UIView.transition(
+                with: self!.window,
+                duration: 0.5,
+                options: .transitionCrossDissolve
+            ) {
+                self?.window.rootViewController = root
+            }
+        }
+
+        return .one(
+            flowContributor: .contribute(
+                withNextPresentable: loginFlow,
+                withNextStepper: OneStepper(
+                    withSingleStep: PiCKStep.loginIsRequired
+                )
+            )
+        )
+    }
+
     private func presentTabView() -> FlowContributors {
         let tabsFlow = TabsFlow(container: self.container)
 
