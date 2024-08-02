@@ -64,6 +64,13 @@ public final class PresentationAssembly: Assembly {
         container.register(WeekendMealViewModel.self) { resolver in
             WeekendMealViewModel()
         }
+        //ClassRoomMove
+        container.register(ClassRoomMoveViewController.self) { resolver in
+            ClassRoomMoveViewController(viewModel: resolver.resolve(ClassRoomMoveViewModel.self)!)
+        }
+        container.register(ClassRoomMoveViewModel.self) { resolver in
+            ClassRoomMoveViewModel()
+        }
 
         //MARK: Schedule
         container.register(ScheduleViewController.self) { resolver in
