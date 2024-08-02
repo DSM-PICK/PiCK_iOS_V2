@@ -8,15 +8,13 @@ import Presentation
 
 public class LoginFlow: Flow {
     public let container: Container
-    private let rootViewController: LoginViewController
+    private var rootViewController = BaseNavigationController()
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
-        self.rootViewController = LoginViewController(viewModel: container.resolve(LoginViewModel.self)!)
-//        self.rootViewController = container.resolve(LoginViewController.self)!
     }
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
@@ -35,10 +33,11 @@ public class LoginFlow: Flow {
     }
 
     private func navigateToLogin() -> FlowContributors {
-//        let vc = container.resolve(LoginViewController.self)!
+        let vc = LoginViewController(viewModel: container.resolve(LoginViewModel.self)!)
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: rootViewController,
-            withNextStepper: rootViewController.viewModel
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
