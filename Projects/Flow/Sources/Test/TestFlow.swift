@@ -30,7 +30,7 @@ public class TestFlow: Flow {
     
     private func navigateToTest() -> FlowContributors {
 //        let vc = container.resolve(SelfStudyViewController.self)!
-        let vc = container.resolve(WeekendMealViewController.self)!
+        let vc = container.resolve(LoginViewController.self)!
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
