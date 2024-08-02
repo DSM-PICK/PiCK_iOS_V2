@@ -12,6 +12,7 @@ open class BaseTextField: UITextField {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        attribute()
         bindActions()
     }
     required public init?(coder: NSCoder) {
@@ -19,7 +20,6 @@ open class BaseTextField: UITextField {
     }
     open override func layoutSubviews() {
         super.layoutSubviews()
-        attribute()
         layout()
     }
     
