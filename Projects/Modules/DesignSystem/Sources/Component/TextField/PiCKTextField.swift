@@ -37,12 +37,12 @@ public class PiCKTextField: BaseTextField {
     public init(
         titleText: String? = nil,
         placeholder: String? = nil,
-        isHidden: Bool? = nil
+        buttonIsHidden: Bool? = nil
     ) {
         super.init(frame: .zero)
         self.titleLabel.text = titleText
         self.placeholder = placeholder
-        self.textHideButton.isHidden = isHidden ?? true
+        self.textHideButton.isHidden = buttonIsHidden ?? true
 
         setPlaceholder()
     }
@@ -60,8 +60,7 @@ public class PiCKTextField: BaseTextField {
         self.font = .caption1
         self.backgroundColor = .gray50
         self.layer.cornerRadius = 4
-        self.layer.borderColor = UIColor.clear.cgColor
-        self.layer.borderWidth = 1
+        self.layer.border(color: .clear, width: 1)
         self.tintColor = .purple
         self.addLeftView()
         self.addRightView()
