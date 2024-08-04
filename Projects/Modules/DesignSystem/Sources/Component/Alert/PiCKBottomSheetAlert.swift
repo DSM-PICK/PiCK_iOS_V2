@@ -12,7 +12,7 @@ public enum BottomAlertType {
     case homeViewType, displayMode
 }
 
-public class PiCKBottomSheetAlert: UIViewController {
+public class PiCKMainBottomSheetAlert: UIViewController {
     private let disposeBag = DisposeBag()
     private let userDefaultStorage = UserDefaultsManager.shared
 
@@ -121,7 +121,7 @@ public class PiCKBottomSheetAlert: UIViewController {
 
 }
 
-extension PiCKBottomSheetAlert {
+extension PiCKMainBottomSheetAlert {
     private func typeLayout() {
         switch type {
         case .homeViewType:
