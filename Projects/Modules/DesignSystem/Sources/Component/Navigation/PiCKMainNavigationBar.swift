@@ -58,7 +58,7 @@ public class PiCKMainNavigationBar: BaseView {
     public override func bind() {
         viewSettingButtonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKBottomSheetAlert(type: .homeViewType)
+                let vc = PiCKMainBottomSheetAlert(type: .homeViewType)
                 
                 vc.clickModeButton = { mode in
                     self?.userDefaultStorage.set(to: mode, forKey: .homeViewMode)
@@ -68,7 +68,7 @@ public class PiCKMainNavigationBar: BaseView {
 
         displayModeButton.buttonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKBottomSheetAlert(type: .displayMode)
+                let vc = PiCKMainBottomSheetAlert(type: .displayMode)
                 
                 vc.clickModeButton = { data in
                     self?.userDefaultStorage.set(to: data, forKey: .displayMode)
