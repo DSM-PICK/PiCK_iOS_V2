@@ -10,31 +10,9 @@ import Core
 import DesignSystem
 
 public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewModel> {
-    private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: firstFloor)
-    let firstFloor = [
-        "산학협력부", "새롬홀", "무한 상상실",
-        "청죽관", "탁구실", "운동장"
-    ]
-    let secondFloor = [
-        "3-1", "3-2", "3-3", "3-4", "세미나실 2-1",
-        "세미나실 2-2", "세미나실 2-3", "SW 1실", "SW 2실",
-        "SW 3실", "본부 교무실", "제 3 교무실", "카페테리아",
-        "창조실", "방송실", "진로 상담실", "여자 헬스장"
-    ]
-    let thirdFloor = [
-        "2-1", "2-2", "2-3", "2-4", "세미나실 3-1", 
-        "세미나실 3-2", "세미나실 3-3", "보안 1실",
-        "보안 2실", "제 2 교무실", "그린존", "남자 헬스장"
-    ]
-    let fourthFloor = [
-        "1-1", "1-2", "1-3", "1-4", "세미나실 4-1",
-        "세미나실 4-2", "세미나실 4-3", "세미나실 4-4",
-        "임베 1실", "임베 2실", "제 1 교무실"
-    ]
-    let fifthFloor = [
-        "음악실", "음악 준비실", "상담실",
-        "수학실", "과학실"
-    ]
+    private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classRoomData.firstFloor)
+
+    private let classRoomData = ClassRoomData().shared
 
     private let titleLabel = PiCKLabel(text: "교실 이동", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.", textColor: .gray600, font: .body2)
@@ -74,14 +52,19 @@ public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewMo
     public override func bind() {
         segmetedControl.rx.selectedSegmentIndex
             .map { [weak self] index -> [String] in
-                guard let self = self else { return [] }
                 switch index {
-                case 0: return self.firstFloor
-                case 1: return self.secondFloor
-                case 2: return self.thirdFloor
-                case 3: return self.fourthFloor
-                case 4: return self.fifthFloor
-                default: return self.firstFloor
+                case 0: 
+                    return self?.classRoomData.firstFloor ?? []
+                case 1:
+                    return self?.classRoomData.secondFloor ?? []
+                case 2:
+                    return self?.classRoomData.thirdFloor ?? []
+                case 3: 
+                    return self?.classRoomData.fourthFloor ?? []
+                case 4:
+                    return self?.classRoomData.fifthFloor ?? []
+                default: 
+                    return self?.classRoomData.firstFloor ?? []
                 }
             }
             .bind(to: currentFloorClassroomArray)
@@ -97,7 +80,7 @@ public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewMo
             .disposed(by: disposeBag)
         
         classRoomCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] index in
+            .subscribe(onNext: { [weak self] _ in
                 self?.nextButton.isEnabled = true
             }).disposed(by: disposeBag)
         
