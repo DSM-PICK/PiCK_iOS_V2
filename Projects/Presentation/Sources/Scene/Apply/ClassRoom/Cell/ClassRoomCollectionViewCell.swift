@@ -12,7 +12,23 @@ import DesignSystem
 public class ClassRoomCollectionViewCell: BaseCollectionViewCell {
     static let identifier = "ClassRoomCollectionViewCell"
 
-    private let classRoomLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
+    public override var isSelected: Bool {
+        didSet {
+            self.attribute()
+        }
+    }
+
+    private var bgColor: UIColor {
+        isSelected ? .main500 : .background
+    }
+    private var borderColor: UIColor {
+        isSelected ? .clear : .main100
+    }
+    private var textColor: UIColor {
+        isSelected ? .modeWhite : .modeBlack
+    }
+
+    private let classRoomLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 1)
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,21 +41,24 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell {
         classRoom: String
     ) {
         self.classRoomLabel.text = classRoom
+        self.layout()
     }
 
     public override func attribute() {
         super.attribute()
 
-        self.backgroundColor = .background
-        self.layer.border(color: .main100, width: 1)
-        self.layer.cornerRadius = 10
+        self.backgroundColor = bgColor
+        self.layer.border(color: borderColor, width: 1)
+        self.layer.cornerRadius = 16
+        self.classRoomLabel.textColor = textColor
     }
 
     public override func layout() {
         self.addSubview(classRoomLabel)
 
         classRoomLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.bottom.equalToSuperview().inset(8)
         }
     }
 
