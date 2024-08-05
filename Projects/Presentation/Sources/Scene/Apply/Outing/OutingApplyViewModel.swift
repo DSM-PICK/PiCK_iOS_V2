@@ -7,7 +7,7 @@ import RxFlow
 import Core
 import Domain
 
-public class OutingViewModel: BaseViewModel, Stepper {
+public class OutingApplyViewModel: BaseViewModel, Stepper {
     
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
