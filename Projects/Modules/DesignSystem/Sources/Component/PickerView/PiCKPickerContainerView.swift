@@ -18,7 +18,6 @@ public class PiCKPickerContainerView: BaseView {
         startPeriodLabel
     ]).then {
         $0.axis = .horizontal
-        $0.spacing = 24
     }
 
     private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .heading3)
@@ -53,7 +52,8 @@ public class PiCKPickerContainerView: BaseView {
         }
         startPeriodPickerView.snp.makeConstraints {
             $0.height.equalTo(200)
-            $0.width.equalTo(24)
+//            $0.width.equalTo(24)
+            $0.width.equalTo(44)
         }
         endPeriodPickerView.snp.makeConstraints {
             $0.width.equalTo(24)
