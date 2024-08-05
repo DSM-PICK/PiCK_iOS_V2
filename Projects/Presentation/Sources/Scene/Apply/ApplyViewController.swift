@@ -25,6 +25,15 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
 
         navigationController?.isNavigationBarHidden = true
     }
+    public override func bind() {
+        let input = ApplyViewModel.Input(
+            clickWeekendMealButton: applyTabView.clickOutingTab.asObservable(),
+            clickClassRoomMoveButton: applyTabView.clickOutingTab.asObservable(),
+            clickOutingButton: applyTabView.clickOutingTab.asObservable(),
+            clickEarlyLeaveButton: applyTabView.clickEarlyLeaveTab.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+    }
     public override func addView() {
         [
             navigationBar,
