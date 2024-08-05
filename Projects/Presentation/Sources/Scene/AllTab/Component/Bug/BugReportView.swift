@@ -14,7 +14,7 @@ public class BugReportView: BaseView {
 
     private let titleLabel = PiCKLabel(text: "fjslkjfs", textColor: .modeBlack, font: .label1)
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청")
-    private let textView = PiCKTextView(placeholder: "자세히 입력해주세요")
+    private let textView = PiCKTextView(title: "jfksdl", placeholder: "자세히 입력해주세요")
 
     public init(
         type: BugType

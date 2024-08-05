@@ -35,48 +35,52 @@ public class TestViewController: UIViewController, Stepper {
     private func bind() {
         button1.rx.tap
             .bind {
-                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
-                
-                provider.request(.login(accountID: "wns513", password: "cyj070513##")) { res in
-                    switch res {
-                    case .success(let result):
-                        switch result.statusCode {
-                        case 200...299:
-                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
-                                print("성공이다")
-                                TokenStorage.shared.accessToken = data.accessToken
-                                TokenStorage.shared.refreshToken = data.refreshToken
-                            }
-                        default:
-                            print("Fail")
-                        }
-                    case .failure(let err):
-                        print(err.localizedDescription)
-                    }
-                }
+                self.navigationController?.pushViewController(OutingApplyViewController(viewModel: OutingApplyViewModel()), animated: true)
             }.disposed(by: disposeBag)
-        button2.rx.tap
-            .bind {
-                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
-                
-                provider.request(.fetchNoticeList) { res in
-                    switch res {
-                    case .success(let result):
-                        switch result.statusCode {
-                        case 200...299:
-                            print("성공이다")
-                        default:
-                            print("Fail")
-                        }
-                    case .failure(let err):
-                        print(err.localizedDescription)
-                    }
-                }
-            }.disposed(by: disposeBag)
-        button3.rx.tap
-            .bind {
-                TokenStorage.shared.removeToken()
-            }.disposed(by: disposeBag)
+//        button1.rx.tap
+//            .bind {
+//                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
+//                
+//                provider.request(.login(accountID: "wns513", password: "cyj070513##")) { res in
+//                    switch res {
+//                    case .success(let result):
+//                        switch result.statusCode {
+//                        case 200...299:
+//                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
+//                                print("성공이다")
+//                                TokenStorage.shared.accessToken = data.accessToken
+//                                TokenStorage.shared.refreshToken = data.refreshToken
+//                            }
+//                        default:
+//                            print("Fail")
+//                        }
+//                    case .failure(let err):
+//                        print(err.localizedDescription)
+//                    }
+//                }
+//            }.disposed(by: disposeBag)
+//        button2.rx.tap
+//            .bind {
+//                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
+//                
+//                provider.request(.fetchNoticeList) { res in
+//                    switch res {
+//                    case .success(let result):
+//                        switch result.statusCode {
+//                        case 200...299:
+//                            print("성공이다")
+//                        default:
+//                            print("Fail")
+//                        }
+//                    case .failure(let err):
+//                        print(err.localizedDescription)
+//                    }
+//                }
+//            }.disposed(by: disposeBag)
+//        button3.rx.tap
+//            .bind {
+//                TokenStorage.shared.removeToken()
+//            }.disposed(by: disposeBag)
     }
     private func layout() {
         [

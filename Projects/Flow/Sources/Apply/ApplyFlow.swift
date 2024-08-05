@@ -23,6 +23,10 @@ public class ApplyFlow: Flow {
         switch step {
         case .applyIsRequired:
             return navigateToApply()
+        case .outingApplyIsRequired:
+            return navigateToOutingApply()
+        case .earlyLeaveApplyIsRequired:
+            return navigateToEarlyLeaveApply()
         default:
             return .none
         }
@@ -34,6 +38,54 @@ public class ApplyFlow: Flow {
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
+        ))
+    }
+
+//    private func navigateToOutingApply() -> FlowContributors {
+//        let noticeFlow = OutingApplyFlow(container: self.container)
+//        Flows.use(noticeFlow, when: .created) { [weak self] root in
+//            root.hidesBottomBarWhenPushed = true
+//            self?.rootViewController.pushViewController(root, animated: true)
+//        }
+//        return .one(flowContributor: .contribute(
+//            withNextPresentable: noticeFlow,
+//            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
+//        ))
+//    }
+//
+//    private func navigateToOutingApply() -> FlowContributors {
+//        let noticeFlow = OutingApplyFlow(container: self.container)
+//        Flows.use(noticeFlow, when: .created) { [weak self] root in
+//            root.hidesBottomBarWhenPushed = true
+//            self?.rootViewController.pushViewController(root, animated: true)
+//        }
+//        return .one(flowContributor: .contribute(
+//            withNextPresentable: noticeFlow,
+//            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
+//        ))
+//    }
+
+    private func navigateToOutingApply() -> FlowContributors {
+        let outingApplyFlow = OutingApplyFlow(container: self.container)
+        Flows.use(outingApplyFlow, when: .created) { [weak self] root in
+            root.hidesBottomBarWhenPushed = true
+            self?.rootViewController.pushViewController(root, animated: true)
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: outingApplyFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
+        ))
+    }
+
+    private func navigateToEarlyLeaveApply() -> FlowContributors {
+        let earlyLeaveApplyFlow = EarlyLeaveApplyFlow(container: self.container)
+        Flows.use(earlyLeaveApplyFlow, when: .created) { [weak self] root in
+            root.hidesBottomBarWhenPushed = true
+            self?.rootViewController.pushViewController(root, animated: true)
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: earlyLeaveApplyFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.earlyLeaveApplyIsRequired)
         ))
     }
 

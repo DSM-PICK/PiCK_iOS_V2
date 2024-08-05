@@ -11,6 +11,9 @@ import Core
 import DesignSystem
 
 public class PiCKApplyView: BaseView {
+    public var clickApplyButton: ControlEvent<Void> {
+        return applyButton.buttonTap
+    }
 
     public var isOpen = false {
         didSet {

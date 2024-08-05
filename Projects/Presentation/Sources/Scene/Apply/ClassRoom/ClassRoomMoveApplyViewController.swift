@@ -9,14 +9,14 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewModel> {
+public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveApplyViewModel> {
     private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classRoomData.firstFloor)
 
     private let classRoomData = ClassRoomData().shared
 
     private let titleLabel = PiCKLabel(text: "교실 이동", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.", textColor: .gray600, font: .body2)
-    private let segmetedControl = ClassRoomSegmentedControl(items: [
+    private let floorSegmentedControl = ClassRoomSegmentedControl(items: [
         "1층",
         "2층",
         "3층",
@@ -50,7 +50,7 @@ public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewMo
         navigationTitleText = "교실 이동 신청"
     }
     public override func bind() {
-        segmetedControl.rx.selectedSegmentIndex
+        floorSegmentedControl.rx.selectedSegmentIndex
             .map { [weak self] index -> [String] in
                 switch index {
                 case 0: 
@@ -97,7 +97,7 @@ public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewMo
         [
             titleLabel,
             explainLabel,
-            segmetedControl,
+            floorSegmentedControl,
             classRoomCollectionView,
             nextButton
         ].forEach { view.addSubview($0) }
@@ -111,13 +111,13 @@ public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewMo
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.equalToSuperview().inset(24)
         }
-        segmetedControl.snp.makeConstraints {
+        floorSegmentedControl.snp.makeConstraints {
             $0.top.equalTo(explainLabel.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(25)
         }
         classRoomCollectionView.snp.makeConstraints {
-            $0.top.equalTo(segmetedControl.snp.bottom).offset(24)
+            $0.top.equalTo(floorSegmentedControl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
         }
