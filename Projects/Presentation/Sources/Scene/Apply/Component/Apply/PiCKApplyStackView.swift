@@ -10,6 +10,19 @@ import Core
 import DesignSystem
 
 public class PiCKApplyStackView: BaseView {
+    public var clickWeekendMealTab: ControlEvent<Void> {
+        return weekendMealApplyTab.clickApplyButton
+    }
+    public var clickClassRoomMoveTab: ControlEvent<Void> {
+        return classroomMoveApplyTab.clickApplyButton
+    }
+    public var clickOutingTab: ControlEvent<Void> {
+        return outingApplyTab.clickApplyButton
+    }
+    public var clickEarlyLeaveTab: ControlEvent<Void> {
+        return earlyLeaveApplyTab.clickApplyButton
+    }
+
     private let weekendMealApplyTab = PiCKApplyView(
         title: "주말 급식 신청",
         explain: "지금은 주말급식 신청 기간입니다.\n주말 급식 신청은 매달 한 번 한정된 기간에 합니다.",
