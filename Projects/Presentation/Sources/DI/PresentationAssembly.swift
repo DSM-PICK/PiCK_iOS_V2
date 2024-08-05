@@ -58,18 +58,25 @@ public final class PresentationAssembly: Assembly {
             ApplyViewModel()
         }
         //WeekendMeal
-        container.register(WeekendMealViewController.self) { resolver in
-            WeekendMealViewController(viewModel: resolver.resolve(WeekendMealViewModel.self)!)
+        container.register(WeekendMealApplyViewController.self) { resolver in
+            WeekendMealApplyViewController(viewModel: resolver.resolve(WeekendMealApplyViewModel.self)!)
         }
-        container.register(WeekendMealViewModel.self) { resolver in
-            WeekendMealViewModel()
+        container.register(WeekendMealApplyViewModel.self) { resolver in
+            WeekendMealApplyViewModel()
         }
         //ClassRoomMove
-        container.register(ClassRoomMoveViewController.self) { resolver in
-            ClassRoomMoveViewController(viewModel: resolver.resolve(ClassRoomMoveViewModel.self)!)
+        container.register(ClassRoomMoveApplyViewController.self) { resolver in
+            ClassRoomMoveApplyViewController(viewModel: resolver.resolve(ClassRoomMoveApplyViewModel.self)!)
         }
-        container.register(ClassRoomMoveViewModel.self) { resolver in
-            ClassRoomMoveViewModel()
+        container.register(ClassRoomMoveApplyViewModel.self) { resolver in
+            ClassRoomMoveApplyViewModel()
+        }
+        //Outing
+        container.register(OutingApplyViewController.self) { resolver in
+            OutingApplyViewController(viewModel: resolver.resolve(OutingApplyViewModel.self)!)
+        }
+        container.register(OutingApplyViewModel.self) { resolver in
+            OutingApplyViewModel()
         }
 
         //MARK: Schedule
