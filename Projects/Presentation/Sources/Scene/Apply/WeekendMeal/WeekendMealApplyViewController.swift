@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class WeekendMealViewController: BaseViewController<WeekendMealViewModel> {
+public class WeekendMealApplyViewController: BaseViewController<WeekendMealApplyViewModel> {
     private let titleLabel = PiCKLabel(text: "주말 급식", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "신청 여부는 담임 선생님이 확인 후 영양사 선생님에게 전달돼요.", textColor: .gray500, font: .caption2)
     private let weekendMealApplyView = WeekendMealApplyView()

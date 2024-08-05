@@ -7,7 +7,7 @@ import RxFlow
 import Core
 import Domain
 
-public class WeekendMealViewModel: BaseViewModel, Stepper {
+public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
     
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
