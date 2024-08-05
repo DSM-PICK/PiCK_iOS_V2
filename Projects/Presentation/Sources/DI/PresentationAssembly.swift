@@ -78,6 +78,14 @@ public final class PresentationAssembly: Assembly {
         container.register(OutingApplyViewModel.self) { resolver in
             OutingApplyViewModel()
         }
+        //EarlyLeave
+        container.register(EarlyLeaveApplyViewController.self) { resolver in
+            EarlyLeaveApplyViewController(viewModel: resolver.resolve(EarlyLeaveApplyViewModel.self)!)
+        }
+        container.register(EarlyLeaveApplyViewModel.self) { resolver in
+            EarlyLeaveApplyViewModel()
+        }
+
 
         //MARK: Schedule
         container.register(ScheduleViewController.self) { resolver in
