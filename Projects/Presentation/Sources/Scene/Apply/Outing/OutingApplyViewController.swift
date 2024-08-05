@@ -25,7 +25,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         $0.axis = .horizontal
         $0.spacing = 12
     }
-    private let outingReasonTextView = PiCKTextView(title: "귀가 사유를 입력하세요", placeholder: "자세히 입력해주세요")
+    private let outingReasonTextView = PiCKTextView(title: "외출 사유를 입력하세요", placeholder: "자세히 입력해주세요")
     private let applyButton = PiCKButton(type: .system, buttonText: "신청하기", isEnabled: false)
 
     public override func attribute() {
@@ -34,12 +34,28 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         navigationTitleText = "외출 신청"
     }
     public override func bind() {
-        startTimeSelectButton.buttonTap
-            .bind {
-                self.startTimeSelectButton.isSelected.toggle()
-                let vc = PiCKApplyTimePickerAlert()
-                self.presentAsCustomDents(view: vc, height: 288)
-            }.disposed(by: disposeBag)
+        let input = OutingApplyViewModel.Input(
+            startTime: Observable.just("fjsklfds"),
+            clickStartTimeButton: startTimeSelectButton.buttonTap.asObservable(),
+            endTime: Observable.just("fjsklfds"),
+            clickEndTimeButton: endTimeSelectButton.buttonTap.asObservable(),
+            reasonText: Observable.just("fjsklfds"),
+            clickApplyButton: applyButton.buttonTap.asObservable()
+        )
+        let output =  viewModel.transform(input: input)
+        
+        output.isApplyButtonEnable.asObservable()
+            .bind(
+                onNext: { [weak self] isEnabled in
+                    self?.applyButton.isEnabled = isEnabled
+                }
+            ).disposed(by: disposeBag)
+//        startTimeSelectButton.buttonTap
+//            .bind {
+//                self.startTimeSelectButton.isSelected.toggle()
+//                let vc = PiCKApplyTimePickerAlert()
+//                self.presentAsCustomDents(view: vc, height: 288)
+//            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
