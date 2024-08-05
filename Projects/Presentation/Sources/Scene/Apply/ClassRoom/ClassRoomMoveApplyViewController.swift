@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class ClassRoomMoveViewController: BaseViewController<ClassRoomMoveViewModel> {
+public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveApplyViewModel> {
     private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classRoomData.firstFloor)
 
     private let classRoomData = ClassRoomData().shared

@@ -7,7 +7,7 @@ import RxFlow
 import Core
 import Domain
 
-public class ClassRoomMoveViewModel: BaseViewModel, Stepper {
+public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
     
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
