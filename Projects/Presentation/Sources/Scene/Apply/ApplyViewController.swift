@@ -27,8 +27,8 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
     }
     public override func bind() {
         let input = ApplyViewModel.Input(
-            clickWeekendMealButton: applyTabView.clickOutingTab.asObservable(),
-            clickClassRoomMoveButton: applyTabView.clickOutingTab.asObservable(),
+            clickWeekendMealButton: applyTabView.clickWeekendMealTab.asObservable(),
+            clickClassRoomMoveButton: applyTabView.clickClassRoomMoveTab.asObservable(),
             clickOutingButton: applyTabView.clickOutingTab.asObservable(),
             clickEarlyLeaveButton: applyTabView.clickEarlyLeaveTab.asObservable()
         )

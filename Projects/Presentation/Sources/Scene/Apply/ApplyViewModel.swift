@@ -23,6 +23,16 @@ public class ApplyViewModel: BaseViewModel, Stepper {
     public struct Output {}
     
     public func transform(input: Input) -> Output {
+        input.clickWeekendMealButton
+            .map { PiCKStep.weekendMealApplyIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.clickClassRoomMoveButton
+            .map { PiCKStep.classRoomMoveApplyIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
         input.clickOutingButton
             .map { PiCKStep.outingApplyIsRequired }
             .bind(to: steps)
