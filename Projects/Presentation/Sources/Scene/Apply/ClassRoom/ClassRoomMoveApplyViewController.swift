@@ -12,7 +12,7 @@ import DesignSystem
 public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveApplyViewModel> {
     private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classRoomData.firstFloor)
 
-    private let classRoomData = ClassRoomData().shared
+    private let classRoomData = ClassRoomData.shared
 
     private let titleLabel = PiCKLabel(text: "교실 이동", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.", textColor: .gray600, font: .body2)
