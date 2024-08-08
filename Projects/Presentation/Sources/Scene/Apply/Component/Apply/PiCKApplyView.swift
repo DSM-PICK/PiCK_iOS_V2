@@ -89,6 +89,7 @@ public class PiCKApplyView: BaseView {
             .when(.recognized)
             .bind { _ in
                 self.isOpen.toggle()
+                print("stateOfisOpen: \(self.isOpen)")
             }
             .disposed(by: disposeBag)
     }
