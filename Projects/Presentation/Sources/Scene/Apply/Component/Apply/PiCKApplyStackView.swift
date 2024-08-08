@@ -5,6 +5,7 @@ import Then
 
 import RxSwift
 import RxCocoa
+import RxGesture
 
 import Core
 import DesignSystem
