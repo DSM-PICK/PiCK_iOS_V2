@@ -23,6 +23,10 @@ public class ApplyFlow: Flow {
         switch step {
         case .applyIsRequired:
             return navigateToApply()
+        case .weekendMealApplyIsRequired:
+            return navigateToWeekendMealApply()
+        case .classRoomMoveApplyIsRequired:
+            return navigateToClassRoomMoveApply()
         case .outingApplyIsRequired:
             return navigateToOutingApply()
         case .earlyLeaveApplyIsRequired:
@@ -41,29 +45,29 @@ public class ApplyFlow: Flow {
         ))
     }
 
-//    private func navigateToOutingApply() -> FlowContributors {
-//        let noticeFlow = OutingApplyFlow(container: self.container)
-//        Flows.use(noticeFlow, when: .created) { [weak self] root in
-//            root.hidesBottomBarWhenPushed = true
-//            self?.rootViewController.pushViewController(root, animated: true)
-//        }
-//        return .one(flowContributor: .contribute(
-//            withNextPresentable: noticeFlow,
-//            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
-//        ))
-//    }
-//
-//    private func navigateToOutingApply() -> FlowContributors {
-//        let noticeFlow = OutingApplyFlow(container: self.container)
-//        Flows.use(noticeFlow, when: .created) { [weak self] root in
-//            root.hidesBottomBarWhenPushed = true
-//            self?.rootViewController.pushViewController(root, animated: true)
-//        }
-//        return .one(flowContributor: .contribute(
-//            withNextPresentable: noticeFlow,
-//            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
-//        ))
-//    }
+    private func navigateToWeekendMealApply() -> FlowContributors {
+        let weekendMealApplyFlow = WeekendMealApplyFlow(container: self.container)
+        Flows.use(weekendMealApplyFlow, when: .created) { [weak self] root in
+            root.hidesBottomBarWhenPushed = true
+            self?.rootViewController.pushViewController(root, animated: true)
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: weekendMealApplyFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.weekendMealApplyIsRequired)
+        ))
+    }
+
+    private func navigateToClassRoomMoveApply() -> FlowContributors {
+        let classRoomMoveApplyFlow = ClassRoomMoveApplyFlow(container: self.container)
+        Flows.use(classRoomMoveApplyFlow, when: .created) { [weak self] root in
+            root.hidesBottomBarWhenPushed = true
+            self?.rootViewController.pushViewController(root, animated: true)
+        }
+        return .one(flowContributor: .contribute(
+            withNextPresentable: classRoomMoveApplyFlow,
+            withNextStepper: OneStepper(withSingleStep: PiCKStep.classRoomMoveApplyIsRequired)
+        ))
+    }
 
     private func navigateToOutingApply() -> FlowContributors {
         let outingApplyFlow = OutingApplyFlow(container: self.container)

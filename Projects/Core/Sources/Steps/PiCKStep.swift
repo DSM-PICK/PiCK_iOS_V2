@@ -20,6 +20,10 @@ public enum PiCKStep: Step {
     //MARK: apply
     case applyIsRequired
     case timeSelectAlertIsRequired
+    //weekendMeal
+    case weekendMealApplyIsRequired
+    //classRoom
+    case classRoomMoveApplyIsRequired
     //outing
     case outingApplyIsRequired
     //earlyLeave
