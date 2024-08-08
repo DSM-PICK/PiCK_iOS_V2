@@ -46,7 +46,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             $0.leading.trailing.equalToSuperview()
         }
         profileView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(36)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
         }
         helpSectionView.snp.makeConstraints {
