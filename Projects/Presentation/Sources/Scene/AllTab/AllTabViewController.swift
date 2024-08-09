@@ -10,6 +10,7 @@ import Core
 import DesignSystem
 
 public class AllTabViewController: BaseViewController<AllTabViewModel> {
+    private let logoutRelay = PublishRelay<Void>()
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
@@ -26,9 +27,23 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
             clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
-            clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage)
+            clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage),
+            clickLogOutTab: logoutRelay.asObservable()
         )
+
         let output = viewModel.transform(input: input)
+
+        self.accountSectionView.getSelectedItem(type: .logOut)
+                  .asObservable()
+                  .subscribe(onNext: { [weak self] _ in
+                      let vc = LogOutAlert(clickLogout: {
+                          self?.logoutRelay.accept(())
+                      })
+                      vc.modalPresentationStyle = .overFullScreen
+                      vc.modalTransitionStyle = .crossDissolve
+                      self?.present(vc, animated: true)
+                  })
+                  .disposed(by: disposeBag)
     }
 
     public override func addView() {
