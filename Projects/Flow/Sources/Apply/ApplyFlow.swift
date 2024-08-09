@@ -46,50 +46,46 @@ public class ApplyFlow: Flow {
     }
 
     private func navigateToWeekendMealApply() -> FlowContributors {
-        let weekendMealApplyFlow = WeekendMealApplyFlow(container: self.container)
-        Flows.use(weekendMealApplyFlow, when: .created) { [weak self] root in
-            root.hidesBottomBarWhenPushed = true
-            self?.rootViewController.pushViewController(root, animated: true)
-        }
+        let vc = container.resolve(WeekendMealApplyViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: weekendMealApplyFlow,
-            withNextStepper: OneStepper(withSingleStep: PiCKStep.weekendMealApplyIsRequired)
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
     private func navigateToClassRoomMoveApply() -> FlowContributors {
-        let classRoomMoveApplyFlow = ClassRoomMoveApplyFlow(container: self.container)
-        Flows.use(classRoomMoveApplyFlow, when: .created) { [weak self] root in
-            root.hidesBottomBarWhenPushed = true
-            self?.rootViewController.pushViewController(root, animated: true)
-        }
+        let vc = container.resolve(ClassRoomMoveApplyViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: classRoomMoveApplyFlow,
-            withNextStepper: OneStepper(withSingleStep: PiCKStep.classRoomMoveApplyIsRequired)
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
     private func navigateToOutingApply() -> FlowContributors {
-        let outingApplyFlow = OutingApplyFlow(container: self.container)
-        Flows.use(outingApplyFlow, when: .created) { [weak self] root in
-            root.hidesBottomBarWhenPushed = true
-            self?.rootViewController.pushViewController(root, animated: true)
-        }
+        let vc = container.resolve(OutingApplyViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: outingApplyFlow,
-            withNextStepper: OneStepper(withSingleStep: PiCKStep.outingApplyIsRequired)
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
     private func navigateToEarlyLeaveApply() -> FlowContributors {
-        let earlyLeaveApplyFlow = EarlyLeaveApplyFlow(container: self.container)
-        Flows.use(earlyLeaveApplyFlow, when: .created) { [weak self] root in
-            root.hidesBottomBarWhenPushed = true
-            self?.rootViewController.pushViewController(root, animated: true)
-        }
+        let vc = container.resolve(EarlyLeaveApplyViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
-            withNextPresentable: earlyLeaveApplyFlow,
-            withNextStepper: OneStepper(withSingleStep: PiCKStep.earlyLeaveApplyIsRequired)
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
         ))
     }
 
