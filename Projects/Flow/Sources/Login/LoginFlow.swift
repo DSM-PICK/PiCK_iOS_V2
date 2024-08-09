@@ -27,6 +27,8 @@ public class LoginFlow: Flow {
                 return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
             case .testIsRequired:
                 return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
+            case .logoutIsRequired:
+                return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
             default:
                 return .none
         }
