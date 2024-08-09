@@ -12,6 +12,7 @@ import DesignSystem
 public class BugReportViewController: BaseViewController<BugReportViewModel> {
     private let bugLocationView = BugReportView(type: .location)
     private let bugExplainView = BugReportView(type: .explain)
+    private let bugImageView = BugReportView(type: .photo)
     
     public override func attribute() {
         super.attribute()
@@ -21,7 +22,8 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
     public override func addView() {
         [
             bugLocationView,
-            bugExplainView
+            bugExplainView,
+            bugImageView
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
@@ -34,6 +36,11 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
             $0.top.equalTo(bugLocationView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(151)
+        }
+        bugImageView.snp.makeConstraints {
+            $0.top.equalTo(bugExplainView.snp.bottom).offset(40)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(135)
         }
     }
 
