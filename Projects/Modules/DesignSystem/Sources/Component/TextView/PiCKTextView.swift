@@ -37,9 +37,11 @@ public class PiCKTextView: BaseView {
 
     public init(
         title: String,
+        pointText: String? = String(),
         placeholder: String
     ) {
         self.titleLabel.text = title
+        self.titleLabel.changePointColor(targetString: pointText ?? "", color: .error)
         self.placeholderLabel.text = placeholder
         super.init(frame: .zero)
     }
