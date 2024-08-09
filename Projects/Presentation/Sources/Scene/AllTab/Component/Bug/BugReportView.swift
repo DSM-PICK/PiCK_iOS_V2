@@ -12,10 +12,9 @@ public enum BugType {
 public class BugReportView: BaseView {
     private var bugType: BugType = .location
 
-    private let titleLabel = PiCKLabel(text: "fjslkjfs", textColor: .modeBlack, font: .label1)
+    private let titleLabel = PiCKLabel(text: "어디서 버그가 발생했나요? *", textColor: .modeBlack, font: .label1)
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청")
-    private let textView = PiCKTextView(title: "jfksdl", placeholder: "자세히 입력해주세요")
-
+    private let textView = PiCKTextView(title: "버그에 대해 설명해주세요. *", placeholder: "자세히 입력해주세요")
     public init(
         type: BugType
     ) {
@@ -43,19 +42,16 @@ public class BugReportView: BaseView {
             $0.height.equalTo(40)
         }
         textView.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(12)
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(120)
+            $0.edges.equalToSuperview()
         }
     }
 
     private func typeSetting() {
         switch bugType {
         case .location:
-            titleLabel.text = "어디서 버그가 발생했나요? *"
             textView.isHidden = true
         case .explain:
-            titleLabel.text = "버그에 대해 설명해주세요. *"
+            titleLabel.isHidden = true
             textField.isHidden = true
         case .photo:
             break
