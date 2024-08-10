@@ -34,16 +34,16 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         let output = viewModel.transform(input: input)
 
         self.accountSectionView.getSelectedItem(type: .logOut)
-                  .asObservable()
-                  .subscribe(onNext: { [weak self] _ in
-                      let vc = LogOutAlert(clickLogout: {
-                          self?.logoutRelay.accept(())
-                      })
-                      vc.modalPresentationStyle = .overFullScreen
-                      vc.modalTransitionStyle = .crossDissolve
-                      self?.present(vc, animated: true)
-                  })
-                  .disposed(by: disposeBag)
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                let vc = LogOutAlert(clickLogout: {
+                    self?.logoutRelay.accept(())
+                })
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self?.present(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 
     public override func addView() {
