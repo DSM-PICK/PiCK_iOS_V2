@@ -17,7 +17,6 @@ public class BugImageView: BaseView {
 
         self.layer.cornerRadius = 4
         self.backgroundColor = .gray50
-        self.layer.border(color: .gray600, width: 1)
     }
     public override func layout() {
         [
@@ -33,6 +32,12 @@ public class BugImageView: BaseView {
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(24)
         }
+
+        setDashedLine()
+    }
+
+    private func setDashedLine() {
+        self.layer.addDotBorder(color: .gray600, lineWidth: 1, dotRadius: 3)
     }
 
 }
