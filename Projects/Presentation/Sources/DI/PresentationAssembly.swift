@@ -134,7 +134,9 @@ public final class PresentationAssembly: Assembly {
             MyPageViewController(viewModel: resolver.resolve(MyPageViewModel.self)!)
         }
         container.register(MyPageViewModel.self) { resolver in
-            MyPageViewModel()
+            MyPageViewModel(
+                profileUsecase: resolver.resolve(FetchDetailProfileUseCase.self)!
+            )
         }
 
     }
