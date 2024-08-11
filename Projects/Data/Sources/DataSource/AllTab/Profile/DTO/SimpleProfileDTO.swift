@@ -7,9 +7,10 @@ public struct SimpleProfileDTO: Decodable {
     let grade: Int
     let classNum: Int
     let num: Int
-    
+    let profile: String?
+
     enum CodingKeys: String, CodingKey {
-        case name, grade, num
+        case name, grade, num, profile
         case classNum = "class_num"
     }
 }
@@ -20,7 +21,8 @@ extension SimpleProfileDTO {
             name: name,
             grade: grade,
             classNum: classNum,
-            num: num
+            num: num,
+            profile: profile
         )
     }
 }
