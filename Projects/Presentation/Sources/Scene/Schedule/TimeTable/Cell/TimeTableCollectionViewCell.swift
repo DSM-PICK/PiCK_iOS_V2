@@ -15,12 +15,12 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell {
     private let subjectLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     
     public func setup(
-        period: String,
+        period: Int,
         image: UIImage,
         subject: String
     ) {
         self.periodLabel.text = "\(period)교시"
-        self.periodLabel.changePointColor(targetString: period, color: .main500)
+        self.periodLabel.changePointColor(targetString: "\(period)", color: .main500)
         self.subjectImageView.image = image
         self.subjectLabel.text = subject
     }
