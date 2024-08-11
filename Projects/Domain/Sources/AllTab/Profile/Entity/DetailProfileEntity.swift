@@ -7,14 +7,16 @@ public struct DetailProfileEntity {
     public let classNum: Int
     public let num: Int
     public let accountID: String
-    
+    public let profile: String?
+
     public init(
         name: String,
         birthDay: String,
         grade: Int,
         classNum: Int,
         num: Int,
-        accountID: String
+        accountID: String,
+        profile: String?
     ) {
         self.name = name
         self.birthDay = birthDay
@@ -22,6 +24,7 @@ public struct DetailProfileEntity {
         self.classNum = classNum
         self.num = num
         self.accountID = accountID
+        self.profile = profile
     }
-    
+
 }
