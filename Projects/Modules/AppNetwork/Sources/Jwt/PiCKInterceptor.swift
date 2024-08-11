@@ -8,12 +8,12 @@ import KeychainSwift
 public class PiCKInterceptor: RequestInterceptor {
     static let shared = PiCKInterceptor()
     private let disposeBag = DisposeBag()
-    
+
     private let keychain = KeychainSwift()
-    
+
     let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
-    private init() { }
-    
+    public init() { }
+
     public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         guard urlRequest.url?.absoluteString.hasPrefix("https://stag-server.xquare.app/dsm-pick") == true,
               let accessToken = TokenStorage.shared.accessToken, // 기기에 저장된 토큰들
