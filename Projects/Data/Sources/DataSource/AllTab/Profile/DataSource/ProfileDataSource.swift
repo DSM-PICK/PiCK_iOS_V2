@@ -17,10 +17,10 @@ class ProfileDataSourceImpl: BaseDataSource<ProfileAPI>, ProfileDataSource {
         return request(.fetchSimpleProfile)
             .filterSuccessfulStatusCodes()
     }
-    
+
     func fetchDetailProfile() -> Single<Response> {
         return request(.fetchDetailProfile)
             .filterSuccessfulStatusCodes()
     }
-    
+
 }
