@@ -5,11 +5,12 @@ import RxCocoa
 
 open class BaseCollectionViewCell: UICollectionViewCell {
     
-    private let disposeBag = DisposeBag()
+    public let disposeBag = DisposeBag()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()
+        bind()
         bindAction()
     }
     required public init?(coder: NSCoder) {
@@ -23,6 +24,7 @@ open class BaseCollectionViewCell: UICollectionViewCell {
     open func attribute() {
         //cell 관련 설정을 하는 함수
     }
+    open func bind() { }
     open func bindAction() {
         //cell 관련 액션을 설정하는 함수
     }

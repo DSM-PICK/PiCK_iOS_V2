@@ -19,7 +19,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let clickSelfStudyTab: Observable<IndexPath>
         let clickBugReportTab: Observable<IndexPath>
         let clickMyPageTab: Observable<IndexPath>
-//        let clickLoginTab: Observable<IndexPath>
+        let clickLogOutTab: Observable<Void>
     }
     public struct Output {}
     
@@ -33,18 +33,23 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .map { _ in PiCKStep.selfStudyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
-        
+
         input.clickBugReportTab
             .map { _ in PiCKStep.bugReportIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
-        
+
         input.clickMyPageTab
             .map { _ in PiCKStep.myPageIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
+        input.clickLogOutTab
+            .map { _ in PiCKStep.tabIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
         return Output()
     }
-    
+
 }

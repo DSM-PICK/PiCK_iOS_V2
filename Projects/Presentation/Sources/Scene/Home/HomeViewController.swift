@@ -216,7 +216,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     return UICollectionViewCell()
                 }
                 cell.setup(
-                    period: "\(indexPath.row + 1)",
+                    period: indexPath.row + 1,
                     image: .alert,
                     subject: "디지털 포렌식"
                 )

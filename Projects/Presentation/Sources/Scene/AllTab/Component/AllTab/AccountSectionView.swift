@@ -13,6 +13,7 @@ class AccountSectionView: BaseView {
     
     enum HelpSectionType: Int {
         case myPage
+        case logOut
     }
     
     private let accountSectionView = PiCKSectionView(

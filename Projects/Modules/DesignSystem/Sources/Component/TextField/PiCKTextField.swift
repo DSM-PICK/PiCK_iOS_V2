@@ -10,7 +10,7 @@ import Core
 
 public class PiCKTextField: BaseTextField {
     public var errorMessage = PublishRelay<String?>()
-    
+
     public var isSecurity: Bool = false {
         didSet {
             textHideButton.isHidden = !isSecurity
@@ -18,7 +18,10 @@ public class PiCKTextField: BaseTextField {
             self.addLeftAndRightView()
         }
     }
-    
+    private var borderColor: UIColor {
+        isEditing ? .main500 : .clear
+    }
+
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1
@@ -33,7 +36,7 @@ public class PiCKTextField: BaseTextField {
         textColor: .error,
         font: .caption2
     )
-    
+
     public init(
         titleText: String? = nil,
         placeholder: String? = nil,
@@ -49,26 +52,24 @@ public class PiCKTextField: BaseTextField {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
         setPlaceholder()
     }
-    
+
     public override func attribute() {
         self.textColor = .black
         self.font = .caption1
         self.backgroundColor = .gray50
         self.layer.cornerRadius = 4
-        self.layer.border(color: .clear, width: 1)
-        self.tintColor = .purple
+        self.layer.border(color: borderColor, width: 1)
         self.addLeftView()
         self.addRightView()
         self.autocapitalizationType = .none
         self.autocorrectionType = .no
         self.keyboardType = .alphabet
     }
-    
     public override func layout() {
         [
             titleLabel,
@@ -89,7 +90,7 @@ public class PiCKTextField: BaseTextField {
             $0.trailing.equalToSuperview()
         }
     }
-    
+
     private func setPlaceholder() {
         guard let string = self.placeholder else {
             return
@@ -104,11 +105,10 @@ public class PiCKTextField: BaseTextField {
     }
 
     public override func bindActions() {
-        self.rx.text.orEmpty
-            .map { $0.isEmpty ? UIColor.clear.cgColor : UIColor.main500.cgColor }
+        self.rx.controlEvent(.editingDidBegin)
             .subscribe(
-                onNext: { [weak self] borderColor in
-                    self?.layer.borderColor = borderColor
+                onNext: { [weak self] _ in
+                    self?.layer.border(color: self?.borderColor, width: 1)
                     self?.errorMessage.accept(nil)
                 }
             )
@@ -143,5 +143,5 @@ public class PiCKTextField: BaseTextField {
             )
             .disposed(by: disposeBag)
     }
-    
+
 }

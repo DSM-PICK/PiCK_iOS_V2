@@ -24,7 +24,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
 
     private lazy var userInfoStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 20
+        $0.spacing = 32
         $0.alignment = .trailing
         $0.distribution = .fillEqually
     }
@@ -72,7 +72,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
             userInfoLabelStackView.addArrangedSubview(titleLabel)
         }
         
-        let userInfoArry = ["조영준 선생님", "박현아 선생님", "육기준 선생님"]
+        let userInfoArry = ["조영준", "2007.05.13", "2413", "cyj513"]
         for userInfo in userInfoArry {
             let userInfoLabel = AllTabLabel(
                 type: .contentLabel,
