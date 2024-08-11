@@ -11,15 +11,20 @@ import Core
 public class PiCKTextView: BaseView {
     public var isEdit = BehaviorRelay<Bool>(value: false)
 
+    private var borderColor: UIColor {
+        isEdit.value ? .clear : .main500
+    }
+
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1
     )
-    private let textView = UITextView().then {
+    private lazy var textView = UITextView().then {
         $0.textColor = .modeBlack
         $0.font = .caption2
         $0.textContainer.maximumNumberOfLines = 8
         $0.backgroundColor = .gray50
+        $0.layer.border(color: .clear, width: 1)
         $0.layer.cornerRadius = 4
         $0.autocorrectionType = .no
         $0.autocapitalizationType = .none
@@ -32,9 +37,11 @@ public class PiCKTextView: BaseView {
 
     public init(
         title: String,
+        pointText: String? = String(),
         placeholder: String
     ) {
         self.titleLabel.text = title
+        self.titleLabel.changePointColor(targetString: pointText ?? "", color: .error)
         self.placeholderLabel.text = placeholder
         super.init(frame: .zero)
     }
@@ -67,6 +74,7 @@ public class PiCKTextView: BaseView {
         self.textView.rx.didBeginEditing
             .bind(onNext: { [weak self] in
                 self?.placeholderLabel.isHidden = true
+                self?.textView.layer.border(color: self?.borderColor, width: 1)
                 self?.isEdit.accept(true)
             }).disposed(by: disposeBag)
         
@@ -74,6 +82,7 @@ public class PiCKTextView: BaseView {
             .bind(onNext: { [weak self] in
                 if self?.textView.text.isEmpty == true {
                     self?.placeholderLabel.isHidden = false
+                    self?.textView.layer.border(color: self?.borderColor, width: 1)
                     self?.isEdit.accept(false)
                 }
             }).disposed(by: disposeBag)

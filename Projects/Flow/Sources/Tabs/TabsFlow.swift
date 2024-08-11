@@ -33,6 +33,8 @@ public class TabsFlow: Flow {
         switch step {
         case .tabIsRequired:
             return setupTabBar()
+        case .appIsRequired:
+            return dismissToOnbording()
         default:
             return .none
         }
@@ -83,6 +85,17 @@ public class TabsFlow: Flow {
                 withNextStepper: OneStepper(withSingleStep: PiCKStep.allTabIsRequired)
             )
         ])
+    }
+
+    private func dismissToOnbording() -> FlowContributors {
+        UIView.transition(
+            with: self.rootViewController.view.window!,
+            duration: 0.5,
+            options: .transitionCrossDissolve) {
+                self.rootViewController.dismiss(animated: false)
+            }
+
+        return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
     }
 
 }
