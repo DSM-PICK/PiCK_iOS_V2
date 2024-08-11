@@ -18,7 +18,6 @@ public class TabBarManager: UITabBarController {
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-//        appearance.shadowColor = UIColor.clear
         appearance.shadowColor = .gray100
         appearance.backgroundColor = .background
         self.tabBar.scrollEdgeAppearance = appearance
