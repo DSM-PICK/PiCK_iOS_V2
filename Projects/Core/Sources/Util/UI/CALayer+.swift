@@ -1,9 +1,9 @@
 import UIKit
 
 public extension CALayer {
-    func border(color: UIColor?, width: CGFloat?) {
+    func border(color: UIColor?, width: CGFloat = 0) {
         self.borderColor = color?.cgColor
-        self.borderWidth = width ?? CGFloat()
+        self.borderWidth = width
     }
 
     func addDotBorder(color: UIColor, lineWidth: CGFloat, dotRadius: CGFloat) {
