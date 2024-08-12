@@ -11,7 +11,6 @@ import Moya
 
 import Core
 import Domain
-import AppNetwork
 import DesignSystem
 
 public class TestViewController: UIViewController, Stepper {
@@ -26,59 +25,59 @@ public class TestViewController: UIViewController, Stepper {
         super.viewDidLoad()
 
         view.backgroundColor = .background
-        bind()
+//        bind()
     }
     public override func viewDidLayoutSubviews() {
         layout()
     }
 
-    private func bind() {
-        button1.rx.tap
-            .bind {
-                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
-                
-                provider.request(.login(accountID: "cyj513", password: "cyj070513##")) { res in
-                    switch res {
-                    case .success(let result):
-                        switch result.statusCode {
-                        case 200...299:
-                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
-                                print("로그인 성공")
-                                TokenStorage.shared.accessToken = data.accessToken
-                                TokenStorage.shared.refreshToken = data.refreshToken
-                            }
-                        default:
-                            print("Fail")
-                        }
-                    case .failure(let err):
-                        print(err.localizedDescription)
-                    }
-                }
-            }.disposed(by: disposeBag)
-        button2.rx.tap
-            .bind {
-                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
-                
-                provider.request(.fetchNoticeList) { res in
-                    switch res {
-                    case .success(let result):
-                        switch result.statusCode {
-                        case 200...299:
-                            print("공지 로드 성공")
-                        default:
-                            print("Fail")
-                        }
-                    case .failure(let err):
-                        print(err.localizedDescription)
-                    }
-                }
-            }.disposed(by: disposeBag)
-        button3.rx.tap
-            .bind {
-                TokenStorage.shared.removeToken()
-                print("토큰 삭제")
-            }.disposed(by: disposeBag)
-    }
+//    private func bind() {
+//        button1.rx.tap
+//            .bind {
+//                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
+//                
+//                provider.request(.login(req: .init(accountID: "cyj513", password: "cyj070513##"))) { res in
+//                    switch res {
+//                    case .success(let result):
+//                        switch result.statusCode {
+//                        case 200...299:
+//                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
+//                                print("로그인 성공")
+//                                TokenStorage.shared.accessToken = data.accessToken
+//                                TokenStorage.shared.refreshToken = data.refreshToken
+//                            }
+//                        default:
+//                            print("Fail")
+//                        }
+//                    case .failure(let err):
+//                        print(err.localizedDescription)
+//                    }
+//                }
+//            }.disposed(by: disposeBag)
+//        button2.rx.tap
+//            .bind {
+//                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
+//                
+//                provider.request(.fetchNoticeList) { res in
+//                    switch res {
+//                    case .success(let result):
+//                        switch result.statusCode {
+//                        case 200...299:
+//                            print("공지 로드 성공")
+//                        default:
+//                            print("Fail")
+//                        }
+//                    case .failure(let err):
+//                        print(err.localizedDescription)
+//                    }
+//                }
+//            }.disposed(by: disposeBag)
+//        button3.rx.tap
+//            .bind {
+//                TokenStorage.shared.removeToken()
+//                print("토큰 삭제")
+//            }.disposed(by: disposeBag)
+//    }
 
     private func layout() {
         [

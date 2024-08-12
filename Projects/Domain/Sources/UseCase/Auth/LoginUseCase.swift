@@ -10,8 +10,8 @@ public class LoginUseCase {
         self.repository = repository
     }
 
-    public func execute(accountID: String, password: String) -> Completable {
-        return repository.login(accountID: accountID, password: password)
+    public func execute(req: LoginRequestParams) -> Completable {
+        return repository.login(req: req)
     }
-    
+
 }

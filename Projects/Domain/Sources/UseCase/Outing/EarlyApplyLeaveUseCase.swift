@@ -10,8 +10,8 @@ public class EarlyLeaveApplyUseCase {
         self.repository = repository
     }
 
-    public func execute(reason: String, startTime: String) -> Completable {
-        return repository.earlyLeaveApply(reason: reason, startTime: startTime)
+    public func execute(req: EarlyLeaveApplyRequestParams) -> Completable {
+        return repository.earlyLeaveApply(req: req)
     }
 }
 

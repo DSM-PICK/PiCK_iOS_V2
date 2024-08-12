@@ -40,14 +40,16 @@ public class LoginViewModel: BaseViewModel, Stepper {
                 return prevent.0 == current.0 && prevent.1 == current.1
             }
             .flatMap { [self] id, password in
-                loginUseCase.execute(accountID: id, password: password)
+                loginUseCase.execute(req: .init(
+                    accountID: id,
+                    password: password
+                ))
                 .catch { id in
                     self.idErrorDescription.accept("아이디를 다시 확인해주세요")
                     self.passwordErrorDescription.accept("비밀번호를 다시 확인해주세요")
                     return .never()
                 }
                 .andThen(Single.just(PiCKStep.tabIsRequired))
-//                .andThen(Single.just(PiCKStep.testIsRequired))
             }
             .bind(to: steps)
             .disposed(by: disposeBag)
