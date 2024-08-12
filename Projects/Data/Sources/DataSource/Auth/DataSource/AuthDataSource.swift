@@ -18,10 +18,11 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
             .filterSuccessfulStatusCodes()
             .map(TokenDTO.self)
     }
-    
+
     func refreshToken() -> Single<TokenDTO> {
         return request(.refreshToken)
-        .filterSuccessfulStatusCodes()
-        .map(TokenDTO.self)
+            .filterSuccessfulStatusCodes()
+            .map(TokenDTO.self)
     }
+
 }
