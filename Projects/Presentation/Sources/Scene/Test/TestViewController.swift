@@ -18,7 +18,6 @@ public class TestViewController: UIViewController, Stepper {
     public var steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
     private let keychain = KeychainImpl()
-//    private let interceptor = PiCKInterceptor
 
     private let button1 = PiCKButton(type: .system, buttonText: "login")
     private let button2 = PiCKButton(type: .system, buttonText: "test request")
@@ -58,7 +57,7 @@ public class TestViewController: UIViewController, Stepper {
             }.disposed(by: disposeBag)
         button2.rx.tap
             .bind {
-                let provider = MoyaProvider<NoticeAPI>(session: Session(interceptor: PiCKInterceptor()), plugins: [MoyaLoggingPlugin()])
+                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
                 
                 provider.request(.fetchNoticeList) { res in
                     switch res {
