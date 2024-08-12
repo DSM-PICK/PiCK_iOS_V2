@@ -3,6 +3,6 @@ import Foundation
 import RxSwift
 
 public protocol ClassroomRepository {
-    func classroomMoveApply(floor: Int, classroomName: String, startPeriod: Int, endPeriod: Int) -> Completable
+    func classroomMoveApply(request: ClassRoomMoveRequestParams) -> Completable
     func classroomReturn() -> Completable
 }
