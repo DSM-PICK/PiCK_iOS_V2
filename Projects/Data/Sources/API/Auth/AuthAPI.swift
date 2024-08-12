@@ -3,9 +3,11 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum AuthAPI {
-    case login(accountID: String, password: String)
+    case login(req: LoginRequestParams)
 //    case refreshToken(refreshToken: String)
     case refreshToken
 }
@@ -37,11 +39,11 @@ extension AuthAPI: PiCKAPI {
     
     public var task: Moya.Task {
         switch self {
-            case let .login(accountID, password):
+            case let .login(req):
                 return .requestParameters(
                     parameters: [
-                        "account_id": accountID,
-                        "password": password
+                        "account_id": req.accountID,
+                        "password": req.password
                     ],
                     encoding: JSONEncoding.default
                 )

@@ -3,28 +3,27 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
-public enum NoticeAPI {
-    case fetchTodayNoticeList
-    case fetchNoticeList
-    case fetchDetailNotice(id: UUID)
+public enum ProfileAPI {
+    case fetchSimpleProfile
+    case fetchDetailProfile
 }
 
-extension NoticeAPI: PiCKAPI {
+extension ProfileAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .notice
+        return .user
     }
     
     public var urlPath: String {
         switch self {
-        case .fetchTodayNoticeList:
-            return "/today"
-        case .fetchNoticeList:
-            return "/simple"
-        case .fetchDetailNotice(let id):
-            return "/\(id)"
+            case .fetchSimpleProfile:
+                return "/simple"
+            case .fetchDetailProfile:
+                return "/details"
         }
     }
     
@@ -37,11 +36,7 @@ extension NoticeAPI: PiCKAPI {
     }
     
     public var pickHeader: tokenType {
-        switch self {
-        default:
-            return .accessToken
-        }
-//        return .accessToken
+        return .accessToken
     }
 
     public var errorMap: [Int : PiCKError]? {

@@ -3,9 +3,11 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum ClassroomAPI {
-    case classroomMoveApply(floor: Int, classroom: String, startPeriod: Int, endPeriod: Int)
+    case classroomMoveApply(req: ClassRoomMoveRequestParams)
     case classroomReturn
 }
 
@@ -36,13 +38,13 @@ extension ClassroomAPI: PiCKAPI {
     
     public var task: Moya.Task {
         switch self {
-            case let .classroomMoveApply(floor, classroom, startPeriod, endPeriod):
+            case let .classroomMoveApply(req):
                 return .requestParameters(
                     parameters: [
-                        "floor": floor,
-                        "classroom_name": classroom,
-                        "start_period": startPeriod,
-                        "end_period": endPeriod
+                        "floor": req.floor,
+                        "classroom_name": req.classroomName,
+                        "start_period": req.startPeriod,
+                        "end_period": req.endPeriod
                     ],
                     encoding: JSONEncoding.default
                 )

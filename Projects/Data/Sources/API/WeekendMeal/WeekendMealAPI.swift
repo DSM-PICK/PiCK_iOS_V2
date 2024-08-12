@@ -3,6 +3,8 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum WeekendMealAPI {
     case weekendMealApply(status: WeekendMealType.RawValue)

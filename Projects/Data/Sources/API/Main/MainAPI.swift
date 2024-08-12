@@ -3,34 +3,39 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
-public enum TimeTableAPI{
-    case fetchTodayTimeTable
-    case fetchWeekTimeTable
+public enum MainAPI {
+    case fetchMainData
 }
 
-extension TimeTableAPI: PiCKAPI {
+extension MainAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .timeTable
+        return .main
     }
     
     public var urlPath: String {
         switch self {
-            case .fetchTodayTimeTable:
-                return "/today"
-            case .fetchWeekTimeTable:
-                return "/week"
+            case .fetchMainData:
+                return ""
         }
     }
     
     public var method: Moya.Method {
-        return .get
+        switch self {
+            case .fetchMainData:
+                return .get
+        }
     }
     
     public var task: Moya.Task {
-        return .requestPlain
+        switch self {
+            case .fetchMainData:
+                return .requestPlain
+        }
     }
     
     public var pickHeader: tokenType {

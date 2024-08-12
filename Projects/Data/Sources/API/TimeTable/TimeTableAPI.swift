@@ -3,22 +3,27 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
-public enum SchoolMealAPI {
-    case fetchSchoolMeal(date: String)
+public enum TimeTableAPI{
+    case fetchTodayTimeTable
+    case fetchWeekTimeTable
 }
 
-extension SchoolMealAPI: PiCKAPI {
+extension TimeTableAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .meal
+        return .timeTable
     }
     
     public var urlPath: String {
         switch self {
-            case .fetchSchoolMeal:
-                return "/date"
+            case .fetchTodayTimeTable:
+                return "/today"
+            case .fetchWeekTimeTable:
+                return "/week"
         }
     }
     
@@ -27,13 +32,7 @@ extension SchoolMealAPI: PiCKAPI {
     }
     
     public var task: Moya.Task {
-        switch self {
-            case .fetchSchoolMeal(let date):
-                return .requestParameters(
-                    parameters: ["date": date],
-                    encoding: URLEncoding.queryString
-                )
-        }
+        return .requestPlain
     }
     
     public var pickHeader: tokenType {
@@ -45,4 +44,3 @@ extension SchoolMealAPI: PiCKAPI {
     }
 
 }
-

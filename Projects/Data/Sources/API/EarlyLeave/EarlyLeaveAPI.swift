@@ -3,9 +3,11 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum EarlyLeaveAPI {
-    case earlyLeaveApply(reason: String, startTime: String)
+    case earlyLeaveApply(req: EarlyLeaveApplyRequestParams)
     case fetchEarlyLeavePass
 }
 
@@ -36,11 +38,11 @@ extension EarlyLeaveAPI: PiCKAPI {
     
     public var task: Moya.Task {
         switch self {
-            case let .earlyLeaveApply(reason, startTime):
+            case let .earlyLeaveApply(req):
                 return .requestParameters(
                     parameters: [
-                        "reason": reason,
-                        "start_time": startTime
+                        "reason": req.reason,
+                        "start_time": req.startTime
                     ],
                     encoding: JSONEncoding.default
                 )

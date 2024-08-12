@@ -3,9 +3,11 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum OutingAPI {
-    case outingApply(reason: String, startTime: String, endTime: String)
+    case outingApply(req: OutingApplyRequestParams)
     case fetchOutingPass
 }
 
@@ -36,12 +38,12 @@ extension OutingAPI: PiCKAPI {
     
     public var task: Moya.Task {
         switch self {
-        case let .outingApply(reason, startTime, endTime):
+        case let .outingApply(req):
             return .requestParameters(
                 parameters: [
-                    "reason": reason,
-                    "start_time": startTime,
-                    "end_time": endTime
+                    "reason": req.reason,
+                    "start_time": req.startTime,
+                    "end_time": req.endTime
                 ],
                 encoding: JSONEncoding.default
             )
