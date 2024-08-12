@@ -16,6 +16,7 @@ class BaseDataSource<API: PiCKAPI> {
 
     init(keychain: any Keychain) {
         self.keychain = keychain
+//        self.provider = MoyaProvider<API>(plugins: [JwtPlugin(keychain: keychain), MoyaLoggingPlugin()])
         self.provider = MoyaProvider<API>(plugins: [MoyaLoggingPlugin()])
     }
 
