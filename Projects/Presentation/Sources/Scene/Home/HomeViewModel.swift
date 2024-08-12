@@ -26,11 +26,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let viewModeData = PublishRelay<HomeViewType>()
 
     public func transform(input: Input) -> Output {
-        input.viewWillApper
-            .map { _ in UserDefaultsManager.shared.get(forKey: .homeViewMode)}
-            .subscribe(onNext: { [weak self] data in
-                self?.viewModeData.accept(data as! HomeViewType)
-            }).disposed(by: disposeBag)
+//        input.viewWillApper
+//            .map { _ in UserDefaultsManager.shared.get(forKey: .homeViewMode)}
+//            .subscribe(onNext: { [weak self] data in
+//                self?.viewModeData.accept(data as? HomeViewType ?? .timeTable)
+//            }).disposed(by: disposeBag)
 
         input.clickAlert
             .map { PiCKStep.alertIsRequired }
