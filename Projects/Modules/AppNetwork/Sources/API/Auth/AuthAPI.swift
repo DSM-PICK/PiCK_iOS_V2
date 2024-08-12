@@ -47,18 +47,13 @@ extension AuthAPI: PiCKAPI {
                 )
         default:
             return .requestPlain
-//            case .refreshToken(let refreshToken):
-//                return .requestParameters(
-//                    parameters: ["X-Refresh-Token": refreshToken],
-//                    encoding: JSONEncoding.default
-//                )
         }
     }
     
     public var pickHeader: tokenType {
         switch self {
         case .refreshToken:
-            return .accessToken
+            return .refreshToken
         default:
             return .tokenIsEmpty
         }
