@@ -3,35 +3,34 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
-public enum SelfStudyTeacherAPI {
-    case fetchSelfstudyTeacherCheck(date: String)
+public enum SchoolMealAPI {
+    case fetchSchoolMeal(date: String)
 }
 
-extension SelfStudyTeacherAPI: PiCKAPI {
+extension SchoolMealAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .selfStudy
+        return .meal
     }
     
     public var urlPath: String {
         switch self {
-            case .fetchSelfstudyTeacherCheck:
-                return "/today"
+            case .fetchSchoolMeal:
+                return "/date"
         }
     }
     
     public var method: Moya.Method {
-        switch self {
-            case .fetchSelfstudyTeacherCheck:
-                return .get
-        }
+        return .get
     }
     
     public var task: Moya.Task {
         switch self {
-            case .fetchSelfstudyTeacherCheck(let date):
+            case .fetchSchoolMeal(let date):
                 return .requestParameters(
                     parameters: ["date": date],
                     encoding: URLEncoding.queryString
@@ -48,3 +47,4 @@ extension SelfStudyTeacherAPI: PiCKAPI {
     }
 
 }
+

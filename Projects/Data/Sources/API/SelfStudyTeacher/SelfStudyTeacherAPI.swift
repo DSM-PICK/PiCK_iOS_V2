@@ -3,36 +3,41 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
-public enum MainAPI {
-    case fetchMainData
+public enum SelfStudyTeacherAPI {
+    case fetchSelfstudyTeacherCheck(date: String)
 }
 
-extension MainAPI: PiCKAPI {
+extension SelfStudyTeacherAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .main
+        return .selfStudy
     }
     
     public var urlPath: String {
         switch self {
-            case .fetchMainData:
-                return ""
+            case .fetchSelfstudyTeacherCheck:
+                return "/today"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-            case .fetchMainData:
+            case .fetchSelfstudyTeacherCheck:
                 return .get
         }
     }
     
     public var task: Moya.Task {
         switch self {
-            case .fetchMainData:
-                return .requestPlain
+            case .fetchSelfstudyTeacherCheck(let date):
+                return .requestParameters(
+                    parameters: ["date": date],
+                    encoding: URLEncoding.queryString
+                )
         }
     }
     

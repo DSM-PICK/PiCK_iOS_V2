@@ -3,9 +3,11 @@ import Foundation
 import Moya
 
 import Core
+import Domain
+import AppNetwork
 
 public enum ScheduleAPI {
-    case fetchMonthAcademicSchedule(year: String, month: MonthType.RawValue)
+    case fetchMonthAcademicSchedule(req: ScheduleRequestParams)
 }
 
 extension ScheduleAPI: PiCKAPI {
@@ -28,11 +30,11 @@ extension ScheduleAPI: PiCKAPI {
     
     public var task: Moya.Task {
         switch self {
-            case let .fetchMonthAcademicSchedule(year, month):
+            case let .fetchMonthAcademicSchedule(req):
                 return .requestParameters(
                     parameters: [
-                        "year": year,
-                        "month": month
+                        "year": req.year,
+                        "month": req.month
                     ],
                     encoding: URLEncoding.queryString
                 )
