@@ -21,11 +21,11 @@ class AuthRepositoryImpl: AuthRepository {
 //        return remoteDataSource.login(accountID: accountID, password: password)
 //            .asCompletable()
 //    }
-    func login(accountID: String, password: String) -> Completable {
+    func login(req: LoginRequestParams) -> Completable {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create {} }
 
-            self.remoteDataSource.login(accountID: accountID, password: password)
+            self.remoteDataSource.login(req: req)
                 .subscribe(onSuccess: { tokenData in
 //                    KeychainStorage.shared.id = accountID
 //                    KeychainStorage.shared.password = password
