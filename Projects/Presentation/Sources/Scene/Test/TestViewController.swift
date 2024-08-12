@@ -1,5 +1,4 @@
 import UIKit
-import AppNetwork
 
 import SnapKit
 import Then
@@ -12,17 +11,18 @@ import Moya
 
 import Core
 import Domain
+import AppNetwork
 import DesignSystem
 
 public class TestViewController: UIViewController, Stepper {
     public var steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
     private let keychain = KeychainImpl()
+//    private let interceptor = PiCKInterceptor
 
     private let button1 = PiCKButton(type: .system, buttonText: "login")
     private let button2 = PiCKButton(type: .system, buttonText: "test request")
     private let button3 = PiCKButton(type: .system, buttonText: "remove all")
-    private let calendar = PiCKCalendar(selectedDate: Date(), type: .month)
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,70 +32,62 @@ public class TestViewController: UIViewController, Stepper {
     public override func viewDidLayoutSubviews() {
         layout()
     }
+
     private func bind() {
         button1.rx.tap
             .bind {
-                self.navigationController?.pushViewController(OutingApplyViewController(viewModel: OutingApplyViewModel()), animated: true)
+                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
+                
+                provider.request(.login(accountID: "cyj513", password: "cyj070513##")) { res in
+                    switch res {
+                    case .success(let result):
+                        switch result.statusCode {
+                        case 200...299:
+                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
+                                print("로그인 성공")
+                                TokenStorage.shared.accessToken = data.accessToken
+                                TokenStorage.shared.refreshToken = data.refreshToken
+                            }
+                        default:
+                            print("Fail")
+                        }
+                    case .failure(let err):
+                        print(err.localizedDescription)
+                    }
+                }
             }.disposed(by: disposeBag)
-//        button1.rx.tap
-//            .bind {
-//                let provider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
-//                
-//                provider.request(.login(accountID: "wns513", password: "cyj070513##")) { res in
-//                    switch res {
-//                    case .success(let result):
-//                        switch result.statusCode {
-//                        case 200...299:
-//                            if let data = try? JSONDecoder().decode(TestDTO.self, from: result.data) {
-//                                print("성공이다")
-//                                TokenStorage.shared.accessToken = data.accessToken
-//                                TokenStorage.shared.refreshToken = data.refreshToken
-//                            }
-//                        default:
-//                            print("Fail")
-//                        }
-//                    case .failure(let err):
-//                        print(err.localizedDescription)
-//                    }
-//                }
-//            }.disposed(by: disposeBag)
-//        button2.rx.tap
-//            .bind {
-//                let provider = MoyaProvider<NoticeAPI>(plugins: [MoyaLoggingPlugin()])
-//                
-//                provider.request(.fetchNoticeList) { res in
-//                    switch res {
-//                    case .success(let result):
-//                        switch result.statusCode {
-//                        case 200...299:
-//                            print("성공이다")
-//                        default:
-//                            print("Fail")
-//                        }
-//                    case .failure(let err):
-//                        print(err.localizedDescription)
-//                    }
-//                }
-//            }.disposed(by: disposeBag)
-//        button3.rx.tap
-//            .bind {
-//                TokenStorage.shared.removeToken()
-//            }.disposed(by: disposeBag)
+        button2.rx.tap
+            .bind {
+                let provider = MoyaProvider<NoticeAPI>(session: Session(interceptor: PiCKInterceptor()), plugins: [MoyaLoggingPlugin()])
+                
+                provider.request(.fetchNoticeList) { res in
+                    switch res {
+                    case .success(let result):
+                        switch result.statusCode {
+                        case 200...299:
+                            print("공지 로드 성공")
+                        default:
+                            print("Fail")
+                        }
+                    case .failure(let err):
+                        print(err.localizedDescription)
+                    }
+                }
+            }.disposed(by: disposeBag)
+        button3.rx.tap
+            .bind {
+                TokenStorage.shared.removeToken()
+                print("토큰 삭제")
+            }.disposed(by: disposeBag)
     }
+
     private func layout() {
         [
             button1,
             button2,
             button3
-            //            calendar
         ].forEach { view.addSubview($0) }
-        
-        //        calendar.snp.makeConstraints {
-        //            $0.center.equalToSuperview()
-        //            $0.height.width.equalTo(390)
-        //            $0.height.equalTo(390)
-        //            $0.width.equalTo(200)
-//    }
+
         button1.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(100)
@@ -114,9 +106,6 @@ public class TestViewController: UIViewController, Stepper {
     }
 
 }
-
-
-import Foundation
 
 struct TestDTO: Codable {
     let accessToken: String

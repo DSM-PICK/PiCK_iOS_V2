@@ -22,7 +22,16 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         $0.distribution = .fillEqually
     }
 
-    private lazy var userInfoStackView = UIStackView().then {
+    private var userNameLabel = AllTabLabel(type: .contentLabel)
+    private var userBirthDayLabel = AllTabLabel(type: .contentLabel)
+    private var userSchoolIDLabel = AllTabLabel(type: .contentLabel)
+    private var userIDLabel = AllTabLabel(type: .contentLabel)
+    private lazy var userInfoStackView = UIStackView(arrangedSubviews: [
+        userNameLabel,
+        userBirthDayLabel,
+        userSchoolIDLabel,
+        userIDLabel
+    ]).then {
         $0.axis = .vertical
         $0.spacing = 32
         $0.alignment = .trailing
@@ -35,6 +44,21 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         navigationTitleText = "마이 페이지"
         setupMyPageLabel()
     }
+    public override func bind() {
+        let input = MyPageViewModel.Input(
+            viewWillAppear: viewWillAppearRelay.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        output.profileData.asObservable()
+            .bind(onNext: { [weak self] profileData in
+                self?.userNameLabel.text = profileData.name
+                self?.userBirthDayLabel.text = profileData.birthDay
+                self?.userSchoolIDLabel.text = "\(profileData.grade)\(profileData.classNum)\(profileData.num)"
+                self?.userIDLabel.text = profileData.accountID
+            }).disposed(by: disposeBag)
+    }
+
     public override func addView() {
         [
             profileImageView,
@@ -70,15 +94,6 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
                 text: title
             )
             userInfoLabelStackView.addArrangedSubview(titleLabel)
-        }
-        
-        let userInfoArry = ["조영준", "2007.05.13", "2413", "cyj513"]
-        for userInfo in userInfoArry {
-            let userInfoLabel = AllTabLabel(
-                type: .contentLabel,
-                text: userInfo
-            )
-            userInfoStackView.addArrangedSubview(userInfoLabel)
         }
     }
 

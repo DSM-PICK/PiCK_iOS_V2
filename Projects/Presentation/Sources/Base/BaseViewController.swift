@@ -32,6 +32,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     }
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewWillAppearRelay.accept(())
         bindAction()
     }
     open override func viewDidLayoutSubviews() {

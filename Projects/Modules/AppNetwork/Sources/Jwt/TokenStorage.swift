@@ -49,8 +49,8 @@ public class TokenStorage {
 
     public func removeToken() {
         self.accessToken = nil
-        self.refreshToken = nil
-        print(self.accessToken)
-        print(self.refreshToken)
+//        self.refreshToken = nil
+        print("액세스: \(self.accessToken!)")
+        print("리프레시: \(self.refreshToken!)")
     }
 }
