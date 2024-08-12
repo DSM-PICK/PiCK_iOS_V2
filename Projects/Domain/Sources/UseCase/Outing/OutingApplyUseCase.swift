@@ -10,7 +10,7 @@ public class OutingApplyUseCase {
         self.repository = repository
     }
 
-    public func execute(reason: String, startTime: String, endTime: String) -> Completable {
-        return repository.outingApply(reason: reason, startTime: startTime, endTime: endTime)
+    public func execute(req: OutingApplyRequestParams) -> Completable {
+        return repository.outingApply(req: req)
     }
 }
