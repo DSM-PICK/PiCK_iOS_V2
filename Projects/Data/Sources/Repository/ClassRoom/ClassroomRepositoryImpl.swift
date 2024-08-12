@@ -11,13 +11,8 @@ class ClassroomRepositoryImpl: ClassroomRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func classroomMoveApply(floor: Int, classroomName: String, startPeriod: Int, endPeriod: Int) -> Completable {
-        return remoteDataSource.classroomMoveApply(
-            floor: floor, 
-            classroomName: classroomName,
-            startPeriod: startPeriod,
-            endPeriod: endPeriod
-        )
+    func classroomMoveApply(req: ClassRoomMoveRequestParams) -> Completable {
+        return remoteDataSource.classroomMoveApply(req: req)
     }
     
     func classroomReturn() -> Completable {
