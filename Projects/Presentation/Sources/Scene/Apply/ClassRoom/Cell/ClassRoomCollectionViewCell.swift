@@ -43,6 +43,12 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
 //        self.classRoomLabel.text = model.classRoom
 //        self.layout()
 //    }
+    public func setup(
+        classRoom: String
+    ) {
+        self.classRoomLabel.text = classRoom
+        self.layout()
+    }
 
     public override func attribute() {
         super.attribute()
