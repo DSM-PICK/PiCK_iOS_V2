@@ -52,11 +52,10 @@ public class PiCKPickerContainerView: BaseView {
         }
         startPeriodPickerView.snp.makeConstraints {
             $0.height.equalTo(200)
-//            $0.width.equalTo(24)
             $0.width.equalTo(44)
         }
         endPeriodPickerView.snp.makeConstraints {
-            $0.width.equalTo(24)
+            $0.width.equalTo(44)
         }
         startPeriodStackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
