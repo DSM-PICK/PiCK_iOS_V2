@@ -59,7 +59,7 @@ public class PiCKTextField: BaseTextField {
     }
 
     public override func attribute() {
-        self.textColor = .black
+        self.textColor = .modeBlack
         self.font = .caption1
         self.backgroundColor = .gray50
         self.layer.cornerRadius = 4
