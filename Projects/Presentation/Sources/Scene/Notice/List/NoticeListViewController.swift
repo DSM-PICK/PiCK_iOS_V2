@@ -11,8 +11,7 @@ import Domain
 import DesignSystem
 
 public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
-    
-    private let noticeDetailRelay = PublishRelay<Void>()
+    private let clickNoticeCellRelay = PublishRelay<UUID>()
 
     private let bannerView = UIImageView(image: .noticeBanner)
     private lazy var bottomCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
@@ -30,8 +29,6 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
             NoticeCollectionViewCell.self,
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
-        $0.delegate = self
-        $0.dataSource = self
     }
     public override func attribute() {
         super.attribute()
@@ -40,7 +37,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
     public override func bind() {
         let input = NoticeListViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            clickNotice: noticeDetailRelay.asObservable()
+            clickNoticeCell: clickNoticeCellRelay.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -49,28 +46,18 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self
             )) { row, item, cell in
-//                cell.adapt(model: .init(id: <#T##UUID#>, title: <#T##String#>, createAt: <#T##String#>))
+                cell.adapt(model: item)
             }.disposed(by: disposeBag)
+
+        noticeCollectionView.rx.modelSelected(NoticeListEntityElement.self)
+            .subscribe(
+                onNext: { [weak self] data in
+                    self?.clickNoticeCellRelay.accept(data.id)
+                    print("cjlk")
+                }
+            )
+            .disposed(by: disposeBag)
     }
-//    public override func bind() {
-//        let input = NoticeListViewModel.Input(
-//            clickNotice: noticeDetailRelay.asObservable()
-//        )
-//        _ = viewModel.transform(input: input)
-//
-//        dd.bind(to: noticeCollectionView.rx.items(
-//            cellIdentifier: NoticeCollectionViewCell.identifier,
-//            cellType: NoticeCollectionViewCell.self
-//        )) { row, item, cell in
-//            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
-//        }.disposed(by: disposeBag)
-//        
-//        noticeCollectionView.rx.modelSelected(NoticeListEntityElement.self)
-//            .bind(onNext: { index in
-//                self.noticeDetailRelay.accept(())
-//                print(index)
-//            }).disposed(by: disposeBag)
-//    }
     public override func addView() {
         [
             bannerView,
@@ -88,44 +75,4 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
         }
     }
 
-}
-
-extension NoticeListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView
-            .dequeueReusableCell(
-                withReuseIdentifier: NoticeCollectionViewCell.identifier,
-                for: indexPath
-        ) as? NoticeCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-//        cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
-        return cell
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        _ = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath)
-        
-//        noticeDetailRelay.accept(())
-        self.navigationController?.pushViewController(NoticeDetailViewController(viewModel: NoticeDetailViewModel()), animated: true)
-        
-    }
-    
-}
-
-public struct NoticeListEntityElement {
-    public let id: UUID
-    public let title: String
-    public let createAt: String
-    
-    public init(id: UUID, title: String, createAt: String) {
-        self.id = id
-        self.title = title
-        self.createAt = createAt
-    }
 }

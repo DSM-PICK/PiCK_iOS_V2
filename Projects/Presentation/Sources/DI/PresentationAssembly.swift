@@ -113,7 +113,7 @@ public final class PresentationAssembly: Assembly {
             NoticeDetailViewController(viewModel: resolver.resolve(NoticeDetailViewModel.self)!)
         }
         container.register(NoticeDetailViewModel.self) { resolver in
-            NoticeDetailViewModel()
+            NoticeDetailViewModel(noticeDetailUseCase: resolver.resolve(FetchDetailNoticeUseCase.self)!)
         }
         //SelfStudy
         container.register(SelfStudyViewController.self) { resolver in
