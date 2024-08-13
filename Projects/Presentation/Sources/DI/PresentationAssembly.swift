@@ -107,7 +107,7 @@ public final class PresentationAssembly: Assembly {
             NoticeListViewController(viewModel: resolver.resolve(NoticeListViewModel.self)!)
         }
         container.register(NoticeListViewModel.self) { resolver in
-            NoticeListViewModel()
+            NoticeListViewModel(noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!)
         }
         container.register(NoticeDetailViewController.self) { resolver in
             NoticeDetailViewController(viewModel: resolver.resolve(NoticeDetailViewModel.self)!)

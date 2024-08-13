@@ -6,7 +6,7 @@ import Then
 import Core
 import DesignSystem
 
-public class SchoolMealHomeCell: BaseCollectionViewCell {
+public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
     
     static let identifier = "SchoolMealCollectionViewCell"
     

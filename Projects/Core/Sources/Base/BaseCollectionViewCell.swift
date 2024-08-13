@@ -3,10 +3,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-open class BaseCollectionViewCell: UICollectionViewCell {
-    
+open class BaseCollectionViewCell<Model>: UICollectionViewCell {
     public let disposeBag = DisposeBag()
-    
+
+    public var model: Model?
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()
@@ -31,5 +32,9 @@ open class BaseCollectionViewCell: UICollectionViewCell {
     open func layout() {
         //cell에 서브뷰를 추가하는 함수
     }
-    
+    open func adapt(model: Model) {
+        self.model = model
+        //cell 내용을 지정해 줄 모델을 연결하는 함수
+    }
+
 }

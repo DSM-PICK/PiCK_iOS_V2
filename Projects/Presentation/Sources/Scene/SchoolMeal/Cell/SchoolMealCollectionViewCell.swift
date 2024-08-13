@@ -6,7 +6,7 @@ import Then
 import Core
 import DesignSystem
 
-public class SchoolMealCollectionViewCell: BaseCollectionViewCell {
+public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
     static let identifier = "SchoolMealTableViewCell"
 
     private let mealTimeLabel = PiCKLabel(

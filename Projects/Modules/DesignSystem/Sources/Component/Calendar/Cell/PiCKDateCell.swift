@@ -5,7 +5,7 @@ import Then
 
 import Core
 
-public class PiCKDateCell: BaseCollectionViewCell {
+public class PiCKDateCell: BaseCollectionViewCell<DateModel> {
     static let identifier = "DateCell"
 
     public let dateLabel = PiCKLabel(
@@ -34,4 +34,14 @@ public class PiCKDateCell: BaseCollectionViewCell {
         }
     }
 
+}
+
+public struct DateModel {
+    let date: String?
+    let textColor: UIColor?
+
+    public init(date: String?, textColor: UIColor?) {
+        self.date = date
+        self.textColor = textColor
+    }
 }

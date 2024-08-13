@@ -7,12 +7,14 @@ import RxSwift
 import RxCocoa
 
 import Core
+import Domain
 import DesignSystem
 
-class NoticeCollectionViewCell: BaseCollectionViewCell {
-    
+class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityElement> {
     static let identifier = "NoticeCollectionViewCell"
-    
+
+    private var id: UUID = UUID()
+
     private let noticeImageView = UIImageView(image: .notice).then {
         $0.tintColor = .main300
     }
@@ -36,16 +38,15 @@ class NoticeCollectionViewCell: BaseCollectionViewCell {
         $0.isHidden = false
     }
     
-    public func setup(
-        title: String,
-        daysAgo: String,
-        isNew: Bool
-    ) {
-        self.titleLabel.text = title
-        self.daysAgoLabel.text = daysAgo
-        self.newNoticeIcon.isHidden = isNew
+    override func adapt(model: NoticeListEntityElement) {
+        super.adapt(model: model)
+
+        self.id = model.id
+        self.titleLabel.text = model.title
+        self.daysAgoLabel.text = model.createAt
+//        self.newNoticeIcon.isHidden = isNew
     }
-    
+
     override func layout() {
         [
             noticeImageView,
