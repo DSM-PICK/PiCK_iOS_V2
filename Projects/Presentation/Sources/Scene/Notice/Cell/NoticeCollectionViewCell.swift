@@ -10,7 +10,7 @@ import Core
 import Domain
 import DesignSystem
 
-class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityElement> {
+public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityElement> {
     static let identifier = "NoticeCollectionViewCell"
 
     private var id: UUID = UUID()
@@ -38,7 +38,7 @@ class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityElement> 
         $0.isHidden = false
     }
     
-    override func adapt(model: NoticeListEntityElement) {
+    public override func adapt(model: NoticeListEntityElement) {
         super.adapt(model: model)
 
         self.id = model.id
@@ -47,7 +47,7 @@ class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityElement> 
 //        self.newNoticeIcon.isHidden = isNew
     }
 
-    override func layout() {
+    public override func layout() {
         [
             noticeImageView,
             titleStackView,

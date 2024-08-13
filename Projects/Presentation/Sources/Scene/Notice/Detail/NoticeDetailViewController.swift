@@ -10,7 +10,10 @@ import Core
 import DesignSystem
 
 public class NoticeDetailViewController: BaseViewController<NoticeDetailViewModel> {
-    
+    private let loadNoticeDetailRelay = PublishRelay<UUID>()
+
+    public var id: UUID = UUID()
+
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .subTitle1
@@ -47,7 +50,24 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
 
         navigationTitleText = "공지사항"
     }
-    
+
+    public override func bindAction() {
+        loadNoticeDetailRelay.accept(id)
+    }
+    public override func bind() {
+        let input = NoticeDetailViewModel.Input(
+            viewWillAppear: loadNoticeDetailRelay.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        output.noticeDetailData.asObservable()
+            .bind(onNext: { [weak self] noticeData in
+                self?.titleLabel.text = noticeData.title
+                self?.dateLabel.text = noticeData.createAt
+                self?.teacherNameLabel.text = noticeData.teacher
+                self?.contentLabel.text = noticeData.content
+            }).disposed(by: disposeBag)
+    }
     public override func addView() {
         [
             titleLabel,
