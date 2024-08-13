@@ -32,9 +32,15 @@ public final class RepositoryAssembly: Assembly {
             ProfileRepositoryImpl(remoteDataSource: resolver.resolve(ProfileDataSource.self)!)
         }
 
-//        container.register(ScheduleRepository.self) { resolver in
-//            ScheduleRepositoryImpl(remoteDataSource: resolver.resolve(ScheduleDataSource.self)!)
-//        }
+        container.register(TimeTableRepository.self) { resolver in
+            TimeTableRepositoryImpl(remoteDataSource: resolver.resolve(TimeTableDataSource.self)!)
+        }
+
+        container.register(AcademicScheduleRepository.self) { resolver in
+            AcademicScheduleRepositoryImpl(
+                remoteDataSource: resolver.resolve(AcademicScheduleDataSource.self)!
+            )
+        }
 
         container.register(SchoolMealRepository.self) { resolver in
             SchoolMealRepositoryImpl(remoteDataSource: resolver.resolve(SchoolMealDataSource.self)!)

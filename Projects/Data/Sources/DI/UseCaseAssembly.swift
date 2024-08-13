@@ -15,6 +15,15 @@ public final class UseCaseAssembly: Assembly {
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
+        //MARK: SchoolMeal
+        container.register(FetchSchoolMealUseCase.self) { resolver in
+            FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
+        }
+        //MARK: Schedule
+        //TimeTable
+        container.register(FetchTodayTimeTableUseCase.self) { resolver in
+            FetchTodayTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
+        }
 
         //MARK: AllTab
         container.register(FetchDetailProfileUseCase.self) { resolver in
