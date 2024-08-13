@@ -74,10 +74,9 @@ public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveA
             .bind(to: classRoomCollectionView.rx.items(
                 cellIdentifier: ClassRoomCollectionViewCell.identifier,
                 cellType: ClassRoomCollectionViewCell.self
-            )) { row, element, cell in
-                cell.setup(classRoom: element)
-            }
-            .disposed(by: disposeBag)
+            )) { row, item, cell in
+//                cell.adapt(model: .init(classRoom: [item]))
+            }.disposed(by: disposeBag)
         
         classRoomCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] _ in

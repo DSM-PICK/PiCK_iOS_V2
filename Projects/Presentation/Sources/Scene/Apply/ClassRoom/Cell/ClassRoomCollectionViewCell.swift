@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class ClassRoomCollectionViewCell: BaseCollectionViewCell {
+public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
     static let identifier = "ClassRoomCollectionViewCell"
 
     public override var isSelected: Bool {
@@ -37,12 +37,12 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func setup(
-        classRoom: String
-    ) {
-        self.classRoomLabel.text = classRoom
-        self.layout()
-    }
+//    public override func adapt(model: ClassRoomModel) {
+//        super.adapt(model: model)
+//
+//        self.classRoomLabel.text = model.classRoom
+//        self.layout()
+//    }
 
     public override func attribute() {
         super.attribute()

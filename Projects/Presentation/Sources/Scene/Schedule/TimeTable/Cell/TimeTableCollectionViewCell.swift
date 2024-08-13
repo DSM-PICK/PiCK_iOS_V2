@@ -6,7 +6,7 @@ import Then
 import Core
 import DesignSystem
 
-public class TimeTableCollectionViewCell: BaseCollectionViewCell {
+public class TimeTableCollectionViewCell: BaseCollectionViewCell<Any> {
     
     static let identifier = "TimeTableCollectionViewCell"
     
