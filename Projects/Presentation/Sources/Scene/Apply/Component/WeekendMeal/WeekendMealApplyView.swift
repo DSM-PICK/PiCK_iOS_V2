@@ -12,16 +12,16 @@ import DesignSystem
 public class WeekendMealApplyView: BaseView {
     public var applyState: Bool = false
     private let applyDate = Date()
-    let calendar = Calendar.current
-    lazy var nextMonth = calendar.date(byAdding: .month, value: 1, to: applyDate)
+    private let calendar = Calendar.current
+    private lazy var nextMonth = calendar.date(byAdding: .month, value: 1, to: applyDate)
 
     private lazy var currnetMonthWeekendMealApplyLabel = PiCKLabel(
         text: "\(nextMonth?.toString(type: .month) ?? "Error") 주말 급식 신청",
         textColor: .modeBlack,
         font: .body1
     )
-    private let applyButton = WeekendMealApplyButton(type: .system, buttonText: "신청")
-    private let notApplyButton = WeekendMealApplyButton(type: .system, buttonText: "미신청")
+    private let applyButton = WeekendMealApplyButton(buttonText: "신청")
+    private let notApplyButton = WeekendMealApplyButton(buttonText: "미신청")
     private lazy var buttonStackView = UIStackView(arrangedSubviews: [
         applyButton,
         notApplyButton
@@ -33,22 +33,25 @@ public class WeekendMealApplyView: BaseView {
 
     public override func attribute() {
         super.attribute()
-        
+
         self.backgroundColor = .gray50
         self.layer.cornerRadius = 8
     }
     public override func bind() {
-        applyButton.buttonTap
-            .bind {
-                print("click ApplyButton")
-                print(self.applyButton.isSelected)
-            }.disposed(by: disposeBag)
-        notApplyButton.buttonTap
-            .bind {
-                print("click NotApplyButton")
-                print(self.notApplyButton.isSelected)
-            }.disposed(by: disposeBag)
-    }
+          applyButton.buttonTap
+              .bind(onNext: { [weak self] in
+                  self?.applyButton.isSelected = true
+                  self?.notApplyButton.isSelected = false
+                  self?.applyState = true
+              }).disposed(by: disposeBag)
+
+          notApplyButton.buttonTap
+            .bind(onNext: { [weak self] in
+                  self?.notApplyButton.isSelected = true
+                  self?.applyButton.isSelected = false
+                  self?.applyState = false
+              }).disposed(by: disposeBag)
+      }
     public override func layout() {
         [
             currnetMonthWeekendMealApplyLabel,
