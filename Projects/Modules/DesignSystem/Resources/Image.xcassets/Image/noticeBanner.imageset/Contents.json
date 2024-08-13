@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "noticeBanner.svg",
+      "filename" : "noticeBanner.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "blackNoticeBanner.svg",
+      "filename" : "blackNoticeBanner.png",
       "idiom" : "universal"
     }
   ],

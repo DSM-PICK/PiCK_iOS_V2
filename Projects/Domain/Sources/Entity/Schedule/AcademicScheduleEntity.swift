@@ -20,7 +20,6 @@ public struct AcademicScheduleEntityElement {
         self.day = day
         self.dayName = dayName
     }
-    
 }
 
 public typealias AcademicScheduleEntity = [AcademicScheduleEntityElement]

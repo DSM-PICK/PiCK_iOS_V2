@@ -68,6 +68,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
         bannerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(116)
         }
         noticeCollectionView.snp.makeConstraints {
             $0.top.equalTo(bannerView.snp.bottom).offset(12)

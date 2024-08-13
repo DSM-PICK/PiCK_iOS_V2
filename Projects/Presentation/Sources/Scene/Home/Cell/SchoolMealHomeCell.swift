@@ -4,9 +4,10 @@ import SnapKit
 import Then
 
 import Core
+import Domain
 import DesignSystem
 
-public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
+public class SchoolMealHomeCell: BaseCollectionViewCell<[SchoolMealEntityElement]> {
     
     static let identifier = "SchoolMealCollectionViewCell"
     
@@ -20,6 +21,11 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
         cornerRadius: 12
     )
 
+    public override func adapt(model: [SchoolMealEntityElement]) {
+        super.adapt(model: model)
+
+//        self.menuLabel.text = model.meals.mealBundle[1]
+    }
     public func setup(
         mealTime: String,
         menu: String,
