@@ -78,12 +78,11 @@ extension TimeTableBackgroundViewCell: UICollectionViewDelegate, UICollectionVie
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimeTableCollectionViewCell.identifier, for: indexPath) as? TimeTableCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.setup(period: 1, image: .alert, subject: "fjdskl")
         return cell
     }
 

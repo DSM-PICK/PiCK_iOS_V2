@@ -37,9 +37,13 @@ public final class DataSourceAssembly: Assembly {
             ProfileDataSourceImpl(keychain: self.keychain(resolver))
         }
 
-//        container.register(ScheduleDataSource.self) { resolver in
-//            ScheduleDataSourceImpl(keychain: self.keychain(resolver))
-//        }
+        container.register(TimeTableDataSource.self) { resolver in
+            TimeTableDataSourceImpl(keychain: self.keychain(resolver))
+        }
+
+        container.register(AcademicScheduleDataSource.self) { resolver in
+            AcademicScheduleDataSourceImpl(keychain: self.keychain(resolver))
+        }
 
         container.register(SchoolMealDataSource.self) { resolver in
             SchoolMealDataSourceImpl(keychain: self.keychain(resolver))
