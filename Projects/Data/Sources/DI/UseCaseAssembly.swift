@@ -21,6 +21,11 @@ public final class UseCaseAssembly: Assembly {
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
         }
 
+        //MARK: Notice
+        container.register(FetchNoticeListUseCase.self) { resolver in
+            FetchNoticeListUseCase(repository: resolver.resolve(NoticeRepository.self)!)
+        }
+
     }
 
 }

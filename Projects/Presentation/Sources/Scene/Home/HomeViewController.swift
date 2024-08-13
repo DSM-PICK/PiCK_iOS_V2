@@ -237,7 +237,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             
-            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
+//            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
             return cell
         }
     }

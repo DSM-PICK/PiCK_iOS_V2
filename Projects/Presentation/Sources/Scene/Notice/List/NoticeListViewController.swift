@@ -7,6 +7,7 @@ import RxSwift
 import RxCocoa
 
 import Core
+import Domain
 import DesignSystem
 
 public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
@@ -36,9 +37,21 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
         super.attribute()
         navigationTitleText = "공지사항"
     }
-    let dd = BehaviorRelay<[NoticeListEntityElement]>(value: [
-        NoticeListEntityElement(id: UUID(), title: "test", createAt: "fjdskl")
-    ])
+    public override func bind() {
+        let input = NoticeListViewModel.Input(
+            viewWillAppear: viewWillAppearRelay.asObservable(),
+            clickNotice: noticeDetailRelay.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        output.noticeListData.asObservable()
+            .bind(to: noticeCollectionView.rx.items(
+                cellIdentifier: NoticeCollectionViewCell.identifier,
+                cellType: NoticeCollectionViewCell.self
+            )) { row, item, cell in
+//                cell.adapt(model: .init(id: <#T##UUID#>, title: <#T##String#>, createAt: <#T##String#>))
+            }.disposed(by: disposeBag)
+    }
 //    public override func bind() {
 //        let input = NoticeListViewModel.Input(
 //            clickNotice: noticeDetailRelay.asObservable()
@@ -91,7 +104,7 @@ extension NoticeListViewController: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionViewCell()
         }
         
-        cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
+//        cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
         return cell
     }
     
