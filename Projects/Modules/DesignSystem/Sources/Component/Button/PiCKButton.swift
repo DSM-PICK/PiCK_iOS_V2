@@ -26,12 +26,12 @@ public class PiCKButton: BaseButton {
         super.init(frame: frame)
     }
     convenience public init(
-        type: UIButton.ButtonType,
+        type: UIButton.ButtonType? = .system,
         buttonText: String? = String(),
         isEnabled: Bool? = true,
         isHidden: Bool? = false
     ) {
-        self.init(type: type)
+        self.init(type: .system)
         self.setTitle(buttonText, for: .normal)
         self.isEnabled = isEnabled ?? true
         self.isHidden = isHidden ?? false
