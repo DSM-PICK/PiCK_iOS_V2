@@ -20,13 +20,13 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
     
     public struct Input {
         let viewWillAppear: Observable<Void>
-        let clickNotice: Observable<Void>
+        let clickNoticeCell: Observable<UUID>
     }
     public struct Output {
-        let noticeListData: Signal<NoticeListEntity>
+        let noticeListData: Driver<NoticeListEntity>
     }
 
-    private let noticeListData = PublishRelay<NoticeListEntity>()
+    private let noticeListData = BehaviorRelay<NoticeListEntity>(value: [])
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -40,12 +40,14 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
             .bind(to: noticeListData)
             .disposed(by: disposeBag)
 
-        input.clickNotice
-            .map { PiCKStep.noitceDetailIsRequired }
+        input.clickNoticeCell
+            .map { id in
+                PiCKStep.noitceDetailIsRequired(id: id)
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        return Output(noticeListData: noticeListData.asSignal())
+        return Output(noticeListData: noticeListData.asDriver())
     }
     
 }

@@ -51,9 +51,9 @@ public class AllTabFlow: Flow {
     private func navigateToNotice() -> FlowContributors {
         let noticeFlow = NoticeFlow(container: self.container)
 
-        Flows.use(noticeFlow, when: .created) { [weak self] root in
+        Flows.use(noticeFlow, when: .created) { root in
             root.hidesBottomBarWhenPushed = true
-            self?.rootViewController.pushViewController(root, animated: true)
+            self.rootViewController.pushViewController(root, animated: true)
         }
 
         return .one(flowContributor: .contribute(
