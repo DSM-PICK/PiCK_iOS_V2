@@ -6,11 +6,11 @@ import Core
 import Domain
 import AppNetwork
 
-public enum ScheduleAPI {
-    case fetchMonthAcademicSchedule(req: ScheduleRequestParams)
+public enum AcademicScheduleAPI {
+    case fetchMonthAcademicSchedule(req: AcademicScheduleRequestParams)
 }
 
-extension ScheduleAPI: PiCKAPI {
+extension AcademicScheduleAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {

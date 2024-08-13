@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ScheduleRequestParams: Encodable {
+public struct AcademicScheduleRequestParams: Encodable {
     public let year: String
     public let month: String
 

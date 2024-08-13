@@ -5,9 +5,9 @@ import RxSwift
 import Core
 
 public class FetchTodayTimeTableUseCase {
-    let repository: ScheduleRepository
+    let repository: TimeTableRepository
     
-    public init(repository: ScheduleRepository) {
+    public init(repository: TimeTableRepository) {
         self.repository = repository
     }
     
