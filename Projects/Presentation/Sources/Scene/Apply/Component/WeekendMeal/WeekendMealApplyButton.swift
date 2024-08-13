@@ -31,11 +31,11 @@ public class WeekendMealApplyButton: BaseButton {
         super.init(frame: frame)
     }
     convenience public init(
-        type: UIButton.ButtonType,
+        type: UIButton.ButtonType? = .system,
         buttonText: String,
         isSelected: Bool? = false
     ) {
-        self.init(type: type)
+        self.init(type: type ?? .system)
         self.setTitle(buttonText, for: .normal)
         self.isSelected = isSelected ?? false
         self.isEnabled = !(isSelected ?? true)
