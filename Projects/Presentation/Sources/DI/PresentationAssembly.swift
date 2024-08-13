@@ -32,7 +32,9 @@ public final class PresentationAssembly: Assembly {
             HomeViewController(viewModel: resolver.resolve(HomeViewModel.self)!)
         }
         container.register(HomeViewModel.self) { resolver in
-            HomeViewModel()
+            HomeViewModel(
+                noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!
+            )
         }
         //Alert
         container.register(AlertViewController.self) { resolver in

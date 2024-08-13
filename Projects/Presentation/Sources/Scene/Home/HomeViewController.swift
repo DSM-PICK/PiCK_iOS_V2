@@ -57,8 +57,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 forCellWithReuseIdentifier: SchoolMealHomeCell.identifier
             )
 //        }
-        $0.delegate = self
-        $0.dataSource = self
+//        $0.delegate = self
+//        $0.dataSource = self
     }
     private let selfStudyBannerView = PiCKMainBannerView()
     private let recentNoticeLabel = PiCKLabel(
@@ -93,8 +93,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             NoticeCollectionViewCell.self,
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
-        $0.delegate = self
-        $0.dataSource = self
+//        $0.delegate = self
+//        $0.dataSource = self
     }
 
     public override func configureNavgationBarLayOutSubviews() {
@@ -115,6 +115,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 let type = UserDefaultsManager.shared.get(forKey: .homeViewMode)
                 self.homeViewType = type as! HomeViewType
             }).disposed(by: disposeBag)
+        
+        output.noticeListData.asObservable()
+            .bind(to: bottomCollectionView.rx.items(
+                cellIdentifier: NoticeCollectionViewCell.identifier,
+                cellType: NoticeCollectionViewCell.self
+            )) { row, item, cell in
+                cell.adapt(model: item)
+            }.disposed(by: disposeBag)
 //        viewMoreButton.rx.tap
 //            .bind {
 //               let dd = UserDefaultsManager.shared.get(forKey: .homeViewMode)
@@ -199,47 +207,47 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
 }
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == topCollectionView {
-            return 7
-        } else {
-            return 6
-        }
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == topCollectionView {
-            switch homeViewType {
-            case .timeTable:
-                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: TimeTableCollectionViewCell.identifier, for: indexPath) as? TimeTableCollectionViewCell else {
-                    return UICollectionViewCell()
-                }
-                cell.setup(
-                    period: indexPath.row + 1,
-                    image: .alert,
-                    subject: "디지털 포렌식"
-                )
-                return cell
-            case .schoolMeal:
-                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: SchoolMealHomeCell.identifier, for: indexPath) as? SchoolMealHomeCell else {
-                    return UICollectionViewCell()
-                }
-                cell.setup(
-                    mealTime: "조식",
-                    menu: "녹두찰밥\n스팸구이\n시리얼(블루베리)\n우유\n한우궁중떡볶이\n미니고구마파이",
-                    kcal: "735.9kcal"
-                )
-                return cell
-            }
-        } else {
-            guard let cell = bottomCollectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            
-//            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
-            return cell
-        }
-    }
-
-}
+//extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if collectionView == topCollectionView {
+//            return 7
+//        } else {
+//            return 6
+//        }
+//    }
+//
+//    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        if collectionView == topCollectionView {
+//            switch homeViewType {
+//            case .timeTable:
+//                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: TimeTableCollectionViewCell.identifier, for: indexPath) as? TimeTableCollectionViewCell else {
+//                    return UICollectionViewCell()
+//                }
+//                cell.setup(
+//                    period: indexPath.row + 1,
+//                    image: .alert,
+//                    subject: "디지털 포렌식"
+//                )
+//                return cell
+//            case .schoolMeal:
+//                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: SchoolMealHomeCell.identifier, for: indexPath) as? SchoolMealHomeCell else {
+//                    return UICollectionViewCell()
+//                }
+//                cell.setup(
+//                    mealTime: "조식",
+//                    menu: "녹두찰밥\n스팸구이\n시리얼(블루베리)\n우유\n한우궁중떡볶이\n미니고구마파이",
+//                    kcal: "735.9kcal"
+//                )
+//                return cell
+//            }
+//        } else {
+//            guard let cell = bottomCollectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell else {
+//                return UICollectionViewCell()
+//            }
+//            
+////            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
+//            return cell
+//        }
+//    }
+//
+//}
