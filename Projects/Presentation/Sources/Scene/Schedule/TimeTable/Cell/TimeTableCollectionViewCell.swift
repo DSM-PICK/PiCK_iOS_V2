@@ -3,10 +3,13 @@ import UIKit
 import SnapKit
 import Then
 
+import Kingfisher
+
 import Core
+import Domain
 import DesignSystem
 
-public class TimeTableCollectionViewCell: BaseCollectionViewCell<Any> {
+public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntityElement> {
     
     static let identifier = "TimeTableCollectionViewCell"
     
@@ -14,15 +17,13 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<Any> {
     private let subjectImageView = UIImageView()
     private let subjectLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     
-    public func setup(
-        period: Int,
-        image: UIImage,
-        subject: String
-    ) {
-        self.periodLabel.text = "\(period)교시"
-        self.periodLabel.changePointColor(targetString: "\(period)", color: .main500)
-        self.subjectImageView.image = image
-        self.subjectLabel.text = subject
+    public override func adapt(model: TimeTableEntityElement) {
+        super.adapt(model: model)
+
+        self.periodLabel.text = "\(model.period)교시"
+        self.periodLabel.changePointColor(targetString: "\(model.period)", color: .main500)
+        self.subjectImageView.kf.setImage(with: URL(string: model.subjectImage)!)
+        self.subjectLabel.text = model.subjectName
     }
     
     public override func layout() {
@@ -39,6 +40,7 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<Any> {
         subjectImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(periodLabel.snp.trailing).offset(32)
+            $0.width.height.equalTo(28)
         }
         subjectLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()

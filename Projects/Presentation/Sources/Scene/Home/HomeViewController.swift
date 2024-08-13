@@ -11,6 +11,7 @@ import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
     private let viewModeRelay = PublishRelay<HomeViewType>()
+    private let loadSchoolMealRelay = PublishRelay<String>()
 
     private lazy var homeViewType: HomeViewType = .timeTable
     private let scrollView = UIScrollView().then {
@@ -115,7 +116,15 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 let type = UserDefaultsManager.shared.get(forKey: .homeViewMode)
                 self.homeViewType = type as! HomeViewType
             }).disposed(by: disposeBag)
-        
+
+        output.timetableData.asObservable()
+            .bind(to: topCollectionView.rx.items(
+                cellIdentifier: TimeTableCollectionViewCell.identifier,
+                cellType: TimeTableCollectionViewCell.self
+            )) { row, item, cell in
+                cell.adapt(model: item)
+            }.disposed(by: disposeBag)
+
         output.noticeListData.asObservable()
             .bind(to: bottomCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
