@@ -9,7 +9,7 @@ import Core
 import Domain
 import DesignSystem
 
-public class TimeTableBackgroundViewCell: BaseCollectionViewCell {
+public class TimeTableBackgroundViewCell: BaseCollectionViewCell<Any> {
     static let identifier = "scrollTimeTableViewCellID"
 
 //    private lazy var timeTableData = PublishRelay<[TimeTableEntityElement]>()

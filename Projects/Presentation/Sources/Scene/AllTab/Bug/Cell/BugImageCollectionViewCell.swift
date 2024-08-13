@@ -6,7 +6,7 @@ import Then
 import Core
 import DesignSystem
 
-public class BugImageCollectionViewCell: BaseCollectionViewCell {
+public class BugImageCollectionViewCell: BaseCollectionViewCell<Any> {
 
     static let identifier = "BugImageCollectionViewCell"
 
