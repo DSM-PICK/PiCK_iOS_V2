@@ -73,7 +73,8 @@ public final class PresentationAssembly: Assembly {
             ClassRoomMoveApplyViewController(viewModel: resolver.resolve(ClassRoomMoveApplyViewModel.self)!)
         }
         container.register(ClassRoomMoveApplyViewModel.self) { resolver in
-            ClassRoomMoveApplyViewModel()
+            ClassRoomMoveApplyViewModel(
+                classRoomMoveApplyUseCase: resolver.resolve(ClassroomMoveApplyUseCase.self)!)
         }
         //Outing
         container.register(OutingApplyViewController.self) { resolver in
