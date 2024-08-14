@@ -5,9 +5,9 @@ import RxSwift
 import Domain
 
 class ClassroomRepositoryImpl: ClassroomRepository {
-    let remoteDataSource: ClassroomDataSourceImpl
+    let remoteDataSource: ClassroomDataSource
 
-    init(remoteDataSource: ClassroomDataSourceImpl) {
+    init(remoteDataSource: ClassroomDataSource) {
         self.remoteDataSource = remoteDataSource
     }
 
