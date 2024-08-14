@@ -12,6 +12,8 @@ public class PiCKLabel: BaseLabel {
         alignment: NSTextAlignment? = .left,
         backgroundColor: UIColor? = .clear,
         cornerRadius: CGFloat? = 0,
+        borderColor: UIColor? = .clear,
+        borderWidth: CGFloat? = 0,
         isHidden: Bool? = false
     ) {
         super.init(frame: .zero)
@@ -23,6 +25,8 @@ public class PiCKLabel: BaseLabel {
             alignment: alignment,
             backgroundColor: backgroundColor,
             cornerRadius: cornerRadius,
+            borderColor: borderColor,
+            borderWidth: borderWidth,
             isHidden: isHidden
         )
     }
@@ -38,6 +42,8 @@ public class PiCKLabel: BaseLabel {
         alignment: NSTextAlignment?,
         backgroundColor: UIColor?,
         cornerRadius: CGFloat?,
+        borderColor: UIColor? = .clear,
+        borderWidth: CGFloat? = 0,
         isHidden: Bool?
     ) {
         self.text = text
@@ -47,6 +53,7 @@ public class PiCKLabel: BaseLabel {
         self.textAlignment = alignment ?? .left
         self.backgroundColor = backgroundColor
         self.layer.cornerRadius = cornerRadius ?? 0
+        self.layer.border(color: borderColor, width: borderWidth ?? 0)
         self.isHidden = isHidden ?? false
         self.clipsToBounds = true
     }
