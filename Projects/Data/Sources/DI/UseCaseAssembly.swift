@@ -25,6 +25,12 @@ public final class UseCaseAssembly: Assembly {
             FetchTodayTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
         }
 
+        //MARK: Apply
+        //ClassRoom
+        container.register(ClassroomMoveApplyUseCase.self) { resolver in
+            ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
+        }
+
         //MARK: AllTab
         container.register(FetchDetailProfileUseCase.self) { resolver in
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
