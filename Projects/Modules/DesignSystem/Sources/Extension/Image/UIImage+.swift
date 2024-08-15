@@ -27,6 +27,8 @@ public extension UIImage {
     static let myPage = DesignSystemAsset.Image.myPage.image
     static let logout = DesignSystemAsset.Image.logout.image
     static let imageIcon = DesignSystemAsset.Image.image.image
+    static let checkIcon = DesignSystemAsset.Image.check.image
+    static let failIcon = DesignSystemAsset.Image.fail.image
     //MARK: TabBarIcon
     static let homeIcon = DesignSystemAsset.Image.homeIcon.image
     static let schoolMealIcon = DesignSystemAsset.Image.schoolMealIcon.image
