@@ -12,9 +12,9 @@ public final class RepositoryAssembly: Assembly {
             AuthRepositoryImpl(remoteDataSource: resolver.resolve(AuthDataSource.self)!)
         }
 
-//        container.register(ClassroomRepository.self) { resolver in
-//            ClassroomRepositoryImpl(remoteDataSource: resolver.resolve(ClassroomDataSource.self)!)
-//        }
+        container.register(ClassroomRepository.self) { resolver in
+            ClassroomRepositoryImpl(remoteDataSource: resolver.resolve(ClassroomDataSource.self)!)
+        }
 
 //        container.register(MainRepository.self) { resolver in
 //            m(remoteDataSource: resolver.resolve(AuthDataSource.self)!)

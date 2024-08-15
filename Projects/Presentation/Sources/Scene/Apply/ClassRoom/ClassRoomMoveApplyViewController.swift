@@ -10,6 +10,12 @@ import Core
 import DesignSystem
 
 public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveApplyViewModel> {
+    
+    private let classRoomMoveApplyRelay = PublishRelay<Void>()
+    private var classRoomText = BehaviorRelay<String>(value: "")
+    private var startPeriod = BehaviorRelay<Int>(value: 1)
+    private var endPeriod = BehaviorRelay<Int>(value: 1)
+    private lazy var selectedSegemetedControlIndex = BehaviorRelay<Int>(value: 1)
     private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classRoomData.firstFloor)
 
     private let classRoomData = ClassRoomData.shared
@@ -50,8 +56,25 @@ public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveA
         navigationTitleText = "교실 이동 신청"
     }
     public override func bind() {
+        let input = ClassRoomMoveApplyViewModel.Input(
+            floorText: selectedSegemetedControlIndex.asObservable(),
+            classRoomText: classRoomText.asObservable(),
+            startPeriod: startPeriod.asObservable(),
+            endPeriod: endPeriod.asObservable(),
+            clickClassRoomMoveApply: classRoomMoveApplyRelay.asObservable()
+        )
+
+        let output = viewModel.transform(input: input)
+
+        output.isApplyButtonEnable.asObservable()
+            .bind(onNext: { [weak self] isEnabled in
+                self?.nextButton.isEnabled = isEnabled
+            }).disposed(by: disposeBag)
+
         floorSegmentedControl.rx.selectedSegmentIndex
             .map { [weak self] index -> [String] in
+                self?.selectedSegemetedControlIndex.accept(index + 1)
+                self?.classRoomText.accept("")
                 switch index {
                 case 0: 
                     return self?.classRoomData.firstFloor ?? []
@@ -80,16 +103,23 @@ public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveA
             }.disposed(by: disposeBag)
         
         classRoomCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] _ in
-                self?.nextButton.isEnabled = true
+            .subscribe(onNext: { [weak self] index in
+                self?.classRoomText.accept(
+                    self?.currentFloorClassroomArray.value[index.row] ?? ""
+                )
             }).disposed(by: disposeBag)
         
         nextButton.buttonTap
             .bind {
                 let vc = PiCKApplyTimePickerAlert()
+                vc.selectedPeriod = { [weak self] startPeriod, endPeriod in
+                    self?.startPeriod.accept(startPeriod)
+                    self?.endPeriod.accept(endPeriod)
+                }
+                vc.clickApplyButton = { [weak self] in
+                    self?.classRoomMoveApplyRelay.accept(())
+                }
                 self.presentAsCustomDents(view: vc, height: 406)
-                self.nextButton.isEnabled = true
-                //TODO: alert에서 배경 클릭 또는 확인 버튼만 dismiss 가능하게 uiview는 안되는걸로
             }.disposed(by: disposeBag)
         
     }

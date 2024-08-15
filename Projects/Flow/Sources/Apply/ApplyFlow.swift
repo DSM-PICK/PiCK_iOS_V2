@@ -4,6 +4,7 @@ import RxFlow
 import Swinject
 
 import Core
+import DesignSystem
 import Presentation
 
 public class ApplyFlow: Flow {
@@ -31,6 +32,8 @@ public class ApplyFlow: Flow {
             return navigateToOutingApply()
         case .earlyLeaveApplyIsRequired:
             return navigateToEarlyLeaveApply()
+        case let .applyAlertIsRequired(successType, alertType):
+            return popupAlert(successType: successType, alertType: alertType)
         default:
             return .none
         }
@@ -87,6 +90,17 @@ public class ApplyFlow: Flow {
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
         ))
+    }
+
+    private func popupAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+        let alert = PiCKDisappearAlert(
+            successType: successType,
+            alertType: alertType
+        )
+        alert.modalPresentationStyle = .overFullScreen
+        alert.modalTransitionStyle = .crossDissolve
+        self.rootViewController.present(alert, animated: true)
+        return .none
     }
 
 }

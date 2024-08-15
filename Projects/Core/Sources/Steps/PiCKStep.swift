@@ -20,6 +20,7 @@ public enum PiCKStep: Step {
 
     //MARK: apply
     case applyIsRequired
+    case applyAlertIsRequired(successType: SuccessType, alertType: DisappearAlertType)
     case timeSelectAlertIsRequired
     //weekendMeal
     case weekendMealApplyIsRequired

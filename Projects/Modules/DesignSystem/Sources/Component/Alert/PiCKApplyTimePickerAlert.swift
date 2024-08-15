@@ -11,6 +11,12 @@ import Core
 public class PiCKApplyTimePickerAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
+    public var clickApplyButton: (() -> Void)?
+    public var selectedPeriod: ((Int, Int) -> Void)?
+
+    private var startPeriod = BehaviorRelay<Int>(value: 1)
+    private var endPeriod = BehaviorRelay<Int>(value: 1)
+
     private let explainLabel = PiCKLabel(
         text: "교실 이동 시간을 선택해주세요",
         textColor: .modeBlack,
@@ -38,6 +44,8 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         applyButton.buttonTap
             .bind(onNext: { [weak self] in
                 self?.dismiss(animated: true)
+                self?.selectedPeriod!(self?.periodPickerView.startPeriodValue ?? 0, self?.periodPickerView.endPeriodValue ?? 0)
+                self?.clickApplyButton!()
             }).disposed(by: disposeBag)
     }
     private func layout() {
