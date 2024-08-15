@@ -25,12 +25,21 @@ public class TestViewController: UIViewController, Stepper {
         super.viewDidLoad()
 
         view.backgroundColor = .background
-//        bind()
+        bind()
     }
     public override func viewDidLayoutSubviews() {
         layout()
     }
 
+    private func bind() {
+        button1.buttonTap
+            .bind {
+                let alert = PiCKDisappearAlert(successType: .success, alertType: .outing)
+                alert.modalTransitionStyle = .crossDissolve
+                alert.modalPresentationStyle = .overFullScreen
+                self.present(alert, animated: true)
+            }.disposed(by: disposeBag)
+    }
 //    private func bind() {
 //        button1.rx.tap
 //            .bind {

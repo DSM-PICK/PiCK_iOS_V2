@@ -19,13 +19,7 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
     }
 
     private var bgColor: UIColor {
-        isSelected ? .main500 : .background
-    }
-    private var borderColor: UIColor {
-        isSelected ? .clear : .main100
-    }
-    private var textColor: UIColor {
-        isSelected ? .modeWhite : .modeBlack
+        isSelected ? .main100 : .background
     }
 
     private let classRoomLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 1)
@@ -54,11 +48,10 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
         super.attribute()
 
         self.backgroundColor = bgColor
-        self.layer.border(color: borderColor, width: 1)
+        self.layer.border(color: .main100, width: 1)
         self.layer.cornerRadius = 16
-        self.classRoomLabel.textColor = textColor
+        self.classRoomLabel.textColor = .modeBlack
     }
-
     public override func layout() {
         self.addSubview(classRoomLabel)
 
