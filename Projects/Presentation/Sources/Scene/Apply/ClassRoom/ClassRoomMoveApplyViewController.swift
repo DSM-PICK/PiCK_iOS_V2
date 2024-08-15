@@ -120,7 +120,6 @@ public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveA
                     self?.classRoomMoveApplyRelay.accept(())
                 }
                 self.presentAsCustomDents(view: vc, height: 406)
-                //TODO: alert에서 배경 클릭 또는 확인 버튼만 dismiss 가능하게 uiview는 안되는걸로
             }.disposed(by: disposeBag)
         
     }
