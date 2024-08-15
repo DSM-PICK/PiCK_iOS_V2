@@ -3,10 +3,20 @@ import UIKit
 import SnapKit
 import Then
 
+import RxSwift
+import RxCocoa
+import RxGesture
+
 import Core
 
 public class PiCKPickerContainerView: BaseView {
+    public lazy var startPeriodValue = startPeriodPickerView.periodText.value
+    public lazy var endPeriodValue = endPeriodPickerView.periodText.value
+
     private let backgroudView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    private let componentBackgroundView = UIView().then {
         $0.backgroundColor = .main50
         $0.layer.cornerRadius = 12
     }
@@ -29,29 +39,33 @@ public class PiCKPickerContainerView: BaseView {
         endPeriodLabel
     ]).then {
         $0.axis = .horizontal
-        $0.spacing = 24
     }
 
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         pickerViewSetting()
     }
     public override func layout() {
         self.addSubview(backgroudView)
         [
+            componentBackgroundView,
             startPeriodStackView,
             dashLabel,
             endPeriodStackView
         ].forEach { backgroudView.addSubview($0) }
-        
+
         backgroudView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(200)
+        }
+        componentBackgroundView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(52)
         }
         startPeriodPickerView.snp.makeConstraints {
-            $0.height.equalTo(200)
             $0.width.equalTo(44)
         }
         endPeriodPickerView.snp.makeConstraints {
@@ -68,7 +82,6 @@ public class PiCKPickerContainerView: BaseView {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(60)
         }
-
     }
 
     private func pickerViewSetting() {

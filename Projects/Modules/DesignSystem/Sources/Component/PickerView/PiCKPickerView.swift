@@ -1,9 +1,14 @@
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 import Core
 
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-    private let hours = Array(1...10)
+    public var periodText = BehaviorRelay<Int>(value: 1)
+
+    private let periodArray = Array(1...10)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,11 +24,11 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     }
 
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return hours.count
+        return periodArray.count
     }
 
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(hours[row])"
+        return "\(periodArray[row])"
     }
     public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 40
@@ -39,12 +44,23 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         label.textColor = .modeBlack
         label.font = .heading4
         label.textAlignment = .center
-        
+
         view.addSubview(label)
-        
-        label.text = "\(hours[row])"
+
+        label.text = "\(periodArray[row])"
 
         return view
+    }
+
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        switch selectedPickerType {
+//        case .hours:
+//            hourText.accept(hoursArray[row])
+//        case .period:
+            periodText.accept(periodArray[row])
+//        default:
+//            return
+//        }
     }
 
 }
