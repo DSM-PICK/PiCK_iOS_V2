@@ -33,7 +33,7 @@ public class ApplyFlow: Flow {
         case .earlyLeaveApplyIsRequired:
             return navigateToEarlyLeaveApply()
         case let .applyAlertIsRequired(successType, alertType):
-            return popupAlert(successType: successType, alertType: alertType)
+            return presentAlert(successType: successType, alertType: alertType)
         default:
             return .none
         }
@@ -92,7 +92,7 @@ public class ApplyFlow: Flow {
         ))
     }
 
-    private func popupAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+    private func presentAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
         let alert = PiCKDisappearAlert(
             successType: successType,
             alertType: alertType

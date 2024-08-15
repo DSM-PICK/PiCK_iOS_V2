@@ -34,7 +34,7 @@ public enum PiCKStep: Step {
     //schedule
     case scheduleIsRequired
 
-    //allTab
+    //MARK: AllTab
     case allTabIsRequired
     case noticeIsRequired
     case noitceDetailIsRequired(id: UUID)

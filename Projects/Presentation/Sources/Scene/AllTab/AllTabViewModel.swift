@@ -8,12 +8,14 @@ import Core
 import Domain
 
 public class AllTabViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
-    
-    public init() {}
-    
+    private let logoutUseCase: LogoutUseCase
+
+    public init(logoutUseCase: LogoutUseCase) {
+        self.logoutUseCase = logoutUseCase
+    }
+
     public struct Input {
         let clickNoticeTab: Observable<IndexPath>
         let clickSelfStudyTab: Observable<IndexPath>
@@ -45,7 +47,10 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         input.clickLogOutTab
-            .map { _ in PiCKStep.tabIsRequired }
+            .do(onNext: { _ in
+                self.logoutUseCase.execute()
+            })
+            .map { PiCKStep.tabIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

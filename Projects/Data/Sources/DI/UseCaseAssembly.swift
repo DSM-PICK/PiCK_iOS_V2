@@ -12,6 +12,9 @@ public final class UseCaseAssembly: Assembly {
         container.register(LoginUseCase.self) { resolver in
             LoginUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
+        container.register(LogoutUseCase.self) { resolver in
+            LogoutUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
