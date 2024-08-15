@@ -8,13 +8,6 @@ import RxCocoa
 
 import Core
 
-public enum SuccessType {
-    case success, fail
-}
-public enum DisappearAlertType {
-    case weekendMeal, classRoom, outing, earlyLeave, bug
-}
-
 public class PiCKDisappearAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
@@ -27,10 +20,10 @@ public class PiCKDisappearAlert: UIViewController {
 
     public init(
         successType: SuccessType,
-        textType: DisappearAlertType
+        alertType: DisappearAlertType
     ){
         super.init(nibName: nil, bundle: nil)
-        self.textSetting(successType: successType, textType: textType)
+        self.textSetting(successType: successType, alertType: alertType)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -51,7 +44,7 @@ public class PiCKDisappearAlert: UIViewController {
         self.rxVisible
             .subscribe(onNext: {_ in
                 Timer.scheduledTimer(
-                    withTimeInterval: 1,
+                    withTimeInterval: 1.5,
                     repeats: false,
                     block: { _ in
                         self.dismiss(animated: true, completion: nil)
@@ -83,13 +76,13 @@ public class PiCKDisappearAlert: UIViewController {
     }
     private func textSetting(
         successType: SuccessType,
-        textType: DisappearAlertType
+        alertType: DisappearAlertType
     ) {
         switch successType {
         case .success:
             self.imageView.image = .checkIcon
             self.imageView.tintColor = .main500
-            switch textType {
+            switch alertType {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
             case .classRoom:
@@ -105,7 +98,7 @@ public class PiCKDisappearAlert: UIViewController {
         case .fail:
             self.imageView.image = .failIcon
             self.imageView.tintColor = .error
-            switch textType {
+            switch alertType {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청을 실패했습니다."
             case .classRoom:
