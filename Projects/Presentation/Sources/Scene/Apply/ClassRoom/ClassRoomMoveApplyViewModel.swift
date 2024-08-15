@@ -58,7 +58,7 @@ public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
                     print($0.localizedDescription)
                     return .never()
                 }
-                .andThen(Single.just(PiCKStep.tabIsRequired))
+                .andThen(Single.just(PiCKStep.applyAlertIsRequired(successType: .success, alertType: .classRoom)))
             }
             .bind(to: steps)
             .disposed(by: disposeBag)
