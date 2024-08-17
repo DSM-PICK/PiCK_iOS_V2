@@ -24,6 +24,10 @@ public final class RepositoryAssembly: Assembly {
             NoticeRepositoryImpl(remoteDataSource: resolver.resolve(NoticeDataSource.self)!)
         }
 
+        container.register(BugRepository.self) { resolver in
+            BugRepositoryImpl(remoteDataSource: resolver.resolve(BugDataSource.self)!)
+        }
+
 //        container.register(OutingRepository.self) { resolver in
 //            OutingRepositoryImpl(remoteDataSource: resolver.resolve(AuthDataSource.self)!)
 //        }

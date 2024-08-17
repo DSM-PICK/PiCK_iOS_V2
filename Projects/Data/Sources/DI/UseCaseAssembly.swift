@@ -35,8 +35,16 @@ public final class UseCaseAssembly: Assembly {
         }
 
         //MARK: AllTab
+        //profile
         container.register(FetchDetailProfileUseCase.self) { resolver in
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
+        }
+        //bug
+        container.register(BugImageUploadUseCase.self) { resolver in
+            BugImageUploadUseCase(repository: resolver.resolve(BugRepository.self)!)
+        }
+        container.register(BugReportUseCase.self) { resolver in
+            BugReportUseCase(repository: resolver.resolve(BugRepository.self)!)
         }
 
         //MARK: Notice
