@@ -49,6 +49,7 @@ public enum PiCKURL: String {
     case meal
     case timeTable = "timetable"
     case schedule
+    case bug
     
     var asURLString: String {
         "/\(self.rawValue)"
@@ -65,16 +66,8 @@ public enum tokenType: String {
         switch self {
         case .accessToken:
             return TokenStorage.shared.toHeader(.accessToken)
-//            return [
-//                "content-type": "application/json",
-//                "Authorization": TokenStorage.shared.accessToken
-//            ]
         case .refreshToken:
             return TokenStorage.shared.toHeader(.refreshToken)
-//            return [
-//                "content-type": "application/json",
-//                "X-Refresh-Token": TokenStorage.shared.refreshToken.
-//            ]
         case .tokenIsEmpty:
             return ["Content-Type": "application/json"]
         }
