@@ -133,7 +133,10 @@ public final class PresentationAssembly: Assembly {
             BugReportViewController(viewModel: resolver.resolve(BugReportViewModel.self)!)
         }
         container.register(BugReportViewModel.self) { resolver in
-            BugReportViewModel()
+            BugReportViewModel(
+                bugImageUploadUseCase: resolver.resolve(BugImageUploadUseCase.self)!,
+                bugReportUseCase: resolver.resolve(BugReportUseCase.self)!
+            )
         }
         //MyPage
         container.register(MyPageViewController.self) { resolver in
