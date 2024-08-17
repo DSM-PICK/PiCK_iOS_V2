@@ -13,6 +13,6 @@ public final class AppStepper: Stepper {
     public init() {}
 
     public var initialStep: Step {
-        return PiCKStep.onboardingIsRequired
+        return PiCKStep.testIsRequired
     }
 }

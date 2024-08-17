@@ -29,12 +29,12 @@ public class TestFlow: Flow {
     }
     
     private func navigateToTest() -> FlowContributors {
-//        let vc = container.resolve(SelfStudyViewController.self)!
-        let vc = TestViewController()
+        let vc = container.resolve(BugReportViewController.self)!
+//        let vc = TestViewController()
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
-            withNextStepper: vc
+            withNextStepper: vc.viewModel
         ))
     }
     
