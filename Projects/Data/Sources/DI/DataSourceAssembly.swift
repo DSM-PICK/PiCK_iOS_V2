@@ -29,6 +29,10 @@ public final class DataSourceAssembly: Assembly {
             NoticeDataSourceImpl(keychain: self.keychain(resolver))
         }
 
+        container.register(BugDataSource.self) { resolver in
+            BugDataSourceImpl(keychain: self.keychain(resolver))
+        }
+
 //        container.register(OutingDataSource.self) { resolver in
 //            OutingDataSourceImpl(keychain: self.keychain(resolver))
 //        }
