@@ -16,7 +16,8 @@ protocol WeekendMealDataSource {
 class WeekendMealDataSourceImpl: BaseDataSource<WeekendMealAPI>, WeekendMealDataSource {
     func weekendMealApply(status: String) -> Completable {
         return request(.weekendMealApply(status: status))
-        .asCompletable()
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
     }
     
     func weekendMealCheck() -> Single<Response> {
