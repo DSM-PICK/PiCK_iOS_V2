@@ -45,18 +45,18 @@ public class BugReportViewModel: BaseViewModel, Stepper {
 //
 //        }
 
-        input.clickBugReport
-            .withLatestFrom(info)
-            .flatMap { title, explain, os, images in
-                self.bugImageUploadUseCase.execute(images: images)
-                .catch {
-                    print($0.localizedDescription)
-                    return .never()
-                }
-                .andThen(Single.just(PiCKStep.applyAlertIsRequired(successType: .success, alertType: .classRoom)))
-            }
-            .bind(to: steps)
-            .disposed(by: disposeBag)
+//        input.clickBugReport
+//            .withLatestFrom(info)
+//            .flatMap { title, explain, os, images in
+//                self.bugImageUploadUseCase.execute(images: images)
+//                .catch {
+//                    print($0.localizedDescription)
+//                    return .never()
+//                }
+//                .andThen(Single.just(PiCKStep.applyAlertIsRequired(successType: .success, alertType: .classRoom)))
+//            }
+//            .bind(to: steps)
+//            .disposed(by: disposeBag)
 
         return Output(bugImages: bugImages.asDriver())
     }
