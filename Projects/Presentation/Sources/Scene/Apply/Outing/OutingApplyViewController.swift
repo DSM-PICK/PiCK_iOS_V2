@@ -10,17 +10,21 @@ import Core
 import DesignSystem
 
 public class OutingApplyViewController: BaseViewController<OutingApplyViewModel> {
+    private let outingApplyRelay = PublishRelay<Void>()
+    private var startTime = BehaviorRelay<String>(value: "")
+    private var endTime = BehaviorRelay<String>(value: "")
+
     private let titleLabel = PiCKLabel(text: "외출 신청", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "희망 외출 시간을 선택하세요", textColor: .modeBlack, font: .label1)
     private let startTimeSelectButton = TimeSelectButton(type: .system)
-    private let fds = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
+    private let sinceLabel = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
     private let endTimeSelectButton = TimeSelectButton(type: .system)
-    private let fdfdf = PiCKLabel(text: "까지", textColor: .modeBlack, font: .label1)
+    private let untilLabel = PiCKLabel(text: "까지", textColor: .modeBlack, font: .label1)
     private lazy var outingTimeStackView = UIStackView(arrangedSubviews: [
         startTimeSelectButton,
-        fds,
+        sinceLabel,
         endTimeSelectButton,
-        fdfdf
+        untilLabel
     ]).then {
         $0.axis = .horizontal
         $0.spacing = 12
@@ -35,27 +39,42 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
     }
     public override func bind() {
         let input = OutingApplyViewModel.Input(
-            startTime: Observable.just("fjsklfds"),
+            startTime: startTime.asObservable(),
             clickStartTimeButton: startTimeSelectButton.buttonTap.asObservable(),
-            endTime: Observable.just("fjsklfds"),
+            endTime: endTime.asObservable(),
             clickEndTimeButton: endTimeSelectButton.buttonTap.asObservable(),
-            reasonText: Observable.just("fjsklfds"),
-            clickApplyButton: applyButton.buttonTap.asObservable()
+            reasonText: outingReasonTextView.textViewText.asObservable(),
+            clickOutingApply: applyButton.buttonTap.asObservable()
         )
+
         let output =  viewModel.transform(input: input)
-        
+
         output.isApplyButtonEnable.asObservable()
             .bind(
                 onNext: { [weak self] isEnabled in
                     self?.applyButton.isEnabled = isEnabled
                 }
             ).disposed(by: disposeBag)
-//        startTimeSelectButton.buttonTap
-//            .bind {
-//                self.startTimeSelectButton.isSelected.toggle()
-//                let vc = PiCKApplyTimePickerAlert()
-//                self.presentAsCustomDents(view: vc, height: 288)
-//            }.disposed(by: disposeBag)
+
+        startTimeSelectButton.buttonTap
+            .bind {
+                let vc = PiCKApplyTimePickerAlert(type: .outingStart)
+                vc.selectedTime = { [weak self] hour, min in
+                    self?.startTime.accept("\(hour):\(min)")
+                    self?.startTimeSelectButton.setTitle("\(hour)시 \(min)분", for: .normal)
+                }
+                self.presentAsCustomDents(view: vc, height: 406)
+            }.disposed(by: disposeBag)
+
+        endTimeSelectButton.buttonTap
+            .bind {
+                let vc = PiCKApplyTimePickerAlert(type: .outingEnd)
+                vc.selectedTime = { [weak self] hour, min in
+                    self?.endTime.accept("\(hour):\(min)")
+                    self?.endTimeSelectButton.setTitle("\(hour)시 \(min)분", for: .normal)
+                }
+                self.presentAsCustomDents(view: vc, height: 406)
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
