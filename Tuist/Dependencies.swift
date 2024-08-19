@@ -56,6 +56,11 @@ let dependencies = Dependencies.init(
             .remote(
                 url: "https://github.com/Juanpe/SkeletonView.git",
                 requirement: .upToNextMajor(from: "1.7.0")
+            ),
+            //FSCalendar
+            .remote(
+                url: "https://github.com/WenchaoD/FSCalendar.git",
+                requirement: .upToNextMajor(from: "2.8.4")
             )
         ],
         baseSettings: .settings(
