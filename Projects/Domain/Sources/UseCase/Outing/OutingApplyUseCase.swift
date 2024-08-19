@@ -3,7 +3,6 @@ import Foundation
 import RxSwift
 
 public class OutingApplyUseCase {
-
     let repository: OutingRepository
 
     public init(repository: OutingRepository) {
