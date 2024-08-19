@@ -62,6 +62,10 @@ public class PiCKMainBottomSheetAlert: UIViewController {
         view.backgroundColor = .background
 
         bindActions()
+    }
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
         layout()
         typeLayout()
     }
