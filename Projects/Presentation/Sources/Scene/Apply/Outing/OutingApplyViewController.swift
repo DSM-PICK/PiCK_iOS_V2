@@ -10,7 +10,6 @@ import Core
 import DesignSystem
 
 public class OutingApplyViewController: BaseViewController<OutingApplyViewModel> {
-    private let outingApplyRelay = PublishRelay<Void>()
     private var startTime = BehaviorRelay<String>(value: "")
     private var endTime = BehaviorRelay<String>(value: "")
 

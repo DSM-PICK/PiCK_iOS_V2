@@ -49,11 +49,13 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
                     endTime: endTime
                 ))
                 .catch {
+                    self.steps.accept(PiCKStep.applyAlertIsRequired(successType: .fail, alertType: .outing))
                     print($0.localizedDescription)
                     return .never()
                 }
                 .andThen(Single.just(PiCKStep.tabIsRequired))
             }
+//            .map { _ in PiCKStep.applyAlertIsRequired(successType: .success, alertType: .outing) }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
