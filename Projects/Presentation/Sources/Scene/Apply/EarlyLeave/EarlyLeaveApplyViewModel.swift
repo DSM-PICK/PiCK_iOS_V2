@@ -43,11 +43,17 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
                     reason: reason ?? "", startTime: startTime
                 ))
                 .catch {
-                    self.steps.accept(PiCKStep.applyAlertIsRequired(successType: .fail, alertType: .earlyLeave))
+                    self.steps.accept(PiCKStep.applyAlertIsRequired(
+                        successType: .fail,
+                        alertType: .earlyLeave
+                    ))
                     print($0.localizedDescription)
                     return .never()
                 }
-                .andThen(Single.just(PiCKStep.tabIsRequired))
+                .andThen(Single.just(PiCKStep.applyAlertIsRequired(
+                    successType: .success,
+                    alertType: .earlyLeave
+                )))
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

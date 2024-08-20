@@ -54,27 +54,30 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                     self?.applyButton.isEnabled = isEnabled
                 }
             ).disposed(by: disposeBag)
+    }
 
+    public override func bindAction() {
         startTimeSelectButton.buttonTap
-            .bind {
+            .bind(onNext: { [weak self] in
                 let vc = PiCKApplyTimePickerAlert(type: .outingStart)
                 vc.selectedTime = { [weak self] hour, min in
                     self?.startTime.accept("\(hour):\(min)")
-                    self?.startTimeSelectButton.setTitle("\(hour)시 \(min)분", for: .normal)
+                    self?.startTimeSelectButton.setup(text: "\(hour)시 \(min)분")
                 }
-                self.presentAsCustomDents(view: vc, height: 406)
-            }.disposed(by: disposeBag)
+                self?.presentAsCustomDents(view: vc, height: 406)
+            }).disposed(by: disposeBag)
 
         endTimeSelectButton.buttonTap
-            .bind {
+            .bind(onNext: { [weak self] in
                 let vc = PiCKApplyTimePickerAlert(type: .outingEnd)
                 vc.selectedTime = { [weak self] hour, min in
                     self?.endTime.accept("\(hour):\(min)")
-                    self?.endTimeSelectButton.setTitle("\(hour)시 \(min)분", for: .normal)
+                    self?.endTimeSelectButton.setup(text: "\(hour)시 \(min)분")
                 }
-                self.presentAsCustomDents(view: vc, height: 406)
-            }.disposed(by: disposeBag)
+                self?.presentAsCustomDents(view: vc, height: 406)
+            }).disposed(by: disposeBag)
     }
+
     public override func addView() {
         [
             titleLabel,
