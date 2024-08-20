@@ -88,7 +88,7 @@ public final class PresentationAssembly: Assembly {
             EarlyLeaveApplyViewController(viewModel: resolver.resolve(EarlyLeaveApplyViewModel.self)!)
         }
         container.register(EarlyLeaveApplyViewModel.self) { resolver in
-            EarlyLeaveApplyViewModel()
+            EarlyLeaveApplyViewModel(earlyLeaveApplyUseCase: resolver.resolve(EarlyLeaveApplyUseCase.self)!)
         }
 
 
