@@ -73,8 +73,7 @@ public class PiCKMainNavigationBar: BaseView {
                 vc.clickModeButton = { data in
                     self?.userDefaultStorage.set(to: data, forKey: .displayMode)
                     let value = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
-                    print(value)
-    
+
                     UIView.transition(
                         with: self!.presentViewController.view!,
                         duration: 0.7,

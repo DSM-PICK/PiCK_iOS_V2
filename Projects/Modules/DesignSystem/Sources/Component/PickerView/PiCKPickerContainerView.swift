@@ -9,9 +9,9 @@ import RxGesture
 
 import Core
 
-public class PiCKPickerContainerView: BaseView {
-    public lazy var startPeriodValue = startPeriodPickerView.periodText.value
-    public lazy var endPeriodValue = endPeriodPickerView.periodText.value
+public class PiCKClassRoomPickerContainerView: BaseView {
+    public lazy var startPeriodValue = startPickerView.periodText.value
+    public lazy var endPeriodValue = endPickerView.periodText.value
 
     private let backgroudView = UIView().then {
         $0.backgroundColor = .clear
@@ -21,10 +21,10 @@ public class PiCKPickerContainerView: BaseView {
         $0.layer.cornerRadius = 12
     }
 
-    private let startPeriodPickerView = PiCKPickerView()
+    private let startPickerView = PiCKPickerView(type: .period)
     private let startPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
     private lazy var startPeriodStackView = UIStackView(arrangedSubviews: [
-        startPeriodPickerView,
+        startPickerView,
         startPeriodLabel
     ]).then {
         $0.axis = .horizontal
@@ -32,10 +32,10 @@ public class PiCKPickerContainerView: BaseView {
 
     private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .heading3)
 
-    private let endPeriodPickerView = PiCKPickerView()
+    private let endPickerView = PiCKPickerView(type: .period)
     private let endPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
     private lazy var endPeriodStackView = UIStackView(arrangedSubviews: [
-        endPeriodPickerView,
+        endPickerView,
         endPeriodLabel
     ]).then {
         $0.axis = .horizontal
@@ -65,10 +65,10 @@ public class PiCKPickerContainerView: BaseView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(52)
         }
-        startPeriodPickerView.snp.makeConstraints {
+        startPickerView.snp.makeConstraints {
             $0.width.equalTo(44)
         }
-        endPeriodPickerView.snp.makeConstraints {
+        endPickerView.snp.makeConstraints {
             $0.width.equalTo(44)
         }
         startPeriodStackView.snp.makeConstraints {
@@ -85,8 +85,8 @@ public class PiCKPickerContainerView: BaseView {
     }
 
     private func pickerViewSetting() {
-        startPeriodPickerView.subviews[1].backgroundColor = .clear
-        endPeriodPickerView.subviews[1].backgroundColor = .clear
+        startPickerView.subviews[1].backgroundColor = .clear
+        endPickerView.subviews[1].backgroundColor = .clear
     }
 
 }
