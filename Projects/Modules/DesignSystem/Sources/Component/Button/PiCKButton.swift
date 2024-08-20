@@ -39,7 +39,12 @@ public class PiCKButton: BaseButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        attribute()
+    }
+
     public override func attribute() {
         self.backgroundColor = bgColor
         self.setTitleColor(.modeWhite, for: .normal)
