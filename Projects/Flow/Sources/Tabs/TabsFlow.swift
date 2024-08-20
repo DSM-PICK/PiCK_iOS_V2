@@ -35,6 +35,8 @@ public class TabsFlow: Flow {
             return setupTabBar()
         case .appIsRequired:
             return dismissToOnbording()
+        case .popIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         default:
             return .none
         }

@@ -9,11 +9,10 @@ import RxCocoa
 import Core
 
 public class PiCKButton: BaseButton {
-    
     public var buttonTap: ControlEvent<Void> {
         return self.rx.tap
     }
-    public override var isSelected: Bool {
+    public override var isEnabled: Bool {
         didSet {
             self.attribute()
         }
@@ -21,7 +20,7 @@ public class PiCKButton: BaseButton {
     private var bgColor: UIColor {
         isEnabled ? .main500 : .main100
     }
-    
+
     override public init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -35,11 +34,17 @@ public class PiCKButton: BaseButton {
         self.setTitle(buttonText, for: .normal)
         self.isEnabled = isEnabled ?? true
         self.isHidden = isHidden ?? false
+        attribute()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        attribute()
+    }
+
     public override func attribute() {
         self.backgroundColor = bgColor
         self.setTitleColor(.modeWhite, for: .normal)

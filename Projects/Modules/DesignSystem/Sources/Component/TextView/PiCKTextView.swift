@@ -9,10 +9,14 @@ import RxCocoa
 import Core
 
 public class PiCKTextView: BaseView {
-    public var isEdit = BehaviorRelay<Bool>(value: false)
+    public var isEdit = BehaviorRelay<Bool>(value: true)
+
+    public var textViewText: ControlProperty<String?> {
+        return textView.rx.text
+    }
 
     private var borderColor: UIColor {
-        isEdit.value ? .clear : .main500
+        !isEdit.value ? .clear : .main500
     }
 
     private let titleLabel = PiCKLabel(
@@ -73,17 +77,20 @@ public class PiCKTextView: BaseView {
     public override func bind() {
         self.textView.rx.didBeginEditing
             .bind(onNext: { [weak self] in
+                self?.isEdit.accept(true)
                 self?.placeholderLabel.isHidden = true
                 self?.textView.layer.border(color: self?.borderColor, width: 1)
-                self?.isEdit.accept(true)
             }).disposed(by: disposeBag)
         
         self.textView.rx.didEndEditing
             .bind(onNext: { [weak self] in
+                self?.isEdit.accept(false)
+
                 if self?.textView.text.isEmpty == true {
                     self?.placeholderLabel.isHidden = false
                     self?.textView.layer.border(color: self?.borderColor, width: 1)
-                    self?.isEdit.accept(false)
+                } else {
+                    self?.textView.layer.border(color: self?.borderColor, width: 1)
                 }
             }).disposed(by: disposeBag)
     }

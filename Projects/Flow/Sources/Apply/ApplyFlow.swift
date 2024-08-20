@@ -33,7 +33,9 @@ public class ApplyFlow: Flow {
         case .earlyLeaveApplyIsRequired:
             return navigateToEarlyLeaveApply()
         case let .applyAlertIsRequired(successType, alertType):
-            return presentAlert(successType: successType, alertType: alertType)
+            return presentApplyAlert(successType: successType, alertType: alertType)
+        case .tabIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.popIsRequired)
         default:
             return .none
         }
@@ -92,13 +94,14 @@ public class ApplyFlow: Flow {
         ))
     }
 
-    private func presentAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+    private func presentApplyAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
         let alert = PiCKDisappearAlert(
             successType: successType,
             alertType: alertType
         )
         alert.modalPresentationStyle = .overFullScreen
         alert.modalTransitionStyle = .crossDissolve
+        self.rootViewController.popToRootViewController(animated: true)
         self.rootViewController.present(alert, animated: true)
         return .none
     }
