@@ -10,14 +10,18 @@ import Domain
 public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
-    
-    public init() {}
-    
+
+    private let earlyLeaveApplyUseCase: EarlyLeaveApplyUseCase
+
+    public init(earlyLeaveApplyUseCase: EarlyLeaveApplyUseCase) {
+        self.earlyLeaveApplyUseCase = earlyLeaveApplyUseCase
+    }
+
     public struct Input {
         let startTime: Observable<String>
-        let clickStartTimeButton: Observable<Void>
-        let reasonText: Observable<String>
-        let clickApplyButton: Observable<Void>
+        let clickStartTime: Observable<Void>
+        let reasonText: Observable<String?>
+        let clickEarlyLeaveApply: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -28,15 +32,32 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
             input.reasonText,
             input.startTime
         )
-        
-        let isApplyButtonEnable = info.map { reason, startTime -> Bool in !reason.isEmpty && !startTime.isEmpty
+
+        let isApplyButtonEnable = info.map { reason, startTime -> Bool in !reason!.isEmpty && !startTime.isEmpty
         }
-        
-        input.clickStartTimeButton.asObservable()
-            .map { PiCKStep.timeSelectAlertIsRequired }
+
+        input.clickEarlyLeaveApply
+            .withLatestFrom(info)
+            .flatMap { reason, startTime in
+                self.earlyLeaveApplyUseCase.execute(req: .init(
+                    reason: reason ?? "", startTime: startTime
+                ))
+                .catch {
+                    self.steps.accept(PiCKStep.applyAlertIsRequired(
+                        successType: .fail,
+                        alertType: .earlyLeave
+                    ))
+                    print($0.localizedDescription)
+                    return .never()
+                }
+                .andThen(Single.just(PiCKStep.applyAlertIsRequired(
+                    successType: .success,
+                    alertType: .earlyLeave
+                )))
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
-        
+
         return Output(isApplyButtonEnable: isApplyButtonEnable.asSignal(onErrorJustReturn: false))
     }
     

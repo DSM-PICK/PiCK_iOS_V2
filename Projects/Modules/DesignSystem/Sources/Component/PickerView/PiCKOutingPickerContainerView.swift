@@ -9,9 +9,9 @@ import RxGesture
 
 import Core
 
-public class PiCKClassRoomPickerContainerView: BaseView {
-    public lazy var startPeriodValue = startPickerView.periodText.value
-    public lazy var endPeriodValue = endPickerView.periodText.value
+public class PiCKOutingPickerContainerView: BaseView {
+    public lazy var outingHourValue = startPickerView.timeText.value
+    public lazy var outingMinValue = endPickerView.timeText.value
 
     private let backgroudView = UIView().then {
         $0.backgroundColor = .clear
@@ -21,22 +21,22 @@ public class PiCKClassRoomPickerContainerView: BaseView {
         $0.layer.cornerRadius = 12
     }
 
-    private let startPickerView = PiCKPickerView(type: .period)
-    private let startPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
-    private lazy var startPeriodStackView = UIStackView(arrangedSubviews: [
+    private let startPickerView = PiCKPickerView(type: .hour)
+    private let hourLabel = PiCKLabel(text: "시", textColor: .modeBlack, font: .subTitle1)
+    private lazy var startStackView = UIStackView(arrangedSubviews: [
         startPickerView,
-        startPeriodLabel
+        hourLabel
     ]).then {
         $0.axis = .horizontal
     }
 
     private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .heading3)
 
-    private let endPickerView = PiCKPickerView(type: .period)
-    private let endPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
-    private lazy var endPeriodStackView = UIStackView(arrangedSubviews: [
+    private let endPickerView = PiCKPickerView(type: .min)
+    private let minLabel = PiCKLabel(text: "분", textColor: .modeBlack, font: .subTitle1)
+    private lazy var endStackView = UIStackView(arrangedSubviews: [
         endPickerView,
-        endPeriodLabel
+        minLabel
     ]).then {
         $0.axis = .horizontal
     }
@@ -50,9 +50,9 @@ public class PiCKClassRoomPickerContainerView: BaseView {
         self.addSubview(backgroudView)
         [
             componentBackgroundView,
-            startPeriodStackView,
+            startStackView,
             dashLabel,
-            endPeriodStackView
+            endStackView
         ].forEach { backgroudView.addSubview($0) }
 
         backgroudView.snp.makeConstraints {
@@ -71,14 +71,14 @@ public class PiCKClassRoomPickerContainerView: BaseView {
         endPickerView.snp.makeConstraints {
             $0.width.equalTo(44)
         }
-        startPeriodStackView.snp.makeConstraints {
+        startStackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(60)
         }
         dashLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-        endPeriodStackView.snp.makeConstraints {
+        endStackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(60)
         }

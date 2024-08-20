@@ -4,9 +4,9 @@ import RxSwift
 
 public class EarlyLeaveApplyUseCase {
 
-    let repository: OutingRepository
+    let repository: EarlyLeaveRepository
 
-    public init(repository: OutingRepository) {
+    public init(repository: EarlyLeaveRepository) {
         self.repository = repository
     }
 

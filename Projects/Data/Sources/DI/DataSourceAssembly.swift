@@ -33,9 +33,13 @@ public final class DataSourceAssembly: Assembly {
             BugDataSourceImpl(keychain: self.keychain(resolver))
         }
 
-//        container.register(OutingDataSource.self) { resolver in
-//            OutingDataSourceImpl(keychain: self.keychain(resolver))
-//        }
+        container.register(OutingDataSource.self) { resolver in
+            OutingDataSourceImpl(keychain: self.keychain(resolver))
+        }
+
+        container.register(EarlyLeaveDataSource.self) { resolver in
+            EarlyLeaveDataSourceImpl(keychain: self.keychain(resolver))
+        }
 
         container.register(ProfileDataSource.self) { resolver in
             ProfileDataSourceImpl(keychain: self.keychain(resolver))

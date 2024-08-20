@@ -11,7 +11,8 @@ import DesignSystem
 
 public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
-    private lazy var schoolMealCalendarView = PiCKCalendar(selectedDate: Date(), type: .week, presentViewController: self)
+//    private lazy var schoolMealCalendarView = PiCKCalendar(selectedDate: Date(), type: .week, presentViewController: self)
+    private lazy var schoolMealCalendarView = PiCKCalendarView()
     private let dateLabel = PiCKLabel(
         text: "오늘 4월 13일",
         textColor: .modeBlack,
@@ -58,7 +59,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         schoolMealCalendarView.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(150)
+            $0.height.equalTo(300)
         }
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(schoolMealCalendarView.snp.bottom).offset(36)

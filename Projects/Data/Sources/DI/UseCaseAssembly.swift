@@ -23,15 +23,23 @@ public final class UseCaseAssembly: Assembly {
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
         }
         //MARK: Schedule
-        //TimeTable
+        //timeTable
         container.register(FetchTodayTimeTableUseCase.self) { resolver in
             FetchTodayTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
         }
 
         //MARK: Apply
-        //ClassRoom
+        //classRoom
         container.register(ClassroomMoveApplyUseCase.self) { resolver in
             ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
+        }
+        //outing
+        container.register(OutingApplyUseCase.self) { resolver in
+            OutingApplyUseCase(repository: resolver.resolve(OutingRepository.self)!)
+        }
+        //earlyLeave
+        container.register(EarlyLeaveApplyUseCase.self) { resolver in
+            EarlyLeaveApplyUseCase(repository: resolver.resolve(EarlyLeaveRepository.self)!)
         }
 
         //MARK: AllTab

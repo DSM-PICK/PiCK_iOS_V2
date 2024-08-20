@@ -111,7 +111,7 @@ public class ClassRoomMoveApplyViewController: BaseViewController<ClassRoomMoveA
         
         nextButton.buttonTap
             .bind {
-                let vc = PiCKApplyTimePickerAlert()
+                let vc = PiCKApplyTimePickerAlert(type: .classRoom)
                 vc.selectedPeriod = { [weak self] startPeriod, endPeriod in
                     self?.startPeriod.accept(startPeriod)
                     self?.endPeriod.accept(endPeriod)
