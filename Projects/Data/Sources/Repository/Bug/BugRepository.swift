@@ -13,7 +13,7 @@ class BugRepositoryImpl: BugRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func uploadImage(images: [Data]) -> Single<Response> {
+    func uploadImage(images: [Data]) -> Single<[String]> {
         return remoteDataSource.uploadImage(images: images)
     }
 

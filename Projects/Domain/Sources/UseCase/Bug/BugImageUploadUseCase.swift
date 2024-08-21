@@ -11,7 +11,7 @@ public class BugImageUploadUseCase {
         self.repository = repository
     }
 
-    public func execute(images: [Data]) -> Single<Response> {
+    public func execute(images: [Data]) -> Single<[String]> {
         return repository.uploadImage(images: images)
     }
 
