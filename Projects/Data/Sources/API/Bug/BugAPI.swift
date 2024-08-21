@@ -13,11 +13,11 @@ public enum BugAPI {
 
 extension BugAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
-    
+
     public var urlType: PiCKURL {
         .bug
     }
-    
+
     public var urlPath: String {
         switch self {
         case .uploadImage:
@@ -26,14 +26,11 @@ extension BugAPI: PiCKAPI {
             return "/message"
         }
     }
-    
+
     public var method: Moya.Method {
-        switch self {
-        default:
-            return .post
-        }
+        return .post
     }
-    
+
     public var task: Moya.Task {
         switch self {
         case .uploadImage(let images):
@@ -42,9 +39,9 @@ extension BugAPI: PiCKAPI {
             for image in images {
                 multiformData.append(.init(
                     provider: .data(image),
-                    name: "image",
-                    fileName: "image.jpg",
-                    mimeType: "image/jpg"
+                    name: "file",
+                    fileName: "file.jpg",
+                    mimeType: "file/jpg"
                 ))
             }
 
@@ -59,12 +56,9 @@ extension BugAPI: PiCKAPI {
                 ], encoding: JSONEncoding.default)
         }
     }
-    
+
     public var pickHeader: tokenType {
-        switch self {
-        default:
-            return .accessToken
-        }
+        return .accessToken
     }
 
     public var errorMap: [Int : PiCKError]? {
