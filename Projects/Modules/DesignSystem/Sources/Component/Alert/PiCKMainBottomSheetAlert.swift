@@ -116,7 +116,7 @@ public class PiCKMainBottomSheetAlert: UIViewController {
             $0.leading.equalToSuperview().inset(30)
         }
         changeModeButton.snp.makeConstraints {
-            $0.top.equalTo(settingTypeLabel.snp.bottom).offset(24)
+            $0.top.equalTo(labelStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
     }

@@ -40,7 +40,7 @@ public class BugReportViewModel: BaseViewModel, Stepper {
         )
 
         let isReportButtonEnable = info.map { title, explain, images -> Bool in
-            !title!.isEmpty && !title!.isEmpty && !images.isEmpty
+            !title!.isEmpty && !explain!.isEmpty && !images.isEmpty
         }
 
         input.clickBugReport
