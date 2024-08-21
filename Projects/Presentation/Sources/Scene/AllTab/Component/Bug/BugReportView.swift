@@ -1,5 +1,8 @@
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 import Core
 import DesignSystem
 
@@ -11,6 +14,14 @@ public enum BugType {
 
 public class BugReportView: BaseView {
     private var bugType: BugType = .location
+
+    public var titleText: ControlProperty<String?> {
+        return textField.rx.text
+    }
+
+    public var contentText: ControlProperty<String?> {
+        return textView.textViewText
+    }
 
     private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청").then {
