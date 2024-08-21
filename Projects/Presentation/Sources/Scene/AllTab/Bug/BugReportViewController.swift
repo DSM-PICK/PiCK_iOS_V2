@@ -14,7 +14,7 @@ import DesignSystem
 public class BugReportViewController: BaseViewController<BugReportViewModel> {
     private var imageArray: [UIImage] = []
     private var bugImageArray = BehaviorRelay<[UIImage]>(value: [])
-    private var dddArray: [Data] = []
+    private var dataArray: [Data] = []
     private var bugDataArray = BehaviorRelay<[Data]>(value: [])
 
     private let bugLocationView = BugReportView(type: .location)
@@ -80,8 +80,8 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
                 .bind {
                     self?.imageArray.remove(at: row)
                     self?.bugImageArray.accept(self?.imageArray ?? [])
-                    self?.dddArray.remove(at: row)
-                    self?.bugDataArray.accept(self?.dddArray ?? [])
+                    self?.dataArray.remove(at: row)
+                    self?.bugDataArray.accept(self?.dataArray ?? [])
                     self?.collectionView.reloadData()
                 }.disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
@@ -150,11 +150,11 @@ extension BugReportViewController: PHPickerViewControllerDelegate {
                     let data = image.jpegData(compressionQuality: 0.1)
 
                     self?.imageArray.append(image)
-                    self?.dddArray.append(data ?? Data())
+                    self?.dataArray.append(data ?? Data())
 
                     if self?.imageArray.count == results.count {
                         self?.bugImageArray.accept(self?.imageArray ?? [])
-                        self?.bugDataArray.accept(self?.dddArray ?? [])
+                        self?.bugDataArray.accept(self?.dataArray ?? [])
                         
                         DispatchQueue.main.async {
                             self?.collectionView.isHidden = false
