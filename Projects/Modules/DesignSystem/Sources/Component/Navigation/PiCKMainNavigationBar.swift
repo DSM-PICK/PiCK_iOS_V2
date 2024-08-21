@@ -83,7 +83,7 @@ public class PiCKMainNavigationBar: BaseView {
                     }
                 }
                 
-                self?.presentViewController.presentAsCustomDents(view: vc, height: 228)
+                self?.presentViewController.presentAsCustomDents(view: vc, height: 252)
             }).disposed(by: disposeBag)
     }
 
