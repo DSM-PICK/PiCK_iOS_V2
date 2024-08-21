@@ -44,6 +44,15 @@ public class PiCKMainBottomSheetAlert: UIViewController {
         textColor: .modeBlack,
         font: .body3
     )
+    private lazy var labelStackView = UIStackView(arrangedSubviews: [
+        explainLabel,
+        questionLabel,
+        settingTypeLabel
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 12
+        $0.distribution = .fillEqually
+    }
     private let changeModeButton = PiCKButton(type: .system)
 
     public init(
@@ -60,7 +69,6 @@ public class PiCKMainBottomSheetAlert: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .background
-
         bindActions()
     }
     public override func viewDidLayoutSubviews() {
@@ -94,9 +102,7 @@ public class PiCKMainBottomSheetAlert: UIViewController {
     private func layout() {
         [
             dismissArrowButton,
-            explainLabel,
-            questionLabel,
-            settingTypeLabel,
+            labelStackView,
             changeModeButton
         ].forEach { view.addSubview($0) }
         
@@ -105,20 +111,12 @@ public class PiCKMainBottomSheetAlert: UIViewController {
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(24)
         }
-        explainLabel.snp.makeConstraints {
+        labelStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(48)
             $0.leading.equalToSuperview().inset(30)
         }
-        questionLabel.snp.makeConstraints {
-            $0.top.equalTo(explainLabel.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(30)
-        }
-        settingTypeLabel.snp.makeConstraints {
-            $0.top.equalTo(questionLabel.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(30)
-        }
         changeModeButton.snp.makeConstraints {
-            $0.top.equalTo(questionLabel.snp.bottom).offset(24)
+            $0.top.equalTo(settingTypeLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
     }
@@ -140,10 +138,6 @@ extension PiCKMainBottomSheetAlert {
                 self.settingTypeLabel.text = BottomSheetTextEnum.schoolMealExpainText.rawValue
                 self.changeModeButton.setTitle(BottomSheetTextEnum.schoolMealButtonText.rawValue, for: .normal)
             }
-            self.changeModeButton.snp.remakeConstraints {
-                $0.top.equalTo(settingTypeLabel.snp.bottom).offset(34)
-                $0.leading.trailing.equalToSuperview().inset(30)
-            }
         case .displayMode:
             self.explainLabel.text = BottomSheetTextEnum.displayModeExplainText.rawValue
             switch UITraitCollection.current.userInterfaceStyle {
@@ -158,5 +152,5 @@ extension PiCKMainBottomSheetAlert {
             }
         }
     }
-    
+
 }
