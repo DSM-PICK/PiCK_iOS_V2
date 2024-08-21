@@ -9,15 +9,15 @@ import Domain
 import AppNetwork
 
 protocol BugDataSource {
-    func uploadImage(images: [Data]) -> Single<Response>
+    func uploadImage(images: [Data]) -> Single<[String]>
     func bugReport(req: BugRequestParams) -> Completable
 }
 
 class BugDataSourceImpl: BaseDataSource<BugAPI>, BugDataSource {
-
-    func uploadImage(images: [Data]) -> Single<Response> {
+    func uploadImage(images: [Data]) -> Single<[String]> {
         return request(.uploadImage(images: images))
             .filterSuccessfulStatusCodes()
+            .map([String].self)
     }
 
     func bugReport(req: BugRequestParams) -> Completable {
@@ -25,4 +25,5 @@ class BugDataSourceImpl: BaseDataSource<BugAPI>, BugDataSource {
             .filterSuccessfulStatusCodes()
             .asCompletable()
     }
+
 }
