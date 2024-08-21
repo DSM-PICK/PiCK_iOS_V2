@@ -50,7 +50,7 @@ public enum PiCKURL: String {
     case timeTable = "timetable"
     case schedule
     case bug
-    
+
     var asURLString: String {
         "/\(self.rawValue)"
     }
@@ -62,7 +62,6 @@ public enum tokenType: String {
     case tokenIsEmpty
     
     var toHeader: [String : String] {
-//        let keychain = KeychainImpl()
         switch self {
         case .accessToken:
             return TokenStorage.shared.toHeader(.accessToken)
@@ -72,5 +71,5 @@ public enum tokenType: String {
             return ["Content-Type": "application/json"]
         }
     }
-    
+
 }
