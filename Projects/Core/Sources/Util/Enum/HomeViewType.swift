@@ -4,3 +4,5 @@ public enum HomeViewType: String {
     case timeTable
     case schoolMeal
 }
+
+ 
