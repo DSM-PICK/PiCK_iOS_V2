@@ -54,6 +54,10 @@ public final class UseCaseAssembly: Assembly {
         container.register(BugReportUseCase.self) { resolver in
             BugReportUseCase(repository: resolver.resolve(BugRepository.self)!)
         }
+        //selfStudy
+        container.register(FetchSelfStudyUseCase.self) { resolver in
+            FetchSelfStudyUseCase(repository: resolver.resolve(SelfStudyRepository.self)!)
+        }
 
         //MARK: Notice
         container.register(FetchNoticeListUseCase.self) { resolver in

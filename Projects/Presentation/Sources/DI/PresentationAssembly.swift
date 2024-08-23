@@ -35,7 +35,8 @@ public final class PresentationAssembly: Assembly {
             HomeViewModel(
                 timeTableUseCase: resolver.resolve(FetchTodayTimeTableUseCase.self)!,
                 schoolMealUseCase: resolver.resolve(FetchSchoolMealUseCase.self)!,
-                noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!
+                noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!,
+                selfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!
             )
         }
         //Alert
