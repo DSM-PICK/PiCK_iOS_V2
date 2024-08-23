@@ -62,6 +62,7 @@ public class PiCKMainNavigationBar: BaseView {
 
                 vc.clickModeButton = { mode in
                     self?.userDefaultStorage.setUserDataType(to: mode as? HomeViewType, forKey: .homeViewMode)
+                    self?.presentViewController.viewWillAppear(true)
                 }
 
                 self?.presentViewController.presentAsCustomDents(view: vc, height: 252)

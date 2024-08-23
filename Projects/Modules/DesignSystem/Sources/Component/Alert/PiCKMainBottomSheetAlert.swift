@@ -132,13 +132,13 @@ extension PiCKMainBottomSheetAlert {
             self.explainLabel.text = BottomSheetTextEnum.homeViewModeExplainText.rawValue
             switch homeViewType {
             case .timeTable:
-                self.questionLabel.text = BottomSheetTextEnum.timeTableSubText.rawValue
-                self.settingTypeLabel.text = BottomSheetTextEnum.timeTableExpainText.rawValue
-                self.changeModeButton.setTitle(BottomSheetTextEnum.timeTableButtonText.rawValue, for: .normal)
-            case .schoolMeal:
                 self.questionLabel.text = BottomSheetTextEnum.schoolMealSubText.rawValue
                 self.settingTypeLabel.text = BottomSheetTextEnum.schoolMealExpainText.rawValue
                 self.changeModeButton.setTitle(BottomSheetTextEnum.schoolMealButtonText.rawValue, for: .normal)
+            case .schoolMeal:
+                self.questionLabel.text = BottomSheetTextEnum.timeTableSubText.rawValue
+                self.settingTypeLabel.text = BottomSheetTextEnum.timeTableExpainText.rawValue
+                self.changeModeButton.setTitle(BottomSheetTextEnum.timeTableButtonText.rawValue, for: .normal)
             }
         case .displayMode:
             self.explainLabel.text = BottomSheetTextEnum.displayModeExplainText.rawValue

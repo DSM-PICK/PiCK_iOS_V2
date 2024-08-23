@@ -28,6 +28,7 @@ public class HomeSchoolMealView: BaseView {
                 SchoolMealHomeCell.self,
                 forCellWithReuseIdentifier: SchoolMealHomeCell.identifier
             )
+        $0.bounces = false
     }
 
     public func setup(

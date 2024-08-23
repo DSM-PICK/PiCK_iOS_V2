@@ -16,6 +16,7 @@ public class HomeTimeTableView: BaseView {
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.frame.width, height: 44)
+        $0.minimumLineSpacing = 4
     }
     //TODO: 시간표가 바뀌었다는 알림을 headerView로 표현?
     private lazy var collectionView = UICollectionView(
@@ -29,6 +30,7 @@ public class HomeTimeTableView: BaseView {
                 TimeTableCollectionViewCell.self,
                 forCellWithReuseIdentifier: TimeTableCollectionViewCell.identifier
             )
+        $0.bounces = false
     }
 
     public func setup(
