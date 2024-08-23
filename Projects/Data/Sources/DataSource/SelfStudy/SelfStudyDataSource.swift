@@ -7,13 +7,13 @@ import RxMoya
 import AppNetwork
 import Domain
 
-protocol SelfStudyTeacherDataSource {
+protocol SelfStudyDataSource {
     func fetchSelfStudyTeacher(date: String) -> Single<Response>
 }
 
-class SelfStudyTeacherDataSourceImpl: BaseDataSource<SelfStudyTeacherAPI>, SelfStudyTeacherDataSource {
+class SelfStudyTeacherDataSourceImpl: BaseDataSource<SelfStudyAPI>, SelfStudyDataSource {
     func fetchSelfStudyTeacher(date: String) -> Single<Response> {
-        return request(.fetchSelfstudyTeacherCheck(date: date))
+        return request(.fetchSelfStudyTeacher(date: date))
             .filterSuccessfulStatusCodes()
     }
 }

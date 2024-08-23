@@ -14,7 +14,7 @@ public struct SelfStudyTeacherDTOElement: Decodable {
 }
 
 extension SelfStudyTeacherDTOElement {
-    func toDomain() -> SelfStudyTeacherEntityElement {
+    func toDomain() -> SelfStudyEntityElement {
         return .init(
             floor: floor,
             teacherName: teacherName
@@ -27,7 +27,7 @@ extension SelfStudyTeacherDTOElement {
 public typealias SelfStudyTeacherDTO = [SelfStudyTeacherDTOElement]
 
 extension SelfStudyTeacherDTO {
-    func toDomain() -> SelfStudyTeacherEntity {
+    func toDomain() -> SelfStudyEntity {
         return self.map { $0.toDomain() }
     }
 }

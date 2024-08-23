@@ -2,7 +2,7 @@ import Foundation
 
 import RxSwift
 
-public class FetchSelfStudyTeacherUseCase {
+public class FetchSelfStudyUseCase {
 
     let repository: SelfStudyRepository
     
@@ -10,7 +10,7 @@ public class FetchSelfStudyTeacherUseCase {
         self.repository = repository
     }
 
-    public func execute(date: String) -> Single<SelfStudyTeacherEntity> {
+    public func execute(date: String) -> Single<SelfStudyEntity> {
         return repository.fetchSelfStudyTeacher(date: date)
     }
     

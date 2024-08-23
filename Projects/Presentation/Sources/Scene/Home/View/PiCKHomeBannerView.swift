@@ -3,13 +3,16 @@ import UIKit
 import SnapKit
 import Then
 
+import RxSwift
+import RxCocoa
+
 import Core
+import Domain
 import DesignSystem
 
-public class PiCKMainBannerView: BaseView {
-    
+public class PiCKHomeBannerView: BaseView {
     private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
-    
+
     private let explainLabel = PiCKLabel(
         text: "오늘의 자습 감독 선생님 입니다",
         textColor: .gray900,
@@ -26,13 +29,18 @@ public class PiCKMainBannerView: BaseView {
         $0.distribution = .fillEqually
     }
 
+    public func setup(
+        selfStudyTeacherData: SelfStudyEntity
+    ) {
+        setupBannerLabel(data: selfStudyTeacherData)
+    }
+
     public override func attribute() {
         super.attribute()
 
         self.layer.cornerRadius = 12
-        setupBannerLabel()
     }
-    
+
     public override func layout() {
         [
             bannerBackgroundImageView,
@@ -60,22 +68,24 @@ public class PiCKMainBannerView: BaseView {
         }
     }
 
-    private func setupBannerLabel() {
-        let floorArray = ["2층", "3층", "4층"]
-        for floor in floorArray {
+    private func setupBannerLabel(data: SelfStudyEntity) {
+        floorStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        for floor in data {
             let floorLabel = PiCKLabel(
-                text: floor,
+                text: "\(floor.floor)",
                 textColor: .main900,
                 font: .label2, 
                 alignment: .center
             )
             floorStackView.addArrangedSubview(floorLabel)
         }
-        
-        let teacherArray = ["조영준 선생님", "박현아 선생님", "육기준 선생님"]
-        for teacher in teacherArray {
+
+        teacherStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        for teacher in data {
             let teacherLabel = PiCKLabel(
-                text: teacher,
+                text: "\(teacher.teacherName) 선생님",
                 textColor: .modeBlack,
                 font: .subTitle3
             )
