@@ -4,39 +4,43 @@ import Domain
 
 struct SchoolMealDTO: Decodable {
     public let date: String
-    public let meals: [SchoolMealDTOElement]
+    public let meals: SchoolMealDTOElement
 }
 
 extension SchoolMealDTO {
     func toDomain() -> SchoolMealEntity {
-//        return .init(meals: meals.toDomain())
-        return .init(
-            date: date,
-            meals: meals.map { $0.toDomain() }
-        )
+        return .init(meals: meals.toDomain())
     }
 }
 
 struct SchoolMealDTOElement: Decodable {
-   public let breakfast: [String]
-   public let lunch: [String]
-   public let dinner: [String]
+   public let breakfast: MealDTOElement
+   public let lunch: MealDTOElement
+   public let dinner: MealDTOElement
 }
 
 extension SchoolMealDTOElement {
     func toDomain() -> SchoolMealEntityElement {
         return .init(
-            breakfast: breakfast,
-            lunch: lunch,
-            dinner: dinner
+            mealBundle: [
+                (0, "조식", breakfast.toDomain()),
+                (1, "중식", lunch.toDomain()),
+                (2, "석식", dinner.toDomain())
+            ]
         )
-//        return .init(
-//            mealBundle: [
-//                (0, "조식", breakfast),
-//                (1, "중식", lunch),
-//                (2, "석식", dinner)
-//            ]
-//        )
     }
-    
+}
+
+struct MealDTOElement: Decodable {
+    public let menu: [String]
+    public let cal: String
+}
+
+extension MealDTOElement {
+    func toDomain() -> MealEntityElement {
+        return .init(
+            menu: menu,
+            kcal: cal
+        )
+    }
 }
