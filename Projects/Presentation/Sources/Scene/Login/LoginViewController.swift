@@ -91,6 +91,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         loginButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            //MARK: SE에서 레이아웃 깨짐
         }
     }
 
