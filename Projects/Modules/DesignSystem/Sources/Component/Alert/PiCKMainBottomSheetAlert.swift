@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 
 public enum BottomAlertType {
-    case homeViewType, displayMode
+    case homeViewMode, displayMode
 }
 
 public class PiCKMainBottomSheetAlert: UIViewController {
@@ -18,17 +18,19 @@ public class PiCKMainBottomSheetAlert: UIViewController {
 
     public var clickModeButton: ((Any) -> Void)?
 
-    private var type: BottomAlertType = .homeViewType
+    private var type: BottomAlertType = .homeViewMode
     private var homeViewType: HomeViewType {
-        let value = userDefaultStorage.get(forKey: .homeViewMode) as? HomeViewType
-        return value == .timeTable ? .schoolMeal : .timeTable
+        let data = userDefaultStorage.getUserDataType(
+            forKey: .homeViewMode,
+            type: HomeViewType.self
+        ) as? HomeViewType
+
+        return data == .timeTable ? .schoolMeal : .timeTable
     }
     private var displayType: UIUserInterfaceStyle {
-        if userDefaultStorage.get(forKey: .displayMode) as? Int == 2 {
-            return .light
-        } else {
-            return .dark
-        }
+        let data = userDefaultStorage.get(forKey: .displayMode) as? Int
+
+        return data == 2 ? .light : .dark
     }
 
     private let dismissArrowButton = PiCKImageButton(image: .bottomArrow, imageColor: .main500)
@@ -56,9 +58,9 @@ public class PiCKMainBottomSheetAlert: UIViewController {
     private let changeModeButton = PiCKButton(type: .system)
 
     public init(
-        type: BottomAlertType? = .homeViewType
+        type: BottomAlertType = .homeViewMode
     ) {
-        self.type = type ?? .homeViewType
+        self.type = type
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -87,8 +89,8 @@ public class PiCKMainBottomSheetAlert: UIViewController {
         changeModeButton.buttonTap
             .bind(onNext: { [weak self] in
                 switch self?.type {
-                case .homeViewType:
-                    self?.clickModeButton!(self!.homeViewType.rawValue)
+                case .homeViewMode:
+                    self?.clickModeButton!(self!.homeViewType)
                     self?.dismiss(animated: true)
                 case .displayMode:
                     self?.clickModeButton!(self!.displayType.rawValue)
@@ -126,7 +128,7 @@ public class PiCKMainBottomSheetAlert: UIViewController {
 extension PiCKMainBottomSheetAlert {
     private func typeLayout() {
         switch type {
-        case .homeViewType:
+        case .homeViewMode:
             self.explainLabel.text = BottomSheetTextEnum.homeViewModeExplainText.rawValue
             switch homeViewType {
             case .timeTable:
