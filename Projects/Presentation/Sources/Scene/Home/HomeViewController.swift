@@ -19,7 +19,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         x: 0,
         y: 0,
         width: self.view.frame.width,
-        height: 350
+        height: 0
     )
 
     private lazy var homeViewType: HomeViewType = .timeTable
@@ -33,43 +33,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self, settingIsHidden: false)
     private let profileView = PiCKProfileView()
 
-    private let todayTimeTableLabel = PiCKLabel(
-        text: "오늘의 시간표",
+    private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
     )
-//    private lazy var topCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
-//        $0.scrollDirection = .vertical
-//        switch homeViewType {
-//        case .timeTable:
-//            $0.itemSize = .init(width: self.view.frame.width, height: 44)
-//        case .schoolMeal:
-//            $0.itemSize = .init(width: self.view.frame.width, height: 102)
-//        }
-//    }
-//    //TODO: 시간표가 바뀌었다는 알림을 headerView로 표현?
-//    private lazy var topCollectionView = UICollectionView(
-//        frame: .zero,
-//        collectionViewLayout: topCollectionViewFlowLayout
-//    ).then {
-//        $0.backgroundColor = .background
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.showsVerticalScrollIndicator = false
-//        switch homeViewType {
-//        case .timeTable:
-//            $0.register(
-//                TimeTableCollectionViewCell.self,
-//                forCellWithReuseIdentifier: TimeTableCollectionViewCell.identifier
-//            )
-//        case .schoolMeal:
-//            $0.register(
-//                SchoolMealHomeCell.self,
-//                forCellWithReuseIdentifier: SchoolMealHomeCell.identifier
-//            )
-//        }
-//    }
-    //stackview에 넣어서 정리
-    
+
     private lazy var timeTableView = HomeTimeTableView(frame: subViewSize)
     private lazy var schoolMealView = HomeSchoolMealView(frame: subViewSize)
     private lazy var stackView = UIStackView(arrangedSubviews: [
@@ -99,6 +67,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.view.frame.width, height: 81)
+        $0.minimumLineSpacing = 5
     }
     private lazy var noticeCollectionView = UICollectionView(
         frame: .zero,
@@ -115,7 +84,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
-        
+
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {
@@ -132,16 +101,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 self?.homeViewType = data
                 switch self?.homeViewType {
                 case .timeTable:
+                    self?.todaysLabel.text = "오늘의 시간표"
                     self?.schoolMealView.isHidden = true
                     self?.timeTableView.isHidden = false
-                    self?.loadViewIfNeeded()
-                    
-//                    self?.setLayout()
                 case .schoolMeal:
+                    self?.todaysLabel.text = "오늘의 급식"
                     self?.timeTableView.isHidden = true
                     self?.schoolMealView.isHidden = false
-//                    self?.setLayout()
-                    self?.loadViewIfNeeded()
                 case .none:
                     return
                 }
@@ -169,6 +135,30 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind(onNext: { [weak self] data in
                 self?.selfStudyBannerView.setup(selfStudyTeacherData: data)
             }).disposed(by: disposeBag)
+
+        output.timeTableHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                self?.stackView.snp.remakeConstraints {
+                    $0.height.equalTo(height)
+                }
+                self?.setLayout()
+            }).disposed(by: disposeBag)
+
+        output.schoolMealHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                self?.stackView.snp.remakeConstraints {
+                    $0.height.equalTo(height)
+                }
+                self?.setLayout()
+            }).disposed(by: disposeBag)
+
+        output.noticeViewHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                self?.noticeCollectionView.snp.remakeConstraints {
+                    $0.height.equalTo(height)
+                }
+                self?.setLayout()
+            }).disposed(by: disposeBag)
     }
 
     public override func addView() {
@@ -182,14 +172,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         contentView.addSubview(mainView)
 
        [
-            todayTimeTableLabel,
+            todaysLabel,
             stackView,
             selfStudyBannerView,
             noticeStackView,
             noticeCollectionView,
        ].forEach { mainView.addSubview($0) }
     }
-    
+
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -213,17 +203,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.height.equalTo(self.view.frame.height * 1.6)
         }
 
-        todayTimeTableLabel.snp.makeConstraints {
+        todaysLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(40)
             $0.leading.equalToSuperview().inset(24)
         }
         stackView.snp.makeConstraints {
-            $0.top.equalTo(todayTimeTableLabel.snp.bottom).offset(20)
+            $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(350)//TODO: 높이 조절 필요
         }
         selfStudyBannerView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(32)
+            $0.top.equalTo(stackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(160)
         }
@@ -234,7 +223,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         noticeCollectionView.snp.makeConstraints {
             $0.top.equalTo(recentNoticeLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(350)//TODO: 높이 조절 필요
         }
     }
 

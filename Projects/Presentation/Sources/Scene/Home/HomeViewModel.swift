@@ -40,6 +40,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
         let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
         let noticeListData: Driver<NoticeListEntity>
         let selfStudyData: Driver<SelfStudyEntity>
+        let timeTableHeight: Driver<CGFloat>
+        let schoolMealHeight: Driver<CGFloat>
+        let noticeViewHeight: Driver<CGFloat>
     }
 
     private let viewModeData = PublishRelay<HomeViewType>()
@@ -47,6 +50,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
     private let noticeListData = BehaviorRelay<NoticeListEntity>(value: [])
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
+    private let timeTableHeight = PublishRelay<CGFloat>()
+    private let schoolMealHeight = PublishRelay<CGFloat>()
+    private let noticeViewHeight = PublishRelay<CGFloat>()
 
     public func transform(input: Input) -> Output {
         input.viewWillApper
@@ -64,8 +70,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
                         return .never()
                     }
             }
-            .subscribe(onNext: { [weak self] in
-                self?.timetableData.accept($0.timetables)
+            .subscribe(onNext: { [weak self] data in
+                self?.timetableData.accept(data.timetables)
+
+                let height = CGFloat(data.timetables.count * 50)
+                self?.timeTableHeight.accept(height)
             }).disposed(by: disposeBag)
 
         input.viewWillApper.asObservable()
@@ -76,10 +85,12 @@ public class HomeViewModel: BaseViewModel, Stepper {
                         return .never()
                     }
             }
-            .subscribe(onNext: {
-                self.schoolMealData.accept($0.meals.mealBundle)
-            })
-            .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] data in
+                self?.schoolMealData.accept(data.meals.mealBundle)
+
+                let height = CGFloat(data.meals.mealBundle.count * 102)
+                self?.schoolMealHeight.accept(height)
+            }).disposed(by: disposeBag)
 
         input.viewWillApper
             .flatMap {
@@ -89,11 +100,12 @@ public class HomeViewModel: BaseViewModel, Stepper {
                         return .never()
                     }
             }
-            .subscribe(onNext: { noticeData in
+            .subscribe(onNext: { [weak self] noticeData in
                 let value = Array(noticeData.prefix(5))
-                self.noticeListData.accept(value)
-            })
-            .disposed(by: disposeBag)
+                self?.noticeListData.accept(value)
+                let height = CGFloat(value.count)
+                self?.noticeViewHeight.accept(height * 86)
+            }).disposed(by: disposeBag)
 
         input.viewWillApper
             .flatMap {
@@ -106,10 +118,10 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: selfStudyData)
             .disposed(by: disposeBag)
 
-//        input.clickAlert
-//            .map { PiCKStep.alertIsRequired }
-//            .bind(to: steps)
-//            .disposed(by: disposeBag)
+        input.clickAlert
+            .map { PiCKStep.alertIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
 
         input.clickViewMoreNotice
             .map { PiCKStep.noticeIsRequired }
@@ -121,7 +133,10 @@ public class HomeViewModel: BaseViewModel, Stepper {
             timetableData: timetableData.asDriver(),
             schoolMealData: schoolMealData.asDriver(),
             noticeListData: noticeListData.asDriver(),
-            selfStudyData: selfStudyData.asDriver()
+            selfStudyData: selfStudyData.asDriver(),
+            timeTableHeight: timeTableHeight.asDriver(onErrorJustReturn: 0),
+            schoolMealHeight: schoolMealHeight.asDriver(onErrorJustReturn: 0),
+            noticeViewHeight: noticeViewHeight.asDriver(onErrorJustReturn: 0)
         )
     }
 
