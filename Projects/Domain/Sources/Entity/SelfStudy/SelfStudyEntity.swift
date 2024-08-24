@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SelfStudyTeacherEntityElement {
+public struct SelfStudyEntityElement {
     public let floor: Int
     public let teacherName: String
     
@@ -13,4 +13,4 @@ public struct SelfStudyTeacherEntityElement {
     }
 }
 
-public typealias SelfStudyTeacherEntity = [SelfStudyTeacherEntityElement]
+public typealias SelfStudyEntity = [SelfStudyEntityElement]

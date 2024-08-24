@@ -8,18 +8,16 @@ import RxCocoa
 import RxGesture
 
 import Core
-import DesignSystem
 
 public class PiCKProfileView: BaseView {
-    
     private let profileImageView = UIImageView(image: .profile)
     private let userInfoLabel = PiCKLabel(
-        text: "대덕소프트웨어마이스터고등학교\n2학년 4반 조영준",
+        text: "대덕소프트웨어마이스터고등학교\n2학년 4반 13번 조영준",
         textColor: .modeBlack,
         font: .label1,
         numberOfLines: 0
     )
-    
+
     public func setup(
         image: UIImage,
         info: String
@@ -27,7 +25,7 @@ public class PiCKProfileView: BaseView {
         self.profileImageView.image = image
         self.userInfoLabel.text = info
     }
-    
+
     public override func attribute() {
         self.backgroundColor = .background
     }

@@ -20,6 +20,7 @@ let project = Project.makeModule(
         .SPM.Swinject,
         .SPM.Lottie,
         .SPM.SkeletonView,
-        .SPM.FSCalendar
+        .SPM.FSCalendar,
+        .SPM.RxDataSources
     ]
 )

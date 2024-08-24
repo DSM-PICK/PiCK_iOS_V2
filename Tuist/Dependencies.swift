@@ -61,6 +61,10 @@ let dependencies = Dependencies.init(
             .remote(
                 url: "https://github.com/WenchaoD/FSCalendar.git",
                 requirement: .upToNextMajor(from: "2.8.4")
+            ),
+            .remote(
+                url: "https://github.com/RxSwiftCommunity/RxDataSources.git",
+                requirement: .upToNextMajor(from: "5.0.0")
             )
         ],
         baseSettings: .settings(

@@ -4,14 +4,14 @@ import RxSwift
 
 import Domain
 
-class SelfStudyTeacherRepositoryImpl: SelfStudyRepository {
-    let remoteDataSource: SelfStudyTeacherDataSource
+class SelfStudyRepositoryImpl: SelfStudyRepository {
+    let remoteDataSource: SelfStudyDataSource
 
-    init(remoteDataSource: SelfStudyTeacherDataSource) {
+    init(remoteDataSource: SelfStudyDataSource) {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchSelfStudyTeacher(date: String) -> Single<SelfStudyTeacherEntity> {
+    func fetchSelfStudyTeacher(date: String) -> Single<SelfStudyEntity> {
         return remoteDataSource.fetchSelfStudyTeacher(date: date)
             .map(SelfStudyTeacherDTO.self)
             .map { $0.toDomain() }

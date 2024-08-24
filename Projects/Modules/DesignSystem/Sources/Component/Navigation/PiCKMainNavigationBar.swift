@@ -58,21 +58,23 @@ public class PiCKMainNavigationBar: BaseView {
     public override func bind() {
         viewSettingButtonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKMainBottomSheetAlert(type: .homeViewType)
-                
+                let vc = PiCKMainBottomSheetAlert(type: .homeViewMode)
+
                 vc.clickModeButton = { mode in
-                    self?.userDefaultStorage.set(to: mode, forKey: .homeViewMode)
+                    self?.userDefaultStorage.setUserDataType(to: mode as? HomeViewType, forKey: .homeViewMode)
+                    self?.presentViewController.viewWillAppear(true)
                 }
+
                 self?.presentViewController.presentAsCustomDents(view: vc, height: 252)
             }).disposed(by: disposeBag)
 
         displayModeButton.buttonTap
             .bind(onNext: { [weak self] in
                 let vc = PiCKMainBottomSheetAlert(type: .displayMode)
-                
+
                 vc.clickModeButton = { data in
                     self?.userDefaultStorage.set(to: data, forKey: .displayMode)
-                    let value = UserDefaultsManager.shared.get(forKey: .displayMode) as! Int
+                    let value = self?.userDefaultStorage.get(forKey: .displayMode) as? Int
 
                     UIView.transition(
                         with: self!.presentViewController.view!,
@@ -82,7 +84,7 @@ public class PiCKMainNavigationBar: BaseView {
                         self?.presentViewController.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
                     }
                 }
-                
+
                 self?.presentViewController.presentAsCustomDents(view: vc, height: 252)
             }).disposed(by: disposeBag)
     }

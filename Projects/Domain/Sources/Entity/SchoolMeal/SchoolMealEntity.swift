@@ -1,35 +1,27 @@
 import Foundation
 
 public struct SchoolMealEntity {
-    public let date: String
-    public let meals: [SchoolMealEntityElement]
+    public let meals: SchoolMealEntityElement
 
-    public init(
-        date: String,
-        meals: [SchoolMealEntityElement]
-    ) {
-        self.date = date
+    public init(meals: SchoolMealEntityElement) {
         self.meals = meals
     }
 }
 
 public struct SchoolMealEntityElement {
-//    public let mealBundle: [(Int, String, [String])]
-    public let breakfast: [String]
-    public let lunch: [String]
-    public let dinner: [String]
+    public let mealBundle: [(Int, String, MealEntityElement)]
 
-//    public init(mealBundle: [(Int, String, [String])]) {
-//        self.mealBundle = mealBundle
-//    }
-    public init(
-        breakfast: [String],
-        lunch: [String],
-        dinner: [String]
-    ) {
-        self.breakfast = breakfast
-        self.lunch = lunch
-        self.dinner = dinner
+    public init(mealBundle: [(Int, String, MealEntityElement)]) {
+        self.mealBundle = mealBundle
     }
+}
 
+public struct MealEntityElement {
+    public let menu: [String]
+    public let kcal: String
+
+    public init(menu: [String], kcal: String) {
+        self.menu = menu
+        self.kcal = kcal
+    }
 }
