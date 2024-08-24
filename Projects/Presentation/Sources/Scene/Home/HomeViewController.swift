@@ -7,11 +7,12 @@ import RxSwift
 import RxCocoa
 
 import Core
+import Domain
 import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
-    private let viewModeRelay = PublishRelay<HomeViewType>()
-    private let loadSchoolMealRelay = PublishRelay<String>()
+    private var timeTableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
+    private var schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
 
     private let todayDate = Date()
 
@@ -21,6 +22,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         width: self.view.frame.width,
         height: 0
     )
+    private lazy var timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
+    private lazy var schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
 
     private lazy var homeViewType: HomeViewType = .timeTable
     private let scrollView = UIScrollView().then {
@@ -98,29 +101,17 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.viewMode.asObservable()
             .bind(onNext: { [weak self] data in
-                self?.homeViewType = data
-                switch self?.homeViewType {
-                case .timeTable:
-                    self?.todaysLabel.text = "오늘의 시간표"
-                    self?.schoolMealView.isHidden = true
-                    self?.timeTableView.isHidden = false
-                case .schoolMeal:
-                    self?.todaysLabel.text = "오늘의 급식"
-                    self?.timeTableView.isHidden = true
-                    self?.schoolMealView.isHidden = false
-                case .none:
-                    return
-                }
+                self?.setupViewType(type: data)
             }).disposed(by: disposeBag)
 
         output.timetableData.asObservable()
             .bind(onNext: { [weak self] data in
-                self?.timeTableView.setup(timeTableData: data)
+                self?.timeTableData.accept(data)
             }).disposed(by: disposeBag)
 
         output.schoolMealData.asObservable()
             .bind(onNext: { [weak self] data in
-                self?.schoolMealView.setup(schoolMealData: data)
+                self?.schoolMealData.accept(data)
             }).disposed(by: disposeBag)
 
         output.noticeListData.asObservable()
@@ -138,18 +129,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.timeTableHeight.asObservable()
             .bind(onNext: { [weak self] height in
-                self?.stackView.snp.remakeConstraints {
-                    $0.height.equalTo(height)
+                if height == 0 {
+                    self?.timeTableHeight.accept(50)
+                } else {
+                    self?.timeTableHeight.accept(height)
                 }
-                self?.setLayout()
             }).disposed(by: disposeBag)
 
         output.schoolMealHeight.asObservable()
             .bind(onNext: { [weak self] height in
-                self?.stackView.snp.remakeConstraints {
-                    $0.height.equalTo(height)
-                }
-                self?.setLayout()
+                self?.schoolMealHeight.accept(height)
             }).disposed(by: disposeBag)
 
         output.noticeViewHeight.asObservable()
@@ -223,6 +212,27 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         noticeCollectionView.snp.makeConstraints {
             $0.top.equalTo(recentNoticeLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
+        }
+    }
+
+    private func setupViewType(type: HomeViewType) {
+        switch type {
+        case .timeTable:
+            self.todaysLabel.text = "오늘의 시간표"
+            self.schoolMealView.isHidden = true
+            self.timeTableView.isHidden = false
+            self.timeTableView.setup(timeTableData: self.timeTableData.value)
+            stackView.snp.remakeConstraints {
+                $0.height.equalTo(self.timeTableHeight.value)
+            }
+        case .schoolMeal:
+            self.todaysLabel.text = "오늘의 급식"
+            self.timeTableView.isHidden = true
+            self.schoolMealView.isHidden = false
+            self.schoolMealView.setup(schoolMealData: self.schoolMealData.value)
+            stackView.snp.remakeConstraints {
+                $0.height.equalTo(self.schoolMealHeight.value)
+            }
         }
     }
 

@@ -13,6 +13,12 @@ import DesignSystem
 public class HomeTimeTableView: BaseView {
     private let timeTableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
 
+    private var emptyTimeTableLabel = PiCKLabel(
+        text: "오늘은 등록된 시간표가 없습니다",
+        textColor: .modeBlack,
+        font: .body1,
+        isHidden: true
+    )
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.frame.width, height: 44)
@@ -45,12 +51,22 @@ public class HomeTimeTableView: BaseView {
                 cellIdentifier: TimeTableCollectionViewCell.identifier,
                 cellType: TimeTableCollectionViewCell.self
             )) { row, item, cell in
+                if item.subjectName.isEmpty == true {
+                    self.collectionView.isHidden = true
+                    self.emptyTimeTableLabel.isHidden = false
+                }
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
     }
     public override func layout() {
-        self.addSubview(collectionView)
+        [
+            emptyTimeTableLabel,
+            collectionView
+        ].forEach { self.addSubview($0) }
 
+        emptyTimeTableLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
