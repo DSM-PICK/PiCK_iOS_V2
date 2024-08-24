@@ -18,7 +18,7 @@ public struct UserDefaultsManager: UserDefault {
             let encodedData = try encoder.encode(to)
             UserDefaults.standard.set(encodedData, forKey: forKey.rawValue)
         } catch {
-            print("Fail To Encode UserDataType")
+            print("Fail To Encode UserDataType: \(error.localizedDescription)")
         }
     }
 
@@ -34,7 +34,7 @@ public struct UserDefaultsManager: UserDefault {
                 let decodedData = try decoder.decode(T.self, from: data as! Data)
                 return decodedData
             } catch {
-                print("Fail To Decode UserDataType")
+                print("Fail To Decode UserDataType: \(error.localizedDescription)")
             }
         }
         return nil
