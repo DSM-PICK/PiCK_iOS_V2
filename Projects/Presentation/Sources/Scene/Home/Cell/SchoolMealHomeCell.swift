@@ -19,6 +19,12 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<(String, MealEntityEleme
         backgroundColor: .main500,
         cornerRadius: 12
     )
+    private var emptyMealLabel = PiCKLabel(
+        text: "등록된 급식이 없습니다.",
+        textColor: .modeBlack,
+        font: .body1,
+        isHidden: true
+    )
 
 //    public override func adapt(model: (String, MealEntityElement)) {
 //        super.adapt(model: model)
@@ -32,16 +38,17 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<(String, MealEntityEleme
         menu: [String],
         kcal: String
     ) {
-        self.mealTimeLabel.text = mealTime
-        self.menuLabel.text = menu.joined(separator: "\n")
-        self.kcalLabel.text = kcal
+            self.mealTimeLabel.text = mealTime
+            self.menuLabel.text = menu.joined(separator: "\n")
+            self.kcalLabel.text = kcal
     }
     
     public override func layout() {
         [
             mealTimeLabel,
             menuLabel,
-            kcalLabel
+            kcalLabel,
+            emptyMealLabel
         ].forEach { self.addSubview($0) }
 
         mealTimeLabel.snp.makeConstraints {
@@ -57,6 +64,9 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<(String, MealEntityEleme
             $0.trailing.equalToSuperview().inset(24)
             $0.width.equalTo(76)
             $0.height.equalTo(24)
+        }
+        emptyMealLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
 
