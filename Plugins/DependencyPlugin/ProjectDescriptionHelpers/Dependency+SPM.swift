@@ -19,4 +19,5 @@ public extension TargetDependency.SPM {
     static let Lottie = TargetDependency.external(name: "Lottie")
     static let SkeletonView = TargetDependency.external(name: "SkeletonView")
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
+    static let RxDataSources = TargetDependency.external(name: "RxDataSources")
 }
