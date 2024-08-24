@@ -7,11 +7,23 @@ import RxSwift
 import RxCocoa
 
 import Core
+import Domain
 import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
-    private let viewModeRelay = PublishRelay<HomeViewType>()
-    private let loadSchoolMealRelay = PublishRelay<String>()
+    private var timeTableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
+    private var schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
+
+    private let todayDate = Date()
+
+    private lazy var subViewSize = CGRect(
+        x: 0,
+        y: 0,
+        width: self.view.frame.width,
+        height: 0
+    )
+    private lazy var timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
+    private lazy var schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
 
     private lazy var homeViewType: HomeViewType = .timeTable
     private let scrollView = UIScrollView().then {
@@ -24,44 +36,20 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self, settingIsHidden: false)
     private let profileView = PiCKProfileView()
 
-    private let todayTimeTableLabel = PiCKLabel(
-        text: "오늘의 시간표",
+    private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
     )
-    private lazy var topCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        switch homeViewType {
-        case .timeTable:
-            $0.itemSize = .init(width: self.view.frame.width, height: 44)
-        case .schoolMeal:
-            $0.itemSize = .init(width: self.view.frame.width, height: 102)
-        }
+
+    private lazy var timeTableView = HomeTimeTableView(frame: subViewSize)
+    private lazy var schoolMealView = HomeSchoolMealView(frame: subViewSize)
+    private lazy var stackView = UIStackView(arrangedSubviews: [
+        timeTableView,
+        schoolMealView
+    ]).then {
+        $0.axis = .vertical
     }
-    //TODO: 시간표가 바뀌었다는 알림을 headerView로 표현?
-    private lazy var topCollectionView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: topCollectionViewFlowLayout
-    ).then {
-        $0.backgroundColor = .background
-        $0.showsHorizontalScrollIndicator = false
-        $0.showsVerticalScrollIndicator = false
-//        switch viewModeType {
-//        case .timeTable:
-            $0.register(
-                TimeTableCollectionViewCell.self,
-                forCellWithReuseIdentifier: TimeTableCollectionViewCell.identifier
-            )
-//        case .schoolMeal:
-            $0.register(
-                SchoolMealHomeCell.self,
-                forCellWithReuseIdentifier: SchoolMealHomeCell.identifier
-            )
-//        }
-//        $0.delegate = self
-//        $0.dataSource = self
-    }
-    private let selfStudyBannerView = PiCKMainBannerView()
+    private let selfStudyBannerView = PiCKHomeBannerView()
     private let recentNoticeLabel = PiCKLabel(
         text: "최신 공지",
         textColor: .gray700,
@@ -79,13 +67,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
-    private lazy var bottomCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
+    private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.view.frame.width, height: 81)
+        $0.minimumLineSpacing = 5
     }
-    private lazy var bottomCollectionView = UICollectionView(
+    private lazy var noticeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: bottomCollectionViewFlowLayout
+        collectionViewLayout: noticeCollectionViewFlowLayout
     ).then {
         $0.backgroundColor = .background
         $0.showsHorizontalScrollIndicator = false
@@ -94,57 +83,71 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             NoticeCollectionViewCell.self,
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
-//        $0.delegate = self
-//        $0.dataSource = self
     }
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
-        
+
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {
         let input = HomeViewModel.Input(
             viewWillApper: viewWillAppearRelay.asObservable(),
             clickAlert: navigationBar.alertButtonTap.asObservable(),
-            clickViewMore: viewMoreButton.rx.tap.asObservable()
+            clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
+            todayDate: todayDate.toString(type: .fullDate)
         )
         let output = viewModel.transform(input: input)
-        
+
         output.viewMode.asObservable()
-            .subscribe(onNext: { mode in
-                let type = UserDefaultsManager.shared.get(forKey: .homeViewMode)
-                self.homeViewType = type as! HomeViewType
+            .bind(onNext: { [weak self] data in
+                self?.setupViewType(type: data)
             }).disposed(by: disposeBag)
 
         output.timetableData.asObservable()
-            .bind(to: topCollectionView.rx.items(
-                cellIdentifier: TimeTableCollectionViewCell.identifier,
-                cellType: TimeTableCollectionViewCell.self
-            )) { row, item, cell in
-                cell.adapt(model: item)
-            }.disposed(by: disposeBag)
+            .bind(onNext: { [weak self] data in
+                self?.timeTableData.accept(data)
+            }).disposed(by: disposeBag)
+
+        output.schoolMealData.asObservable()
+            .bind(onNext: { [weak self] data in
+                self?.schoolMealData.accept(data)
+            }).disposed(by: disposeBag)
 
         output.noticeListData.asObservable()
-            .bind(to: bottomCollectionView.rx.items(
+            .bind(to: noticeCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self
             )) { row, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
-//        viewMoreButton.rx.tap
-//            .bind {
-//               let dd = UserDefaultsManager.shared.get(forKey: .homeViewMode)
-//                self.homeViewType = dd as? HomeViewType ?? .schoolMeal
-//                self.view.layoutIfNeeded()
-//                self.viewWillAppear(true)
-//                self.topCollectionView.reloadData()
-//                /*      한번 셀이 바뀐 이후로 다시 안바뀜
-//                        셀 사이즈 이상함
-//                        bottomsheet, navigationbar 코드 리펙 필요함
-//                        viewmodel에 bind을 꼭 해야할까?
-//                */
-//            }.disposed(by: disposeBag)
+
+        output.selfStudyData.asObservable()
+            .bind(onNext: { [weak self] data in
+                self?.selfStudyBannerView.setup(selfStudyTeacherData: data)
+            }).disposed(by: disposeBag)
+
+        output.timeTableHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                if height == 0 {
+                    self?.timeTableHeight.accept(50)
+                } else {
+                    self?.timeTableHeight.accept(height)
+                }
+            }).disposed(by: disposeBag)
+
+        output.schoolMealHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                self?.schoolMealHeight.accept(height)
+            }).disposed(by: disposeBag)
+
+        output.noticeViewHeight.asObservable()
+            .bind(onNext: { [weak self] height in
+                self?.noticeCollectionView.snp.remakeConstraints {
+                    $0.height.equalTo(height)
+                }
+                self?.setLayout()
+            }).disposed(by: disposeBag)
     }
 
     public override func addView() {
@@ -158,14 +161,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         contentView.addSubview(mainView)
 
        [
-            todayTimeTableLabel,
-            topCollectionView,
+            todaysLabel,
+            stackView,
             selfStudyBannerView,
             noticeStackView,
-            bottomCollectionView,
+            noticeCollectionView,
        ].forEach { mainView.addSubview($0) }
     }
-    
+
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -186,20 +189,19 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         }
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height * 1.8)
+            $0.height.equalTo(self.view.frame.height * 1.6)
         }
 
-        todayTimeTableLabel.snp.makeConstraints {
+        todaysLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(40)
             $0.leading.equalToSuperview().inset(24)
         }
-        topCollectionView.snp.makeConstraints {
-            $0.top.equalTo(todayTimeTableLabel.snp.bottom).offset(20)
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(350)//TODO: 높이 조절 필요
         }
         selfStudyBannerView.snp.makeConstraints {
-            $0.top.equalTo(topCollectionView.snp.bottom).offset(32)
+            $0.top.equalTo(stackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(160)
         }
@@ -207,56 +209,31 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(selfStudyBannerView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
-        bottomCollectionView.snp.makeConstraints {
+        noticeCollectionView.snp.makeConstraints {
             $0.top.equalTo(recentNoticeLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(350)//TODO: 높이 조절 필요
+        }
+    }
+
+    private func setupViewType(type: HomeViewType) {
+        switch type {
+        case .timeTable:
+            self.todaysLabel.text = "오늘의 시간표"
+            self.schoolMealView.isHidden = true
+            self.timeTableView.isHidden = false
+            self.timeTableView.setup(timeTableData: self.timeTableData.value)
+            stackView.snp.remakeConstraints {
+                $0.height.equalTo(self.timeTableHeight.value)
+            }
+        case .schoolMeal:
+            self.todaysLabel.text = "오늘의 급식"
+            self.timeTableView.isHidden = true
+            self.schoolMealView.isHidden = false
+            self.schoolMealView.setup(schoolMealData: self.schoolMealData.value)
+            stackView.snp.remakeConstraints {
+                $0.height.equalTo(self.schoolMealHeight.value)
+            }
         }
     }
 
 }
-
-//extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if collectionView == topCollectionView {
-//            return 7
-//        } else {
-//            return 6
-//        }
-//    }
-//
-//    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if collectionView == topCollectionView {
-//            switch homeViewType {
-//            case .timeTable:
-//                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: TimeTableCollectionViewCell.identifier, for: indexPath) as? TimeTableCollectionViewCell else {
-//                    return UICollectionViewCell()
-//                }
-//                cell.setup(
-//                    period: indexPath.row + 1,
-//                    image: .alert,
-//                    subject: "디지털 포렌식"
-//                )
-//                return cell
-//            case .schoolMeal:
-//                guard let cell = topCollectionView.dequeueReusableCell(withReuseIdentifier: SchoolMealHomeCell.identifier, for: indexPath) as? SchoolMealHomeCell else {
-//                    return UICollectionViewCell()
-//                }
-//                cell.setup(
-//                    mealTime: "조식",
-//                    menu: "녹두찰밥\n스팸구이\n시리얼(블루베리)\n우유\n한우궁중떡볶이\n미니고구마파이",
-//                    kcal: "735.9kcal"
-//                )
-//                return cell
-//            }
-//        } else {
-//            guard let cell = bottomCollectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell else {
-//                return UICollectionViewCell()
-//            }
-//            
-////            cell.setup(title: "[중요] 오리엔테이션날 일정 안내", daysAgo: "1일전", isNew: false)
-//            return cell
-//        }
-//    }
-//
-//}

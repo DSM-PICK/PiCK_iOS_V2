@@ -6,11 +6,11 @@ import Core
 import Domain
 import AppNetwork
 
-public enum SelfStudyTeacherAPI {
-    case fetchSelfstudyTeacherCheck(date: String)
+public enum SelfStudyAPI {
+    case fetchSelfStudyTeacher(date: String)
 }
 
-extension SelfStudyTeacherAPI: PiCKAPI {
+extension SelfStudyAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
@@ -19,21 +19,21 @@ extension SelfStudyTeacherAPI: PiCKAPI {
     
     public var urlPath: String {
         switch self {
-            case .fetchSelfstudyTeacherCheck:
+            case .fetchSelfStudyTeacher:
                 return "/today"
         }
     }
     
     public var method: Moya.Method {
         switch self {
-            case .fetchSelfstudyTeacherCheck:
+            case .fetchSelfStudyTeacher:
                 return .get
         }
     }
     
     public var task: Moya.Task {
         switch self {
-            case .fetchSelfstudyTeacherCheck(let date):
+            case .fetchSelfStudyTeacher(let date):
                 return .requestParameters(
                     parameters: ["date": date],
                     encoding: URLEncoding.queryString

@@ -57,7 +57,7 @@ public final class DataSourceAssembly: Assembly {
             SchoolMealDataSourceImpl(keychain: self.keychain(resolver))
         }
 
-        container.register(SelfStudyTeacherDataSource.self) { resolver in
+        container.register(SelfStudyDataSource.self) { resolver in
             SelfStudyTeacherDataSourceImpl(keychain: self.keychain(resolver))
         }
 
