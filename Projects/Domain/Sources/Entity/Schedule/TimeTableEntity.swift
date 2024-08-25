@@ -2,6 +2,8 @@ import Foundation
 
 import Core
 
+public typealias WeekTimeTableEntity = [TimeTableEntity]
+
 public struct TimeTableEntity {
     public let date: String
     public let timetables: [TimeTableEntityElement]
@@ -35,5 +37,3 @@ public struct TimeTableEntityElement {
     }
 
 }
-
-public typealias WeekTimeTableEntity = [TimeTableEntity]
