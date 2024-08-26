@@ -104,9 +104,9 @@ public class HomeTimeTableView: BaseView {
                 }
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
-        Observable.just(sections)
-            .bind(to: collectionView.rx.items(dataSource: datasource))
-            .disposed(by: disposeBag)
+//        Observable.just(sections)
+//            .bind(to: collectionView.rx.items(dataSource: datasource))
+//            .disposed(by: disposeBag)
     }
     public override func layout() {
         [
