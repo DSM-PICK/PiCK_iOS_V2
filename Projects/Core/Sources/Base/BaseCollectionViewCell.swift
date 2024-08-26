@@ -8,11 +8,6 @@ open class BaseCollectionViewCell<Model>: UICollectionViewCell {
 
     public var model: Model?
 
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-
-        self.disposeBag = DisposeBag()
-    }
     public override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()

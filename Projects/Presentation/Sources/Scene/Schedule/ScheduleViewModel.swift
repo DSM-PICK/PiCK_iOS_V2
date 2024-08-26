@@ -8,17 +8,41 @@ import Core
 import Domain
 
 public class ScheduleViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
-    
-    public init() {}
-    
-    public struct Input {}
-    public struct Output {}
-    
-    public func transform(input: Input) -> Output {
-        return Output()
+
+    private let fetchWeekTimeTableUseCase: FetchWeekTimeTableUseCase
+
+    public init(
+        fetchWeekTimeTableUseCase: FetchWeekTimeTableUseCase
+    ) {
+        self.fetchWeekTimeTableUseCase = fetchWeekTimeTableUseCase
     }
-    
+
+    public struct Input {
+        let loadTimeTable: Observable<Void>
+    }
+    public struct Output {
+        let timeTableData: Driver<WeekTimeTableEntity>
+    }
+
+    let timeTableData = BehaviorRelay<WeekTimeTableEntity>(value: [])
+
+    public func transform(input: Input) -> Output {
+        input.loadTimeTable
+            .flatMap {
+                self.fetchWeekTimeTableUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: timeTableData)
+            .disposed(by: disposeBag)
+
+        return Output(
+            timeTableData: timeTableData.asDriver()
+        )
+    }
+
 }

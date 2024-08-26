@@ -98,7 +98,7 @@ public final class PresentationAssembly: Assembly {
             ScheduleViewController(viewModel: resolver.resolve(ScheduleViewModel.self)!)
         }
         container.register(ScheduleViewModel.self) { resolver in
-            ScheduleViewModel()
+            ScheduleViewModel(fetchWeekTimeTableUseCase: resolver.resolve(FetchWeekTimeTableUseCase.self)!)
         }
 
         //MARK: AllTab
