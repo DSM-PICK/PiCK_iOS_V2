@@ -60,9 +60,14 @@ public final class UseCaseAssembly: Assembly {
         }
 
         //MARK: Schedule
-        //timeTable
         container.register(FetchWeekTimeTableUseCase.self) { resolver in
             FetchWeekTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
+        }
+        container.register(FetchMonthAcademicScheduleUseCase.self) { resolver in
+            FetchMonthAcademicScheduleUseCase(repository: resolver.resolve(AcademicScheduleRepository.self)!)
+        }
+        container.register(FetchAcademicScheduleUseCase.self) { resolver in
+            FetchAcademicScheduleUseCase(repository: resolver.resolve(AcademicScheduleRepository.self)!)
         }
 
         //MARK: Notice
