@@ -8,6 +8,7 @@ import AppNetwork
 
 public enum AcademicScheduleAPI {
     case fetchMonthAcademicSchedule(req: AcademicScheduleRequestParams)
+    case loadAcademicSchedule(date: String)
 }
 
 extension AcademicScheduleAPI: PiCKAPI {
@@ -21,6 +22,8 @@ extension AcademicScheduleAPI: PiCKAPI {
         switch self {
             case .fetchMonthAcademicSchedule:
                 return "/month"
+            case .loadAcademicSchedule:
+                return "/date"
         }
     }
     
@@ -38,8 +41,12 @@ extension AcademicScheduleAPI: PiCKAPI {
                     ],
                     encoding: URLEncoding.queryString
                 )
-            default:
-                return .requestPlain
+        case let .loadAcademicSchedule(date):
+            return .requestParameters(
+                parameters: [
+                    "date": date
+                ], encoding: URLEncoding.queryString
+            )
         }
     }
     

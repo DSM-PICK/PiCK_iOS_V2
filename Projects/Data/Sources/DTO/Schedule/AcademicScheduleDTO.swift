@@ -2,7 +2,7 @@ import Foundation
 
 import Domain
 
-public struct MonthAcademicScheduleDTOElement: Decodable {
+public struct AcademicScheduleDTOElement: Decodable {
     let id: UUID
     let eventName: String
     let month: Int
@@ -16,7 +16,7 @@ public struct MonthAcademicScheduleDTOElement: Decodable {
     }
 }
 
-extension MonthAcademicScheduleDTOElement {
+extension AcademicScheduleDTOElement {
     func toDomain() -> AcademicScheduleEntityElement {
         return .init(
             id: id,
@@ -30,9 +30,9 @@ extension MonthAcademicScheduleDTOElement {
 }
 
 
-public typealias MonthAcademicScheduleDTO = [MonthAcademicScheduleDTOElement]
+public typealias AcademicScheduleDTO = [AcademicScheduleDTOElement]
 
-extension MonthAcademicScheduleDTO {
+extension AcademicScheduleDTO {
     func toDomain() -> AcademicScheduleEntity {
         return self.map { $0.toDomain() }
     }
