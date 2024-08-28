@@ -1,0 +1,161 @@
+import UIKit
+
+import SnapKit
+import Then
+
+import RxSwift
+import RxCocoa
+
+import FSCalendar
+
+import Core
+import Domain
+import DesignSystem
+
+public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarDataSource {
+    public var clickYearAndMonth: (Date, Date) -> Void
+    public var clickDate: (Date) -> Void
+
+    private var dateSelectRelay = PublishRelay<Void>()
+
+    private var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
+
+    private lazy var calendarView = FSCalendar().then {
+        $0.scope = .month
+        $0.backgroundColor = .background
+
+        //MARK: 헤더 설정
+        $0.locale = Locale(identifier: "ko_KR")
+        $0.appearance.weekdayTextColor = .modeBlack
+        $0.appearance.weekdayFont = .label1
+        $0.appearance.headerTitleColor = .modeBlack
+        $0.appearance.headerTitleFont = .label1
+        $0.appearance.headerMinimumDissolvedAlpha = 0.0
+        $0.appearance.headerDateFormat = "yyyy년 MM월"
+        //이전, 이후 달 안보이게
+        $0.placeholderType = .none
+        $0.headerHeight = 40
+        //MARK: 셀 설정
+        //선택한 셀 텍스트색
+        $0.appearance.titleSelectionColor = .modeBlack
+        //셀 폰트
+        $0.appearance.titleFont = .caption1
+        //선택한 셀 배경색
+        $0.appearance.selectionColor = .background
+        //선택한 셀 borderColor
+        $0.appearance.borderSelectionColor = .main100
+        //오늘 날짜 셀 텍스트색
+        $0.appearance.titleTodayColor = .modeBlack
+        //오늘 날짜 셀 배경색
+        $0.appearance.todayColor = .main100
+        //오늘 날짜 선택시 배경색
+        $0.appearance.todaySelectionColor = .main100
+
+        //밑점 색상
+        $0.appearance.eventDefaultColor = .main500
+        $0.appearance.eventSelectionColor = .main500
+        $0.appearance.eventOffset = .init(x: 0, y: 3.0)
+
+        //delegate 설정
+        $0.delegate = self
+        $0.dataSource = self
+    }
+    private let previousButton = PiCKImageButton(image: .leftArrow, imageColor: .modeBlack)
+    private let nextButton = PiCKImageButton(image: .rightArrow, imageColor: .modeBlack)
+
+    public func setup(
+        monthAcademicSchedule: AcademicScheduleEntity
+    ) {
+        self.monthAcademicScheduleData.accept(monthAcademicSchedule)
+        self.calendarView.reloadData()
+    }
+
+    public init(
+        clickYearAndMonth: @escaping (Date, Date) -> Void,
+        clickDate: @escaping (Date) -> Void
+    ) {
+        self.clickYearAndMonth = clickYearAndMonth
+        self.clickDate = clickDate
+        super.init(frame: .zero)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public override func bind() {
+        previousButton.rx.tap
+              .bind(onNext: { [weak self] in
+                  self?.moveCalendar(byMonths: -1)
+              }).disposed(by: disposeBag)
+
+          nextButton.rx.tap
+              .bind(onNext: { [weak self] in
+                  self?.moveCalendar(byMonths: 1)
+              }).disposed(by: disposeBag)
+    }
+
+    public override func layout() {
+        self.addSubview(calendarView)
+        [
+            previousButton,
+            nextButton
+        ].forEach { calendarView.addSubview($0) }
+
+        calendarView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        previousButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(5)
+            $0.trailing.equalTo(calendarView.calendarHeaderView.snp.leading).offset(30)
+        }
+        nextButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(5)
+            $0.leading.equalTo(calendarView.calendarHeaderView.snp.trailing).offset(-30)
+        }
+    }
+
+    private func moveCalendar(byMonths months: Int) {
+        let currentPage = calendarView.currentPage
+        if let targetMonth = Calendar.current.date(byAdding: .month, value: months, to: currentPage) {
+            calendarView.setCurrentPage(targetMonth, animated: true)
+            notifyYearAndMonthChange(date: targetMonth)
+        }
+    }
+
+    private func notifyYearAndMonthChange(date: Date) {
+        let calendar = Calendar.current
+        if let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date)),
+           let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) {
+            clickYearAndMonth(startOfMonth, endOfMonth)
+        }
+    }
+
+    private func getDateEventArray() -> [Date] {
+        let currentDate = Date()
+        let currentYear = Calendar.current.component(.year, from: currentDate)
+
+        var dateArray: [Date] = []
+        let currentPageYear = Calendar.current.component(.year, from: calendarView.currentPage)
+
+        for date in monthAcademicScheduleData.value {
+            if currentYear == currentPageYear  {
+                dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
+            }
+        }
+        print("이거 \(dateArray)")
+
+        return dateArray
+    }
+
+}
+
+extension AcademicScheduleCalneder {
+    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        self.clickDate(date)
+    }
+
+    public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        return self.getDateEventArray().contains(date) ? 1 : 0
+    }
+
+}
