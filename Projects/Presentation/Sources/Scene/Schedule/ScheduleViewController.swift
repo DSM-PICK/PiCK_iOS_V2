@@ -10,6 +10,12 @@ import Core
 import DesignSystem
 
 public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
+    private let date = Date()
+    private lazy var academiScheduleYearAndMonth = BehaviorRelay<(String, String)>(value: (
+        date.toString(type: .year),
+        date.toStringEng(type: .fullMonth)
+    ))
+    private lazy var academicScheduleDate = PublishRelay<String>()
     private let shouldHideFirstViewRelay = BehaviorRelay<Bool>(value: true)
 
     private var shouldHideFirstView: Observable<Bool> {
@@ -27,7 +33,18 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
 
     private let segmentedControl = ScheduleSegmentedControl(items: ["시간표", "학사일정"])
     private lazy var timeTableView = TimeTableView(frame: viewSize)
-    private lazy var academicScheduleView = AcademicScheduleView(frame: viewSize)
+    private lazy var academicScheduleView = AcademicScheduleView(
+        frame: viewSize, 
+        clickYearAndMonth: { year, month in
+            self.academiScheduleYearAndMonth.accept((
+                year.toString(type: .year),
+                month.toStringEng(type: .fullMonth)
+            ))
+        },
+        clickDate: { date in
+            self.academicScheduleDate.accept(date.toString(type: .fullDate))
+        }
+    )
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
@@ -36,7 +53,9 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     }
     public override func bind() {
         let input = ScheduleViewModel.Input(
-            loadTimeTable: viewWillAppearRelay.asObservable()
+            viewWillAppear: viewWillAppearRelay.asObservable(),
+            academicScheduleYearAndMonth: academiScheduleYearAndMonth.asObservable(),
+            academicScheduleDate: academicScheduleDate.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -47,11 +66,25 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
                 )
             }).disposed(by: disposeBag)
 
+        output.monthAcademicScheduleData.asObservable()
+            .subscribe(onNext: { [weak self] data in
+                self?.academicScheduleView.monthAcademicScheduleSetup(
+                    monthAcademicSchedule: data
+                )
+            }).disposed(by: disposeBag)
+
+        output.academicScheduleData.asObservable()
+            .subscribe(onNext: { [weak self] data in
+                self?.academicScheduleView.academicScheduleSetup(
+                    academicSchedule: data
+                )
+            }).disposed(by: disposeBag)
+
         segmentedControl.rx.selectedSegmentIndex
             .map { $0 != 0 }
             .bind(to: shouldHideFirstViewRelay)
             .disposed(by: disposeBag)
-        
+
         shouldHideFirstView
             .subscribe(
                 onNext: { [weak self] shouldHide in
@@ -87,7 +120,7 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
         academicScheduleView.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(400)
+            $0.bottom.equalToSuperview()
         }
     }
 
