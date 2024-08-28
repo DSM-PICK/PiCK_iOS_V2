@@ -10,6 +10,11 @@ import Core
 import DesignSystem
 
 public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
+    private let date = Date()
+    private lazy var academiScheduleYearAndMonth = BehaviorRelay<(String, String)>(value: (
+        date.toString(type: .year),
+        date.toStringEng(type: .fullMonth)
+    ))
     private lazy var academicScheduleDate = PublishRelay<String>()
     private let shouldHideFirstViewRelay = BehaviorRelay<Bool>(value: true)
 
@@ -29,7 +34,13 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     private let segmentedControl = ScheduleSegmentedControl(items: ["시간표", "학사일정"])
     private lazy var timeTableView = TimeTableView(frame: viewSize)
     private lazy var academicScheduleView = AcademicScheduleView(
-        frame: viewSize,
+        frame: viewSize, 
+        clickYearAndMonth: { year, month in
+            self.academiScheduleYearAndMonth.accept((
+                year.toString(type: .year),
+                month.toStringEng(type: .fullMonth)
+            ))
+        },
         clickDate: { date in
             self.academicScheduleDate.accept(date.toString(type: .fullDate))
         }
@@ -43,8 +54,7 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     public override func bind() {
         let input = ScheduleViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            academicScheduleYear: Observable.just("2024"),
-            academicScheduleMonth: Observable.just("AUGUST"),
+            academicScheduleYearAndMonth: academiScheduleYearAndMonth.asObservable(),
             academicScheduleDate: academicScheduleDate.asObservable()
         )
         let output = viewModel.transform(input: input)
@@ -56,18 +66,6 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
                 )
             }).disposed(by: disposeBag)
 
-//        let dd = Observable.combineLatest(
-//            output.monthAcademicScheduleData.asObservable(),
-//            output.academicScheduleData.asObservable()
-//        )
-
-//        dd.asObservable()
-//            .subscribe(onNext: { d, dd in
-//                self.academicScheduleView.academicScheduleSetup(
-//                    monthAcademicScheduleData: d,
-//                    academicScheduleData: dd
-//                )
-//            }).disposed(by: disposeBag)
         output.monthAcademicScheduleData.asObservable()
             .subscribe(onNext: { [weak self] data in
                 self?.academicScheduleView.monthAcademicScheduleSetup(
