@@ -27,8 +27,7 @@ public class ScheduleViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let viewWillAppear: Observable<Void>
-        let academicScheduleYear: Observable<String>
-        let academicScheduleMonth: Observable<String>
+        let academicScheduleYearAndMonth: Observable<(String, String)>
         let academicScheduleDate: Observable<String>
     }
     public struct Output {
@@ -42,11 +41,6 @@ public class ScheduleViewModel: BaseViewModel, Stepper {
     private let academicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
 
     public func transform(input: Input) -> Output {
-        let date = Observable.combineLatest(
-            input.academicScheduleYear,
-            input.academicScheduleMonth
-        )
-
         input.viewWillAppear
             .flatMap {
                 self.fetchWeekTimeTableUseCase.execute()
@@ -58,8 +52,7 @@ public class ScheduleViewModel: BaseViewModel, Stepper {
             .bind(to: timeTableData)
             .disposed(by: disposeBag)
 
-        input.viewWillAppear
-            .withLatestFrom(date)
+        input.academicScheduleYearAndMonth
             .flatMap { year, month in
                 self.fetchMonthAcademicScheduleUseCase.execute(req: .init(
                     year: year,

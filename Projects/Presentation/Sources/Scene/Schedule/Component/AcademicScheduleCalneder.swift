@@ -12,12 +12,15 @@ import Core
 import Domain
 import DesignSystem
 
-public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarDelegateAppearance, FSCalendarDataSource {
+public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarDataSource {
+    public var clickYearAndMonth: (Date, Date) -> Void
     public var clickDate: (Date) -> Void
 
-    private lazy var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
+    private var dateSelectRelay = PublishRelay<Void>()
 
-    private lazy var calendar = FSCalendar().then {
+    private var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
+
+    private lazy var calendarView = FSCalendar().then {
         $0.scope = .month
         $0.backgroundColor = .background
 
@@ -28,10 +31,10 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         $0.appearance.headerTitleColor = .modeBlack
         $0.appearance.headerTitleFont = .label1
         $0.appearance.headerMinimumDissolvedAlpha = 0.0
+        $0.appearance.headerDateFormat = "yyyy년 MM월"
         //이전, 이후 달 안보이게
         $0.placeholderType = .none
         $0.headerHeight = 40
-        $0.appearance.headerDateFormat = "yyyy년 MM월"
         //MARK: 셀 설정
         //선택한 셀 텍스트색
         $0.appearance.titleSelectionColor = .modeBlack
@@ -51,6 +54,7 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         //밑점 색상
         $0.appearance.eventDefaultColor = .main500
         $0.appearance.eventSelectionColor = .main500
+        $0.appearance.eventOffset = .init(x: 0, y: 3.0)
 
         //delegate 설정
         $0.delegate = self
@@ -63,9 +67,14 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         monthAcademicSchedule: AcademicScheduleEntity
     ) {
         self.monthAcademicScheduleData.accept(monthAcademicSchedule)
+        self.calendarView.reloadData()
     }
 
-    public init(clickDate: @escaping (Date) -> Void) {
+    public init(
+        clickYearAndMonth: @escaping (Date, Date) -> Void,
+        clickDate: @escaping (Date) -> Void
+    ) {
+        self.clickYearAndMonth = clickYearAndMonth
         self.clickDate = clickDate
         super.init(frame: .zero)
     }
@@ -85,47 +94,57 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
               }).disposed(by: disposeBag)
     }
 
-    private func moveCalendar(byMonths months: Int) {
-        let currentPage = calendar.currentPage
-        if let targetMonth = Calendar.current.date(byAdding: .month, value: months, to: currentPage) {
-            calendar.setCurrentPage(targetMonth, animated: true)
-        }
-    }
-
     public override func layout() {
-        self.addSubview(calendar)
+        self.addSubview(calendarView)
         [
             previousButton,
             nextButton
-        ].forEach { calendar.addSubview($0) }
+        ].forEach { calendarView.addSubview($0) }
 
-        calendar.snp.makeConstraints {
+        calendarView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         previousButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(5)
-            $0.trailing.equalTo(calendar.calendarHeaderView.snp.leading).offset(30)
+            $0.trailing.equalTo(calendarView.calendarHeaderView.snp.leading).offset(30)
         }
         nextButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(5)
-            $0.leading.equalTo(calendar.calendarHeaderView.snp.trailing).offset(-30)
+            $0.leading.equalTo(calendarView.calendarHeaderView.snp.trailing).offset(-30)
         }
     }
-    func getDateEventArray() -> [Date] {
-        var dd: [Date] = []
-        var event: [String] = []
 
-        for i in monthAcademicScheduleData.value {
-            event.append("\(i.month)-\(i.day)")
+    private func moveCalendar(byMonths months: Int) {
+        let currentPage = calendarView.currentPage
+        if let targetMonth = Calendar.current.date(byAdding: .month, value: months, to: currentPage) {
+            calendarView.setCurrentPage(targetMonth, animated: true)
+            notifyYearAndMonthChange(date: targetMonth)
         }
+    }
 
-        for i in event {
-            dd.append(i.toDate(type: .fullDate))
+    private func notifyYearAndMonthChange(date: Date) {
+        let calendar = Calendar.current
+        if let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date)),
+           let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) {
+            clickYearAndMonth(startOfMonth, endOfMonth)
         }
+    }
 
-        print("이거 \(dd)")
-        print("요거 \(monthAcademicScheduleData.value)")
-        return dd
+    private func getDateEventArray() -> [Date] {
+        let currentDate = Date()
+        let currentYear = Calendar.current.component(.year, from: currentDate)
+
+        var dateArray: [Date] = []
+        let currentPageYear = Calendar.current.component(.year, from: calendarView.currentPage)
+
+        for date in monthAcademicScheduleData.value {
+            if currentYear == currentPageYear  {
+                dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
+            }
+        }
+        print("이거 \(dateArray)")
+
+        return dateArray
     }
 
 }
@@ -136,10 +155,7 @@ extension AcademicScheduleCalneder {
     }
 
     public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        if self.getDateEventArray().contains(date) {
-            return 1
-        }
-        return 0
+        return self.getDateEventArray().contains(date) ? 1 : 0
     }
 
 }

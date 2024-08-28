@@ -11,6 +11,7 @@ import Domain
 import DesignSystem
 
 public class AcademicScheduleView: BaseView {
+    public var clickYearAndMonth: (Date, Date) -> Void
     public var clickDate: (Date) -> Void
 
     private lazy var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
@@ -18,15 +19,26 @@ public class AcademicScheduleView: BaseView {
 
     private let todayDate = Date()
 
-    private lazy var calenderView = AcademicScheduleCalneder(clickDate: { date in
-        self.clickDate(date)
-        self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
-    })
+    private lazy var calenderView = AcademicScheduleCalneder(
+        clickYearAndMonth: { year, month in
+            self.clickYearAndMonth(year, month)
+        }, clickDate: { date in
+            self.clickDate(date)
+            if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+                self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
+                self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
+            } else {
+                self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
+            }
+        }
+    )
     private lazy var dateLabel = PiCKLabel(
-        text: "\(todayDate.toString(type: .monthAndDay))",
+        text: "오늘 \(todayDate.toString(type: .monthAndDay))",
         textColor: .modeBlack,
         font: .caption1
-    )
+    ).then {
+        $0.changePointColor(targetString: "오늘", color: .main500)
+    }
     private let scheduleLabel = PiCKLabel(textColor: .gray800, font: .caption2)
     private lazy var labelStackView = UIStackView(arrangedSubviews: [
         dateLabel,
@@ -50,11 +62,16 @@ public class AcademicScheduleView: BaseView {
             AcademicScheduleCell.self,
             forCellWithReuseIdentifier: AcademicScheduleCell.identifier)
     }
+    private lazy var emptyScheduleLabel = PiCKLabel(
+        text: "일정이 없습니다.",
+        textColor: .gray800,
+        font: .caption1,
+        isHidden: true
+    )
 
     public func monthAcademicScheduleSetup(
         monthAcademicSchedule: AcademicScheduleEntity
     ) {
-        self.calenderView.setup(monthAcademicSchedule: monthAcademicSchedule)
         self.monthAcademicScheduleData.accept(monthAcademicSchedule)
     }
     public func academicScheduleSetup(
@@ -64,8 +81,11 @@ public class AcademicScheduleView: BaseView {
     }
 
     public init(
-        frame: CGRect, clickDate: @escaping (Date) -> Void
+        frame: CGRect,
+        clickYearAndMonth: @escaping (Date, Date) -> Void,
+        clickDate: @escaping (Date) -> Void
     ) {
+        self.clickYearAndMonth = clickYearAndMonth
         self.clickDate = clickDate
         super.init(frame: frame)
     }
@@ -78,14 +98,13 @@ public class AcademicScheduleView: BaseView {
     }
 
     public override func bind() {
-//        monthAcademicScheduleData.asObservable()
-//            .bind(to: collectionView.rx.items(
-//                cellIdentifier: AcademicScheduleCell.identifier,
-//                cellType: AcademicScheduleCell.self
-//            )) { row, item, cell in
-//                cell.setup(schedule: item.eventName)
-//            }.disposed(by: disposeBag)
-        
+        academicScheduleData.asObservable()
+            .subscribe(onNext: { [weak self] schedule in
+                let isEmpty = schedule.isEmpty
+                self?.collectionView.isHidden = isEmpty
+                self?.emptyScheduleLabel.isHidden = !isEmpty
+            }).disposed(by: disposeBag)
+
         academicScheduleData.asObservable()
             .bind(to: collectionView.rx.items(
                 cellIdentifier: AcademicScheduleCell.identifier,
@@ -93,14 +112,19 @@ public class AcademicScheduleView: BaseView {
             )) { row, item, cell in
                 cell.setup(schedule: item.eventName)
             }.disposed(by: disposeBag)
-        calenderView.setup(monthAcademicSchedule: monthAcademicScheduleData.value)
+
+        monthAcademicScheduleData.asObservable()
+            .subscribe(onNext: { [weak self] data in
+                self?.calenderView.setup(monthAcademicSchedule: data)
+            }).disposed(by: disposeBag)
     }
 
     public override func layout() {
         [
             calenderView,
             labelStackView,
-            collectionView
+            collectionView,
+            emptyScheduleLabel
         ].forEach { self.addSubview($0) }
 
         calenderView.snp.makeConstraints {
@@ -116,6 +140,10 @@ public class AcademicScheduleView: BaseView {
             $0.top.equalTo(labelStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(5)
+        }
+        emptyScheduleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(labelStackView.snp.bottom).offset(72)
         }
     }
 
