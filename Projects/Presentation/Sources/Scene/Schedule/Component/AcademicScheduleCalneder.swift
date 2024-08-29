@@ -17,24 +17,35 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
     public var clickDate: (Date) -> Void
 
     private var dateSelectRelay = PublishRelay<Void>()
-
     private var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
+
+    private lazy var calendarHeaderLabel = PiCKLabel(
+        text: calendarView.currentPage.toString(type: .yearsAndMonthKor),
+        textColor: .modeBlack,
+        font: .label1
+    )
+    private let previousButton = PiCKImageButton(image: .leftArrow, imageColor: .modeBlack)
+    private let nextButton = PiCKImageButton(image: .rightArrow, imageColor: .modeBlack)
+    private lazy var headerStackView = UIStackView(arrangedSubviews: [
+        previousButton,
+        calendarHeaderLabel,
+        nextButton
+    ]).then {
+        $0.axis = .horizontal
+        $0.spacing = 12
+    }
 
     private lazy var calendarView = FSCalendar().then {
         $0.scope = .month
         $0.backgroundColor = .background
+        $0.calendarHeaderView.isHidden = true
 
         //MARK: 헤더 설정
         $0.locale = Locale(identifier: "ko_KR")
         $0.appearance.weekdayTextColor = .modeBlack
         $0.appearance.weekdayFont = .label1
-        $0.appearance.headerTitleColor = .modeBlack
-        $0.appearance.headerTitleFont = .label1
-        $0.appearance.headerMinimumDissolvedAlpha = 0.0
-        $0.appearance.headerDateFormat = "yyyy년 MM월"
         //이전, 이후 달 안보이게
         $0.placeholderType = .none
-        $0.headerHeight = 40
         //MARK: 셀 설정
         //선택한 셀 텍스트색
         $0.appearance.titleSelectionColor = .modeBlack
@@ -60,8 +71,6 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         $0.delegate = self
         $0.dataSource = self
     }
-    private let previousButton = PiCKImageButton(image: .leftArrow, imageColor: .modeBlack)
-    private let nextButton = PiCKImageButton(image: .rightArrow, imageColor: .modeBlack)
 
     public func setup(
         monthAcademicSchedule: AcademicScheduleEntity
@@ -97,20 +106,16 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
     public override func layout() {
         self.addSubview(calendarView)
         [
-            previousButton,
-            nextButton
+            headerStackView
         ].forEach { calendarView.addSubview($0) }
 
         calendarView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().inset(15)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-        previousButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(5)
-            $0.trailing.equalTo(calendarView.calendarHeaderView.snp.leading).offset(30)
-        }
-        nextButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(5)
-            $0.leading.equalTo(calendarView.calendarHeaderView.snp.trailing).offset(-30)
+        headerStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview()
         }
     }
 
@@ -142,7 +147,6 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
                 dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
             }
         }
-        print("이거 \(dateArray)")
 
         return dateArray
     }
@@ -150,6 +154,10 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 }
 
 extension AcademicScheduleCalneder {
+    public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.calendarHeaderLabel.text = calendar.currentPage.toString(type: .yearsAndMonthKor)
+    }
+
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.clickDate(date)
     }
