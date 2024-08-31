@@ -63,7 +63,7 @@ public class PiCKClassRoomPickerContainerView: BaseView {
         componentBackgroundView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(42)
         }
         startPickerView.snp.makeConstraints {
             $0.width.equalTo(44)

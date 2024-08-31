@@ -55,11 +55,51 @@ public class PiCKApplyStackView: BaseView {
         $0.isLayoutMarginsRelativeArrangement = true
     }
 
+    public override func bind() {
+        weekendMealApplyTab.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                self.toggleTabAction(selectedTab: self.weekendMealApplyTab)
+            }.disposed(by: disposeBag)
+
+        classroomMoveApplyTab.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                self.toggleTabAction(selectedTab: self.classroomMoveApplyTab)
+            }.disposed(by: disposeBag)
+
+        outingApplyTab.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                self.toggleTabAction(selectedTab: self.outingApplyTab)
+            }.disposed(by: disposeBag)
+
+        earlyLeaveApplyTab.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                self.toggleTabAction(selectedTab: self.earlyLeaveApplyTab)
+            }.disposed(by: disposeBag)
+    }
     public override func layout() {
         self.addSubview(backStackView)
         
         backStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+
+    private func toggleTabAction(selectedTab: PiCKApplyView) {
+        let array = [
+            weekendMealApplyTab,
+            classroomMoveApplyTab,
+            outingApplyTab,
+            earlyLeaveApplyTab
+        ]
+
+        array.forEach { tab in
+            if tab.isOpen == true && tab != selectedTab {
+                tab.isOpen = false
+            }
         }
     }
 

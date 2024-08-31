@@ -5,25 +5,24 @@ import Moya
 import RxMoya
 
 import Core
-import AppNetwork
 import Domain
+import AppNetwork
 
 protocol WeekendMealDataSource {
-    func weekendMealApply(status: String) -> Completable
-    func weekendMealCheck() -> Single<Response>
+    func weekendMealApply(status: WeekendMealType.RawValue) -> Completable
+    func weekendMealStatus() -> Single<Response>
 }
 
 class WeekendMealDataSourceImpl: BaseDataSource<WeekendMealAPI>, WeekendMealDataSource {
-    func weekendMealApply(status: String) -> Completable {
+    func weekendMealApply(status: WeekendMealType.RawValue) -> Completable {
         return request(.weekendMealApply(status: status))
             .filterSuccessfulStatusCodes()
             .asCompletable()
     }
-    
-    func weekendMealCheck() -> Single<Response> {
+
+    func weekendMealStatus() -> Single<Response> {
         return request(.weekendMealCheck)
             .filterSuccessfulStatusCodes()
     }
-    
-    
+
 }

@@ -47,6 +47,8 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         //이전, 이후 달 안보이게
         $0.placeholderType = .none
         //MARK: 셀 설정
+        //기본 셀 텍스트색
+        $0.appearance.titleDefaultColor = .modeBlack
         //선택한 셀 텍스트색
         $0.appearance.titleSelectionColor = .modeBlack
         //셀 폰트

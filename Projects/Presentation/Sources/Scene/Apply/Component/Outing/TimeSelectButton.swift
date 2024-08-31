@@ -11,7 +11,6 @@ import DesignSystem
 
 public class TimeSelectButton: BaseButton {
     public var buttonTap: ControlEvent<Void> {
-        bindAction()
         return self.rx.tap
     }
 
@@ -29,6 +28,7 @@ public class TimeSelectButton: BaseButton {
 
     public func setup(text: String) {
         self.textLabel.text = text
+        self.textLabel.textColor = .modeBlack
     }
 
     public override func attribute() {
@@ -36,16 +36,6 @@ public class TimeSelectButton: BaseButton {
         self.layer.cornerRadius = 8
         self.backgroundColor = .gray50
         self.tintColor = .clear
-    }
-    public override func bindAction() {
-        self.rx.tap
-            .bind(onNext: { [weak self] in
-                if self?.textLabel.text == "선택" {
-                    self?.textLabel.textColor = .gray500
-                } else {
-                    self?.textLabel.textColor = .modeBlack
-                }
-            }).disposed(by: disposeBag)
     }
     public override func layout() {
         self.addSubview(textLabel)

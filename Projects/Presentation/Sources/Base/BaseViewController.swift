@@ -7,7 +7,7 @@ import Core
 import DesignSystem
 
 open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGestureRecognizerDelegate {
-    
+
     public let disposeBag = DisposeBag()
     public var viewModel: ViewModel
 
@@ -41,7 +41,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         setLayout()
         configureNavgationBarLayOutSubviews()
     }
-    
+
     open func attribute() {
         //뷰 관련 코드를 설정하는 함수
         view.backgroundColor = .background
@@ -69,7 +69,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     open func setLayout() {
         //레이아웃을 설정하는 함수
     }
-    
+
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }

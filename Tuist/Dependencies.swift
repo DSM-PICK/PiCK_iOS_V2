@@ -11,7 +11,7 @@ let dependencies = Dependencies.init(
             ),
             // RxSwift
             .remote(url: "https://github.com/ReactiveX/RxSwift",
-                    requirement: .upToNextMajor(from: "6.5.0")),
+                    requirement: .upToNextMajor(from: "6.7.1")),
             // SnapKit
             .remote(
                 url: "https://github.com/SnapKit/SnapKit.git",

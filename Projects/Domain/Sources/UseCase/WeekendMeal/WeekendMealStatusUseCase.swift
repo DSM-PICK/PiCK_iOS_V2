@@ -4,14 +4,14 @@ import RxSwift
 
 import Core
 
-public class WeekendMealCheckUseCase {
+public class WeekendMealStatusUseCase {
     let repository: WeekendMealRepository
 
     public init(repository: WeekendMealRepository) {
         self.repository = repository
     }
 
-    public func execute() -> Single<WeekendMealCheckEntity> {
-        return repository.weekendMealCheck()
+    public func execute() -> Single<WeekendMealStatusEntity> {
+        return repository.weekendMealStatus()
     }
 }

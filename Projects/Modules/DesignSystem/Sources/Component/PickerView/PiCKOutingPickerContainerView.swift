@@ -10,8 +10,8 @@ import RxGesture
 import Core
 
 public class PiCKOutingPickerContainerView: BaseView {
-    public lazy var outingHourValue = startPickerView.timeText.value
-    public lazy var outingMinValue = endPickerView.timeText.value
+    public lazy var outingHourValue = startPickerView.hourText.value
+    public lazy var outingMinValue = endPickerView.minText.value
 
     private let backgroudView = UIView().then {
         $0.backgroundColor = .clear
@@ -63,7 +63,7 @@ public class PiCKOutingPickerContainerView: BaseView {
         componentBackgroundView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(52)
+            $0.height.equalTo(42)
         }
         startPickerView.snp.makeConstraints {
             $0.width.equalTo(44)
