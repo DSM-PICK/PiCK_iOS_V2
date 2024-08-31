@@ -8,12 +8,11 @@ import Core
 import Domain
 
 public class ApplyViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
-    
+
     public init() {}
-    
+
     public struct Input {
         let clickWeekendMealButton: Observable<Void>
         let clickClassRoomMoveButton: Observable<Void>
@@ -21,7 +20,7 @@ public class ApplyViewModel: BaseViewModel, Stepper {
         let clickEarlyLeaveButton: Observable<Void>
     }
     public struct Output {}
-    
+
     public func transform(input: Input) -> Output {
         input.clickWeekendMealButton
             .map { PiCKStep.weekendMealApplyIsRequired }
@@ -45,5 +44,5 @@ public class ApplyViewModel: BaseViewModel, Stepper {
 
         return Output()
     }
-    
+
 }
