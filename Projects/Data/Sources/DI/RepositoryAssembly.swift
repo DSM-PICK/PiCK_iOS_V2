@@ -58,9 +58,9 @@ public final class RepositoryAssembly: Assembly {
             SelfStudyRepositoryImpl(remoteDataSource: resolver.resolve(SelfStudyDataSource.self)!)
         }
 
-//        container.register(WeekendMealRepository.self) { resolver in
-//            WeekendMealRepositoryImpl(remoteDataSource: resolver.resolve(WeekenDataSource.self)!)
-//        }
+        container.register(WeekendMealRepository.self) { resolver in
+            WeekendMealRepositoryImpl(remoteDataSource: resolver.resolve(WeekendMealDataSource.self)!)
+        }
 
     }
 }

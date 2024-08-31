@@ -13,11 +13,11 @@ public enum WeekendMealAPI {
 
 extension WeekendMealAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
-    
+
     public var urlType: PiCKURL {
         return .weekendMeal
     }
-    
+
     public var urlPath: String {
         switch self {
             case .weekendMealApply:
@@ -26,7 +26,7 @@ extension WeekendMealAPI: PiCKAPI {
                 return "/my"
         }
     }
-    
+
     public var method: Moya.Method {
         switch self {
             case .weekendMealApply:
@@ -35,7 +35,7 @@ extension WeekendMealAPI: PiCKAPI {
                 return .get
         }
     }
-    
+
     public var task: Moya.Task {
         switch self {
             case .weekendMealApply(let status):
@@ -47,7 +47,7 @@ extension WeekendMealAPI: PiCKAPI {
                 return .requestPlain
         }
     }
-    
+
     public var pickHeader: tokenType {
         return .accessToken
     }
