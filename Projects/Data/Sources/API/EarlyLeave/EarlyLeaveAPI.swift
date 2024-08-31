@@ -42,7 +42,7 @@ extension EarlyLeaveAPI: PiCKAPI {
                 return .requestParameters(
                     parameters: [
                         "reason": req.reason,
-                        "start_time": req.startTime
+                        "start": req.startTime
                     ],
                     encoding: JSONEncoding.default
                 )
