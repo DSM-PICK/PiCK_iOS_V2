@@ -12,11 +12,13 @@ public enum PickerViewType {
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     private var pickerViewType: PickerViewType = .period
     public var periodText = BehaviorRelay<Int>(value: 1)
-    public var timeText = BehaviorRelay<Int>(value: 0)
+    public var hourText = BehaviorRelay<Int>(value: 8)
+    public var minText = BehaviorRelay<Int>(value: 0)
 
     private let periodArray = Array(1...10)
-    private let hourArray = Array(0...23)
+    private let hourArray = Array(8...23)
     private let minArray = Array(0...59)
+    /*시간이 8시면 minarray가 30부터 뜨게 8시 반 이후에는 신청 못하게 음 조기귀가는 ㄱㅊ */
 
     public init(type: PickerViewType) {
         self.pickerViewType = type
@@ -43,16 +45,6 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         }
     }
 
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerViewType {
-        case .period:
-            return "\(periodArray[row])"
-        case .hour:
-            return "\(hourArray[row])"
-        case .min:
-            return "\(minArray[row])"
-        }
-    }
     public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 40
     }
@@ -87,9 +79,13 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         case .period:
             periodText.accept(periodArray[row])
         case .hour:
-            timeText.accept(hourArray[row])
+            if hourArray[row] == 8 {
+                hourText.accept(8)
+            } else {
+                hourText.accept(hourArray[row])
+            }
         case .min:
-            timeText.accept(minArray[row])
+            minText.accept(minArray[row])
         }
     }
 
