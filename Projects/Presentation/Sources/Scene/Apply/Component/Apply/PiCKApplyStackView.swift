@@ -76,7 +76,7 @@ public class PiCKApplyStackView: BaseView {
 
         earlyLeaveApplyTab.rx.tapGesture()
             .when(.recognized)
-            .bind { ㅋ_ in
+            .bind { _ in
                 self.toggleTabAction(selectedTab: self.earlyLeaveApplyTab)
             }.disposed(by: disposeBag)
     }
