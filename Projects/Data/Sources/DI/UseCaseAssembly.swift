@@ -29,6 +29,13 @@ public final class UseCaseAssembly: Assembly {
         }
 
         //MARK: Apply
+        //weekendMeal
+        container.register(WeekendMealStatusUseCase.self) { resolver in
+            WeekendMealStatusUseCase(repository: resolver.resolve(WeekendMealRepository.self)!)
+        }
+        container.register(WeekendMealApplyUseCase.self) { resolver in
+            WeekendMealApplyUseCase(repository: resolver.resolve(WeekendMealRepository.self)!)
+        }
         //classRoom
         container.register(ClassroomMoveApplyUseCase.self) { resolver in
             ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
