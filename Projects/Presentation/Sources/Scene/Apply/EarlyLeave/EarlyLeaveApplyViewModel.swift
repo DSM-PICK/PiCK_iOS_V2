@@ -40,7 +40,8 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
             .withLatestFrom(info)
             .flatMap { reason, startTime in
                 self.earlyLeaveApplyUseCase.execute(req: .init(
-                    reason: reason ?? "", startTime: startTime
+                    reason: reason ?? "",
+                    startTime: startTime
                 ))
                 .catch {
                     self.steps.accept(PiCKStep.applyAlertIsRequired(
