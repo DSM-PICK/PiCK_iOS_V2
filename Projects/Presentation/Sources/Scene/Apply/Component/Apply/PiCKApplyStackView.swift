@@ -58,25 +58,25 @@ public class PiCKApplyStackView: BaseView {
     public override func bind() {
         weekendMealApplyTab.rx.tapGesture()
             .when(.recognized)
-            .bind {_ in
+            .bind { _ in
                 self.toggleTabAction(selectedTab: self.weekendMealApplyTab)
             }.disposed(by: disposeBag)
 
         classroomMoveApplyTab.rx.tapGesture()
             .when(.recognized)
-            .bind {_ in
+            .bind { _ in
                 self.toggleTabAction(selectedTab: self.classroomMoveApplyTab)
             }.disposed(by: disposeBag)
 
         outingApplyTab.rx.tapGesture()
             .when(.recognized)
-            .bind {_ in
+            .bind { _ in
                 self.toggleTabAction(selectedTab: self.outingApplyTab)
             }.disposed(by: disposeBag)
 
         earlyLeaveApplyTab.rx.tapGesture()
             .when(.recognized)
-            .bind {_ in
+            .bind { ㅋ_ in
                 self.toggleTabAction(selectedTab: self.earlyLeaveApplyTab)
             }.disposed(by: disposeBag)
     }
