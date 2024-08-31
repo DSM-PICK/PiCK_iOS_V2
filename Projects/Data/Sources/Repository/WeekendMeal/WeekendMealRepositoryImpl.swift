@@ -12,13 +12,13 @@ class WeekendMealRepositoryImpl: WeekendMealRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func weekendMealApply(status: String) -> Completable {
+    func weekendMealApply(status: WeekendMealType.RawValue) -> Completable {
         return remoteDataSource.weekendMealApply(status: status)
     }
 
-    func weekendMealCheck() -> Single<WeekendMealCheckEntity> {
-        return remoteDataSource.weekendMealCheck()
-            .map(WeekendMealCheckDTO.self)
+    func weekendMealStatus() -> Single<WeekendMealStatusEntity> {
+        return remoteDataSource.weekendMealStatus()
+            .map(WeekendMealStatusDTO.self)
             .map { $0.toDomain() }
     }
     

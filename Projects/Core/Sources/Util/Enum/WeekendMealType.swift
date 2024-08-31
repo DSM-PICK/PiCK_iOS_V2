@@ -1,8 +1,6 @@
 import Foundation
 
-public enum WeekendMealType: String, Decodable {
+public enum WeekendMealType: String, Codable {
     case ok = "OK"
     case no = "NO"
-    case quiet = "QUIET"
-    
 }

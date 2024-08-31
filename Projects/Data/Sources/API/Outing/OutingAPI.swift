@@ -42,8 +42,9 @@ extension OutingAPI: PiCKAPI {
             return .requestParameters(
                 parameters: [
                     "reason": req.reason,
-                    "start_time": req.startTime,
-                    "end_time": req.endTime
+                    "start": req.startTime,
+                    "end": req.endTime,
+                    "application_type": "TIME"
                 ],
                 encoding: JSONEncoding.default
             )

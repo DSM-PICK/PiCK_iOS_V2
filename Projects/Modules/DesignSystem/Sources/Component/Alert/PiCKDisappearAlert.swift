@@ -44,7 +44,7 @@ public class PiCKDisappearAlert: UIViewController {
         self.rxVisible
             .subscribe(onNext: {_ in
                 Timer.scheduledTimer(
-                    withTimeInterval: 2.5,
+                    withTimeInterval: 2.0,
                     repeats: false,
                     block: { _ in
                         self.dismiss(animated: true, completion: nil)

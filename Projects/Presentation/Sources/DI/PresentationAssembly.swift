@@ -67,7 +67,10 @@ public final class PresentationAssembly: Assembly {
             WeekendMealApplyViewController(viewModel: resolver.resolve(WeekendMealApplyViewModel.self)!)
         }
         container.register(WeekendMealApplyViewModel.self) { resolver in
-            WeekendMealApplyViewModel()
+            WeekendMealApplyViewModel(
+                weekendMealStatusUseCase: resolver.resolve(WeekendMealStatusUseCase.self)!,
+                weekendMealApplyUseCase: resolver.resolve(WeekendMealApplyUseCase.self)!
+            )
         }
         //ClassRoomMove
         container.register(ClassRoomMoveApplyViewController.self) { resolver in
@@ -91,7 +94,6 @@ public final class PresentationAssembly: Assembly {
         container.register(EarlyLeaveApplyViewModel.self) { resolver in
             EarlyLeaveApplyViewModel(earlyLeaveApplyUseCase: resolver.resolve(EarlyLeaveApplyUseCase.self)!)
         }
-
 
         //MARK: Schedule
         container.register(ScheduleViewController.self) { resolver in

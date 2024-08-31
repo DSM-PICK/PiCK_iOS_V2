@@ -10,7 +10,10 @@ import Core
 import DesignSystem
 
 public class WeekendMealApplyView: BaseView {
-    public var applyState: Bool = false
+    public var clickWeekendMealStatus: (WeekendMealType) -> Void
+
+    public var applyState = BehaviorRelay<Bool>(value: false)
+
     private let applyDate = Date()
     private let calendar = Calendar.current
     private lazy var nextMonth = calendar.date(byAdding: .month, value: 1, to: applyDate)
@@ -31,6 +34,22 @@ public class WeekendMealApplyView: BaseView {
         $0.distribution = .fillEqually
     }
 
+    public func setup(
+        status: Bool
+    ) {
+        self.applyState.accept(status)
+    }
+
+    public init(
+        clickWeekendMealStatus: @escaping (WeekendMealType) -> Void
+    ) {
+        self.clickWeekendMealStatus = clickWeekendMealStatus
+        super.init(frame: .zero)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     public override func attribute() {
         super.attribute()
 
@@ -38,20 +57,24 @@ public class WeekendMealApplyView: BaseView {
         self.layer.cornerRadius = 8
     }
     public override func bind() {
-          applyButton.buttonTap
-              .bind(onNext: { [weak self] in
-                  self?.applyButton.isSelected = true
-                  self?.notApplyButton.isSelected = false
-                  self?.applyState = true
-              }).disposed(by: disposeBag)
+        applyState.asObservable()
+            .subscribe(onNext: { data in
+                self.applyButton.isSelected = data
+                self.notApplyButton.isSelected = !data
+            }).disposed(by: disposeBag)
 
-          notApplyButton.buttonTap
-            .bind(onNext: { [weak self] in
-                  self?.notApplyButton.isSelected = true
-                  self?.applyButton.isSelected = false
-                  self?.applyState = false
-              }).disposed(by: disposeBag)
-      }
+        applyButton.rx.tap
+            .bind(onNext: { [self] in
+                clickRadioButton(button: applyButton)
+                clickWeekendMealStatus(.ok)
+            }).disposed(by: disposeBag)
+
+        notApplyButton.buttonTap
+            .bind(onNext: { [self] in
+                clickRadioButton(button: notApplyButton)
+                clickWeekendMealStatus(.no)
+            }).disposed(by: disposeBag)
+    }
     public override func layout() {
         [
             currnetMonthWeekendMealApplyLabel,
@@ -66,6 +89,19 @@ public class WeekendMealApplyView: BaseView {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16)
         }
+    }
+
+    private func clickRadioButton(button: WeekendMealApplyButton) {
+        if button == applyButton {
+            applyState.accept(true)
+        } else if button == notApplyButton {
+            applyState.accept(false)
+        }
+
+        applyButton.isSelected = applyState.value
+        notApplyButton.isSelected = !applyState.value
+
+        clickWeekendMealStatus(applyState.value == true ? .ok : .no)
     }
 
 }
