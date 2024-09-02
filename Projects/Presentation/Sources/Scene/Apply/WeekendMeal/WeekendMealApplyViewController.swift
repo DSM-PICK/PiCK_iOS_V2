@@ -24,8 +24,6 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
     )
     private lazy var weekendMealApplyView = WeekendMealApplyView(clickWeekendMealStatus: { data in
         self.weekendMealStatusRelay.accept(data)
-        print("제발 \(data)")
-//        print(self.weekendMealStatusRelay.value)
     })
     private let saveButton = PiCKButton(buttonText: "저장하기")
 
@@ -44,31 +42,14 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
         let output = viewModel.transform(input: input)
 
         output.weekendMealStatus.asObservable()
-            .bind(onNext: { data in
-                if data.status == WeekendMealType.ok.rawValue {
-                    self.weekendMealApplyView.setup(status: true)
-                } else {
-                    self.weekendMealApplyView.setup(status: false)
-                }
-            }).disposed(by: disposeBag)
-//
-//        weekendMealStatusRelay.asObservable()
-//            .subscribe(onNext: { data in
-//                self.weekendMealApplyView.clickWeekendMealStatus = { [weak self] data in
-//                    self?.weekendMealStatusRelay.accept(data)
-//                }
-//            }).disposed(by: disposeBag)
+            .bind {
+                self.weekendMealApplyView.setup(status: $0 == .ok)
+            }
+            .disposed(by: disposeBag)
     }
-    public override func bindAction() {
-        saveButton.buttonTap
-            .bind(onNext: {
-//                self.weekendMealStatusRelay.accept()
-                print("Click SaveButton")
-//                let dd = WeekendMealApplyView(clickWeekendMealStatus: {
-//                    self?.weekendMealStatusRelay.accept($0)
-//                })
-            }).disposed(by: disposeBag)
-    }
+
+    public override func bindAction() { }
+
     public override func addView() {
         [
             titleLabel,
