@@ -28,10 +28,10 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
         let clickApplyButton: Observable<Void>
     }
     public struct Output {
-        let weekendMealStatus: Signal<WeekendMealStatusEntity>
+        let weekendMealStatus: Signal<WeekendMealType>
     }
 
-    private let weekendMealStatus = PublishRelay<WeekendMealStatusEntity>()
+    private let weekendMealStatusRelay = PublishRelay<WeekendMealType>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -41,12 +41,23 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
                         print($0.localizedDescription)
                         return .never()
                     }
+                    .map {
+                        return WeekendMealType(rawValue: $0.status) ?? .ok
+                    }
             }
-            .bind(to: weekendMealStatus)
+            .bind {
+                self.weekendMealStatusRelay.accept($0)
+            }
             .disposed(by: disposeBag)
 
         input.applyStatus
-//            .withLatestFrom(input.applyStatus)
+            .bind {
+                self.weekendMealStatusRelay.accept($0)
+            }
+            .disposed(by: disposeBag)
+
+        input.clickApplyButton
+            .withLatestFrom(self.weekendMealStatusRelay)
             .flatMap { status in
                 self.weekendMealApplyUseCase.execute(status: status)
                     .catch {
@@ -54,20 +65,23 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
                             PiCKStep.applyAlertIsRequired(
                                 successType: .fail,
                                 alertType: .weekendMeal
-                            ))
+                            )
+                        )
                         print($0.localizedDescription)
                         return .never()
                     }
-                    .andThen(Single.just(
-                        PiCKStep.applyAlertIsRequired(
-                        successType: .success,
-                        alertType: .weekendMeal
-                    )))
+                    .andThen(
+                        Single.just(
+                            PiCKStep.applyAlertIsRequired(
+                                successType: .success,
+                                alertType: .weekendMeal
+                            ))
+                    )
             }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        return Output(weekendMealStatus: weekendMealStatus.asSignal())
+        return Output(weekendMealStatus: weekendMealStatusRelay.asSignal())
     }
 
 }
