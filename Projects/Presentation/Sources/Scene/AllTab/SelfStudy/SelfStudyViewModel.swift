@@ -8,17 +8,37 @@ import Core
 import Domain
 
 public class SelfStudyViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
-    
-    public init() {}
-    
-    public struct Input {}
-    public struct Output {}
-    
+
+    private let fetchSelfStudyUseCase: FetchSelfStudyUseCase
+
+    public init(fetchSelfStudyUseCase: FetchSelfStudyUseCase) {
+        self.fetchSelfStudyUseCase = fetchSelfStudyUseCase
+    }
+
+    public struct Input {
+        let selfStudyDate: Observable<String>
+    }
+    public struct Output {
+        let selfStudyData: Driver<SelfStudyEntity>
+    }
+
+    private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
+
     public func transform(input: Input) -> Output {
-        return Output()
+        input.selfStudyDate
+            .flatMap { date in
+                self.fetchSelfStudyUseCase.execute(date: date)
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: selfStudyData)
+            .disposed(by: disposeBag)
+
+        return Output(selfStudyData: selfStudyData.asDriver())
     }
     
 }

@@ -135,7 +135,9 @@ public final class PresentationAssembly: Assembly {
             SelfStudyViewController(viewModel: resolver.resolve(SelfStudyViewModel.self)!)
         }
         container.register(SelfStudyViewModel.self) { resolver in
-            SelfStudyViewModel()
+            SelfStudyViewModel(
+                fetchSelfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!
+            )
         }
         //Bug
         container.register(BugReportViewController.self) { resolver in
