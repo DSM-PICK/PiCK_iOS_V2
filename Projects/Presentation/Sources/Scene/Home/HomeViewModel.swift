@@ -57,9 +57,12 @@ public class HomeViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         input.viewWillApper
             .subscribe(onNext: { [weak self] in
-                let data = UserDefaultsManager.shared.getUserDataType(forKey: .homeViewMode, type: HomeViewType.self)
- 
-                self?.viewModeData.accept(data as! HomeViewType)
+                if let data = UserDefaultsManager.shared.getUserDataType(forKey: .homeViewMode, type: HomeViewType.self) {
+                    self?.viewModeData.accept(data as! HomeViewType)
+                } else {
+                    UserDefaultsManager.shared.setUserDataType(to: HomeViewType.timeTable, forKey: .homeViewMode)
+                    self?.viewModeData.accept(.timeTable)
+                }
             }).disposed(by: disposeBag)
 
         input.viewWillApper

@@ -66,13 +66,11 @@ public class WeekendMealApplyView: BaseView {
         applyButton.rx.tap
             .bind(onNext: { [self] in
                 clickRadioButton(button: applyButton)
-                clickWeekendMealStatus(.ok)
             }).disposed(by: disposeBag)
 
         notApplyButton.buttonTap
             .bind(onNext: { [self] in
                 clickRadioButton(button: notApplyButton)
-                clickWeekendMealStatus(.no)
             }).disposed(by: disposeBag)
     }
     public override func layout() {
