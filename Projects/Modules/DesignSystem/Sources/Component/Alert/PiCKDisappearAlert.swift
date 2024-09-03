@@ -82,15 +82,20 @@ public class PiCKDisappearAlert: UIViewController {
         case .success:
             self.imageView.image = .checkIcon
             self.imageView.tintColor = .main500
+
             switch alertType {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
+
             case .classRoom:
                 self.alertLabel.text = "교실 이동 신청이 완료되었습니다!"
+
             case .outing:
                 self.alertLabel.text = "외출 신청이 완료되었습니다!"
+
             case .earlyLeave:
                 self.alertLabel.text = "조기 귀가 신청이 완료되었습니다!"
+
             case .bug:
                 self.alertLabel.text = "버그 제보가 완료되었습니다!"
                 
@@ -98,15 +103,20 @@ public class PiCKDisappearAlert: UIViewController {
         case .fail:
             self.imageView.image = .failIcon
             self.imageView.tintColor = .error
+
             switch alertType {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청을 실패했습니다."
+
             case .classRoom:
                 self.alertLabel.text = "교실 이동 신청을 실패했습니다."
+
             case .outing:
                 self.alertLabel.text = "외출 신청을 실패했습니다."
+
             case .earlyLeave:
                 self.alertLabel.text = "조기 귀가 신청을 실패했습니다."
+
             case .bug:
                 self.alertLabel.text = "버그 제보를 실패했습니다."
             }
