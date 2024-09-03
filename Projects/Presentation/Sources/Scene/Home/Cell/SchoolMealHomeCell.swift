@@ -7,7 +7,7 @@ import Core
 import Domain
 import DesignSystem
 
-public class SchoolMealHomeCell: BaseCollectionViewCell<(String, MealEntityElement)> {
+public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
     static let identifier = "SchoolMealCollectionViewCell"
 
     private let mealTimeLabel = PiCKLabel(textColor: .main700, font: .subTitle1)
@@ -26,23 +26,16 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<(String, MealEntityEleme
         isHidden: true
     )
 
-//    public override func adapt(model: (String, MealEntityElement)) {
-//        super.adapt(model: model)
-//
-//        self.mealTimeLabel.text = model.0
-//        self.menuLabel.text = model.1.menu.joined(separator: "\n")
-//        self.kcalLabel.text = model.1.kcal
-//    }
     public func setup(
         mealTime: String,
         menu: [String],
         kcal: String
     ) {
-            self.mealTimeLabel.text = mealTime
-            self.menuLabel.text = menu.joined(separator: "\n")
-            self.kcalLabel.text = kcal
+        self.mealTimeLabel.text = mealTime
+        self.menuLabel.text = menu.joined(separator: "\n")
+        self.kcalLabel.text = kcal
     }
-    
+
     public override func layout() {
         [
             mealTimeLabel,

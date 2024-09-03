@@ -6,26 +6,25 @@ import Swinject
 import Core
 
 public class AppFlow: Flow {
-    
     private var window: UIWindow
     private let container: Container
     private let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as? Int
-    
+
     public var root: RxFlow.Presentable {
         window.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue ?? 0) ?? .unspecified
         return window
     }
-    
+
     public init(window: UIWindow, container: Container) {
         self.window = window
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else {
             return .none
         }
-        
+
         switch step {
             case .onboardingIsRequired:
                 return presentOnboardingView()
