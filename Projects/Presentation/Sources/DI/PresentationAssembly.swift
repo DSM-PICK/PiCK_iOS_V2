@@ -52,7 +52,9 @@ public final class PresentationAssembly: Assembly {
             SchoolMealViewController(viewModel: resolver.resolve(SchoolMealViewModel.self)!)
         }
         container.register(SchoolMealViewModel.self) { resolver in
-            SchoolMealViewModel()
+            SchoolMealViewModel(
+                fetchSchoolMealUseCase: resolver.resolve(FetchSchoolMealUseCase.self)!
+            )
         }
 
         //MARK: Apply
