@@ -5,7 +5,7 @@ import DependencyPlugin
 let project = Project.makeModule(
     name: "ThirdPartyLib",
     platform: .iOS,
-    product: .framework,
+    product: .staticFramework,
     dependencies: [
         .SPM.SnapKit,
         .SPM.Then,

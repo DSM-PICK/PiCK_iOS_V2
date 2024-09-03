@@ -130,23 +130,28 @@ extension PiCKMainBottomSheetAlert {
         switch type {
         case .homeViewMode:
             self.explainLabel.text = BottomSheetTextEnum.homeViewModeExplainText.rawValue
+
             switch homeViewType {
             case .timeTable:
                 self.questionLabel.text = BottomSheetTextEnum.schoolMealSubText.rawValue
                 self.settingTypeLabel.text = BottomSheetTextEnum.schoolMealExpainText.rawValue
                 self.changeModeButton.setTitle(BottomSheetTextEnum.schoolMealButtonText.rawValue, for: .normal)
+
             case .schoolMeal:
                 self.questionLabel.text = BottomSheetTextEnum.timeTableSubText.rawValue
                 self.settingTypeLabel.text = BottomSheetTextEnum.timeTableExpainText.rawValue
                 self.changeModeButton.setTitle(BottomSheetTextEnum.timeTableButtonText.rawValue, for: .normal)
             }
+
         case .displayMode:
             self.explainLabel.text = BottomSheetTextEnum.displayModeExplainText.rawValue
+
             switch UITraitCollection.current.userInterfaceStyle {
             case .light:
                 self.questionLabel.text = BottomSheetTextEnum.lightSubExplainText.rawValue
                 self.questionLabel.changePointColor(targetString: "다크 모드", color: .main500)
                 self.changeModeButton.setTitle(BottomSheetTextEnum.ligthButtonext.rawValue, for: .normal)
+
             default:
                 self.questionLabel.text = BottomSheetTextEnum.darkSubExplainText.rawValue
                 self.questionLabel.changePointColor(targetString: "라이트 모드", color: .main500)
