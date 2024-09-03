@@ -10,11 +10,24 @@ import Core
 import DesignSystem
 
 public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
+    private let todayDate = Date()
+    private let loadSchoolMealRelay = PublishRelay<String>()
+
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
-//    private lazy var schoolMealCalendarView = PiCKCalendar(selectedDate: Date(), type: .week, presentViewController: self)
-    private lazy var schoolMealCalendarView = PiCKCalendarView()
-    private let dateLabel = PiCKLabel(
-        text: "오늘 4월 13일",
+    private lazy var schoolMealCalendarView = PiCKCalendarView(
+        calnedarType: .schoolMealWeek,
+        clickDate: { date in
+            self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
+            if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+                self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
+                self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
+            } else {
+                self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
+            }
+        }
+    )
+    private lazy var dateLabel = PiCKLabel(
+        text: "오늘 \(todayDate.toString(type: .monthAndDay))",
         textColor: .modeBlack,
         font: .heading4
     ).then {
@@ -34,21 +47,67 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             SchoolMealCollectionViewCell.self,
             forCellWithReuseIdentifier: SchoolMealCollectionViewCell.identifier
         )
-        $0.delegate = self
-        $0.dataSource = self
     }
+    private var emptyMealLabel = PiCKLabel(
+        text: "등록된 급식이 없습니다.",
+        textColor: .modeBlack,
+        font: .body1,
+        isHidden: true
+    )
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
 
         navigationController?.isNavigationBarHidden = true
     }
+    public override func bindAction() {
+        loadSchoolMealRelay.accept(todayDate.toString(type: .fullDate))
+    }
+    public override func bind() {
+        let input = SchoolMealViewModel.Input(
+            schoolMealDate: loadSchoolMealRelay.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        output.schoolMealData.asObservable()
+            .bind(to: schoolMealCollectionView.rx.items(
+                cellIdentifier: SchoolMealCollectionViewCell.identifier,
+                cellType: SchoolMealCollectionViewCell.self
+            )) { row, item, cell in
+                let isMenuEmpty = item.2.menu.isEmpty
+
+                self.schoolMealCollectionView.isHidden = isMenuEmpty
+                self.emptyMealLabel.isHidden = !isMenuEmpty
+
+                cell.setup(
+                    mealTime: item.1,
+                    menu: item.2.menu,
+                    kcal: item.2.kcal
+                )
+            }.disposed(by: disposeBag)
+
+        schoolMealCalendarView.clickToggleButton
+            .bind(onNext: { [self] in
+                let alert = PiCKCalendarAlert(
+                    calendarType: .schoolMealMonth,
+                    clickDate: { date in
+                        self.schoolMealCalendarView.setupDate(date: date)
+                        self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
+                        self.dateLabel.text = date.toString(type: .monthAndDay)
+                    }
+                )
+                alert.modalTransitionStyle = .crossDissolve
+                alert.modalPresentationStyle = .overFullScreen
+                presentAsCustomDents(view: alert, height: view.frame.height)
+            }).disposed(by: disposeBag)
+    }
     public override func addView() {
         [
             navigationBar,
             schoolMealCalendarView,
             dateLabel,
-            schoolMealCollectionView
+            schoolMealCollectionView,
+            emptyMealLabel
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
@@ -57,35 +116,23 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             $0.leading.trailing.equalToSuperview()
         }
         schoolMealCalendarView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(navigationBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(300)
         }
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(schoolMealCalendarView.snp.bottom).offset(36)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(160)
             $0.leading.equalToSuperview().inset(24)
         }
         schoolMealCollectionView.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(36)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(26)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
         }
-    }
-
-}
-
-extension SchoolMealViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SchoolMealCollectionViewCell.identifier, for: indexPath) as? SchoolMealCollectionViewCell else {
-            return UICollectionViewCell()
+        emptyMealLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(200)
         }
-        cell.setup(mealTime: "조식", menu: "ㄹ너ㅣㅏ\nㅓㄹㅇ날ㄴ\nㄹ어나ㅣ")
-        return cell
     }
-
 
 }
