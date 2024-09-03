@@ -37,10 +37,12 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
 
     public func setup(
         mealTime: String,
-        menu: String
+        menu: [String],
+        kcal: String
     ) {
         self.mealTimeLabel.text = mealTime
-        self.menuLabel.text = menu
+        self.menuLabel.text = menu.joined(separator: "\n")
+        self.kcalLabel.text = kcal
     }
 
     public override func attribute() {
@@ -64,8 +66,8 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
             $0.height.equalTo(22)
         }
         menuLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(40)
+            $0.top.bottom.equalToSuperview().inset(10)
+            $0.leading.equalTo(infoStackView.snp.trailing).offset(81)
         }
     }
 
