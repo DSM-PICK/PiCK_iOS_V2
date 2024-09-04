@@ -151,6 +151,13 @@ public final class PresentationAssembly: Assembly {
                 bugReportUseCase: resolver.resolve(BugReportUseCase.self)!
             )
         }
+        //Notification
+        container.register(NotificationViewController.self) { resolver in
+            NotificationViewController(viewModel: resolver.resolve(NotificationViewModel.self)!)
+        }
+        container.register(NotificationViewModel.self) { resolver in
+            NotificationViewModel()
+        }
         //MyPage
         container.register(MyPageViewController.self) { resolver in
             MyPageViewController(viewModel: resolver.resolve(MyPageViewModel.self)!)

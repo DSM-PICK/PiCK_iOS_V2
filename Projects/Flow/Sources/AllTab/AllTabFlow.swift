@@ -29,6 +29,10 @@ public class AllTabFlow: Flow {
             return navigateToSelfStudy()
         case .bugReportIsRequired:
             return navigateToBugReport()
+        case .customIsRequired:
+            return navigateToCustom()
+        case .notificationSettingIsRequired:
+            return navigateToNotificationSetting()
         case .myPageIsRequired:
             return navigateToMyPage()
         case .tabIsRequired:
@@ -75,6 +79,29 @@ public class AllTabFlow: Flow {
 
     private func navigateToBugReport() -> FlowContributors {
         let vc = container.resolve(BugReportViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToCustom() -> FlowContributors {
+//        let vc = container.resolve(CustomSettingViewController.self)!
+        let vc = CustomSettingViewController()
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc
+        ))
+    }
+
+    private func navigateToNotificationSetting() -> FlowContributors {
+        let vc = container.resolve(NotificationViewController.self)!
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
