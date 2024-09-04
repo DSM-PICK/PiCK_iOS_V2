@@ -12,9 +12,6 @@ public class PiCKMainNavigationBar: BaseView {
     private let presentViewController: UIViewController
     private let userDefaultStorage = UserDefaultsManager.shared
 
-    public var viewSettingButtonTap: ControlEvent<Void> {
-        return viewSettingButton.buttonTap
-    }
     public var displayModeButtonTap: ControlEvent<Void> {
          return displayModeButton.buttonTap
      }
@@ -22,16 +19,19 @@ public class PiCKMainNavigationBar: BaseView {
          return alertButton.buttonTap
      }
 
+    private var displayType: UIUserInterfaceStyle {
+        let data = userDefaultStorage.get(forKey: .displayMode) as? Int
+
+        return data == 2 ? .light : .dark
+    }
+
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
         $0.contentMode = .scaleAspectFit
     }
-
-    private let viewSettingButton = PiCKImageButton(image: .navigationSetting, imageColor: .modeBlack)
     private let displayModeButton = PiCKImageButton(image: .displayMode, imageColor: .modeBlack)
     private let alertButton = PiCKImageButton(image: .alert, imageColor: .modeBlack)
     private lazy var rightItemStackView = UIStackView(
         arrangedSubviews: [
-            viewSettingButton,
             displayModeButton,
             alertButton
         ]).then {
@@ -41,11 +41,9 @@ public class PiCKMainNavigationBar: BaseView {
     }
 
     public init(
-        view: UIViewController,
-        settingIsHidden: Bool? = true
+        view: UIViewController
     ){
         self.presentViewController = view
-        self.viewSettingButton.isHidden = settingIsHidden ?? true
         super.init(frame: .zero)
     }
     required init?(coder: NSCoder) {
@@ -56,36 +54,17 @@ public class PiCKMainNavigationBar: BaseView {
         self.backgroundColor = .clear
     }
     public override func bind() {
-        viewSettingButtonTap
-            .bind(onNext: { [weak self] in
-                let vc = PiCKMainBottomSheetAlert(type: .homeViewMode)
-
-                vc.clickModeButton = { mode in
-                    self?.userDefaultStorage.setUserDataType(to: mode as? HomeViewType, forKey: .homeViewMode)
-                    self?.presentViewController.viewWillAppear(true)
-                }
-
-                self?.presentViewController.presentAsCustomDents(view: vc, height: 252)
-            }).disposed(by: disposeBag)
-
         displayModeButton.buttonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKMainBottomSheetAlert(type: .displayMode)
-
-                vc.clickModeButton = { data in
-                    self?.userDefaultStorage.set(to: data, forKey: .displayMode)
-                    let value = self?.userDefaultStorage.get(forKey: .displayMode) as! Int
-
-                    UIView.transition(
-                        with: self!.presentViewController.view!,
-                        duration: 0.7,
-                        options: .transitionCrossDissolve
-                    ) {
-                        self?.presentViewController.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
-                    }
+                self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
+                let value = self?.userDefaultStorage.get(forKey: .displayMode) as! Int
+                UIView.transition(
+                    with: self!.presentViewController.view!,
+                    duration: 0.7,
+                    options: .transitionCrossDissolve
+                ) {
+                    self?.presentViewController.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
                 }
-
-                self?.presentViewController.presentAsCustomDents(view: vc, height: 252)
             }).disposed(by: disposeBag)
     }
 
@@ -104,9 +83,6 @@ public class PiCKMainNavigationBar: BaseView {
             $0.leading.equalToSuperview().inset(24)
             $0.width.equalTo(48)
             $0.height.equalTo(27)
-        }
-        viewSettingButton.snp.makeConstraints {
-            $0.width.height.equalTo(24)
         }
         displayModeButton.snp.makeConstraints {
             $0.width.height.equalTo(24)
