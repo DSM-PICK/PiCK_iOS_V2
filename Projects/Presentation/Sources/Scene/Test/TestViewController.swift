@@ -34,7 +34,7 @@ public class TestViewController: UIViewController, Stepper {
     private func bind() {
         button1.buttonTap
             .bind {
-                let alert = PiCKDisappearAlert(successType: .success, alertType: .outing)
+                let alert = PassView()
                 alert.modalTransitionStyle = .crossDissolve
                 alert.modalPresentationStyle = .overFullScreen
                 self.present(alert, animated: true)
