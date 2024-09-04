@@ -18,10 +18,16 @@ public final class UseCaseAssembly: Assembly {
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
+        //MARK: Home
+        container.register(FetchApplyStatusUsecase.self) { resolver in
+            FetchApplyStatusUsecase(repository: resolver.resolve(HomeRepository.self)!)
+        }
+        container
         //MARK: SchoolMeal
         container.register(FetchSchoolMealUseCase.self) { resolver in
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
         }
+
         //MARK: Schedule
         //timeTable
         container.register(FetchTodayTimeTableUseCase.self) { resolver in
@@ -43,6 +49,9 @@ public final class UseCaseAssembly: Assembly {
         //outing
         container.register(OutingApplyUseCase.self) { resolver in
             OutingApplyUseCase(repository: resolver.resolve(OutingRepository.self)!)
+        }
+        container.register(FetchOutingPassUseCase.self) { resolver in
+            FetchOutingPassUseCase(repository: resolver.resolve(OutingRepository.self)!)
         }
         //earlyLeave
         container.register(EarlyLeaveApplyUseCase.self) { resolver in
