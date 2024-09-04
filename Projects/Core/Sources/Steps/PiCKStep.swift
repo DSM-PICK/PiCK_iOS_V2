@@ -40,6 +40,8 @@ public enum PiCKStep: Step {
     case noitceDetailIsRequired(id: UUID)
     case selfStudyIsRequired
     case bugReportIsRequired
+    case customIsRequired
+    case notificationSettingIsRequired
     case myPageIsRequired
     case logoutIsRequired
 
