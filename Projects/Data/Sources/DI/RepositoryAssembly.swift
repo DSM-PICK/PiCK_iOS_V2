@@ -16,9 +16,9 @@ public final class RepositoryAssembly: Assembly {
             ClassroomRepositoryImpl(remoteDataSource: resolver.resolve(ClassroomDataSource.self)!)
         }
 
-//        container.register(MainRepository.self) { resolver in
-//            m(remoteDataSource: resolver.resolve(AuthDataSource.self)!)
-//        }
+        container.register(HomeRepository.self) { resolver in
+            MainRepositoryImpl(remoteDataSource: resolver.resolve(HomeDataSource.self)!)
+        }
 
         container.register(NoticeRepository.self) { resolver in
             NoticeRepositoryImpl(remoteDataSource: resolver.resolve(NoticeDataSource.self)!)

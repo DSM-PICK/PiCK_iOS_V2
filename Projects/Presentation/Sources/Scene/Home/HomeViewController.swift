@@ -36,6 +36,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self, settingIsHidden: false)
     private let profileView = PiCKProfileView()
 
+    private let testButton = HomeHeaderView().then {
+        $0.isHidden = true
+    }
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
@@ -94,6 +97,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         let input = HomeViewModel.Input(
             viewWillApper: viewWillAppearRelay.asObservable(),
             clickAlert: navigationBar.alertButtonTap.asObservable(),
+            clickOutingPass: testButton.buttonTap.asObservable(),
             clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
             todayDate: todayDate.toString(type: .fullDate)
         )
@@ -102,6 +106,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.viewMode.asObservable()
             .bind(onNext: { [weak self] data in
                 self?.setupViewType(type: data)
+            }).disposed(by: disposeBag)
+
+        output.applyStatusData.asObservable()
+            .bind(onNext: { [weak self] data in
+                data?.type
+//                self?.testButton.setup(type: .outing)
+//                self?.testButton.isHidden = false
             }).disposed(by: disposeBag)
 
         output.timetableData.asObservable()
@@ -121,6 +132,21 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             )) { row, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
+
+        output.outingPassData.asObservable()
+            .bind(onNext: { [weak self] data in
+                let alert = PassView()
+                alert.modalTransitionStyle = .crossDissolve
+                alert.modalPresentationStyle = .overFullScreen
+                self?.present(alert, animated: true)
+                alert.setup(
+                    name: data.userName,
+                    info: "\(data.schoolNum ?? 0)",
+                    time: "\(data.start ?? "") ~ \(data.end ?? "")",
+                    reason: data.reason,
+                    teacher: data.teacherName
+                )
+            }).disposed(by: disposeBag)
 
         output.selfStudyData.asObservable()
             .bind(onNext: { [weak self] data in
@@ -161,6 +187,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         contentView.addSubview(mainView)
 
        [
+            testButton,
             todaysLabel,
             stackView,
             selfStudyBannerView,
@@ -192,8 +219,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.height.equalTo(self.view.frame.height * 1.6)
         }
 
+        testButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(72)
+        }
         todaysLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
+//            $0.top.equalToSuperview()
+            $0.top.equalTo(testButton.snp.bottom)//.offset(20)
             $0.leading.equalToSuperview().inset(24)
         }
         stackView.snp.makeConstraints {

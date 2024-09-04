@@ -33,10 +33,12 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(HomeViewModel.self) { resolver in
             HomeViewModel(
+                fetchApplyStatusUseCase: resolver.resolve(FetchApplyStatusUsecase.self)!, 
                 timeTableUseCase: resolver.resolve(FetchTodayTimeTableUseCase.self)!,
                 schoolMealUseCase: resolver.resolve(FetchSchoolMealUseCase.self)!,
                 noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!,
-                selfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!
+                selfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!,
+                fetchOutingPassUseCase: resolver.resolve(FetchOutingPassUseCase.self)!
             )
         }
         //Alert

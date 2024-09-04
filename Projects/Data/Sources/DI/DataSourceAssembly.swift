@@ -21,8 +21,8 @@ public final class DataSourceAssembly: Assembly {
             ClassroomDataSourceImpl(keychain: self.keychain(resolver))
         }
 
-        container.register(MainDataSource.self) { resolver in
-            MainDataSourceImpl(keychain: self.keychain(resolver))
+        container.register(HomeDataSource.self) { resolver in
+            HomeDataSourceImpl(keychain: self.keychain(resolver))
         }
 
         container.register(NoticeDataSource.self) { resolver in

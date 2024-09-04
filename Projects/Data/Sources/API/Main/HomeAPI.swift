@@ -6,11 +6,11 @@ import Core
 import Domain
 import AppNetwork
 
-public enum MainAPI {
-    case fetchMainData
+public enum HomeAPI {
+    case fetchHomeApplyStatus
 }
 
-extension MainAPI: PiCKAPI {
+extension HomeAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
@@ -19,21 +19,21 @@ extension MainAPI: PiCKAPI {
     
     public var urlPath: String {
         switch self {
-            case .fetchMainData:
+            case .fetchHomeApplyStatus:
                 return ""
         }
     }
     
     public var method: Moya.Method {
         switch self {
-            case .fetchMainData:
+            case .fetchHomeApplyStatus:
                 return .get
         }
     }
     
     public var task: Moya.Task {
         switch self {
-            case .fetchMainData:
+            case .fetchHomeApplyStatus:
                 return .requestPlain
         }
     }
