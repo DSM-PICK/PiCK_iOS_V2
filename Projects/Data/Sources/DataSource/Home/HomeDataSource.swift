@@ -7,13 +7,13 @@ import Moya
 import Core
 import AppNetwork
 
-protocol MainDataSource {
+protocol HomeDataSource {
     func fetchMainData() -> Single<Response>
 }
 
-class MainDataSourceImpl: BaseDataSource<MainAPI>, MainDataSource {
+class HomeDataSourceImpl: BaseDataSource<HomeAPI>, HomeDataSource {
     func fetchMainData() -> Single<Response> {
-        return request(.fetchMainData)
+        return request(.fetchHomeApplyStatus)
             .filterSuccessfulStatusCodes()
     }
     
