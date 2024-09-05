@@ -33,7 +33,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private let contentView = UIView()
     private let mainView = UIView()
 
-    private lazy var navigationBar = PiCKMainNavigationBar(view: self, settingIsHidden: false)
+    private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
 
     private let testButton = HomeHeaderView().then {
