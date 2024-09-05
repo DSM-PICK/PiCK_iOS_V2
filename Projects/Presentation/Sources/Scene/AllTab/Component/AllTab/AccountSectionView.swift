@@ -10,12 +10,11 @@ import Core
 import DesignSystem
 
 class AccountSectionView: BaseView {
-    
-    enum HelpSectionType: Int {
+    enum AccountSectionType: Int {
         case myPage
         case logOut
     }
-    
+
     private let accountSectionView = PiCKSectionView(
         menuText: "계정",
         items: [
@@ -32,7 +31,7 @@ class AccountSectionView: BaseView {
         }
     }
 
-    func getSelectedItem(type: HelpSectionType) -> Observable<IndexPath> {
+    func getSelectedItem(type: AccountSectionType) -> Observable<IndexPath> {
         self.accountSectionView.getSelectedItem(index: type.rawValue)
     }
 
