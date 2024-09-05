@@ -5,5 +5,6 @@ public enum SuccessType {
 }
 
 public enum DisappearAlertType {
+    case complete
     case weekendMeal, classRoom, outing, earlyLeave, bug
 }
