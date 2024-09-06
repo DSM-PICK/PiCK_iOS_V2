@@ -11,7 +11,9 @@ import Core
 import DesignSystem
 
 public class NotificationSwitchView: BaseView {
-    public lazy var switchIsOn: Bool = switchButton.isOn
+    public var switchIsOn: Bool {
+        return switchButton.isOn
+    }
     public var clickSwitchButton: ControlProperty<Bool> {
         return switchButton.rx.isOn
     }
@@ -27,7 +29,7 @@ public class NotificationSwitchView: BaseView {
     public func setup(
         isOn: Bool
     ) {
-        self.switchButton.isOn = isOn
+        self.switchButton.setOn(isOn, animated: true)
     }
 
     public init(
