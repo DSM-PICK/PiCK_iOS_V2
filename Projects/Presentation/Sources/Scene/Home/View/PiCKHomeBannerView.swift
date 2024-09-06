@@ -73,7 +73,7 @@ public class PiCKHomeBannerView: BaseView {
 
         for floor in data {
             let floorLabel = PiCKLabel(
-                text: "\(floor.floor)",
+                text: "\(floor.floor)층",
                 textColor: .main900,
                 font: .label2, 
                 alignment: .center
