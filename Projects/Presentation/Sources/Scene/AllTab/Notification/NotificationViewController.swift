@@ -63,26 +63,26 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
 
         outingStatusNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] isOn in
-                self?.toggleButton(isOn: isOn)
+            .bind(onNext: { [weak self] _ in
+                self?.toggleButton()
             }).disposed(by: disposeBag)
 
         classRoomStatusSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] isOn in
-                self?.toggleButton(isOn: isOn)
+            .bind(onNext: { [weak self] _ in
+                self?.toggleButton()
             }).disposed(by: disposeBag)
 
         noticeNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] isOn in
-                self?.toggleButton(isOn: isOn)
+            .bind(onNext: { [weak self] _ in
+                self?.toggleButton()
             }).disposed(by: disposeBag)
 
         weekendMealNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] isOn in
-                self?.toggleButton(isOn: isOn)
+            .bind(onNext: { [weak self] _ in
+                self?.toggleButton()
             }).disposed(by: disposeBag)
     }
 
@@ -121,17 +121,11 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
         }
     }
 
-    private func toggleButton(isOn: Bool) {
-//        isOn == false ?
-//        self.allNotificationSwitchView.setup(isOn: false) :
-//        self.allNotificationSwitchView.setup(isOn: true)
-
-        self.switchViewArray.forEach {
-            if $0.switchIsOn == isOn {
-                self.allNotificationSwitchView.setup(isOn: false)
-            } else {
+    private func toggleButton() {
+        if (outingStatusNotificationSwitchView.switchIsOn && classRoomStatusSwitchView.switchIsOn && noticeNotificationSwitchView.switchIsOn && weekendMealNotificationSwitchView.switchIsOn) == true {
                 self.allNotificationSwitchView.setup(isOn: true)
-            }
+        } else {
+            self.allNotificationSwitchView.setup(isOn: false)
         }
     }
 
