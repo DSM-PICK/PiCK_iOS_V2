@@ -5,12 +5,12 @@ import RxCocoa
 
 import Core
 
-public enum PickerViewType {
+public enum PickerTimeType {
     case period, hour, min
 }
 
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-    private var pickerViewType: PickerViewType = .period
+    private var pickerTimeType: PickerTimeType = .period
     public var periodText = BehaviorRelay<Int>(value: 1)
     public var hourText = BehaviorRelay<Int>(value: 8)
     public var minText = BehaviorRelay<Int>(value: 0)
@@ -20,8 +20,8 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     private let minArray = Array(0...59)
     /*시간이 8시면 minarray가 30부터 뜨게 8시 반 이후에는 신청 못하게 음 조기귀가는 ㄱㅊ */
 
-    public init(type: PickerViewType) {
-        self.pickerViewType = type
+    public init(type: PickerTimeType) {
+        self.pickerTimeType = type
         super.init(frame: .zero)
         self.delegate = self
         self.dataSource = self
@@ -35,7 +35,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     }
 
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerViewType {
+        switch pickerTimeType {
         case .period:
             return periodArray.count
         case .hour:
@@ -62,7 +62,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 
         view.addSubview(label)
 
-        switch pickerViewType {
+        switch pickerTimeType {
         case .period:
             label.text = "\(periodArray[row])"
         case .hour:
@@ -75,7 +75,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     }
 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerViewType {
+        switch pickerTimeType {
         case .period:
             periodText.accept(periodArray[row])
         case .hour:

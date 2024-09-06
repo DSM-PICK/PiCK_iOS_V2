@@ -42,7 +42,7 @@ public final class UseCaseAssembly: Assembly {
         container.register(WeekendMealApplyUseCase.self) { resolver in
             WeekendMealApplyUseCase(repository: resolver.resolve(WeekendMealRepository.self)!)
         }
-        //classRoom
+        //classroom
         container.register(ClassroomMoveApplyUseCase.self) { resolver in
             ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
         }

@@ -54,11 +54,11 @@ public class TimeTableBackgroundViewCell: BaseCollectionViewCell<TimeTableEntity
         ].forEach { self.addSubview($0) }
 
         dateLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(100)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
         }
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(dateLabel.snp.bottom).offset(20)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(15)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

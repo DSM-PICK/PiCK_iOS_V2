@@ -7,22 +7,22 @@ import RxFlow
 import Core
 import Domain
 
-public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
+public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    private let classRoomMoveApplyUseCase: ClassroomMoveApplyUseCase
+    private let classroomMoveApplyUseCase: ClassroomMoveApplyUseCase
 
     public init(classRoomMoveApplyUseCase: ClassroomMoveApplyUseCase) {
-        self.classRoomMoveApplyUseCase = classRoomMoveApplyUseCase
+        self.classroomMoveApplyUseCase = classRoomMoveApplyUseCase
     }
 
     public struct Input {
         let floorText: Observable<Int>
-        let classRoomText: Observable<String>
+        let classroomText: Observable<String>
         let startPeriod: Observable<Int>
         let endPeriod: Observable<Int>
-        let clickClassRoomMoveApply: Observable<Void>
+        let clickClassroomMoveApply: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -36,7 +36,7 @@ public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         let info = Observable.combineLatest(
             input.floorText,
-            input.classRoomText,
+            input.classroomText,
             input.startPeriod,
             input.endPeriod
         )
@@ -45,19 +45,19 @@ public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
             !classRoom.isEmpty
         }
 
-        input.clickClassRoomMoveApply
+        input.clickClassroomMoveApply
             .withLatestFrom(info)
-            .flatMap { floor, classRoom, startPeriod, endPeriod in
-                self.classRoomMoveApplyUseCase.execute(req: .init(
+            .flatMap { floor, classroom, startPeriod, endPeriod in
+                self.classroomMoveApplyUseCase.execute(req: .init(
                     floor: floor,
-                    classroomName: classRoom,
+                    classroomName: classroom,
                     startPeriod: startPeriod,
                     endPeriod: endPeriod
                 ))
                 .catch {
                     self.steps.accept(PiCKStep.applyAlertIsRequired(
                             successType: .fail,
-                            alertType: .classRoom
+                            alertType: .classroom
                         ))
                     print($0.localizedDescription)
                     return .never()
@@ -65,7 +65,7 @@ public class ClassRoomMoveApplyViewModel: BaseViewModel, Stepper {
                 .andThen(Single.just(
                     PiCKStep.applyAlertIsRequired(
                         successType: .success,
-                        alertType: .classRoom
+                        alertType: .classroom
                     )))
             }
             .bind(to: steps)

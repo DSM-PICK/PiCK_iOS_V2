@@ -44,7 +44,7 @@ public class PiCKDisappearAlert: UIViewController {
         self.rxVisible
             .subscribe(onNext: {_ in
                 Timer.scheduledTimer(
-                    withTimeInterval: 2.0,
+                    withTimeInterval: 1,
                     repeats: false,
                     block: { _ in
                         self.dismiss(animated: true, completion: nil)
@@ -87,7 +87,7 @@ public class PiCKDisappearAlert: UIViewController {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
 
-            case .classRoom:
+            case .classroom:
                 self.alertLabel.text = "교실 이동 신청이 완료되었습니다!"
 
             case .outing:
@@ -110,7 +110,7 @@ public class PiCKDisappearAlert: UIViewController {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청을 실패했습니다."
 
-            case .classRoom:
+            case .classroom:
                 self.alertLabel.text = "교실 이동 신청을 실패했습니다."
 
             case .outing:

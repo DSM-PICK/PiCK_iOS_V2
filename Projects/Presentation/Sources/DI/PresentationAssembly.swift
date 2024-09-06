@@ -76,12 +76,12 @@ public final class PresentationAssembly: Assembly {
                 weekendMealApplyUseCase: resolver.resolve(WeekendMealApplyUseCase.self)!
             )
         }
-        //ClassRoomMove
-        container.register(ClassRoomMoveApplyViewController.self) { resolver in
-            ClassRoomMoveApplyViewController(viewModel: resolver.resolve(ClassRoomMoveApplyViewModel.self)!)
+        //ClassoomMove
+        container.register(ClassroomMoveApplyViewController.self) { resolver in
+            ClassroomMoveApplyViewController(viewModel: resolver.resolve(ClassroomMoveApplyViewModel.self)!)
         }
-        container.register(ClassRoomMoveApplyViewModel.self) { resolver in
-            ClassRoomMoveApplyViewModel(
+        container.register(ClassroomMoveApplyViewModel.self) { resolver in
+            ClassroomMoveApplyViewModel(
                 classRoomMoveApplyUseCase: resolver.resolve(ClassroomMoveApplyUseCase.self)!)
         }
         //Outing

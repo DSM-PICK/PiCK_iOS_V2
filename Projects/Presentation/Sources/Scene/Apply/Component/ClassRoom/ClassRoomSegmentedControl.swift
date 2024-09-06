@@ -3,7 +3,7 @@ import UIKit
 import Core
 import DesignSystem
 
-public class ClassRoomSegmentedControl: UISegmentedControl {
+public class ClassroomSegmentedControl: UISegmentedControl {
     private lazy var underlineView: UIView = {
         let width = self.bounds.size.width / CGFloat(self.numberOfSegments)
         let height = 1.0

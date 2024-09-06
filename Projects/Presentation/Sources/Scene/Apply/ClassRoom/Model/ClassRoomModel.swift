@@ -1,9 +1,9 @@
 import Foundation
 
-public struct ClassRoomModel {
-    public let classRoom: [String]
+public struct ClassroomModel {
+    public let classroom: [String]
 
-    public init(classRoom: [String]) {
-        self.classRoom = classRoom
+    public init(classroom: [String]) {
+        self.classroom = classroom
     }
 }
