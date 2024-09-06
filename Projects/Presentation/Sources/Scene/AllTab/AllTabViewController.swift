@@ -24,14 +24,15 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     private let helpSectionView = HelpSectionView()
     private let settingSectionView = SettingSectionView()
     private let accountSectionView = AccountSectionView()
-//    private lazy var sectionStackVeiw = UIStackView(arrangedSubviews: [
-//        helpSectionView,
-//        settingSectionView,
-//        accountSectionView
-//    ]).then {
-//        $0.axis = .vertical
-//        $0.spacing = 24
-//    }
+    private lazy var sectionStackVeiw = UIStackView(arrangedSubviews: [
+        helpSectionView,
+        settingSectionView,
+        accountSectionView
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 24
+        $0.isLayoutMarginsRelativeArrangement = true
+    }
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
         
@@ -73,11 +74,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         scrollView.addSubview(contentView)
         contentView.addSubview(mainView)
 
-        [
-            helpSectionView,
-            settingSectionView,
-            accountSectionView
-        ].forEach { mainView.addSubview($0) }
+        mainView.addSubview(sectionStackVeiw)
     }
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
@@ -102,17 +99,8 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             $0.height.equalTo(self.view.frame.height)
         }
 
-        helpSectionView.snp.makeConstraints {
-//            $0.top.equalTo(profileView.snp.bottom).offset(32)
+        sectionStackVeiw.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(24)
-        }
-        settingSectionView.snp.makeConstraints {
-            $0.top.equalTo(helpSectionView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview().inset(24)
-        }
-        accountSectionView.snp.makeConstraints {
-            $0.top.equalTo(settingSectionView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
