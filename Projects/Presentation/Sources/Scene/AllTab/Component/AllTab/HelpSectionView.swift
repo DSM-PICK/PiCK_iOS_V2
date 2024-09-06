@@ -10,13 +10,12 @@ import Core
 import DesignSystem
 
 class HelpSectionView: BaseView {
-    
     enum HelpSectionType: Int {
         case notice
         case selfStudy
         case bugReport
     }
-    
+
     private let helpSectionView = PiCKSectionView(
         menuText: "도움말",
         items: [

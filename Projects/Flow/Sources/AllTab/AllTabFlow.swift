@@ -4,6 +4,7 @@ import RxFlow
 import Swinject
 
 import Core
+import DesignSystem
 import Presentation
 
 public class AllTabFlow: Flow {
@@ -29,10 +30,16 @@ public class AllTabFlow: Flow {
             return navigateToSelfStudy()
         case .bugReportIsRequired:
             return navigateToBugReport()
+        case .customIsRequired:
+            return navigateToCustom()
+        case .notificationSettingIsRequired:
+            return navigateToNotificationSetting()
         case .myPageIsRequired:
             return navigateToMyPage()
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.appIsRequired)
+        case let .applyAlertIsRequired(successType, alertType):
+            return presentApplyAlert(successType: successType, alertType: alertType)
         default:
             return .none
         }
@@ -84,6 +91,28 @@ public class AllTabFlow: Flow {
         ))
     }
 
+    private func navigateToCustom() -> FlowContributors {
+        let vc = container.resolve(CustomSettingViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToNotificationSetting() -> FlowContributors {
+        let vc = container.resolve(NotificationViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
     private func navigateToMyPage() -> FlowContributors {
         let vc = container.resolve(MyPageViewController.self)!
 
@@ -93,6 +122,18 @@ public class AllTabFlow: Flow {
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
         ))
+    }
+
+    private func presentApplyAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+        let alert = PiCKDisappearAlert(
+            successType: successType,
+            alertType: alertType
+        )
+        alert.modalPresentationStyle = .overFullScreen
+        alert.modalTransitionStyle = .crossDissolve
+        self.rootViewController.popToRootViewController(animated: true)
+        self.rootViewController.present(alert, animated: true)
+        return .none
     }
 
 }

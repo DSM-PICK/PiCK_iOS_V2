@@ -20,6 +20,8 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let clickNoticeTab: Observable<IndexPath>
         let clickSelfStudyTab: Observable<IndexPath>
         let clickBugReportTab: Observable<IndexPath>
+        let clickCutomTab: Observable<IndexPath>
+        let clickNotificationSettingTab: Observable<IndexPath>
         let clickMyPageTab: Observable<IndexPath>
         let clickLogOutTab: Observable<Void>
     }
@@ -38,6 +40,16 @@ public class AllTabViewModel: BaseViewModel, Stepper {
 
         input.clickBugReportTab
             .map { _ in PiCKStep.bugReportIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.clickCutomTab
+            .map { _ in PiCKStep.customIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.clickNotificationSettingTab
+            .map { _ in PiCKStep.notificationSettingIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
