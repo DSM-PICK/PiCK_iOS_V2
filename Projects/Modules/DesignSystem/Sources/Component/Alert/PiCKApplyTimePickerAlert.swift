@@ -11,7 +11,7 @@ import Core
 public class PiCKApplyTimePickerAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
-    private var timePickerType: TimePickerType = .classRoom
+    private var timePickerType: PickerType = .classroom
 
     public var clickApplyButton: (() -> Void)?
     public var selectedPeriod: ((Int, Int) -> Void)?
@@ -21,11 +21,11 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         textColor: .modeBlack,
         font: .label1
     )
-    private let periodPickerView = PiCKClassRoomPickerContainerView()
+    private let periodPickerView = PiCKClassroomPickerContainerView()
     private let timePickerView = PiCKOutingPickerContainerView()
     private let applyButton = PiCKButton(buttonText: "신청하기")
 
-    public init(type: TimePickerType) {
+    public init(type: PickerType) {
         self.timePickerType = type
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,7 +53,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
             .bind(onNext: { [weak self] in
                 self?.dismiss(animated: true)
                 switch self?.timePickerType {
-                case .classRoom:
+                case .classroom:
                     self?.selectedPeriod!(self?.periodPickerView.startPeriodValue ?? 0, self?.periodPickerView.endPeriodValue ?? 0)
                     self?.clickApplyButton!()
                 case .outingStart, .outingEnd:
@@ -78,7 +78,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         ].forEach { view.addSubview($0) }
 
         switch timePickerType {
-        case .classRoom:
+        case .classroom:
             timePickerView.isHidden = true
             explainLabel.text = "교실 이동 시간을 선택해주세요"
         case .outingStart:

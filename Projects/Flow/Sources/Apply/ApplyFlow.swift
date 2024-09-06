@@ -26,8 +26,8 @@ public class ApplyFlow: Flow {
             return navigateToApply()
         case .weekendMealApplyIsRequired:
             return navigateToWeekendMealApply()
-        case .classRoomMoveApplyIsRequired:
-            return navigateToClassRoomMoveApply()
+        case .classroomMoveApplyIsRequired:
+            return navigateToClassroomMoveApply()
         case .outingApplyIsRequired:
             return navigateToOutingApply()
         case .earlyLeaveApplyIsRequired:
@@ -61,8 +61,8 @@ public class ApplyFlow: Flow {
         ))
     }
 
-    private func navigateToClassRoomMoveApply() -> FlowContributors {
-        let vc = container.resolve(ClassRoomMoveApplyViewController.self)!
+    private func navigateToClassroomMoveApply() -> FlowContributors {
+        let vc = container.resolve(ClassroomMoveApplyViewController.self)!
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)

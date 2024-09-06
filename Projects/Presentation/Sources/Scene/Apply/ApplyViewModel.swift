@@ -15,7 +15,7 @@ public class ApplyViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let clickWeekendMealButton: Observable<Void>
-        let clickClassRoomMoveButton: Observable<Void>
+        let clickClassroomMoveButton: Observable<Void>
         let clickOutingButton: Observable<Void>
         let clickEarlyLeaveButton: Observable<Void>
     }
@@ -27,8 +27,8 @@ public class ApplyViewModel: BaseViewModel, Stepper {
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickClassRoomMoveButton
-            .map { PiCKStep.classRoomMoveApplyIsRequired }
+        input.clickClassroomMoveButton
+            .map { PiCKStep.classroomMoveApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

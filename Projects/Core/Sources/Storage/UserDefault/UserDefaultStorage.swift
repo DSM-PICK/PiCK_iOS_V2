@@ -3,6 +3,7 @@ import UIKit
 public enum UserDefaultKeys: String {
     case homeViewMode = "homeViewMode"
     case displayMode = "displayMode"
+    case pickerTimeMode = "pickerTimeMode"
 }
 
 public struct UserDefaultsManager: UserDefault {

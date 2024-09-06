@@ -23,7 +23,8 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
     private let menuLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1,
-        numberOfLines: 0
+        numberOfLines: 0,
+        alignment: .left
     )
     private lazy var infoStackView = UIStackView(arrangedSubviews: [
         mealTimeLabel,
@@ -62,12 +63,13 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
             $0.leading.equalToSuperview().inset(40)
         }
         kcalLabel.snp.makeConstraints {
-            $0.width.equalTo(72)
+            $0.width.equalTo(75)
             $0.height.equalTo(22)
         }
         menuLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
-            $0.leading.equalTo(infoStackView.snp.trailing).offset(81)
+            $0.leading.equalToSuperview().inset(190)
+            $0.trailing.equalToSuperview().inset(10)
         }
     }
 

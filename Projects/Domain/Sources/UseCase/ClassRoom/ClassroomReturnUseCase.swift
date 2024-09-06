@@ -3,7 +3,6 @@ import Foundation
 import RxSwift
 
 public class ClassroomReturnUseCase {
-
     let repository: ClassroomRepository
     
     public init(repository: ClassroomRepository) {
@@ -13,5 +12,5 @@ public class ClassroomReturnUseCase {
     public func execute() -> Completable {
         return repository.classroomReturn()
     }
-    
+
 }
