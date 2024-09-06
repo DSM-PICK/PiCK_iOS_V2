@@ -60,7 +60,8 @@ public class PiCKTabView: BaseView {
     )
     private lazy var actionButton = PiCKButton(
         buttonText: "신청하기",
-        isHidden: true
+        isHidden: true,
+        height: 36
     )
     private lazy var detailStackView = UIStackView(arrangedSubviews: [
         explainLabel,
