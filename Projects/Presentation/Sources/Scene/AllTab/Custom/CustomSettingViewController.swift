@@ -12,7 +12,7 @@ import DesignSystem
 public class CustomSettingViewController: BaseViewController<CustomSettingViewModel> {
     private lazy var tabArray = [
         homeSettingTabView,
-        applyAlertSettingTabView
+        pickerSettingTabView
     ]
 
     private let titleLabel = PiCKLabel(
@@ -27,10 +27,10 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
     )
     private let homeSettingTabView = PiCKTabView(
         title: "메인페이지 설정",
-        explain: "''",
+        explain: "",
         icon: .alert
     )
-    private lazy var applyAlertSettingTabView = PiCKTabView(
+    private lazy var pickerSettingTabView = PiCKTabView(
         title: "신청 단위 설정",
         explain: "",
         icon: .alert
@@ -44,13 +44,21 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
         let input = CustomSettingViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
             clickHomeSetting: homeSettingTabView.clickActionButton.asObservable(),
-            clickApplyAlertSetting: applyAlertSettingTabView.clickActionButton.asObservable()
+            clickPickerSetting: pickerSettingTabView.clickActionButton.asObservable()
         )
         let output = viewModel.transform(input: input)
 
-        output.tabViewText.asObservable()
+        output.homeSettingTabViewText.asObservable()
             .bind { text in
                 self.homeSettingTabView.setup(
+                    explain: text.0,
+                    buttonText: text.1
+                )
+            }.disposed(by: disposeBag)
+
+        output.pickerSettingTabViewText.asObservable()
+            .bind { text in
+                self.pickerSettingTabView.setup(
                     explain: text.0,
                     buttonText: text.1
                 )
@@ -61,9 +69,9 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
                 self.toggleTabAction(selectedTab: self.homeSettingTabView)
             }.disposed(by: disposeBag)
 
-        applyAlertSettingTabView.rx.tapGesture()
+        pickerSettingTabView.rx.tapGesture()
             .bind { _ in
-                self.toggleTabAction(selectedTab: self.applyAlertSettingTabView)
+                self.toggleTabAction(selectedTab: self.pickerSettingTabView)
             }.disposed(by: disposeBag)
     }
 
