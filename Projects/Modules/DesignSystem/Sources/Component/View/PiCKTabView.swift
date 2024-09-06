@@ -8,11 +8,10 @@ import RxCocoa
 import RxGesture
 
 import Core
-import DesignSystem
 
-public class PiCKApplyView: BaseView {
-    public var clickApplyButton: ControlEvent<Void> {
-        return applyButton.buttonTap
+public class PiCKTabView: BaseView {
+    public var clickActionButton: ControlEvent<Void> {
+        return actionButton.buttonTap
     }
 
     public var isOpen = false {
@@ -59,15 +58,26 @@ public class PiCKApplyView: BaseView {
         font: .label2,
         isHidden: true
     )
-    private let applyButton = PiCKButton(type: .system, buttonText: "신청하기", isHidden: true)
+    private lazy var actionButton = PiCKButton(
+        buttonText: "신청하기",
+        isHidden: true
+    )
     private lazy var detailStackView = UIStackView(arrangedSubviews: [
         explainLabel,
-        applyButton
+        actionButton
     ]).then {
         $0.spacing = 16
         $0.axis = .vertical
         $0.isLayoutMarginsRelativeArrangement = true
         $0.layoutMargins = .init(top: 16, left: 0, bottom: 0, right: 0)
+    }
+
+    public func setup(
+        explain: String,
+        buttonText: String
+    ) {
+        self.explainLabel.text = explain
+        self.actionButton.setTitle(buttonText, for: .normal)
     }
 
     public init(

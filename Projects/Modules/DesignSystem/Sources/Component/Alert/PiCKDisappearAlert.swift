@@ -98,7 +98,9 @@ public class PiCKDisappearAlert: UIViewController {
 
             case .bug:
                 self.alertLabel.text = "버그 제보가 완료되었습니다!"
-                
+
+            case .complete:
+                self.alertLabel.text = "완료되었습니다!"
             }
         case .fail:
             self.imageView.image = .failIcon
@@ -119,6 +121,9 @@ public class PiCKDisappearAlert: UIViewController {
 
             case .bug:
                 self.alertLabel.text = "버그 제보를 실패했습니다."
+
+            case .complete:
+                self.alertLabel.text = "실패했습니다."
             }
         }
     }

@@ -12,11 +12,27 @@ import DesignSystem
 public class AllTabViewController: BaseViewController<AllTabViewModel> {
     private let logoutRelay = PublishRelay<Void>()
 
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+    }
+    private let contentView = UIView()
+    private let mainView = UIView()
+
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
     private let helpSectionView = HelpSectionView()
+    private let settingSectionView = SettingSectionView()
     private let accountSectionView = AccountSectionView()
-
+    private lazy var sectionStackVeiw = UIStackView(arrangedSubviews: [
+        helpSectionView,
+        settingSectionView,
+        accountSectionView
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 24
+        $0.isLayoutMarginsRelativeArrangement = true
+    }
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
         
@@ -27,6 +43,8 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
             clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
+            clickCutomTab: settingSectionView.getSelectedItem(type: .custom),
+            clickNotificationSettingTab: settingSectionView.getSelectedItem(type: .notificationSetting),
             clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage),
             clickLogOutTab: logoutRelay.asObservable()
         )
@@ -50,9 +68,13 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         [
             navigationBar,
             profileView,
-            helpSectionView,
-            accountSectionView
+            scrollView
         ].forEach { view.addSubview($0) }
+
+        scrollView.addSubview(contentView)
+        contentView.addSubview(mainView)
+
+        mainView.addSubview(sectionStackVeiw)
     }
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
@@ -63,12 +85,22 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
         }
-        helpSectionView.snp.makeConstraints {
+
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(profileView.snp.bottom).offset(32)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-        accountSectionView.snp.makeConstraints {
-            $0.top.equalTo(helpSectionView.snp.bottom).offset(24)
+        contentView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalTo(self.view)
+        }
+        mainView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(self.view.frame.height)
+        }
+
+        sectionStackVeiw.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
