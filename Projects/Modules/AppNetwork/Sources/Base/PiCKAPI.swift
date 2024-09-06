@@ -42,7 +42,7 @@ public enum PiCKURL: String {
     case main
     case selfStudy = "self-study"
     case earlyReturn = "early-return"
-    case classRoom = "class-room"
+    case classroom = "class-room"
     case application
     case weekendMeal = "weekend-meal"
     case notice

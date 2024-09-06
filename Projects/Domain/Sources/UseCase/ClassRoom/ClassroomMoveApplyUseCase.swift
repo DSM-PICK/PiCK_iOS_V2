@@ -9,7 +9,7 @@ public class ClassroomMoveApplyUseCase {
         self.repository = repository
     }
 
-    public func execute(req: ClassRoomMoveRequestParams) -> Completable {
+    public func execute(req: ClassroomMoveRequestParams) -> Completable {
         return repository.classroomMoveApply(req: req)
     }
 

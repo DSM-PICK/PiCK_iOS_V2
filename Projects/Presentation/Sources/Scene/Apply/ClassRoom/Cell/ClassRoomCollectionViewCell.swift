@@ -9,8 +9,8 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
-    static let identifier = "ClassRoomCollectionViewCell"
+public class ClassroomCollectionViewCell: BaseCollectionViewCell<Any> {
+    static let identifier = "ClassroomCollectionViewCell"
 
     public override var isSelected: Bool {
         didSet {
@@ -22,7 +22,7 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
         isSelected ? .main100 : .background
     }
 
-    private let classRoomLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 1)
+    private let classroomLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 1)
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,9 +38,9 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
 //        self.layout()
 //    }
     public func setup(
-        classRoom: String
+        classroom: String
     ) {
-        self.classRoomLabel.text = classRoom
+        self.classroomLabel.text = classroom
         self.layout()
     }
 
@@ -50,12 +50,12 @@ public class ClassRoomCollectionViewCell: BaseCollectionViewCell<Any> {
         self.backgroundColor = bgColor
         self.layer.border(color: .main100, width: 1)
         self.layer.cornerRadius = 16
-        self.classRoomLabel.textColor = .modeBlack
+        self.classroomLabel.textColor = .modeBlack
     }
     public override func layout() {
-        self.addSubview(classRoomLabel)
+        self.addSubview(classroomLabel)
 
-        classRoomLabel.snp.makeConstraints {
+        classroomLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.bottom.equalToSuperview().inset(8)
         }

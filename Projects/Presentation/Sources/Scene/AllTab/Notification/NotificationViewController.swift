@@ -12,7 +12,7 @@ import DesignSystem
 public class NotificationViewController: BaseViewController<NotificationViewModel> {
     private lazy var switchViewArray = [
         outingStatusNotificationSwitchView,
-        classRoomStatusSwitchView,
+        classroomStatusSwitchView,
         noticeNotificationSwitchView,
         weekendMealNotificationSwitchView
     ]
@@ -32,12 +32,12 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
         font: .body1
     )
     private let outingStatusNotificationSwitchView = NotificationSwitchView(title: "외출 상태 변경")
-    private let classRoomStatusSwitchView = NotificationSwitchView(title: "교실 이동 상태 변경")
+    private let classroomStatusSwitchView = NotificationSwitchView(title: "교실 이동 상태 변경")
     private let noticeNotificationSwitchView = NotificationSwitchView(title: "새로운 공지 등록")
     private let weekendMealNotificationSwitchView = NotificationSwitchView(title: "주말 급식 신청기간")
     private lazy var switchStackView = UIStackView(arrangedSubviews: [
         outingStatusNotificationSwitchView,
-        classRoomStatusSwitchView,
+        classroomStatusSwitchView,
         noticeNotificationSwitchView,
         weekendMealNotificationSwitchView
     ]).then {
@@ -67,7 +67,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
                 self?.toggleButton()
             }).disposed(by: disposeBag)
 
-        classRoomStatusSwitchView.clickSwitchButton
+        classroomStatusSwitchView.clickSwitchButton
             .asObservable()
             .bind(onNext: { [weak self] _ in
                 self?.toggleButton()
@@ -122,7 +122,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
 
     private func toggleButton() {
-        if (outingStatusNotificationSwitchView.switchIsOn && classRoomStatusSwitchView.switchIsOn && noticeNotificationSwitchView.switchIsOn && weekendMealNotificationSwitchView.switchIsOn) == true {
+        if (outingStatusNotificationSwitchView.switchIsOn && classroomStatusSwitchView.switchIsOn && noticeNotificationSwitchView.switchIsOn && weekendMealNotificationSwitchView.switchIsOn) == true {
                 self.allNotificationSwitchView.setup(isOn: true)
         } else {
             self.allNotificationSwitchView.setup(isOn: false)

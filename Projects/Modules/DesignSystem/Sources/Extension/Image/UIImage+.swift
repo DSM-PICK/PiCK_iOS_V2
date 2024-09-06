@@ -17,7 +17,7 @@ public extension UIImage {
     static let rightArrow = DesignSystemAsset.Image.rightArrow.image
     static let bottomArrow = DesignSystemAsset.Image.bottomArrow.image
     static let weekendMeal = DesignSystemAsset.Image.weekendMeal.image
-    static let classRoomMove = DesignSystemAsset.Image.classRoomMove.image
+    static let classroomMove = DesignSystemAsset.Image.classRoomMove.image
     static let outing = DesignSystemAsset.Image.outing.image
     static let earlyLeave = DesignSystemAsset.Image.earlyLeave.image
     static let studentIDCard = DesignSystemAsset.Image.studentIdCard.image
