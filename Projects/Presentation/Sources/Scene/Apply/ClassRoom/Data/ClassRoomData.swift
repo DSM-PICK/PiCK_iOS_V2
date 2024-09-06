@@ -1,8 +1,8 @@
 import Foundation
 
-public class ClassRoomData {
+public class ClassroomData {
     public init() { }
-    static let shared = ClassRoomData()
+    static let shared = ClassroomData()
 
     let firstFloor = [
         "산학협력부", "새롬홀", "무한 상상실",

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ClassRoomMoveRequestParams: Encodable {
+public struct ClassroomMoveRequestParams: Encodable {
     public let floor: Int
     public let classroomName: String
     public let startPeriod: Int

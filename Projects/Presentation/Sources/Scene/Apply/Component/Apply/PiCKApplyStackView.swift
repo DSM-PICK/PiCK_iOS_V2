@@ -14,7 +14,7 @@ public class PiCKApplyStackView: BaseView {
     public var clickWeekendMealTab: ControlEvent<Void> {
         return weekendMealApplyTab.clickActionButton
     }
-    public var clickClassRoomMoveTab: ControlEvent<Void> {
+    public var clickClassroomMoveTab: ControlEvent<Void> {
         return classroomMoveApplyTab.clickActionButton
     }
     public var clickOutingTab: ControlEvent<Void> {
@@ -32,7 +32,7 @@ public class PiCKApplyStackView: BaseView {
     private let classroomMoveApplyTab = PiCKTabView(
         title: "교실 이동 신청",
         explain: "선생님께서 수락하시기 전엔 이동할 수 없습니다.\n수락 후 이동하시기 바랍니다.",
-        icon: .classRoomMove
+        icon: .classroomMove
     )
     private let outingApplyTab = PiCKTabView(
         title: "외출 신청",

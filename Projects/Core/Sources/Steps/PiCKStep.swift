@@ -24,8 +24,8 @@ public enum PiCKStep: Step {
     case applyAlertIsRequired(successType: SuccessType, alertType: DisappearAlertType)
     //weekendMeal
     case weekendMealApplyIsRequired
-    //classRoom
-    case classRoomMoveApplyIsRequired
+    //classroom
+    case classroomMoveApplyIsRequired
     //outing
     case outingApplyIsRequired
     //earlyLeave

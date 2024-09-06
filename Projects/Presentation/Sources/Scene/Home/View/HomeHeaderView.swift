@@ -11,8 +11,8 @@ import Domain
 import DesignSystem
 
 public enum HeaderType {
-    case waitOuting, waitClassRoom
-    case outing, classRoom
+    case waitOuting, waitClassroom
+    case outing, classroom
 }
 
 public class HomeHeaderView: BaseView {

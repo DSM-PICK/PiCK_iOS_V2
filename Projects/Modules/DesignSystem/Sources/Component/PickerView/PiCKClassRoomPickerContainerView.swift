@@ -9,7 +9,7 @@ import RxGesture
 
 import Core
 
-public class PiCKClassRoomPickerContainerView: BaseView {
+public class PiCKClassroomPickerContainerView: BaseView {
     public lazy var startPeriodValue = startPickerView.periodText.value
     public lazy var endPeriodValue = endPickerView.periodText.value
 

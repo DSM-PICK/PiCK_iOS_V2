@@ -7,7 +7,7 @@ import Domain
 import AppNetwork
 
 public enum ClassroomAPI {
-    case classroomMoveApply(req: ClassRoomMoveRequestParams)
+    case classroomMoveApply(req: ClassroomMoveRequestParams)
     case classroomReturn
 }
 
@@ -15,7 +15,7 @@ extension ClassroomAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
     
     public var urlType: PiCKURL {
-        return .classRoom
+        return .classroom
     }
     
     public var urlPath: String {
