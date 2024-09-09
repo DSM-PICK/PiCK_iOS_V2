@@ -10,7 +10,6 @@ import Core
 import DesignSystem
 
 public class LoginViewController: BaseViewController<LoginViewModel> {
-    
     private let titleLabel = PiCKLabel(
         text: "PiCK에 로그인하기",
         textColor: .modeBlack,
@@ -39,7 +38,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
 
     public override func attribute() {
         super.attribute()
-        
+
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     public override func bind() {
@@ -49,7 +48,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
             clickLoginButton: loginButton.buttonTap.asObservable()
         )
         let output = viewModel.transform(input: input)
-        
+
         output.idErrorDescription.asObservable()
             .bind(to: self.idTextField.errorMessage)
             .disposed(by: disposeBag)
