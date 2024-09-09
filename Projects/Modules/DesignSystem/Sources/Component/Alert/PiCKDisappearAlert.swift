@@ -61,7 +61,7 @@ public class PiCKDisappearAlert: UIViewController {
         
         backgroundView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(126)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(86)
             $0.height.equalTo(48)
         }
         imageView.snp.makeConstraints {
