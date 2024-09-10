@@ -72,7 +72,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        print("APNS token: \(deviceToken)")
+        print("APNS token: \(deviceToken.base64EncodedString())")
         Messaging.messaging().apnsToken = deviceToken
     }
 
@@ -101,7 +101,7 @@ extension AppDelegate: MessagingDelegate {
           }
         }
 
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        let dataDict: [String: String] = ["token": token]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
