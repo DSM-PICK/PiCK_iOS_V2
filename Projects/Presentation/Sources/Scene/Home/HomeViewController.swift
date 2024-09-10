@@ -36,17 +36,18 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
 
-    private let testButton = HomeHeaderView().then {
-        $0.isHidden = true
-    }
+    private let passHeaderView = HomePassHeaderView()
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
     )
+//    private let testHeaderView = HomeHeaderView().then {
+//        $0.setup(title: "시간표시간표")
+//    }
 
     private lazy var timeTableView = HomeTimeTableView(frame: subViewSize)
     private lazy var schoolMealView = HomeSchoolMealView(frame: subViewSize)
-    private lazy var stackView = UIStackView(arrangedSubviews: [
+    private lazy var mainStackView = UIStackView(arrangedSubviews: [
         timeTableView,
         schoolMealView
     ]).then {
@@ -63,12 +64,15 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.setTitleColor(.gray800, for: .normal)
         $0.titleLabel?.font = .label1
     }
-    private lazy var noticeStackView = UIStackView(arrangedSubviews: [
+    private lazy var noticeTitleStackView = UIStackView(arrangedSubviews: [
         recentNoticeLabel,
         viewMoreButton
     ]).then {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
+    }
+    private let noticeHeaderView = HomeHeaderView().then {
+        $0.setup(title: "공지공지공지", explain: "새로운 공지를 확인해보세요")
     }
     private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -87,6 +91,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
     }
+    private lazy var noticeStackView = UIStackView(arrangedSubviews: [
+        noticeTitleStackView,
+        noticeHeaderView,
+        noticeCollectionView
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 20
+    }
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
@@ -97,7 +109,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         let input = HomeViewModel.Input(
             viewWillApper: viewWillAppearRelay.asObservable(),
             clickAlert: navigationBar.alertButtonTap.asObservable(),
-            clickOutingPass: testButton.buttonTap.asObservable(),
+            clickOutingPass: passHeaderView.buttonTap.asObservable(),
             clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
             todayDate: todayDate.toString(type: .fullDate)
         )
@@ -110,7 +122,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.applyStatusData.asObservable()
             .bind(onNext: { [weak self] data in
-                data?.type
+//                data?.type
+                let isEmpty = data?.type?.isEmpty
+                self?.passHeaderView.isHidden = isEmpty!
+                self?.passHeaderView.setup(type: .application)
 //                self?.testButton.setup(type: .outing)
 //                self?.testButton.isHidden = false
             }).disposed(by: disposeBag)
@@ -141,10 +156,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 self?.present(alert, animated: true)
                 alert.setup(
                     name: data.userName,
-                    info: "\(data.schoolNum ?? 0)",
+                    info: "\(data.grade ?? 0)학년 \(data.classNum ?? 0)반 \(data.num ?? 0)번",
                     time: "\(data.start ?? "") ~ \(data.end ?? "")",
                     reason: data.reason,
-                    teacher: data.teacherName
+                    teacher: "\(data.teacherName) 선생님"
                 )
             }).disposed(by: disposeBag)
 
@@ -187,12 +202,12 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         contentView.addSubview(mainView)
 
        [
-            testButton,
+            passHeaderView,
             todaysLabel,
-            stackView,
+//            testHeaderView,
+            mainStackView,
             selfStudyBannerView,
-            noticeStackView,
-            noticeCollectionView,
+            noticeStackView
        ].forEach { mainView.addSubview($0) }
     }
 
@@ -216,35 +231,39 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         }
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height * 1.6)
+            $0.height.equalTo(self.view.frame.height * 2)
         }
 
-        testButton.snp.makeConstraints {
+        passHeaderView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(72)
         }
         todaysLabel.snp.makeConstraints {
-//            $0.top.equalToSuperview()
-            $0.top.equalTo(testButton.snp.bottom)//.offset(20)
+            $0.top.equalTo(passHeaderView.snp.bottom).offset(20)
             $0.leading.equalToSuperview().inset(24)
         }
-        stackView.snp.makeConstraints {
+//        testHeaderView.snp.makeConstraints {
+//            $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
+//            $0.leading.trailing.equalToSuperview().inset(24)
+//            $0.height.equalTo(59)
+//        }
+        mainStackView.snp.makeConstraints {
             $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
+//            $0.top.equalTo(testHeaderView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
         }
         selfStudyBannerView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(20)
+            $0.top.equalTo(mainStackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(160)
         }
         noticeStackView.snp.makeConstraints {
             $0.top.equalTo(selfStudyBannerView.snp.bottom).offset(40)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
-        noticeCollectionView.snp.makeConstraints {
-            $0.top.equalTo(recentNoticeLabel.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview()
+        noticeHeaderView.snp.makeConstraints {
+            $0.height.equalTo(81)
         }
     }
 
@@ -255,7 +274,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             self.schoolMealView.isHidden = true
             self.timeTableView.isHidden = false
             self.timeTableView.setup(timeTableData: self.timeTableData.value)
-            stackView.snp.remakeConstraints {
+            mainStackView.snp.remakeConstraints {
                 $0.height.equalTo(self.timeTableHeight.value)
             }
         case .schoolMeal:
@@ -263,7 +282,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             self.timeTableView.isHidden = true
             self.schoolMealView.isHidden = false
             self.schoolMealView.setup(schoolMealData: self.schoolMealData.value)
-            stackView.snp.remakeConstraints {
+            mainStackView.snp.remakeConstraints {
                 $0.height.equalTo(self.schoolMealHeight.value)
             }
         }

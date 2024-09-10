@@ -93,11 +93,8 @@ public class PassView: UIViewController {
     }
     private func setLayout() {
         backgroundView.snp.makeConstraints {
-            //            $0.center.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(40)
-            //            $0.height.equalTo(460)
-            //            $0.top.bottom.equalToSuperview().inset(192)
             $0.height.equalTo(self.view.frame.height * 0.54)
         }
         titleLabel.snp.makeConstraints {
@@ -119,8 +116,8 @@ public class PassView: UIViewController {
         logoImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(30)
-//            $0.width.equalTo(48)
-//            $0.height.equalTo(27)
+            $0.width.equalTo(60)
+            $0.height.equalTo(22)
         }
     }
 
