@@ -6,6 +6,7 @@ let project = Project.makeModule(
     name: "ThirdPartyLib",
     platform: .iOS,
     product: .staticFramework,
+    packages: [.FCM],
     dependencies: [
         .SPM.SnapKit,
         .SPM.Then,
@@ -21,6 +22,7 @@ let project = Project.makeModule(
         .SPM.Lottie,
         .SPM.SkeletonView,
         .SPM.FSCalendar,
-        .SPM.RxDataSources
+        .SPM.RxDataSources,
+        .SPM.FCM
     ]
 )

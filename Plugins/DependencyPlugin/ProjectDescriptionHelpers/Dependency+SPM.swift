@@ -20,4 +20,10 @@ public extension TargetDependency.SPM {
     static let SkeletonView = TargetDependency.external(name: "SkeletonView")
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
+    static let FCM = TargetDependency.package(product: "FirebaseMessaging")
 }
+
+public extension Package {
+    static let FCM = Package.remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "9.5.0"))
+}
+
