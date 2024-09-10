@@ -41,9 +41,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         textColor: .gray700,
         font: .label1
     )
-//    private let testHeaderView = HomeHeaderView().then {
-//        $0.setup(title: "시간표시간표")
-//    }
 
     private lazy var timeTableView = HomeTimeTableView(frame: subViewSize)
     private lazy var schoolMealView = HomeSchoolMealView(frame: subViewSize)
@@ -204,7 +201,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
        [
             passHeaderView,
             todaysLabel,
-//            testHeaderView,
             mainStackView,
             selfStudyBannerView,
             noticeStackView
@@ -243,14 +239,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(passHeaderView.snp.bottom).offset(20)
             $0.leading.equalToSuperview().inset(24)
         }
-//        testHeaderView.snp.makeConstraints {
-//            $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
-//            $0.leading.trailing.equalToSuperview().inset(24)
-//            $0.height.equalTo(59)
-//        }
         mainStackView.snp.makeConstraints {
             $0.top.equalTo(todaysLabel.snp.bottom).offset(20)
-//            $0.top.equalTo(testHeaderView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
         }
         selfStudyBannerView.snp.makeConstraints {
