@@ -92,7 +92,14 @@ extension AppDelegate: MessagingDelegate {
         didReceiveRegistrationToken fcmToken: String?
     ) {
         let token = String(describing: fcmToken)
-        print("Firebase registration token: \(token)")
+
+        Messaging.messaging().token { token, error in
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+          }
+        }
 
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
