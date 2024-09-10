@@ -15,7 +15,8 @@ public class HomeSchoolMealView: BaseView {
 
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
-        $0.itemSize = .init(width: self.frame.width, height: 102)
+        $0.itemSize = .init(width: self.frame.width, height: 134)
+        $0.minimumLineSpacing = 0
     }
     private lazy var collectionView = UICollectionView(
         frame: .zero,

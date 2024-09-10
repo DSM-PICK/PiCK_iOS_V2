@@ -113,7 +113,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { [weak self] data in
                 self?.schoolMealData.accept(data.meals.mealBundle)
 
-                let height = CGFloat(data.meals.mealBundle.count * 102)
+                let height = CGFloat(data.meals.mealBundle.count * 134)
                 self?.schoolMealHeight.accept(height)
             }).disposed(by: disposeBag)
 

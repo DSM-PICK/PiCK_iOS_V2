@@ -15,7 +15,7 @@ public enum HeaderType {
     case outing, classroom
 }
 
-public class HomeHeaderView: BaseView {
+public class HomePassHeaderView: BaseView {
     public var buttonTap: ControlEvent<Void> {
         return button.rx.tap
     }
@@ -41,12 +41,13 @@ public class HomeHeaderView: BaseView {
     )
 
     public func setup(
-        type: OutingType,
-        outingText: String?,
-        classRoomText: String?,
-        waitingTitleText: String?,
-        waitingContentText: String?
+        type: OutingType
+//        outingText: String?,
+//        classRoomText: String?,
+//        waitingTitleText: String?,
+//        waitingContentText: String?
     ) {
+        self.setupType(type: type)
 //        switch type {
 //        case .application:
 //            waitingTitleLabel.text = waitingTitleText
@@ -54,7 +55,7 @@ public class HomeHeaderView: BaseView {
 //        case .earlyReturn:
 //            
 //        case .classroom:
-//            <#code#>
+//
 //        }
     }
 
@@ -81,10 +82,11 @@ public class HomeHeaderView: BaseView {
         }
     }
 
-//    private func setupType(type: OutingType) {
-//        self.button.isHidden = type == .
-//        self.contentLabel.isHidden = type == .waitOuting
-//        self.waitingTitleLabel.isHidden = type == .outing
-//        self.waitingContentLabel.isHidden = type == .outing
-//    }
+    private func setupType(type: OutingType) {
+        self.button.isHidden = false
+        self.contentLabel.isHidden = type == .application
+        self.waitingTitleLabel.isHidden = type == .application
+        self.waitingContentLabel.isHidden = type == .application
+    }
+
 }
