@@ -47,7 +47,7 @@ public class PiCKOutingPickerContainerView: BaseView {
 
     private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .heading3)
 
-    private lazy var endPickerView = PiCKPickerView(type: timeSelectType)
+    private lazy var endPickerView = PiCKPickerView(type: .min)
     private let minLabel = PiCKLabel(text: "분", textColor: .modeBlack, font: .subTitle1)
     private lazy var endStackView = UIStackView(arrangedSubviews: [
         endPickerView,
