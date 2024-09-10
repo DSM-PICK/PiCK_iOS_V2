@@ -11,7 +11,7 @@ import Core
 import DesignSystem
 
 public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
-    private let onboardingButton = PiCKButton(buttonText: "로그인하고 PiCK사용하기", isHidden: false)
+    private let onboardingButton = PiCKButton(buttonText: "로그인하고 PiCK사용하기")
 
     public override func bind() {
         let input = OnboardingViewModel.Input(

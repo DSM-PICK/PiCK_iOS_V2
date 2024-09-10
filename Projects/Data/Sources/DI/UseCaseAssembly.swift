@@ -22,7 +22,6 @@ public final class UseCaseAssembly: Assembly {
         container.register(FetchApplyStatusUsecase.self) { resolver in
             FetchApplyStatusUsecase(repository: resolver.resolve(HomeRepository.self)!)
         }
-        container
         //MARK: SchoolMeal
         container.register(FetchSchoolMealUseCase.self) { resolver in
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)

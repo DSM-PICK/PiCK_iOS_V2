@@ -8,6 +8,7 @@ let project = Project.makeModule(
     product: .staticFramework,
     dependencies: [
         .Projects.presentation,
-        .Projects.data
+        .Projects.data,
+        .SPM.FCM
     ]
 )
