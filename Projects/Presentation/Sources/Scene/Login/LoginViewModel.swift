@@ -7,6 +7,8 @@ import RxFlow
 import Core
 import Domain
 
+import FirebaseMessaging
+
 public class LoginViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
@@ -42,7 +44,8 @@ public class LoginViewModel: BaseViewModel, Stepper {
             .flatMap { [self] id, password in
                 loginUseCase.execute(req: .init(
                     accountID: id,
-                    password: password
+                    password: password,
+                    deviceToken: Messaging.messaging().fcmToken
                 ))
                 .catch { id in
                     self.idErrorDescription.accept("아이디를 다시 확인해주세요")

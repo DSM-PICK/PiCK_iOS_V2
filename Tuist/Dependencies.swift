@@ -65,6 +65,10 @@ let dependencies = Dependencies.init(
             .remote(
                 url: "https://github.com/RxSwiftCommunity/RxDataSources.git",
                 requirement: .upToNextMajor(from: "5.0.0")
+            ),
+            .remote(
+                url: "https://github.com/firebase/firebase-ios-sdk.git",
+                requirement: .upToNextMajor(from: "10.3.0")
             )
         ],
         baseSettings: .settings(
