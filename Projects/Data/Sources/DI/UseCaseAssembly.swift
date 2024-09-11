@@ -73,6 +73,13 @@ public final class UseCaseAssembly: Assembly {
         container.register(FetchSelfStudyUseCase.self) { resolver in
             FetchSelfStudyUseCase(repository: resolver.resolve(SelfStudyRepository.self)!)
         }
+        //notification
+        container.register(FetchNotificationStatus.self) { resolver in
+            FetchNotificationStatus(repository: resolver.resolve(NotificationRepository.self)!)
+        }
+        container.register(NotificationSubscribeUseCase.self) { resolver in
+            NotificationSubscribeUseCase(repository: resolver.resolve(NotificationRepository.self)!)
+        }
 
         //MARK: Schedule
         container.register(FetchWeekTimeTableUseCase.self) { resolver in
