@@ -11,7 +11,6 @@ extension Project {
     public static func makeModule(
         name: String,
         organizationName: String = env.organizationName,
-        infoPlist: InfoPlist = .default,
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
         resourceSynthesizers: [ResourceSynthesizer] = .default + [],
@@ -20,7 +19,8 @@ extension Project {
         packages: [Package] = [],
         dependencies: [TargetDependency],
         settings: SettingsDictionary = [:],
-        configurations: [Configuration] = []
+        configurations: [Configuration] = [],
+        additionalPlistRows: [String: ProjectDescription.InfoPlist.Value] = [:]
     ) -> Project {
         
         let ldFlagsSettings: SettingsDictionary = product == .framework ?
@@ -44,14 +44,14 @@ extension Project {
             defaultSettings: .recommended
         )
         
-        let allTargets: [Target] = [
+        var allTargets: [Target] = [
             Target(
                 name: name,
                 platform: platform,
                 product: product,
                 bundleId: "\(env.organizationName).\(name)",
                 deploymentTarget: env.deploymentTarget,
-                infoPlist: infoPlist,
+                infoPlist: .extendingDefault(with: additionalPlistRows),
                 sources: sources,
                 resources: resources,
                 dependencies: dependencies

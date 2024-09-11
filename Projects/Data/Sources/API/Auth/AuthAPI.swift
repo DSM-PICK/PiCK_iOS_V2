@@ -8,7 +8,6 @@ import AppNetwork
 
 public enum AuthAPI {
     case login(req: LoginRequestParams)
-//    case refreshToken(refreshToken: String)
     case refreshToken
 }
 
@@ -43,7 +42,8 @@ extension AuthAPI: PiCKAPI {
                 return .requestParameters(
                     parameters: [
                         "account_id": req.accountID,
-                        "password": req.password
+                        "password": req.password,
+                        "device_token": req.deviceToken
                     ],
                     encoding: JSONEncoding.default
                 )

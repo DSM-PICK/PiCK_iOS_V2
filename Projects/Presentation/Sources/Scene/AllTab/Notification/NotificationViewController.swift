@@ -122,8 +122,13 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
 
     private func toggleButton() {
-        if (outingStatusNotificationSwitchView.switchIsOn && classroomStatusSwitchView.switchIsOn && noticeNotificationSwitchView.switchIsOn && weekendMealNotificationSwitchView.switchIsOn) == true {
-                self.allNotificationSwitchView.setup(isOn: true)
+        if (
+            outingStatusNotificationSwitchView.switchIsOn &&
+            classroomStatusSwitchView.switchIsOn &&
+            noticeNotificationSwitchView.switchIsOn &&
+            weekendMealNotificationSwitchView.switchIsOn
+        ) == true {
+            self.allNotificationSwitchView.setup(isOn: true)
         } else {
             self.allNotificationSwitchView.setup(isOn: false)
         }
