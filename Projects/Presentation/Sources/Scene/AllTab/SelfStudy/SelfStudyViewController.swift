@@ -79,6 +79,28 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
 
                 self?.setupSelftStudyLabel(data: data)
             }).disposed(by: disposeBag)
+
+        self.calendarView.clickTopToggleButton
+            .subscribe(onNext: { [weak self] in
+                let alert = PiCKCalendarAlert(
+                    calendarType: .selfStudyMonth,
+                    clickDate: { date in
+                        self?.calendarView.setupDate(date: date)
+                        self?.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
+
+                        if date.toString(type: .fullDate) == self?.todayDate.toString(type: .fullDate) {
+                            self?.titleLabel.text = "\(date.toString(type: .monthAndDay))\n오늘의 자습 감독 선생님 입니다"
+                            self?.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
+                        } else {
+                            self?.titleLabel.text = "\(date.toString(type: .monthAndDay))의\n자습 감독 선생님입니다"
+                            self?.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDay))의", color: .main500)
+                        }
+                    }
+                )
+                alert.modalTransitionStyle = .crossDissolve
+                alert.modalPresentationStyle = .overFullScreen
+                self?.present(alert, animated: true)
+            }).disposed(by: disposeBag)
     }
     public override func addView() {
         [
@@ -106,10 +128,9 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         }
         calendarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(100)
-            $0.height.equalTo(300)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(170)
+            $0.height.equalTo(350)
         }
-//        self.calendarView.layer.addshadow(color: .red, alpha: 0.5, x: 0, y: -2, blur: 4, spread: 10)
     }
 
     private func setupSelftStudyLabel(data: SelfStudyEntity) {

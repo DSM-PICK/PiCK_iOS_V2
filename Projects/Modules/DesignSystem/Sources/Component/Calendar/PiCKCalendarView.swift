@@ -12,9 +12,14 @@ import Core
 import Domain
 
 public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSource {
+    private var calendarType: CalendarType = .schoolMealWeek
+
     private var clickDate: (Date) -> Void
 
-    public var clickToggleButton: ControlEvent<Void> {
+    public var clickTopToggleButton: ControlEvent<Void> {
+        return topToggleButton.buttonTap
+    }
+    public var clickBottomToggleButton: ControlEvent<Void> {
         return bottomToggleButton.buttonTap
     }
 
@@ -90,6 +95,7 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
         clickDate: @escaping (Date) -> Void
     ) {
         self.clickDate = clickDate
+        self.calendarType = calnedarType
         super.init(frame: .zero)
         setupCalendar(type: calnedarType)
     }
@@ -111,28 +117,39 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
 
     public override func layout() {
         [
-//            topToggleButton,
+            topToggleButton,
             calendarView,
             bottomToggleButton
         ].forEach { self.addSubview($0) }
         calendarView.addSubview(headerStackView)
-//
-//        topToggleButton.snp.makeConstraints {
-//            $0.centerX.equalToSuperview()
-//            $0.top.equalToSuperview().inset(10)
-//        }
-        calendarView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-//            $0.top.equalToSuperview().inset(50)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-        headerStackView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-        }
-        bottomToggleButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(calendarView.calendarWeekdayView.snp.bottom).offset(40)
+
+        switch calendarType {
+        case .schoolMealWeek, .schoolMealMonth:
+            calendarView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            headerStackView.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.top.equalToSuperview()
+            }
+            bottomToggleButton.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.top.equalTo(calendarView.calendarWeekdayView.snp.bottom).offset(40)
+            }
+        case .selfStudyWeek, .selfStudyMonth:
+            topToggleButton.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.top.equalToSuperview().inset(10)
+            }
+            calendarView.snp.makeConstraints {
+                $0.top.equalTo(topToggleButton.snp.bottom).offset(10)
+                $0.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(self.safeAreaLayoutGuide)//.offset(8)
+            }
+            headerStackView.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.top.equalToSuperview()
+            }
         }
     }
 
@@ -161,13 +178,13 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
             self.previousButton.isHidden = true
             self.nextButton.isHidden = true
             self.bottomToggleButton.isHidden = true
-            self.layer.cornerRadius = 20
-            self.backgroundColor = .blue
 
         case .selfStudyMonth:
             self.calendarView.scope = .month
+            self.topToggleButton.isHidden = true
             self.bottomToggleButton.isHidden = true
         }
+        self.layout()
     }
 
 }
