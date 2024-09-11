@@ -5,7 +5,7 @@ public struct DetailNoticeEntity {
     public let content: String
     public let createAt: String
     public let teacher: String
-    
+
     public init(
         title: String,
         content: String,
@@ -17,5 +17,5 @@ public struct DetailNoticeEntity {
         self.createAt = createAt
         self.teacher = teacher
     }
-    
+
 }

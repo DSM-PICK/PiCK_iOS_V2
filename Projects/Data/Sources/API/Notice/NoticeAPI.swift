@@ -39,11 +39,7 @@ extension NoticeAPI: PiCKAPI {
     }
     
     public var pickHeader: tokenType {
-        switch self {
-        default:
-            return .accessToken
-        }
-//        return .accessToken
+        return .accessToken
     }
 
     public var errorMap: [Int : PiCKError]? {
