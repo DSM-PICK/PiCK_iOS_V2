@@ -18,7 +18,7 @@ class AccountSectionView: BaseView {
     private let accountSectionView = PiCKSectionView(
         menuText: "계정",
         items: [
-            ("마이 페이지", .myPage, .main700),
+            ("마이페이지", .myPage, .main700),
             ("로그아웃", .logout, .error)
         ]
     )
