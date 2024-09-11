@@ -49,7 +49,12 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
                     endTime: endTime
                 ))
                 .catch {
-                    self.steps.accept(PiCKStep.applyAlertIsRequired(successType: .fail, alertType: .outing))
+                    self.steps.accept(
+                        PiCKStep.applyAlertIsRequired(
+                            successType: .fail,
+                            alertType: .outing
+                        )
+                    )
                     print($0.localizedDescription)
                     return .never()
                 }

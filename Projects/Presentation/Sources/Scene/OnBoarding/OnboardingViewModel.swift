@@ -8,30 +8,31 @@ import Core
 import Domain
 
 public class OnboardingViewModel: BaseViewModel, Stepper {
-    
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
     private let refreshTokenUseCase: RefreshTokenUseCase
-    
+
     public init(refreshTokenUseCase: RefreshTokenUseCase) {
         self.refreshTokenUseCase = refreshTokenUseCase
     }
-    
+
     public struct Input {
         let viewWillAppear: Observable<Void>
         let clickOnboardingButton: Observable<Void>
     }
     public struct Output {}
-    
+
     public func transform(input: Input) -> Output {
-        input.viewWillAppear.asObservable()
+        input.viewWillAppear
 //            .map { _ in animate.accept(()) }
-            .flatMap { [self] in
-                return refreshTokenUseCase.execute()
+            .flatMap {
+//                return refreshTokenUseCase.execute()
+                self.refreshTokenUseCase.execute()
 //                    .asCompletable()
-                    .catch { _ in
+                    .catch {
 //                        showNavigationButton.accept(())
+                        print($0.localizedDescription)
                         return .never()
                     }
                     .andThen(Single.just(PiCKStep.tabIsRequired))
@@ -46,5 +47,5 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
         
         return Output()
     }
-    
+
 }

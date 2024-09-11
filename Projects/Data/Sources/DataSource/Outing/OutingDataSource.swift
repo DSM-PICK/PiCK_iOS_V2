@@ -15,7 +15,8 @@ protocol OutingDataSource {
 class OutingDataSourceImpl: BaseDataSource<OutingAPI>, OutingDataSource {
     func outingApply(req: OutingApplyRequestParams) -> Completable {
         return request(.outingApply(req: req))
-        .asCompletable()
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
     }
     func fetchOutingPass() -> Single<Response> {
         return request(.fetchOutingPass)

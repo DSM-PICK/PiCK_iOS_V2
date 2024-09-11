@@ -7,6 +7,8 @@ import RxFlow
 import Core
 import Domain
 
+import FirebaseMessaging
+
 public class LoginViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
@@ -29,20 +31,17 @@ public class LoginViewModel: BaseViewModel, Stepper {
 
     private let passwordErrorDescription = PublishRelay<String?>()
     private let idErrorDescription = PublishRelay<String?>()
-    
+
     public func transform(input: Input) -> Output {
         let info = Observable.combineLatest(input.idText, input.passwordText)
 
         input.clickLoginButton
             .withLatestFrom(info)
-            .filter { self.checkLoginData($0.0, $0.1) }
-            .distinctUntilChanged { (prevent, current) -> Bool in
-                return prevent.0 == current.0 && prevent.1 == current.1
-            }
-            .flatMap { [self] id, password in
-                loginUseCase.execute(req: .init(
+            .flatMap { id, password in
+                self.loginUseCase.execute(req: .init(
                     accountID: id,
-                    password: password
+                    password: password,
+                    deviceToken: Messaging.messaging().fcmToken ?? ""
                 ))
                 .catch { id in
                     self.idErrorDescription.accept("아이디를 다시 확인해주세요")
