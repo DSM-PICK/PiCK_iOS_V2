@@ -16,7 +16,7 @@ public class MyPageViewModel: BaseViewModel, Stepper {
     public init(profileUsecase: FetchDetailProfileUseCase) {
         self.profileUsecase = profileUsecase
     }
-    
+
     public struct Input {
         let viewWillAppear: Observable<Void>
     }

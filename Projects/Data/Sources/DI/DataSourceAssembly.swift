@@ -65,6 +65,10 @@ public final class DataSourceAssembly: Assembly {
             WeekendMealDataSourceImpl(keychain: self.keychain(resolver))
         }
 
+        container.register(NotificationDataSource.self) { resolver in
+            NotificationDataSourceImpl(keychain: self.keychain(resolver))
+        }
+
     }
 
 }

@@ -163,7 +163,10 @@ public final class PresentationAssembly: Assembly {
             NotificationViewController(viewModel: resolver.resolve(NotificationViewModel.self)!)
         }
         container.register(NotificationViewModel.self) { resolver in
-            NotificationViewModel()
+            NotificationViewModel(
+                fetchNotificationStatusUseCase: resolver.resolve(FetchNotificationStatus.self)!,
+                notificationSubscribeUseCase: resolver.resolve(NotificationSubscribeUseCase.self)!
+            )
         }
         //MyPage
         container.register(MyPageViewController.self) { resolver in
