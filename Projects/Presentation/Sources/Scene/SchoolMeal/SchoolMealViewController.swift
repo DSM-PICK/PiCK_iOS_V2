@@ -86,14 +86,19 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
                 )
             }.disposed(by: disposeBag)
 
-        schoolMealCalendarView.clickToggleButton
+        schoolMealCalendarView.clickBottomToggleButton
             .bind(onNext: { [self] in
                 let alert = PiCKCalendarAlert(
                     calendarType: .schoolMealMonth,
                     clickDate: { date in
                         self.schoolMealCalendarView.setupDate(date: date)
                         self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
-                        self.dateLabel.text = date.toString(type: .monthAndDay)
+                        if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+                            self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
+                            self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
+                        } else {
+                            self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
+                        }
                     }
                 )
                 alert.modalTransitionStyle = .crossDissolve
