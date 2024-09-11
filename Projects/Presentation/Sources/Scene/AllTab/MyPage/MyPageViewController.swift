@@ -41,7 +41,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     public override func attribute() {
         super.attribute()
 
-        navigationTitleText = "마이 페이지"
+        navigationTitleText = "마이페이지"
         setupMyPageLabel()
     }
     public override func bind() {
@@ -53,8 +53,8 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         output.profileData.asObservable()
             .bind(onNext: { [weak self] profileData in
                 self?.userNameLabel.text = profileData.name
-                self?.userBirthDayLabel.text = profileData.birthDay
-                self?.userSchoolIDLabel.text = "\(profileData.grade)\(profileData.classNum)\(profileData.num)"
+                self?.userBirthDayLabel.text = "\(profileData.birthDay.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))"
+                self?.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"
                 self?.userIDLabel.text = profileData.accountID
             }).disposed(by: disposeBag)
     }

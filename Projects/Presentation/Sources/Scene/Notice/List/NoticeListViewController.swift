@@ -14,17 +14,16 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
     private let clickNoticeCellRelay = PublishRelay<UUID>()
 
     private let bannerView = UIImageView(image: .noticeBanner)
-    private lazy var bottomCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
+    private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.view.frame.width, height: 81)
     }
     private lazy var noticeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: bottomCollectionViewFlowLayout
+        collectionViewLayout: collectionViewFlowLayout
     ).then {
         $0.backgroundColor = .background
         $0.showsHorizontalScrollIndicator = false
-        $0.showsVerticalScrollIndicator = false
         $0.register(
             NoticeCollectionViewCell.self,
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
