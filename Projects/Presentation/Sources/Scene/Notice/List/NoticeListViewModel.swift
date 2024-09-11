@@ -17,7 +17,7 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
         self.steps = steps
         self.noticeListUseCase = noticeListUseCase
     }
-    
+
     public struct Input {
         let viewWillAppear: Observable<Void>
         let clickNoticeCell: Observable<UUID>
