@@ -11,6 +11,8 @@ import Domain
 import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
+    private var homeViewType: HomeViewType = .timeTable
+
     private var timeTableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private var schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
 
@@ -25,7 +27,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
     private lazy var schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
 
-    private lazy var homeViewType: HomeViewType = .timeTable
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
@@ -134,7 +135,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.schoolMealData.asObservable()
             .bind(onNext: { [weak self] data in
-                self?.schoolMealData.accept(data)
+                if data.map({ $0.2.menu.isEmpty }).isEmpty {
+                    print("없어 ㅅ비ㅏㄹ")
+                } else {
+                    self?.schoolMealData.accept(data)
+                }
             }).disposed(by: disposeBag)
 
         output.noticeListData.asObservable()
@@ -172,11 +177,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 } else {
                     self?.timeTableHeight.accept(height)
                 }
+                self?.setLayout()
             }).disposed(by: disposeBag)
 
         output.schoolMealHeight.asObservable()
             .bind(onNext: { [weak self] height in
                 self?.schoolMealHeight.accept(height)
+                self?.setLayout()
             }).disposed(by: disposeBag)
 
         output.noticeViewHeight.asObservable()

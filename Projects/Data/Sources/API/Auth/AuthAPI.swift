@@ -43,7 +43,7 @@ extension AuthAPI: PiCKAPI {
                     parameters: [
                         "account_id": req.accountID,
                         "password": req.password,
-                        "device_token": req.deviceToken ?? ""
+                        "device_token": req.deviceToken
                     ],
                     encoding: JSONEncoding.default
                 )
