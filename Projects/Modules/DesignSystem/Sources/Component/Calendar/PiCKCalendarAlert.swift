@@ -27,7 +27,7 @@ public class PiCKCalendarAlert: UIViewController {
             }
         }
     )
-    private let toggleButton = PiCKImageButton(image: .bottomArrow, imageColor: .main500)
+    private let toggleButton = PiCKImageButton(image: .topArrow, imageColor: .main500)
 
     public func setupDate(
         date: Date
@@ -75,18 +75,38 @@ public class PiCKCalendarAlert: UIViewController {
             toggleButton
         ].forEach { backgroundView.addSubview($0) }
 
-        backgroundView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(379)
-        }
-        calendarView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(300)
-        }
-        toggleButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(10)
+        switch calendarType {
+        case .schoolMealMonth:
+            backgroundView.snp.makeConstraints {
+                $0.top.leading.trailing.equalToSuperview()
+                $0.height.equalTo(379)
+            }
+            calendarView.snp.makeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide)
+                $0.leading.trailing.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(44)
+            }
+            toggleButton.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(10)
+            }
+        case .selfStudyMonth:
+            backgroundView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(379)
+            }
+            toggleButton.snp.makeConstraints {
+                $0.centerX.equalToSuperview()
+                $0.top.equalToSuperview().inset(10)
+            }
+            calendarView.snp.makeConstraints {
+                $0.top.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(8)
+            }
+
+            self.toggleButton.setImage(.bottomArrow, for: .normal)
+        default:
+            return
         }
     }
 
