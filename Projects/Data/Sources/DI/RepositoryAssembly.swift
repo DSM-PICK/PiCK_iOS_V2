@@ -62,5 +62,9 @@ public final class RepositoryAssembly: Assembly {
             WeekendMealRepositoryImpl(remoteDataSource: resolver.resolve(WeekendMealDataSource.self)!)
         }
 
+        container.register(NotificationRepository.self) { resolver in
+            NotificationRepositoryImpl(remoteDataSource: resolver.resolve(NotificationDataSource.self)!)
+        }
+
     }
 }
