@@ -16,7 +16,7 @@ public extension PiCKAPI {
     var baseURL: URL {
         URLUtil.baseURL
     }
-    
+
     var path: String {
         urlType.asURLString + urlPath
     }
@@ -50,6 +50,7 @@ public enum PiCKURL: String {
     case timeTable = "timetable"
     case schedule
     case bug
+    case notification
 
     var asURLString: String {
         "/\(self.rawValue)"
@@ -60,7 +61,7 @@ public enum tokenType: String {
     case accessToken
     case refreshToken
     case tokenIsEmpty
-    
+
     var toHeader: [String : String] {
         switch self {
         case .accessToken:

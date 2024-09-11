@@ -53,13 +53,37 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
 
     public override func bind() {
+        let input = NotificationViewModel.Input(
+            viewWillAppear: viewWillAppearRelay.asObservable(),
+            outingStatus: outingStatusNotificationSwitchView.clickSwitchButton.asObservable(),
+            classroomStatus: classroomStatusSwitchView.clickSwitchButton.asObservable(),
+            newNoticeStatus: noticeNotificationSwitchView.clickSwitchButton.asObservable(),
+            weekendMealStatus: weekendMealNotificationSwitchView.clickSwitchButton.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+
+        output.notificationStatus.asObservable()
+            .withUnretained(self)
+            .bind { owner, status in
+                let isSubscribedArray = status.subscribeTopicResponse.map { $0.isSubscribed }
+
+                for (index, switchView) in owner.switchViewArray.enumerated() {
+                    switchView.setup(isOn: isSubscribedArray[index])
+                }
+
+                let allSubscribed = isSubscribedArray.allSatisfy { $0 }
+                owner.allNotificationSwitchView.setup(isOn: allSubscribed)
+            }.disposed(by: disposeBag)
+    }
+    public override func bindAction() {
         allNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] isOn in
-                self?.switchViewArray.forEach {
+            .withUnretained(self)
+            .bind { owner, isOn in
+                owner.switchViewArray.forEach {
                     $0.setup(isOn: isOn)
                 }
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         outingStatusNotificationSwitchView.clickSwitchButton
             .asObservable()
