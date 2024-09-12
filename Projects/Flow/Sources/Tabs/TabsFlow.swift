@@ -11,21 +11,21 @@ import DesignSystem
 import Presentation
 
 public class TabsFlow: Flow {
-    
     public let container: Container
+    private let rootViewController =  BaseTabBarController()
     public var root: Presentable {
         return self.rootViewController
     }
-    private let rootViewController =  TabBarManager.shared
+
     public init(container: Container) {
         self.container = container
     }
-    
-    private lazy var homeFlow = HomeFlow(container: self.container)
-    private lazy var schoolMealFlow = SchoolMealFlow(container: self.container)
-    private lazy var applyFlow = ApplyFlow(container: self.container)
-    private lazy var scheduleFlow = ScheduleFlow(container: self.container)
-    private lazy var allTabFlow = AllTabFlow(container: self.container)
+
+    private lazy var homeFlow = HomeFlow(container: container)
+    private lazy var schoolMealFlow = SchoolMealFlow(container: container)
+    private lazy var applyFlow = ApplyFlow(container: container)
+    private lazy var scheduleFlow = ScheduleFlow(container: container)
+    private lazy var allTabFlow = AllTabFlow(container: container)
 
     public func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
@@ -63,7 +63,7 @@ public class TabsFlow: Flow {
                 apply,
                 schedule,
                 allTab
-            ], animated: true)
+            ], animated: false)
         }
         return .multiple(flowContributors: [
             .contribute(
