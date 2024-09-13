@@ -102,7 +102,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                     self?.applicationType.accept(.period)
                 }
                 alert.clickApplyButton = {
-                    print("ㅇㅇㅇ")
+                    print("success")
                 }
                 self?.presentAsCustomDents(view: alert, height: 406)
             }).disposed(by: disposeBag)
