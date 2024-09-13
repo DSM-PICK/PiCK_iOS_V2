@@ -4,6 +4,9 @@ public enum KeychainType: String {
     case accessToken = "access_token"
     case refreshToken = "refresh_token"
     case tokenIsEmpty
+
+    case id = "id"
+    case password = "password"
 }
 
 public protocol Keychain {

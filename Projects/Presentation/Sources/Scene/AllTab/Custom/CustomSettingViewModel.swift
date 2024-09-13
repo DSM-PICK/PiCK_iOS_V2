@@ -11,7 +11,7 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    private let userDefaultStorage = UserDefaultsManager.shared
+    private let userDefaultStorage = UserDefaultStorage.shared
     private var homeViewType: HomeViewType {
         let value = userDefaultStorage.getUserDataType(
             forKey: .homeViewMode,
