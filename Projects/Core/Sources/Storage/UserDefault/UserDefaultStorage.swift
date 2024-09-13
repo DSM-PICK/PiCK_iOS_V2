@@ -6,8 +6,8 @@ public enum UserDefaultKeys: String {
     case pickerTimeMode = "pickerTimeMode"
 }
 
-public struct UserDefaultsManager: UserDefault {
-    public static let shared = UserDefaultsManager()
+public struct UserDefaultStorage: UserDefault {
+    public static let shared = UserDefaultStorage()
 
     public func set<T>(to: T, forKey: UserDefaultKeys) {
         UserDefaults.standard.set(to, forKey: forKey.rawValue)

@@ -9,7 +9,7 @@ public final class KeychainAssembly: Assembly {
         }
         
         container.register(UserDefault.self) { _ in
-            UserDefaultsManager()
+            UserDefaultStorage()
         }
     }
 }

@@ -8,7 +8,7 @@ import Core
 public class AppFlow: Flow {
     private var window: UIWindow
     private let container: Container
-    private let rawValue = UserDefaultsManager.shared.get(forKey: .displayMode) as? Int
+    private let rawValue = UserDefaultStorage.shared.get(forKey: .displayMode) as? Int
 
     public var root: RxFlow.Presentable {
         window.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: rawValue ?? 0) ?? .unspecified
