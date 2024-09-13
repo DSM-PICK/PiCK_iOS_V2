@@ -44,6 +44,8 @@ public class TokenStorage {
             ]
         case .tokenIsEmpty:
             return ["content-type": "application/json"]
+        default:
+            return [:]
         }
     }
 

@@ -8,11 +8,10 @@ import Core
 import Domain
 
 class AuthRepositoryImpl: AuthRepository {
-
     private let remoteDataSource: AuthDataSource
     private var disposeBag = DisposeBag()
     private let keyChain = KeychainImpl()
-    
+
     init(remoteDataSource: AuthDataSource) {
         self.remoteDataSource = remoteDataSource
     }
@@ -25,6 +24,10 @@ class AuthRepositoryImpl: AuthRepository {
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
                     self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
+
+                    self.keyChain.save(type: .id, value: req.accountID)
+                    self.keyChain.save(type: .password, value: req.password)
+
                     completable(.completed)
                 }, onFailure: {
                     completable(.error($0))
@@ -52,7 +55,7 @@ class AuthRepositoryImpl: AuthRepository {
                     completable(.error($0))
                 })
                 .disposed(by: self.disposeBag)
-            
+
             return Disposables.create {}
         }
     }
