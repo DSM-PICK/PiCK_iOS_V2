@@ -10,8 +10,20 @@ import Core
 import DesignSystem
 
 public class OutingApplyViewController: BaseViewController<OutingApplyViewModel> {
-    private var startTime = BehaviorRelay<String>(value: "")
-    private var endTime = BehaviorRelay<String>(value: "")
+    private var startTimeRelay = BehaviorRelay<String>(value: "")
+    private var endTimeRelay = BehaviorRelay<String>(value: "")
+    private var applicationType = BehaviorRelay<PickerTimeSelectType>(value: .time)
+
+    private let userDefaultStorage = UserDefaultStorage.shared
+
+    private var pickerType: PickerTimeSelectType {
+        let value = userDefaultStorage.getUserDataType(
+            forKey: .pickerTimeMode,
+            type: PickerTimeSelectType.self
+        ) as? PickerTimeSelectType
+
+        return value ?? .time
+    }
 
     private let titleLabel = PiCKLabel(text: "외출 신청", textColor: .modeBlack, font: .heading4)
     private let explainLabel = PiCKLabel(text: "희망 외출 시간을 선택하세요", textColor: .modeBlack, font: .label1)
@@ -19,62 +31,80 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
     private let sinceLabel = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
     private let endTimeSelectButton = TimeSelectButton(type: .system)
     private let untilLabel = PiCKLabel(text: "까지", textColor: .modeBlack, font: .label1)
+    private let periodSelectButton = TimeSelectButton(type: .system)
     private lazy var outingTimeStackView = UIStackView(arrangedSubviews: [
         startTimeSelectButton,
         sinceLabel,
         endTimeSelectButton,
-        untilLabel
+        untilLabel,
+        periodSelectButton
     ]).then {
         $0.axis = .horizontal
         $0.spacing = 12
     }
     private let outingReasonTextView = PiCKTextView(title: "외출 사유를 입력하세요", placeholder: "자세히 입력해주세요")
-    private let applyButton = PiCKButton(type: .system, buttonText: "신청하기", isEnabled: false)
+    private let applyButton = PiCKButton(buttonText: "신청하기", isEnabled: false)
 
     public override func attribute() {
         super.attribute()
-        
+
         navigationTitleText = "외출 신청"
     }
     public override func bind() {
         let input = OutingApplyViewModel.Input(
-            startTime: startTime.asObservable(),
+            startTime: startTimeRelay.asObservable(),
             clickStartTimeButton: startTimeSelectButton.buttonTap.asObservable(),
-            endTime: endTime.asObservable(),
+            endTime: endTimeRelay.asObservable(),
             clickEndTimeButton: endTimeSelectButton.buttonTap.asObservable(),
             reasonText: outingReasonTextView.textViewText.asObservable(),
+            applicationType: applicationType.asObservable(),
             clickOutingApply: applyButton.buttonTap.asObservable()
         )
 
         let output =  viewModel.transform(input: input)
 
         output.isApplyButtonEnable.asObservable()
-            .bind(
-                onNext: { [weak self] isEnabled in
+            .bind(onNext: { [weak self] isEnabled in
                     self?.applyButton.isEnabled = isEnabled
-                }
-            ).disposed(by: disposeBag)
+                }).disposed(by: disposeBag)
     }
 
     public override func bindAction() {
         startTimeSelectButton.buttonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKApplyTimePickerAlert(type: .outingStart)
-                vc.selectedTime = { [weak self] hour, min in
-                    self?.startTime.accept("\(hour):\(min)")
+                let alert = PiCKApplyTimePickerAlert(type: .outingStart)
+                alert.selectedTime = { [weak self] hour, min in
+                    self?.startTimeRelay.accept("\(hour):\(min)")
                     self?.startTimeSelectButton.setup(text: "\(hour)시 \(min)분")
+                    
                 }
-                self?.presentAsCustomDents(view: vc, height: 406)
+                self?.presentAsCustomDents(view: alert, height: 406)
             }).disposed(by: disposeBag)
 
         endTimeSelectButton.buttonTap
             .bind(onNext: { [weak self] in
-                let vc = PiCKApplyTimePickerAlert(type: .outingEnd)
-                vc.selectedTime = { [weak self] hour, min in
-                    self?.endTime.accept("\(hour):\(min)")
+                let alert = PiCKApplyTimePickerAlert(type: .outingEnd)
+                alert.selectedTime = { [weak self] hour, min in
+                    self?.endTimeRelay.accept("\(hour):\(min)")
                     self?.endTimeSelectButton.setup(text: "\(hour)시 \(min)분")
+                    self?.applicationType.accept(.time)
                 }
-                self?.presentAsCustomDents(view: vc, height: 406)
+                self?.presentAsCustomDents(view: alert, height: 406)
+            }).disposed(by: disposeBag)
+
+        periodSelectButton.buttonTap
+            .bind(onNext: { [weak self] in
+                let alert = PiCKApplyTimePickerAlert(type: .classroom)
+                alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
+                    self?.startTimeRelay.accept("\(startPeriod)교시")
+                    self?.endTimeRelay.accept("\(endPeriod)교시")
+                    self?.periodSelectButton.setup(text: "\(startPeriod)교시 ~ \(endPeriod)교시")
+                    self?.applicationType.accept(.period)
+                }
+                alert.clickApplyButton = {
+                    print("ㅇㅇㅇ")
+                }
+                self?.presentAsCustomDents(view: alert, height: 406)
             }).disposed(by: disposeBag)
     }
 
@@ -88,6 +118,32 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
+        switch pickerType {
+        case .time:
+            periodSelectButton.isHidden = true
+
+            outingTimeStackView.snp.makeConstraints {
+                $0.top.equalTo(explainLabel.snp.bottom).offset(12)
+                $0.leading.equalToSuperview().inset(24)
+                $0.height.equalTo(43)
+            }
+        case .period:
+            let array = [
+                startTimeSelectButton,
+                sinceLabel,
+                endTimeSelectButton,
+                untilLabel
+            ]
+            array.forEach { $0.isHidden = true }
+
+            outingTimeStackView.snp.makeConstraints {
+                $0.top.equalTo(explainLabel.snp.bottom).offset(12)
+                $0.leading.equalToSuperview().inset(24)
+                $0.width.equalTo(200)
+                $0.height.equalTo(43)
+            }
+        }
+
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
             $0.leading.equalToSuperview().inset(24)
@@ -95,11 +151,6 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         explainLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
             $0.leading.equalToSuperview().inset(24)
-        }
-        outingTimeStackView.snp.makeConstraints {
-            $0.top.equalTo(explainLabel.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(24)
-            $0.height.equalTo(43)
         }
         outingReasonTextView.snp.makeConstraints {
             $0.top.equalTo(outingTimeStackView.snp.bottom).offset(68)
