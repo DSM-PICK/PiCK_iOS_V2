@@ -14,7 +14,10 @@ public final class PresentationAssembly: Assembly {
             OnboardingViewController(viewModel: resolver.resolve(OnboardingViewModel.self)!)
         }
         container.register(OnboardingViewModel.self) { resolver in
-            OnboardingViewModel(refreshTokenUseCase: resolver.resolve(RefreshTokenUseCase.self)!)
+            OnboardingViewModel(
+                refreshTokenUseCase: resolver.resolve(RefreshTokenUseCase.self)!,
+                loginUseCase: resolver.resolve(LoginUseCase.self)!
+            )
         }
 
         //MARK: Login
