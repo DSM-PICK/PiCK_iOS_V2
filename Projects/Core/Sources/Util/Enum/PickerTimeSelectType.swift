@@ -1,5 +1,6 @@
 import Foundation
 
-public enum PickerTimeSelectType: Codable {
-    case time, period
+public enum PickerTimeSelectType: String, Codable {
+    case time = "TIME"
+    case period = "PERIOD"
 }
