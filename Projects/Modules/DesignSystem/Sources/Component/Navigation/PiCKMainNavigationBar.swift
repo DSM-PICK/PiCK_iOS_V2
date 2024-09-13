@@ -10,7 +10,7 @@ import Core
 
 public class PiCKMainNavigationBar: BaseView {
     private let presentViewController: UIViewController
-    private let userDefaultStorage = UserDefaultsManager.shared
+    private let userDefaultStorage = UserDefaultStorage.shared
 
     public var displayModeButtonTap: ControlEvent<Void> {
          return displayModeButton.buttonTap

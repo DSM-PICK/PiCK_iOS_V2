@@ -56,6 +56,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                 case .classroom:
                     self?.selectedPeriod!(self?.periodPickerView.startPeriodValue ?? 0, self?.periodPickerView.endPeriodValue ?? 0)
                     self?.clickApplyButton!()
+
                 case .outingStart, .outingEnd:
                     let hour = self?.timePickerView.outingHourValue ?? 0
                     let min = self?.timePickerView.outingMinValue ?? 0
@@ -64,6 +65,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                     let minString = String(format: "%02d", min)
 
                     self?.selectedTime!(hourString, minString)
+
                 case .none:
                     return
                 }
@@ -88,6 +90,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
             periodPickerView.isHidden = true
             explainLabel.text = "외출 복귀 시간을 선택해주세요"
         }
+
         explainLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.leading.equalToSuperview().inset(24)
