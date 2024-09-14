@@ -24,11 +24,17 @@ public class TimeSelectButton: BaseButton {
         isSelected ? .main500 : .clear
     }
 
-    private let textLabel = PiCKLabel(text: "선택", textColor: .gray500, font: .caption1)
+    private let textLabel = PiCKLabel(
+        text: "선택",
+        textColor: .gray500,
+        font: .caption1
+    )
 
     public func setup(text: String) {
         self.textLabel.text = text
         self.textLabel.textColor = .modeBlack
+        self.textLabel.textAlignment = .center
+        self.textLabel.changePointColorList(targetStringList: ["부터", "까지"], color: .gray800)
     }
 
     public override func attribute() {

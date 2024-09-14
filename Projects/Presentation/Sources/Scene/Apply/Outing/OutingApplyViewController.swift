@@ -22,11 +22,17 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
             type: PickerTimeSelectType.self
         ) as? PickerTimeSelectType
 
+        if value == .time {
+            self.explainLabel.text = "희망 외출 시간을 선택하세요"
+        } else {
+            self.explainLabel.text = "희망 외출 교시를 선택하세요"
+        }
+
         return value ?? .time
     }
 
     private let titleLabel = PiCKLabel(text: "외출 신청", textColor: .modeBlack, font: .heading4)
-    private let explainLabel = PiCKLabel(text: "희망 외출 시간을 선택하세요", textColor: .modeBlack, font: .label1)
+    private let explainLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     private let startTimeSelectButton = TimeSelectButton(type: .system)
     private let sinceLabel = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
     private let endTimeSelectButton = TimeSelectButton(type: .system)
@@ -84,26 +90,32 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         endTimeSelectButton.buttonTap
             .bind(onNext: { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .outingEnd)
+
                 alert.selectedTime = { [weak self] hour, min in
                     self?.endTimeRelay.accept("\(hour):\(min)")
                     self?.endTimeSelectButton.setup(text: "\(hour)시 \(min)분")
+
                     self?.applicationType.accept(.time)
                 }
+
                 self?.presentAsCustomDents(view: alert, height: 406)
             }).disposed(by: disposeBag)
 
         periodSelectButton.buttonTap
             .bind(onNext: { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .classroom)
+
                 alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
                     self?.startTimeRelay.accept("\(startPeriod)교시")
                     self?.endTimeRelay.accept("\(endPeriod)교시")
-                    self?.periodSelectButton.setup(text: "\(startPeriod)교시 ~ \(endPeriod)교시")
+                    self?.periodSelectButton.setup(text: "\(startPeriod)교시 부터\t\t\(endPeriod)교시 까지")
+
                     self?.applicationType.accept(.period)
                 }
                 alert.clickApplyButton = {
                     print("success")
                 }
+
                 self?.presentAsCustomDents(view: alert, height: 406)
             }).disposed(by: disposeBag)
     }
@@ -138,8 +150,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
 
             outingTimeStackView.snp.makeConstraints {
                 $0.top.equalTo(explainLabel.snp.bottom).offset(12)
-                $0.leading.equalToSuperview().inset(24)
-                $0.width.equalTo(200)
+                $0.leading.trailing.equalToSuperview().inset(24)
                 $0.height.equalTo(43)
             }
         }
