@@ -24,7 +24,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     private let helpSectionView = HelpSectionView()
     private let settingSectionView = SettingSectionView()
     private let accountSectionView = AccountSectionView()
-    private lazy var sectionStackVeiw = UIStackView(arrangedSubviews: [
+    private lazy var sectionStackView = UIStackView(arrangedSubviews: [
         helpSectionView,
         settingSectionView,
         accountSectionView
@@ -49,7 +49,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             clickLogOutTab: logoutRelay.asObservable()
         )
 
-        let output = viewModel.transform(input: input)
+        _ = viewModel.transform(input: input)
 
         self.accountSectionView.getSelectedItem(type: .logOut)
             .asObservable()
@@ -60,34 +60,31 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 self?.present(vc, animated: true)
-            })
-            .disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     public override func addView() {
         [
             navigationBar,
-            profileView,
             scrollView
         ].forEach { view.addSubview($0) }
 
         scrollView.addSubview(contentView)
         contentView.addSubview(mainView)
 
-        mainView.addSubview(sectionStackVeiw)
+        [
+            profileView,
+            sectionStackView
+        ].forEach { mainView.addSubview($0) }
     }
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
-        profileView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
-        }
 
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom).offset(32)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints {
@@ -96,11 +93,15 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         }
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height)
+            $0.height.equalTo(self.view.frame.height * 1.2)
         }
 
-        sectionStackVeiw.snp.makeConstraints {
+        profileView.snp.makeConstraints {
             $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+        }
+        sectionStackView.snp.makeConstraints {
+            $0.top.equalTo(profileView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
@@ -109,6 +110,5 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
         self.profileView.setup(image: .profile, info: userInfoData ?? "")
     }
-
 
 }

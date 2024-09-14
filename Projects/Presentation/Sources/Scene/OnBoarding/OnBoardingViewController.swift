@@ -11,7 +11,8 @@ import Core
 import DesignSystem
 
 public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
-    private let onboardingButton = PiCKButton(buttonText: "로그인하고 PiCK사용하기")
+    private let logoImageView = UIImageView(image: .onboardingLogo)
+    private let onboardingButton = PiCKButton(buttonText: "로그인하고 PiCK 사용하기")
 
     public override func bind() {
         let input = OnboardingViewModel.Input(
@@ -23,11 +24,16 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
 
     public override func addView() {
         [
+            logoImageView,
             onboardingButton
         ].forEach { view.addSubview($0) }
     }
 
     public override func setLayout() {
+        logoImageView.snp.makeConstraints {
+            $0.size.equalTo(200)
+            $0.center.equalToSuperview()
+        }
         onboardingButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)

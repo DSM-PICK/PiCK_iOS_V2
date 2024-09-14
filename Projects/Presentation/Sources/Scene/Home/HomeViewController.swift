@@ -195,7 +195,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     public override func addView() {
         [
             navigationBar,
-            profileView,
             scrollView
         ].forEach { view.addSubview($0) }
 
@@ -203,6 +202,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         contentView.addSubview(mainView)
 
        [
+            profileView,
             passHeaderView,
             todaysLabel,
             mainStackView,
@@ -216,13 +216,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
-        profileView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
-        }
 
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints {
@@ -231,16 +227,20 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         }
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height * 2)
+            $0.height.equalTo(self.view.frame.height * 1.5)
         }
 
-        passHeaderView.snp.makeConstraints {
+        profileView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(72)
         }
+//        passHeaderView.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview()
+//            $0.height.equalTo(72)
+//        }
         todaysLabel.snp.makeConstraints {
-            $0.top.equalTo(passHeaderView.snp.bottom).offset(20)
+            $0.top.equalTo(profileView.snp.bottom).offset(20)
             $0.leading.equalToSuperview().inset(24)
         }
         mainStackView.snp.makeConstraints {

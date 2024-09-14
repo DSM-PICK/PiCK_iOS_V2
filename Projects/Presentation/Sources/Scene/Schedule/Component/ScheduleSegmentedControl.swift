@@ -26,6 +26,7 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         setup()
         layout()
     }
+
     private func removeBackgroundAndDivider() {
         let image = UIImage()
         self.setBackgroundImage(image, for: .normal, barMetrics: .default)

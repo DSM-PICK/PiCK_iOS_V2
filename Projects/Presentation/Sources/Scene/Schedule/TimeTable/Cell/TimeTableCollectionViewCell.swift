@@ -39,7 +39,7 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntity
         subjectImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(periodLabel.snp.trailing).offset(32)
-            $0.width.height.equalTo(28)
+            $0.size.equalTo(28)
         }
         subjectLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
