@@ -10,7 +10,7 @@ import Core
 import Domain
 import DesignSystem
 
-public class PiCKHomeBannerView: BaseView {
+public class PiCKHomeSelfStudyBannerView: BaseView {
     private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
 
     private let explainLabel = PiCKLabel(
@@ -20,6 +20,11 @@ public class PiCKHomeBannerView: BaseView {
     ).then {
         $0.changePointFont(targetString: "자습 감독", font: .button2)
     }
+    private let emptySelfStudyLabel = PiCKLabel(
+//        text: "오늘은 등록된\n자습 감독이 없습니다",
+        textColor: .modeBlack,
+        font: .body1
+    )
     private lazy var floorStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fillEqually
@@ -32,7 +37,14 @@ public class PiCKHomeBannerView: BaseView {
     public func setup(
         selfStudyTeacherData: SelfStudyEntity
     ) {
-        setupBannerLabel(data: selfStudyTeacherData)
+        if selfStudyTeacherData.isEmpty {
+//            self.floorStackView.isHidden = true
+//            self.teacherStackView.isHidden = true
+            self.emptySelfStudyLabel.isHidden = false
+        } else {
+            self.emptySelfStudyLabel.isHidden = true
+            setupBannerLabel(data: selfStudyTeacherData)
+        }
     }
 
     public override func attribute() {
@@ -45,6 +57,7 @@ public class PiCKHomeBannerView: BaseView {
         [
             bannerBackgroundImageView,
             explainLabel,
+            emptySelfStudyLabel,
             floorStackView,
             teacherStackView
         ].forEach { self.addSubview($0) }
@@ -54,6 +67,10 @@ public class PiCKHomeBannerView: BaseView {
         }
         explainLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(27.5)
+            $0.leading.equalToSuperview().inset(22.5)
+        }
+        emptySelfStudyLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(22.5)
         }
         floorStackView.snp.makeConstraints {

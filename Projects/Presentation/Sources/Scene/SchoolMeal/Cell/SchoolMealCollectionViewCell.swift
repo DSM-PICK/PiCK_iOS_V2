@@ -42,8 +42,15 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
         kcal: String
     ) {
         self.mealTimeLabel.text = mealTime
-        self.menuLabel.text = menu.joined(separator: "\n")
-        self.kcalLabel.text = kcal
+
+        if menu.isEmpty {
+            self.kcalLabel.isHidden = true
+            self.menuLabel.text = "등록된 급식이 없습니다"
+        } else {
+            self.kcalLabel.isHidden = false
+            self.menuLabel.text = menu.joined(separator: "\n")
+            self.kcalLabel.text = kcal
+        }
     }
 
     public override func attribute() {
