@@ -57,13 +57,15 @@ public class PiCKMainNavigationBar: BaseView {
         displayModeButton.buttonTap
             .bind(onNext: { [weak self] in
                 self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
+
                 let value = self?.userDefaultStorage.get(forKey: .displayMode) as! Int
+
                 UIView.transition(
-                    with: self!.presentViewController.view!,
+                    with: self!.presentViewController.tabBarController!.view,
                     duration: 0.7,
                     options: .transitionCrossDissolve
                 ) {
-                    self?.presentViewController.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
+                    self?.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
                 }
             }).disposed(by: disposeBag)
     }
