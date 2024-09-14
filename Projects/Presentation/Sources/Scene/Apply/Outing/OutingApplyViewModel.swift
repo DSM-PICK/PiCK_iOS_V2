@@ -23,6 +23,7 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
         let endTime: Observable<String>
         let clickEndTimeButton: Observable<Void>
         let reasonText: Observable<String?>
+        let applicationType: Observable<PickerTimeSelectType>
         let clickOutingApply: Observable<Void>
     }
     public struct Output {
@@ -33,20 +34,22 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
         let info = Observable.combineLatest(
             input.reasonText,
             input.startTime,
-            input.endTime
+            input.endTime,
+            input.applicationType
         )
         
-        let isApplyButtonEnable = info.map { reason, startTime, endTime -> Bool in 
+        let isApplyButtonEnable = info.map { reason, startTime, endTime, _ -> Bool in
             !reason!.isEmpty && !startTime.isEmpty && !endTime.isEmpty && startTime < endTime
         }
 
         input.clickOutingApply.asObservable()
             .withLatestFrom(info)
-            .flatMap { reason, startTime, endTime in
+            .flatMap { reason, startTime, endTime, applicationType in
                 self.outingApplyUseCase.execute(req: .init(
                     reason: reason ?? "",
                     startTime: startTime,
-                    endTime: endTime
+                    endTime: endTime,
+                    applicationType: applicationType.rawValue
                 ))
                 .catch {
                     self.steps.accept(
