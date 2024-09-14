@@ -107,9 +107,7 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 
     public override func layout() {
         self.addSubview(calendarView)
-        [
-            headerStackView
-        ].forEach { calendarView.addSubview($0) }
+        calendarView.addSubview(headerStackView)
 
         calendarView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(15)
