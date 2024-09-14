@@ -17,13 +17,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     private lazy var schoolMealCalendarView = PiCKCalendarView(
         calnedarType: .schoolMealWeek,
         clickDate: { date in
-            self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
-            if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
-                self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
-                self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
-            } else {
-                self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
-            }
+            self.loadSchoolMeal(date: date)
         }
     )
     private lazy var dateLabel = PiCKLabel(
@@ -48,12 +42,6 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             forCellWithReuseIdentifier: SchoolMealCollectionViewCell.identifier
         )
     }
-    private var emptyMealLabel = PiCKLabel(
-        text: "등록된 급식이 없습니다.",
-        textColor: .modeBlack,
-        font: .body1,
-        isHidden: true
-    )
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
@@ -74,11 +62,6 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
                 cellIdentifier: SchoolMealCollectionViewCell.identifier,
                 cellType: SchoolMealCollectionViewCell.self
             )) { row, item, cell in
-                let isMenuEmpty = item.2.menu.isEmpty
-
-                self.schoolMealCollectionView.isHidden = isMenuEmpty
-                self.emptyMealLabel.isHidden = !isMenuEmpty
-
                 cell.setup(
                     mealTime: item.1,
                     menu: item.2.menu,
@@ -87,23 +70,16 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             }.disposed(by: disposeBag)
 
         schoolMealCalendarView.clickBottomToggleButton
-            .bind(onNext: { [self] in
+            .bind(onNext: { [weak self] in
                 let alert = PiCKCalendarAlert(
                     calendarType: .schoolMealMonth,
                     clickDate: { date in
-                        self.schoolMealCalendarView.setupDate(date: date)
-                        self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
-                        if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
-                            self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
-                            self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
-                        } else {
-                            self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
-                        }
+                        self?.loadSchoolMeal(date: date)
                     }
                 )
                 alert.modalTransitionStyle = .crossDissolve
                 alert.modalPresentationStyle = .overFullScreen
-                presentAsCustomDents(view: alert, height: view.frame.height)
+                self?.present(alert, animated: true)
             }).disposed(by: disposeBag)
     }
     public override func addView() {
@@ -111,8 +87,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             navigationBar,
             schoolMealCalendarView,
             dateLabel,
-            schoolMealCollectionView,
-            emptyMealLabel
+            schoolMealCollectionView
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
@@ -134,9 +109,17 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
         }
-        emptyMealLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(200)
+    }
+
+    private func loadSchoolMeal(date: Date) {
+        self.schoolMealCalendarView.setupDate(date: date)
+        self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
+
+        if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+            self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
+            self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
+        } else {
+            self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
         }
     }
 
