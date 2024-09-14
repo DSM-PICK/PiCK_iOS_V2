@@ -3,6 +3,7 @@ import UIKit
 public extension UIImage {
     //MARK: Logo
     static let PiCKLogo = DesignSystemAsset.Image.pickLogo.image
+    static let onboardingLogo = DesignSystemAsset.Image.onboardingLogo.image
     //MARK: Icon
     static let navigationSetting = DesignSystemAsset.Image.navigationSetting.image
     static let displayMode = DesignSystemAsset.Image.displayMode.image
