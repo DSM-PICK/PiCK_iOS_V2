@@ -11,12 +11,15 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
+    private let userDefaultStorage = UserDefaultStorage.shared
+
     private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
     private let timeTableUseCase: FetchTodayTimeTableUseCase
     private let schoolMealUseCase: FetchSchoolMealUseCase
     private let noticeListUseCase: FetchNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
+    private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
     public init(
         fetchApplyStatusUseCase: FetchApplyStatusUsecase,
@@ -24,7 +27,8 @@ public class HomeViewModel: BaseViewModel, Stepper {
         schoolMealUseCase: FetchSchoolMealUseCase,
         noticeListUseCase: FetchNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
-        fetchOutingPassUseCase: FetchOutingPassUseCase
+        fetchOutingPassUseCase: FetchOutingPassUseCase,
+        fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
         self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
         self.timeTableUseCase = timeTableUseCase
@@ -32,10 +36,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
         self.noticeListUseCase = noticeListUseCase
         self.selfStudyUseCase = selfStudyUseCase
         self.fetchOutingPassUseCase = fetchOutingPassUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     public struct Input {
-        let viewWillApper: Observable<Void>
+        let viewWillAppear: Observable<Void>
         let clickAlert: Observable<Void>
         let clickOutingPass: Observable<Void>
         let clickViewMoreNotice: Observable<Void>
@@ -66,17 +71,30 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let noticeViewHeight = PublishRelay<CGFloat>()
 
     public func transform(input: Input) -> Output {
-        input.viewWillApper
+        input.viewWillAppear
             .subscribe(onNext: { [weak self] in
-                if let data = UserDefaultStorage.shared.getUserDataType(forKey: .homeViewMode, type: HomeViewType.self) {
+                if let data = self?.userDefaultStorage.getUserDataType(forKey: .homeViewMode, type: HomeViewType.self) {
                     self?.viewModeData.accept(data as! HomeViewType)
                 } else {
-                    UserDefaultStorage.shared.setUserDataType(to: HomeViewType.timeTable, forKey: .homeViewMode)
+                    self?.userDefaultStorage.setUserDataType(to: HomeViewType.timeTable, forKey: .homeViewMode)
                     self?.viewModeData.accept(.timeTable)
                 }
             }).disposed(by: disposeBag)
 
-        input.viewWillApper
+        input.viewWillAppear
+            .flatMap {
+                self.fetchProfileUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .subscribe(onNext: { data in
+                let value = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
+                self.userDefaultStorage.set(to: value, forKey: .userInfoData)
+            }).disposed(by: disposeBag)
+
+        input.viewWillAppear
             .flatMap {
                 self.fetchApplyStatusUseCase.execute()
                     .catch {
@@ -87,7 +105,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: applyStatusData)
             .disposed(by: disposeBag)
 
-        input.viewWillApper
+        input.viewWillAppear
             .flatMap {
                 self.timeTableUseCase.execute()
                     .catch {
@@ -102,7 +120,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self?.timeTableHeight.accept(height)
             }).disposed(by: disposeBag)
 
-        input.viewWillApper.asObservable()
+        input.viewWillAppear.asObservable()
             .flatMap { date in
                 self.schoolMealUseCase.execute(date: input.todayDate)
                     .catch {
@@ -117,7 +135,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self?.schoolMealHeight.accept(height)
             }).disposed(by: disposeBag)
 
-        input.viewWillApper
+        input.viewWillAppear
             .flatMap {
                 self.noticeListUseCase.execute()
                     .catch {
@@ -132,7 +150,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self?.noticeViewHeight.accept(height * 86)
             }).disposed(by: disposeBag)
 
-        input.viewWillApper
+        input.viewWillAppear
             .flatMap {
                 self.selfStudyUseCase.execute(date: input.todayDate)
                     .catch {

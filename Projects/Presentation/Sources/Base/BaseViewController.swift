@@ -40,6 +40,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         addView()
         setLayout()
         configureNavgationBarLayOutSubviews()
+        setLayoutData()
     }
 
     open func attribute() {
@@ -68,6 +69,9 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     }
     open func setLayout() {
         //레이아웃을 설정하는 함수
+    }
+    open func setLayoutData() {
+        //뷰 관련 데이터를 호출하는데 사용하는 함수
     }
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

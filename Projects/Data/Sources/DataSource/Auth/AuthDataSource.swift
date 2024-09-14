@@ -32,6 +32,9 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
     func logout() {
         keychain.delete(type: .accessToken)
         keychain.delete(type: .refreshToken)
+        keychain.delete(type: .id)
+        keychain.delete(type: .password)
+        UserDefaultStorage.shared.remove(forKey: .userInfoData)
     }
 
     func refreshToken() -> Single<TokenDTO> {

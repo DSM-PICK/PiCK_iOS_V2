@@ -4,6 +4,7 @@ public enum UserDefaultKeys: String {
     case homeViewMode = "homeViewMode"
     case displayMode = "displayMode"
     case pickerTimeMode = "pickerTimeMode"
+    case userInfoData = "userInfoData"
 }
 
 public struct UserDefaultStorage: UserDefault {
@@ -39,6 +40,10 @@ public struct UserDefaultStorage: UserDefault {
             }
         }
         return nil
+    }
+
+    public func remove(forKey: UserDefaultKeys) {
+        UserDefaults.standard.removeObject(forKey: forKey.rawValue)
     }
 
 }

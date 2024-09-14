@@ -105,4 +105,10 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         }
     }
 
+    public override func setLayoutData() {
+        let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
+        self.profileView.setup(image: .profile, info: userInfoData ?? "")
+    }
+
+
 }
