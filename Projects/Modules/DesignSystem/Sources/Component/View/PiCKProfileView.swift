@@ -41,7 +41,7 @@ public class PiCKProfileView: BaseView {
         profileImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
-            $0.width.height.equalTo(60)
+            $0.size.equalTo(60)
         }
         userInfoLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()

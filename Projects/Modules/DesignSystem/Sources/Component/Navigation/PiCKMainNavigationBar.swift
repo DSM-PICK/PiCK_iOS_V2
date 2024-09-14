@@ -87,10 +87,10 @@ public class PiCKMainNavigationBar: BaseView {
             $0.height.equalTo(27)
         }
         displayModeButton.snp.makeConstraints {
-            $0.width.height.equalTo(24)
+            $0.size.equalTo(24)
         }
         alertButton.snp.makeConstraints {
-            $0.width.height.equalTo(24)
+            $0.size.equalTo(24)
         }
         rightItemStackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
