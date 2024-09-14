@@ -19,12 +19,6 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
         backgroundColor: .main500,
         cornerRadius: 12
     )
-    private var emptyMealLabel = PiCKLabel(
-        text: "등록된 급식이 없습니다.",
-        textColor: .modeBlack,
-        font: .body1,
-        isHidden: true
-    )
 
     public func setup(
         mealTime: String,
@@ -32,16 +26,22 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
         kcal: String
     ) {
         self.mealTimeLabel.text = mealTime
-        self.menuLabel.text = menu.joined(separator: "\n")
-        self.kcalLabel.text = kcal
+
+        if menu.isEmpty {
+            self.kcalLabel.isHidden = true
+            self.menuLabel.text = "등록된 급식이 없습니다"
+        } else {
+            self.kcalLabel.isHidden = false
+            self.menuLabel.text = menu.joined(separator: "\n")
+            self.kcalLabel.text = kcal
+        }
     }
 
     public override func layout() {
         [
             mealTimeLabel,
             menuLabel,
-            kcalLabel,
-            emptyMealLabel
+            kcalLabel
         ].forEach { self.addSubview($0) }
 
         mealTimeLabel.snp.makeConstraints {
@@ -57,9 +57,6 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
             $0.trailing.equalToSuperview().inset(24)
             $0.width.equalTo(76)
             $0.height.equalTo(24)
-        }
-        emptyMealLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
         }
     }
 
