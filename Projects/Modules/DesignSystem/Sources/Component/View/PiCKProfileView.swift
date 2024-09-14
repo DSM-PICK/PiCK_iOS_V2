@@ -12,7 +12,6 @@ import Core
 public class PiCKProfileView: BaseView {
     private let profileImageView = UIImageView(image: .profile)
     private let userInfoLabel = PiCKLabel(
-        text: "대덕소프트웨어마이스터고등학교\n2학년 4반 13번 조영준",
         textColor: .modeBlack,
         font: .label1,
         numberOfLines: 0
@@ -23,7 +22,7 @@ public class PiCKProfileView: BaseView {
         info: String
     ) {
         self.profileImageView.image = image
-        self.userInfoLabel.text = info
+        self.userInfoLabel.text = "대덕소프트웨어마이스터고\n\(info)"
     }
 
     public override func attribute() {

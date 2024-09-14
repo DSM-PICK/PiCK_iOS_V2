@@ -59,6 +59,9 @@ public final class UseCaseAssembly: Assembly {
 
         //MARK: AllTab
         //profile
+        container.register(FetchSimpleProfileUseCase.self) { resolver in
+            FetchSimpleProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
+        }
         container.register(FetchDetailProfileUseCase.self) { resolver in
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
         }

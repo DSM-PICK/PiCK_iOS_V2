@@ -14,6 +14,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
     public var steps = PublishRelay<Step>()
 
     private let keychain = KeychainImpl()
+
     private let refreshTokenUseCase: RefreshTokenUseCase
     private let loginUseCase: LoginUseCase
 

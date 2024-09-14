@@ -35,7 +35,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private let mainView = UIView()
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
-    private let profileView = PiCKProfileView()
+    private lazy var profileView = PiCKProfileView()
 
     private let passHeaderView = HomePassHeaderView()
     private let todaysLabel = PiCKLabel(
@@ -106,7 +106,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
     public override func bind() {
         let input = HomeViewModel.Input(
-            viewWillApper: viewWillAppearRelay.asObservable(),
+            viewWillAppear: viewWillAppearRelay.asObservable(),
             clickAlert: navigationBar.alertButtonTap.asObservable(),
             clickOutingPass: passHeaderView.buttonTap.asObservable(),
             clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
@@ -259,6 +259,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         noticeHeaderView.snp.makeConstraints {
             $0.height.equalTo(81)
         }
+    }
+
+    public override func setLayoutData() {
+        let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
+        self.profileView.setup(image: .profile, info: userInfoData ?? "")
     }
 
     private func setupViewType(type: HomeViewType) {
