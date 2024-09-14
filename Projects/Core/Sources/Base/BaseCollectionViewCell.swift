@@ -21,7 +21,7 @@ open class BaseCollectionViewCell<Model>: UICollectionViewCell {
         super.layoutSubviews()
         layout()
     }
-    
+
     open func attribute() {
         //cell 관련 설정을 하는 함수
     }

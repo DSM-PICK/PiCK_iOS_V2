@@ -25,7 +25,6 @@ public class HomeTimeTableView: BaseView {
         $0.itemSize = .init(width: self.frame.width, height: 44)
         $0.minimumLineSpacing = 4
     }
-    //TODO: 시간표가 바뀌었다는 알림을 headerView로 표현?
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewFlowLayout
@@ -43,6 +42,11 @@ public class HomeTimeTableView: BaseView {
     public func setup(
         timeTableData: [TimeTableEntityElement]
     ) {
+        let timeTableIsEmpty = timeTableData.isEmpty
+
+        self.emptyTimeTableLabel.isHidden = !timeTableIsEmpty
+        self.collectionView.isHidden = timeTableIsEmpty
+
         self.timeTableData.accept(timeTableData)
     }
 
@@ -52,11 +56,6 @@ public class HomeTimeTableView: BaseView {
                 cellIdentifier: TimeTableCollectionViewCell.identifier,
                 cellType: TimeTableCollectionViewCell.self
             )) { row, item, cell in
-                let isEmpty = item.subjectName.isEmpty
-
-                self.collectionView.isHidden = isEmpty
-                self.emptyTimeTableLabel.isHidden = !isEmpty
-
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
     }

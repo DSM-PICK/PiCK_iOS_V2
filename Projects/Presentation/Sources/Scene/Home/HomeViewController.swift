@@ -51,7 +51,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     ]).then {
         $0.axis = .vertical
     }
-    private let selfStudyBannerView = PiCKHomeBannerView()
+    private let selfStudyBannerView = PiCKHomeSelfStudyBannerView()
     private let recentNoticeLabel = PiCKLabel(
         text: "최신 공지",
         textColor: .gray700,
@@ -71,6 +71,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
     private let noticeHeaderView = HomeHeaderView().then {
         $0.setup(title: "공지공지공지", explain: "새로운 공지를 확인해보세요")
+        $0.isHidden = true
     }
     private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -135,11 +136,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.schoolMealData.asObservable()
             .bind(onNext: { [weak self] data in
-                if data.map({ $0.2.menu.isEmpty }).isEmpty {
-                    print("없어 ㅅ비ㅏㄹ")
-                } else {
-                    self?.schoolMealData.accept(data)
-                }
+                self?.schoolMealData.accept(data)
             }).disposed(by: disposeBag)
 
         output.noticeListData.asObservable()
