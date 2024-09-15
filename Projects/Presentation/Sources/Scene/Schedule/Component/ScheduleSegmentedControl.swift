@@ -7,6 +7,7 @@ import RxSwift
 import RxCocoa
 
 import Core
+import DesignSystem
 
 public class ScheduleSegmentedControl: UISegmentedControl {
     private lazy var radius: CGFloat = self.frame.height / 2
@@ -16,7 +17,6 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         super.init(items: items)
         self.selectedSegmentIndex = 0
         self.backgroundColor = .background
-
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -32,7 +32,6 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         self.setBackgroundImage(image, for: .normal, barMetrics: .default)
         self.setBackgroundImage(image, for: .selected, barMetrics: .default)
         self.setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-        
         self.setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
     
