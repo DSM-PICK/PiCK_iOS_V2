@@ -34,7 +34,19 @@ public class WeekendMealApplyView: BaseView {
         $0.distribution = .fillEqually
     }
 
-    public func setup(
+    public func setApplyText(
+        status: Bool,
+        month: Int?
+    ) {
+        if status == true {
+            self.currnetMonthWeekendMealApplyLabel.text = "\(month ?? 0) 주말 급식 신청"
+            self.buttonStackView.isHidden = false
+        } else {
+            self.currnetMonthWeekendMealApplyLabel.text = "지금은 신청 기간이 아닙니다."
+            self.buttonStackView.isHidden = true
+        }
+    }
+    public func setStatus(
         status: Bool
     ) {
         self.applyState.accept(status)
