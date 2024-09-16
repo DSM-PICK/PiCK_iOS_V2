@@ -33,7 +33,7 @@ public class PiCKMainNavigationBar: BaseView {
     private lazy var rightItemStackView = UIStackView(
         arrangedSubviews: [
             displayModeButton,
-            alertButton
+//            alertButton
         ]).then {
             $0.axis = .horizontal
             $0.spacing = 12
@@ -89,9 +89,9 @@ public class PiCKMainNavigationBar: BaseView {
         displayModeButton.snp.makeConstraints {
             $0.size.equalTo(24)
         }
-        alertButton.snp.makeConstraints {
-            $0.size.equalTo(24)
-        }
+//        alertButton.snp.makeConstraints {
+//            $0.size.equalTo(24)
+//        }
         rightItemStackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(24)
