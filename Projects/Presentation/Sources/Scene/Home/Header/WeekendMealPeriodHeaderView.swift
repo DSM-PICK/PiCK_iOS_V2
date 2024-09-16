@@ -10,7 +10,9 @@ import Core
 import DesignSystem
 
 public class WeekendMealPeriodHeaderView: BaseView {
-    private let speakerIcon = UIImageView(image: .voice)
+    private let speakerIcon = UIImageView(image: .voice).then {
+        $0.tintColor = .modeBlack
+    }
     private let announcementLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label2
@@ -35,9 +37,13 @@ public class WeekendMealPeriodHeaderView: BaseView {
             announcementLabel
         ].forEach { self.addSubview($0) }
 
+        self.snp.makeConstraints {
+            $0.height.equalTo(42)
+        }
         speakerIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(20)
+            $0.width.height.equalTo(18)
         }
         announcementLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
