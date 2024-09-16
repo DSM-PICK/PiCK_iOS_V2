@@ -4,7 +4,7 @@ import RxSwift
 
 import Core
 
-public class WeekendMealStatusUseCase {
+public class FetchWeekendMealStatusUseCase {
     let repository: WeekendMealRepository
 
     public init(repository: WeekendMealRepository) {

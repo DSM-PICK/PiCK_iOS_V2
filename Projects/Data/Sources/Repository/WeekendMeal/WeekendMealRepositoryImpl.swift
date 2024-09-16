@@ -21,5 +21,16 @@ class WeekendMealRepositoryImpl: WeekendMealRepository {
             .map(WeekendMealStatusDTO.self)
             .map { $0.toDomain() }
     }
-    
+
+    func weekendMealApplication() -> Single<WeekendMealApplicationEntity> {
+        return remoteDataSource.weekendMealApplication()
+            .map(WeekendMealApplicationDTO.self)
+            .map { $0.toDomain() }
+    }
+
+    func weekendMealPeriod() -> Single<WeekendMealPeriodEntity> {
+        return remoteDataSource.weekendMealPeriod()
+            .map(WeekendMealPeriodDTO.self)
+            .map { $0.toDomain() }
+    }
 }
