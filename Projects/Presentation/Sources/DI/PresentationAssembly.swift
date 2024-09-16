@@ -36,7 +36,8 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(HomeViewModel.self) { resolver in
             HomeViewModel(
-                fetchApplyStatusUseCase: resolver.resolve(FetchApplyStatusUsecase.self)!, 
+                fetchApplyStatusUseCase: resolver.resolve(FetchApplyStatusUsecase.self)!,
+                fetchWeekendMealPeriodUseCase: resolver.resolve(FetchWeekendMealPeriodUseCase.self)!,
                 timeTableUseCase: resolver.resolve(FetchTodayTimeTableUseCase.self)!,
                 schoolMealUseCase: resolver.resolve(FetchSchoolMealUseCase.self)!,
                 noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!,
@@ -76,8 +77,9 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(WeekendMealApplyViewModel.self) { resolver in
             WeekendMealApplyViewModel(
-                weekendMealStatusUseCase: resolver.resolve(WeekendMealStatusUseCase.self)!,
-                weekendMealApplyUseCase: resolver.resolve(WeekendMealApplyUseCase.self)!
+                weekendMealStatusUseCase: resolver.resolve(FetchWeekendMealStatusUseCase.self)!,
+                weekendMealApplyUseCase: resolver.resolve(WeekendMealApplyUseCase.self)!,
+                weekendMealApplicationUseCase: resolver.resolve(FetchWeekendMealApplicationUseCase.self)!
             )
         }
         //ClassoomMove
