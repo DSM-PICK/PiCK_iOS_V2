@@ -11,6 +11,8 @@ import AppNetwork
 protocol WeekendMealDataSource {
     func weekendMealApply(status: WeekendMealType.RawValue) -> Completable
     func weekendMealStatus() -> Single<Response>
+    func weekendMealApplication() -> Single<Response>
+    func weekendMealPeriod() -> Single<Response>
 }
 
 class WeekendMealDataSourceImpl: BaseDataSource<WeekendMealAPI>, WeekendMealDataSource {
@@ -25,4 +27,13 @@ class WeekendMealDataSourceImpl: BaseDataSource<WeekendMealAPI>, WeekendMealData
             .filterSuccessfulStatusCodes()
     }
 
+    func weekendMealApplication() -> Single<Response> {
+        return request(.weekendMealApplication)
+            .filterSuccessfulStatusCodes()
+    }
+
+    func weekendMealPeriod() -> Single<Response> {
+        return request(.weekendMealPeriod)
+            .filterSuccessfulStatusCodes()
+    }
 }

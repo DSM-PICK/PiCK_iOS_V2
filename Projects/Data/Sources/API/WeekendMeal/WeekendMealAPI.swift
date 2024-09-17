@@ -9,6 +9,8 @@ import AppNetwork
 public enum WeekendMealAPI {
     case weekendMealApply(status: WeekendMealType.RawValue)
     case weekendMealCheck
+    case weekendMealApplication
+    case weekendMealPeriod
 }
 
 extension WeekendMealAPI: PiCKAPI {
@@ -20,10 +22,14 @@ extension WeekendMealAPI: PiCKAPI {
 
     public var urlPath: String {
         switch self {
-            case .weekendMealApply:
-                return "/my-status"
-            case .weekendMealCheck:
-                return "/my"
+        case .weekendMealApply:
+            return "/my-status"
+        case .weekendMealCheck:
+            return "/my"
+        case .weekendMealApplication:
+            return "/application"
+        case .weekendMealPeriod:
+            return "/period"
         }
     }
 
@@ -31,7 +37,7 @@ extension WeekendMealAPI: PiCKAPI {
         switch self {
             case .weekendMealApply:
                 return .patch
-            case .weekendMealCheck:
+            default:
                 return .get
         }
     }
@@ -43,7 +49,7 @@ extension WeekendMealAPI: PiCKAPI {
                     parameters: ["status": status],
                     encoding: URLEncoding.queryString
                 )
-            case .weekendMealCheck:
+            default:
                 return .requestPlain
         }
     }

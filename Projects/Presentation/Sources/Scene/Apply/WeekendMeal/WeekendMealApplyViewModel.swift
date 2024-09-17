@@ -11,15 +11,18 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    private let weekendMealStatusUseCase: WeekendMealStatusUseCase
+    private let weekendMealStatusUseCase: FetchWeekendMealStatusUseCase
     private let weekendMealApplyUseCase: WeekendMealApplyUseCase
+    private let weekendMealApplicationUseCase: FetchWeekendMealApplicationUseCase
 
     public init(
-        weekendMealStatusUseCase: WeekendMealStatusUseCase,
-        weekendMealApplyUseCase: WeekendMealApplyUseCase
+        weekendMealStatusUseCase: FetchWeekendMealStatusUseCase,
+        weekendMealApplyUseCase: WeekendMealApplyUseCase,
+        weekendMealApplicationUseCase: FetchWeekendMealApplicationUseCase
     ) {
         self.weekendMealStatusUseCase = weekendMealStatusUseCase
         self.weekendMealApplyUseCase = weekendMealApplyUseCase
+        self.weekendMealApplicationUseCase = weekendMealApplicationUseCase
     }
 
     public struct Input {
@@ -29,9 +32,11 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
     }
     public struct Output {
         let weekendMealStatus: Signal<WeekendMealType>
+        let weekendMealApplicationPeriod: Signal<WeekendMealApplicationEntity>
     }
 
     private let weekendMealStatusRelay = PublishRelay<WeekendMealType>()
+    private let weekendMealApplicationPeriod = PublishRelay<WeekendMealApplicationEntity>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -48,6 +53,17 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .bind {
                 self.weekendMealStatusRelay.accept($0)
             }
+            .disposed(by: disposeBag)
+
+        input.viewWillAppear
+            .flatMap {
+                self.weekendMealApplicationUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: weekendMealApplicationPeriod)
             .disposed(by: disposeBag)
 
         input.applyStatus
@@ -81,7 +97,10 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        return Output(weekendMealStatus: weekendMealStatusRelay.asSignal())
+        return Output(
+            weekendMealStatus: weekendMealStatusRelay.asSignal(),
+            weekendMealApplicationPeriod: weekendMealApplicationPeriod.asSignal()
+        )
     }
 
 }

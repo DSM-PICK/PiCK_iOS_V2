@@ -38,6 +38,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var profileView = PiCKProfileView()
 
     private let passHeaderView = HomePassHeaderView()
+    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView()
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
@@ -69,10 +70,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .horizontal
         $0.distribution = .equalSpacing
     }
-    private let noticeHeaderView = HomeHeaderView().then {
-        $0.setup(title: "공지공지공지", explain: "새로운 공지를 확인해보세요")
-        $0.isHidden = true
-    }
+//    private let noticeHeaderView = HomeHeaderView().then {
+//        $0.setup(title: "공지공지공지", explain: "새로운 공지를 확인해보세요")
+//        $0.isHidden = true
+//    }
     private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.view.frame.width, height: 81)
@@ -92,7 +93,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
     private lazy var noticeStackView = UIStackView(arrangedSubviews: [
         noticeTitleStackView,
-        noticeHeaderView,
+//        noticeHeaderView,
         noticeCollectionView
     ]).then {
         $0.axis = .vertical
@@ -129,15 +130,25 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 //                self?.testButton.isHidden = false
             }).disposed(by: disposeBag)
 
+        output.weekendMealPeriodData.asObservable()
+            .withUnretained(self)
+            .bind { owner, data in
+                print("여기다 여기\(data.status)")
+                owner.weekendMealPeriodHeaderView.isHidden = data.status
+                owner.weekendMealPeriodHeaderView.setup(startPeriodText: data.start, endPeriodText: data.end)
+            }.disposed(by: disposeBag)
+
         output.timetableData.asObservable()
-            .bind(onNext: { [weak self] data in
-                self?.timeTableData.accept(data)
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.timeTableData.accept(data)
+            }.disposed(by: disposeBag)
 
         output.schoolMealData.asObservable()
-            .bind(onNext: { [weak self] data in
-                self?.schoolMealData.accept(data)
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.schoolMealData.accept(data)
+            }.disposed(by: disposeBag)
 
         output.noticeListData.asObservable()
             .bind(to: noticeCollectionView.rx.items(
@@ -163,33 +174,37 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             }).disposed(by: disposeBag)
 
         output.selfStudyData.asObservable()
-            .bind(onNext: { [weak self] data in
-                self?.selfStudyBannerView.setup(selfStudyTeacherData: data)
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.selfStudyBannerView.setup(selfStudyTeacherData: data)
+            }.disposed(by: disposeBag)
 
         output.timeTableHeight.asObservable()
-            .bind(onNext: { [weak self] height in
+            .withUnretained(self)
+            .bind { owner, height in
                 if height == 0 {
-                    self?.timeTableHeight.accept(50)
+                    owner.timeTableHeight.accept(50)
                 } else {
-                    self?.timeTableHeight.accept(height)
+                    owner.timeTableHeight.accept(height)
                 }
-                self?.setLayout()
-            }).disposed(by: disposeBag)
+                owner.setLayout()
+            }.disposed(by: disposeBag)
 
         output.schoolMealHeight.asObservable()
-            .bind(onNext: { [weak self] height in
-                self?.schoolMealHeight.accept(height)
-                self?.setLayout()
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, height in
+                owner.schoolMealHeight.accept(height)
+                owner.setLayout()
+            }.disposed(by: disposeBag)
 
         output.noticeViewHeight.asObservable()
-            .bind(onNext: { [weak self] height in
-                self?.noticeCollectionView.snp.remakeConstraints {
+            .withUnretained(self)
+            .bind { owner, height in
+                owner.noticeCollectionView.snp.remakeConstraints {
                     $0.height.equalTo(height)
                 }
-                self?.setLayout()
-            }).disposed(by: disposeBag)
+                owner.setLayout()
+            }.disposed(by: disposeBag)
     }
 
     public override func addView() {
@@ -204,6 +219,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
        [
             profileView,
             passHeaderView,
+            weekendMealPeriodHeaderView,
             todaysLabel,
             mainStackView,
             selfStudyBannerView,
@@ -230,8 +246,14 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.height.equalTo(self.view.frame.height * 1.5)
         }
 
-        profileView.snp.makeConstraints {
+        weekendMealPeriodHeaderView.snp.makeConstraints {
+//            $0.top.equalTo(navigationBar.snp.bottom).offset(16)
             $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
+        }
+        profileView.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+            $0.top.equalTo(weekendMealPeriodHeaderView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
         }
 //        passHeaderView.snp.makeConstraints {
@@ -256,9 +278,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalTo(selfStudyBannerView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
-        noticeHeaderView.snp.makeConstraints {
-            $0.height.equalTo(81)
-        }
+//        noticeHeaderView.snp.makeConstraints {
+//            $0.height.equalTo(81)
+//        }
     }
 
     public override func setLayoutData() {

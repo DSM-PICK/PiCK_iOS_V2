@@ -53,8 +53,6 @@ public class HomeSchoolMealView: BaseView {
     }
 
     public override func layout() {
-        super.layout()
-
         self.addSubview(collectionView)
 
         collectionView.snp.makeConstraints {

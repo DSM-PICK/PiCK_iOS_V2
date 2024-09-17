@@ -14,6 +14,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let userDefaultStorage = UserDefaultStorage.shared
 
     private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
+    private let fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase
     private let timeTableUseCase: FetchTodayTimeTableUseCase
     private let schoolMealUseCase: FetchSchoolMealUseCase
     private let noticeListUseCase: FetchNoticeListUseCase
@@ -23,6 +24,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     public init(
         fetchApplyStatusUseCase: FetchApplyStatusUsecase,
+        fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase,
         timeTableUseCase: FetchTodayTimeTableUseCase,
         schoolMealUseCase: FetchSchoolMealUseCase,
         noticeListUseCase: FetchNoticeListUseCase,
@@ -31,6 +33,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
         self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
+        self.fetchWeekendMealPeriodUseCase = fetchWeekendMealPeriodUseCase
         self.timeTableUseCase = timeTableUseCase
         self.schoolMealUseCase = schoolMealUseCase
         self.noticeListUseCase = noticeListUseCase
@@ -49,6 +52,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     public struct Output {
         let viewMode: Signal<HomeViewType>
         let applyStatusData: Signal<HomeApplyStatusEntity?>
+        let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
         let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
         let noticeListData: Driver<NoticeListEntity>
@@ -61,6 +65,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     private let viewModeData = PublishRelay<HomeViewType>()
     private let applyStatusData = PublishRelay<HomeApplyStatusEntity?>()
+    private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
@@ -80,6 +85,17 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     self?.viewModeData.accept(.timeTable)
                 }
             }).disposed(by: disposeBag)
+
+        input.viewWillAppear
+            .flatMap {
+                self.fetchWeekendMealPeriodUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: weekendMealPeriodData)
+            .disposed(by: disposeBag)
 
         input.viewWillAppear
             .flatMap {
@@ -185,6 +201,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         return Output(
             viewMode: viewModeData.asSignal(), 
             applyStatusData: applyStatusData.asSignal(),
+            weekendMealPeriodData: weekendMealPeriodData.asSignal(),
             timetableData: timetableData.asDriver(),
             schoolMealData: schoolMealData.asDriver(),
             noticeListData: noticeListData.asDriver(),
