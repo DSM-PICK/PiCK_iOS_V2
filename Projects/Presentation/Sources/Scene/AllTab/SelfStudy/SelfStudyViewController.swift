@@ -16,7 +16,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
     private let todayDate = Date()
 
     private lazy var titleLabel = PiCKLabel(
-        text: "\(todayDate.toString(type: .monthAndDay)),\n오늘의 자습 감독 선생님입니다",
+        text: "\(todayDate.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다",
         textColor: .modeBlack,
         font: .heading4,
         numberOfLines: 0
@@ -45,11 +45,11 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         clickDate: { date in
             self.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
             if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
-                self.titleLabel.text = "\(date.toString(type: .monthAndDay)),\n오늘의 자습 감독 선생님입니다"
+                self.titleLabel.text = "\(date.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다"
                 self.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
             } else {
-                self.titleLabel.text = "\(date.toString(type: .monthAndDay))의\n자습 감독 선생님입니다"
-                self.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDay))의", color: .main500)
+                self.titleLabel.text = "\(date.toString(type: .monthAndDayKor))의\n자습 감독 선생님입니다"
+                self.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDayKor))의", color: .main500)
             }
         }
     )
@@ -89,11 +89,11 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
                         self?.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
 
                         if date.toString(type: .fullDate) == self?.todayDate.toString(type: .fullDate) {
-                            self?.titleLabel.text = "\(date.toString(type: .monthAndDay))\n오늘의 자습 감독 선생님 입니다"
+                            self?.titleLabel.text = "\(date.toString(type: .monthAndDayKor))\n오늘의 자습 감독 선생님 입니다"
                             self?.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
                         } else {
-                            self?.titleLabel.text = "\(date.toString(type: .monthAndDay))의\n자습 감독 선생님입니다"
-                            self?.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDay))의", color: .main500)
+                            self?.titleLabel.text = "\(date.toString(type: .monthAndDayKor))의\n자습 감독 선생님입니다"
+                            self?.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDayKor))의", color: .main500)
                         }
                     }
                 )

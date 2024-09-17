@@ -21,7 +21,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         }
     )
     private lazy var dateLabel = PiCKLabel(
-        text: "오늘 \(todayDate.toString(type: .monthAndDay))",
+        text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,
         font: .heading4
     ).then {
@@ -116,10 +116,10 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
 
         if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
-            self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDay))"
+            self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDayKor))"
             self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
         } else {
-            self.dateLabel.text = "\(date.toString(type: .monthAndDay))"
+            self.dateLabel.text = "\(date.toString(type: .monthAndDayKor))"
         }
     }
 
