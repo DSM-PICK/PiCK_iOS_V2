@@ -51,6 +51,9 @@ public final class UseCaseAssembly: Assembly {
         container.register(ClassroomMoveApplyUseCase.self) { resolver in
             ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
         }
+        container.register(ClassroomReturnUseCase.self) { resolver in
+            ClassroomReturnUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
+        }
         //outing
         container.register(OutingApplyUseCase.self) { resolver in
             OutingApplyUseCase(repository: resolver.resolve(OutingRepository.self)!)

@@ -43,6 +43,7 @@ public final class PresentationAssembly: Assembly {
                 noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!,
                 selfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!,
                 fetchOutingPassUseCase: resolver.resolve(FetchOutingPassUseCase.self)!,
+                classroomReturnUseCase: resolver.resolve(ClassroomReturnUseCase.self)!,
                 fetchProfileUseCase: resolver.resolve(FetchSimpleProfileUseCase.self)!
             )
         }
