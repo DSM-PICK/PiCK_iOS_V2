@@ -17,7 +17,10 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         $0.showsHorizontalScrollIndicator = false
     }
     private let contentView = UIView()
-    private let mainView = UIView()
+    private let mainView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 32
+    }
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private let profileView = PiCKProfileView()
@@ -75,7 +78,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         [
             profileView,
             sectionStackView
-        ].forEach { mainView.addSubview($0) }
+        ].forEach { mainView.addArrangedSubview($0) }
     }
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
@@ -92,17 +95,8 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             $0.leading.trailing.equalTo(self.view)
         }
         mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height * 1.2)
-        }
-
-        profileView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-        }
-        sectionStackView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
 

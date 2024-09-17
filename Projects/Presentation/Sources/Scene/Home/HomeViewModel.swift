@@ -20,6 +20,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let noticeListUseCase: FetchNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
+    private let classroomReturnUseCase: ClassroomReturnUseCase
     private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
     public init(
@@ -30,6 +31,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         noticeListUseCase: FetchNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
         fetchOutingPassUseCase: FetchOutingPassUseCase,
+        classroomReturnUseCase: ClassroomReturnUseCase,
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
         self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
@@ -39,6 +41,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         self.noticeListUseCase = noticeListUseCase
         self.selfStudyUseCase = selfStudyUseCase
         self.fetchOutingPassUseCase = fetchOutingPassUseCase
+        self.classroomReturnUseCase = classroomReturnUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
     }
 
@@ -108,6 +111,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { data in
                 let value = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
                 self.userDefaultStorage.set(to: value, forKey: .userInfoData)
+                self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
             }).disposed(by: disposeBag)
 
         input.viewWillAppear
@@ -147,7 +151,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { [weak self] data in
                 self?.schoolMealData.accept(data.meals.mealBundle)
 
-                let height = CGFloat(data.meals.mealBundle.count * 134)
+                let height = CGFloat(data.meals.mealBundle.count * 150)
                 self?.schoolMealHeight.accept(height)
             }).disposed(by: disposeBag)
 
@@ -186,6 +190,19 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     }
             }
             .bind(to: outingPassData)
+            .disposed(by: disposeBag)
+
+        input.clickOutingPass
+            .flatMap {
+                self.classroomReturnUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind {_ in 
+                print("성공성공")
+            }
             .disposed(by: disposeBag)
 
         input.clickAlert

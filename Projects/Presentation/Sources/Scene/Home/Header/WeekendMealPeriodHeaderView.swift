@@ -10,6 +10,11 @@ import Core
 import DesignSystem
 
 public class WeekendMealPeriodHeaderView: BaseView {
+    private let backgroundView = UIView().then {
+        $0.backgroundColor = .main50
+        $0.layer.cornerRadius = 20
+    }
+
     private let speakerIcon = UIImageView(image: .voice).then {
         $0.tintColor = .modeBlack
     }
@@ -22,24 +27,32 @@ public class WeekendMealPeriodHeaderView: BaseView {
         startPeriodText: String?,
         endPeriodText: String?
     ) {
-        self.announcementLabel.text = "지금은 주말 급식 신청 기간입니다 (\(startPeriodText ?? "")~\(endPeriodText ?? "")"
+        let startPeriod = startPeriodText?.toDate(type: .fullDate).toString(type: .monthAndDayKor) ?? ""
+        let endPeriod = endPeriodText?.toDate(type: .fullDate).toString(type: .monthAndDayKor) ?? ""
 
+        let period = "\(startPeriod)~\(endPeriod)"
+
+        self.announcementLabel.text = "지금은 주말 급식 신청 기간입니다 (\(period))"
         self.announcementLabel.changePointColor(targetString: "주말 급식 신청 기간", color: .main900)
-    }
-    public override func attribute() {
-        self.backgroundColor = .main50
-        self.layer.cornerRadius = 20
     }
 
     public override func layout() {
+        self.addSubview(backgroundView)
+
         [
             speakerIcon,
             announcementLabel
-        ].forEach { self.addSubview($0) }
+        ].forEach { backgroundView.addSubview($0) }
 
         self.snp.makeConstraints {
             $0.height.equalTo(42)
         }
+        backgroundView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(42)
+        }
+
         speakerIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(20)
@@ -47,6 +60,7 @@ public class WeekendMealPeriodHeaderView: BaseView {
         }
         announcementLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
+            $0.leading.equalTo(speakerIcon.snp.trailing).offset(12)
             $0.trailing.equalToSuperview().inset(20)
         }
     }
