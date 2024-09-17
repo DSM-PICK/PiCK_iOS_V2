@@ -5,6 +5,7 @@ public enum UserDefaultKeys: String {
     case displayMode = "displayMode"
     case pickerTimeMode = "pickerTimeMode"
     case userInfoData = "userInfoData"
+    case userNameData = "userNameData"
 }
 
 public struct UserDefaultStorage: UserDefault {
