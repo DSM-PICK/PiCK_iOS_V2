@@ -39,7 +39,7 @@ public class WeekendMealApplyView: BaseView {
         month: Int?
     ) {
         if status == true {
-            self.currnetMonthWeekendMealApplyLabel.text = "\(month ?? 0) 주말 급식 신청"
+            self.currnetMonthWeekendMealApplyLabel.text = "\(month ?? 0)월 주말 급식 신청"
             self.buttonStackView.isHidden = false
         } else {
             self.currnetMonthWeekendMealApplyLabel.text = "지금은 신청 기간이 아닙니다."
