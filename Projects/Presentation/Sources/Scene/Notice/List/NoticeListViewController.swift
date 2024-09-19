@@ -29,6 +29,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
     }
+
     public override func attribute() {
         super.attribute()
         navigationTitleText = "공지사항"
@@ -48,15 +49,14 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
 
-        noticeCollectionView.rx.modelSelected(NoticeListEntityElement.self)
-            .subscribe(
-                onNext: { [weak self] data in
-                    self?.clickNoticeCellRelay.accept(data.id)
-                    print("cjlk")
-                }
-            )
-            .disposed(by: disposeBag)
+        noticeCollectionView.rx
+            .modelSelected(NoticeListEntityElement.self)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.clickNoticeCellRelay.accept(data.id)
+            }.disposed(by: disposeBag)
     }
+
     public override func addView() {
         [
             bannerView,
