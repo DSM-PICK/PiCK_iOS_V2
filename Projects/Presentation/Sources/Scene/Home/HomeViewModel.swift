@@ -46,15 +46,16 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
 
     public struct Input {
+        let todayDate: String
         let viewWillAppear: Observable<Void>
         let clickAlert: Observable<Void>
         let clickOutingPass: Observable<Void>
         let clickViewMoreNotice: Observable<Void>
-        let todayDate: String
+        let clickNotice: Observable<UUID>
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
-        let applyStatusData: Signal<HomeApplyStatusEntity?>
+        let applyStatusData: Signal<HomeApplyStatusEntity>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
         let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
@@ -67,16 +68,16 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
 
     private let viewModeData = PublishRelay<HomeViewType>()
-    private let applyStatusData = PublishRelay<HomeApplyStatusEntity?>()
+    private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
     private let noticeListData = BehaviorRelay<NoticeListEntity>(value: [])
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
-    private let timeTableHeight = PublishRelay<CGFloat>()
-    private let schoolMealHeight = PublishRelay<CGFloat>()
-    private let noticeViewHeight = PublishRelay<CGFloat>()
+    private let timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
+    private let schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
+    private let noticeViewHeight = BehaviorRelay<CGFloat>(value: 0)
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -136,7 +137,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { [weak self] data in
                 self?.timetableData.accept(data.timetables)
 
-                let height = CGFloat(data.timetables.count * 50)
+                let height = CGFloat(data.timetables.count * 55)
                 self?.timeTableHeight.accept(height)
             }).disposed(by: disposeBag)
 
@@ -215,6 +216,13 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: steps)
             .disposed(by: disposeBag)
 
+        input.clickNotice
+            .map { id in
+                PiCKStep.noitceDetailIsRequired(id: id)
+            }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
         return Output(
             viewMode: viewModeData.asSignal(), 
             applyStatusData: applyStatusData.asSignal(),
@@ -224,9 +232,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
             noticeListData: noticeListData.asDriver(),
             selfStudyData: selfStudyData.asDriver(),
             outingPassData: outingPassData.asSignal(),
-            timeTableHeight: timeTableHeight.asDriver(onErrorJustReturn: 0),
-            schoolMealHeight: schoolMealHeight.asDriver(onErrorJustReturn: 0),
-            noticeViewHeight: noticeViewHeight.asDriver(onErrorJustReturn: 0)
+            timeTableHeight: timeTableHeight.asDriver(),
+            schoolMealHeight: schoolMealHeight.asDriver(),
+            noticeViewHeight: noticeViewHeight.asDriver()
         )
     }
 

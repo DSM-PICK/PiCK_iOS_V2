@@ -27,6 +27,8 @@ public class HomeFlow: Flow {
             return navigateToAlert()
         case .noticeIsRequired:
             return navigateToNotice()
+        case .noitceDetailIsRequired(let id):
+            return navigateToNoticeDetail(id: id)
         default:
             return .none
         }
@@ -68,6 +70,15 @@ public class HomeFlow: Flow {
             withNextPresentable: noticeFlow,
             withNextStepper: OneStepper(withSingleStep: PiCKStep.noticeIsRequired)
         ))
+    }
+
+    private func navigateToNoticeDetail(id: UUID) -> FlowContributors {
+        let vc = container.resolve(NoticeDetailViewController.self)!
+        vc.id = id
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .none
     }
 
 }
