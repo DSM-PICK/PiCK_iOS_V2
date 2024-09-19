@@ -70,7 +70,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             }.disposed(by: disposeBag)
 
         schoolMealCalendarView.clickBottomToggleButton
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 let alert = PiCKCalendarAlert(
                     calendarType: .schoolMealMonth,
                     clickDate: { date in
@@ -80,7 +80,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
                 alert.modalTransitionStyle = .crossDissolve
                 alert.modalPresentationStyle = .overFullScreen
                 self?.present(alert, animated: true)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [

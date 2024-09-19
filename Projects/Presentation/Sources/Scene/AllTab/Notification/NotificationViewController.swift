@@ -87,27 +87,31 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
 
         outingStatusNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] _ in
-                self?.toggleButton()
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.toggleButton()
+            }.disposed(by: disposeBag)
 
         classroomStatusSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] _ in
-                self?.toggleButton()
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.toggleButton()
+            }.disposed(by: disposeBag)
 
         noticeNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] _ in
-                self?.toggleButton()
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.toggleButton()
+            }.disposed(by: disposeBag)
 
         weekendMealNotificationSwitchView.clickSwitchButton
             .asObservable()
-            .bind(onNext: { [weak self] _ in
-                self?.toggleButton()
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.toggleButton()
+            }.disposed(by: disposeBag)
     }
 
     public override func addView() {

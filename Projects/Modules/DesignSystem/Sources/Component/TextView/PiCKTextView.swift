@@ -58,7 +58,8 @@ public class PiCKTextView: BaseView {
             titleLabel,
             textView
         ].forEach { self.addSubview($0) }
-        self.textView.addSubview(placeholderLabel)
+
+        textView.addSubview(placeholderLabel)
 
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -76,14 +77,14 @@ public class PiCKTextView: BaseView {
 
     public override func bind() {
         self.textView.rx.didBeginEditing
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.isEdit.accept(true)
                 self?.placeholderLabel.isHidden = true
                 self?.textView.layer.border(color: self?.borderColor, width: 1)
-            }).disposed(by: disposeBag)
-        
+            }.disposed(by: disposeBag)
+
         self.textView.rx.didEndEditing
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.isEdit.accept(false)
 
                 if self?.textView.text.isEmpty == true {
@@ -92,7 +93,7 @@ public class PiCKTextView: BaseView {
                 } else {
                     self?.textView.layer.border(color: self?.borderColor, width: 1)
                 }
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
 }

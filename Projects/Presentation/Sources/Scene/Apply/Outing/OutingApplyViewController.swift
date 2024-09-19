@@ -69,15 +69,17 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
 
         let output =  viewModel.transform(input: input)
 
-        output.isApplyButtonEnable.asObservable()
-            .bind(onNext: { [weak self] isEnabled in
-                    self?.applyButton.isEnabled = isEnabled
-                }).disposed(by: disposeBag)
+        output.isApplyButtonEnable
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.applyButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
     }
 
     public override func bindAction() {
         startTimeSelectButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .outingStart)
                 alert.selectedTime = { [weak self] hour, min in
                     self?.startTimeRelay.accept("\(hour):\(min)")
@@ -85,10 +87,10 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                     
                 }
                 self?.presentAsCustomDents(view: alert, height: 406)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         endTimeSelectButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .outingEnd)
 
                 alert.selectedTime = { [weak self] hour, min in
@@ -99,10 +101,10 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                 }
 
                 self?.presentAsCustomDents(view: alert, height: 406)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         periodSelectButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .outingPeriod)
 
                 alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
@@ -117,7 +119,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                 }
 
                 self?.presentAsCustomDents(view: alert, height: 406)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     public override func addView() {

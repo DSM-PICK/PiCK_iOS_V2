@@ -62,13 +62,15 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
         )
         let output = viewModel.transform(input: input)
 
-        output.noticeDetailData.asObservable()
-            .bind(onNext: { [weak self] noticeData in
-                self?.titleLabel.text = noticeData.title
-                self?.dateLabel.text = noticeData.createAt
-                self?.teacherNameLabel.text = noticeData.teacher
-                self?.contentLabel.text = noticeData.content
-            }).disposed(by: disposeBag)
+        output.noticeDetailData
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, noticeData in
+                owner.titleLabel.text = noticeData.title
+                owner.dateLabel.text = noticeData.createAt
+                owner.teacherNameLabel.text = noticeData.teacher
+                owner.contentLabel.text = noticeData.content
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
