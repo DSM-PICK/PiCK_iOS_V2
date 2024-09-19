@@ -16,5 +16,5 @@ class HomeRepositoryImpl: HomeRepository {
             .map(HomeApplyStatusDTO.self)
             .map { $0.toDomain() }
     }
-    
+
 }
