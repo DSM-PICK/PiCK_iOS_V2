@@ -70,7 +70,7 @@ public class PiCKTextView: BaseView {
         }
         placeholderLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(14)
-            $0.left.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(16)
         }
     }
 

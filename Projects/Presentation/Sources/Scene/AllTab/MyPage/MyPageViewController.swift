@@ -79,11 +79,11 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         }
         userInfoLabelStackView.snp.makeConstraints {
             $0.top.equalTo(changeButton.snp.bottom).offset(76)
-            $0.left.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(24)
         }
         userInfoStackView.snp.makeConstraints {
             $0.top.equalTo(changeButton.snp.bottom).offset(76)
-            $0.right.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview().inset(24)
         }
     }
 
