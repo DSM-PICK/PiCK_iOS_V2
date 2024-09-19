@@ -50,10 +50,10 @@ public class PiCKApplyTimePickerAlert: UIViewController {
     }
     private func bind() {
         applyButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.dismiss(animated: true)
                 switch self?.timePickerType {
-                case .classroom:
+                case .classroom, .outingPeriod:
                     self?.selectedPeriod!(self?.periodPickerView.startPeriodValue ?? 0, self?.periodPickerView.endPeriodValue ?? 0)
                     self?.clickApplyButton!()
 
@@ -69,7 +69,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                 case .none:
                     return
                 }
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     private func layout() {
         [
@@ -89,6 +89,9 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         case .outingEnd:
             periodPickerView.isHidden = true
             explainLabel.text = "외출 복귀 시간을 선택해주세요"
+        case .outingPeriod:
+            timePickerView.isHidden = true
+            explainLabel.text = "외출 시작과 복귀 교시를 선택해주세요"
         }
 
         explainLabel.snp.makeConstraints {

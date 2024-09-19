@@ -18,7 +18,6 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     private let periodArray = Array(1...10)
     private let hourArray = Array(8...23)
     private let minArray = Array(0...59)
-    /*시간이 8시면 minarray가 30부터 뜨게 8시 반 이후에는 신청 못하게 음 조기귀가는 ㄱㅊ */
 
     public init(type: PickerTimeType) {
         self.pickerTimeType = type

@@ -103,7 +103,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
 
         periodSelectButton.buttonTap
             .bind(onNext: { [weak self] in
-                let alert = PiCKApplyTimePickerAlert(type: .classroom)
+                let alert = PiCKApplyTimePickerAlert(type: .outingPeriod)
 
                 alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
                     self?.startTimeRelay.accept("\(startPeriod)교시")

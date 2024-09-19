@@ -1,5 +1,5 @@
 import Foundation
 
 public enum PickerType {
-    case classroom, outingStart, outingEnd
+    case classroom, outingStart, outingEnd, outingPeriod
 }
