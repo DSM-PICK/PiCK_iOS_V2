@@ -35,7 +35,7 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
     }
     private let newNoticeIcon = UIImageView(image: .newNotice).then {
         $0.tintColor = .main400
-        $0.isHidden = false
+        $0.isHidden = true
     }
     
     public override func adapt(model: NoticeListEntityElement) {

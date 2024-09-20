@@ -55,18 +55,23 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
                     endPeriod: endPeriod
                 ))
                 .catch {
-                    self.steps.accept(PiCKStep.applyAlertIsRequired(
+                    self.steps.accept(
+                        PiCKStep.applyAlertIsRequired(
                             successType: .fail,
                             alertType: .classroom
-                        ))
+                        )
+                    )
                     print($0.localizedDescription)
                     return .never()
                 }
-                .andThen(Single.just(
-                    PiCKStep.applyAlertIsRequired(
-                        successType: .success,
-                        alertType: .classroom
-                    )))
+                .andThen(
+                    Single.just(
+                        PiCKStep.applyAlertIsRequired(
+                            successType: .success,
+                            alertType: .classroom
+                        )
+                    )
+                )
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

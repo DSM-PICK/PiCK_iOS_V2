@@ -13,7 +13,6 @@ import DesignSystem
 public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
     private let clickNoticeCellRelay = PublishRelay<UUID>()
 
-    private let bannerView = UIImageView(image: .noticeBanner)
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.itemSize = .init(width: self.view.frame.width, height: 81)
@@ -29,6 +28,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
             forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier
         )
     }
+
     public override func attribute() {
         super.attribute()
         navigationTitleText = "공지사항"
@@ -48,29 +48,20 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
 
-        noticeCollectionView.rx.modelSelected(NoticeListEntityElement.self)
-            .subscribe(
-                onNext: { [weak self] data in
-                    self?.clickNoticeCellRelay.accept(data.id)
-                    print("cjlk")
-                }
-            )
-            .disposed(by: disposeBag)
+        noticeCollectionView.rx
+            .modelSelected(NoticeListEntityElement.self)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.clickNoticeCellRelay.accept(data.id)
+            }.disposed(by: disposeBag)
     }
+
     public override func addView() {
-        [
-            bannerView,
-            noticeCollectionView
-        ].forEach { view.addSubview($0) }
+        view.addSubview(noticeCollectionView)
     }
     public override func setLayout() {
-        bannerView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(116)
-        }
         noticeCollectionView.snp.makeConstraints {
-            $0.top.equalTo(bannerView.snp.bottom).offset(12)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

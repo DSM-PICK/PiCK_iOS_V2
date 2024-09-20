@@ -10,7 +10,8 @@ import Core
 import DesignSystem
 
 public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveApplyViewModel> {
-    
+    private let classroomData = ClassroomData.shared
+
     private let classroomMoveApplyRelay = PublishRelay<Void>()
     private var classroomText = BehaviorRelay<String>(value: "")
     private var startPeriod = BehaviorRelay<Int>(value: 1)
@@ -18,16 +19,18 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     private lazy var selectedSegemetedControlIndex = BehaviorRelay<Int>(value: 1)
     private lazy var currentFloorClassroomArray = BehaviorRelay<[String]>(value: classroomData.firstFloor)
 
-    private let classroomData = ClassroomData.shared
-
-    private let titleLabel = PiCKLabel(text: "교실 이동", textColor: .modeBlack, font: .heading4)
-    private let explainLabel = PiCKLabel(text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.", textColor: .gray600, font: .body2)
+    private let titleLabel = PiCKLabel(
+        text: "교실 이동",
+        textColor: .modeBlack,
+        font: .heading4
+    )
+    private let explainLabel = PiCKLabel(
+        text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.",
+        textColor: .gray600,
+        font: .body2
+    )
     private let floorSegmentedControl = ClassroomSegmentedControl(items: [
-        "1층",
-        "2층",
-        "3층",
-        "4층",
-        "5층"
+        "1층", "2층", "3층", "4층", "5층"
     ]).then {
         $0.selectedSegmentIndex = 0
     }
@@ -48,7 +51,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         $0.contentInsetAdjustmentBehavior = .always
         $0.bounces = false
     }
-    private let nextButton = PiCKButton(type: .system, buttonText: "다음", isEnabled: false)
+    private let nextButton = PiCKButton(buttonText: "다음")
 
     public override func attribute() {
         super.attribute()
@@ -66,10 +69,12 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
 
         let output = viewModel.transform(input: input)
 
-        output.isApplyButtonEnable.asObservable()
-            .bind(onNext: { [weak self] isEnabled in
-                self?.nextButton.isEnabled = isEnabled
-            }).disposed(by: disposeBag)
+        output.isApplyButtonEnable
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
 
         floorSegmentedControl.rx.selectedSegmentIndex
             .map { [weak self] index -> [String] in
@@ -103,11 +108,12 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             }.disposed(by: disposeBag)
         
         classroomCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] index in
-                self?.classroomText.accept(
-                    self?.currentFloorClassroomArray.value[index.row] ?? ""
+            .withUnretained(self)
+            .bind { owner, index in
+                owner.classroomText.accept(
+                    owner.currentFloorClassroomArray.value[index.row]
                 )
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         nextButton.buttonTap
             .bind {

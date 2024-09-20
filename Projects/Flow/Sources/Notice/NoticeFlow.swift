@@ -15,7 +15,7 @@ public class NoticeFlow: Flow {
 
     public init(container: Container) {
         self.container = container
-        self.rootViewController = NoticeListViewController(viewModel: container.resolve(NoticeListViewModel.self)!)
+        self.rootViewController = container.resolve(NoticeListViewController.self)!
     }
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
@@ -24,7 +24,7 @@ public class NoticeFlow: Flow {
         switch step {
         case .noticeIsRequired:
             return navigateToNotice()
-        case let .noitceDetailIsRequired(id):
+        case let .noticeDetailIsRequired(id):
             return navigateToNoticeDetail(id: id)
         default:
             return .none
@@ -45,5 +45,5 @@ public class NoticeFlow: Flow {
         self.rootViewController.navigationController?.pushViewController(vc, animated: true)
         return .none
     }
-    
+
 }

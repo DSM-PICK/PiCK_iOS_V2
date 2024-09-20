@@ -60,15 +60,13 @@ public class TimeTableView: BaseView {
                 cellType: TimeTableBackgroundViewCell.self
             )) { row, item, cell in
                 cell.adapt(model: item)
-            }
-            .disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         collectionView.rx.didScroll
-            .bind { [weak self] _ in
-                guard let collectionView = self?.collectionView else { return }
-                self?.pageControl.scrollViewDidScroll(collectionView)
-            }
-            .disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.pageControl.scrollViewDidScroll(owner.collectionView)
+            }.disposed(by: disposeBag)
     }
     public override func layout() {
         [

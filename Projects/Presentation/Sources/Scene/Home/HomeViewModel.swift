@@ -20,6 +20,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let noticeListUseCase: FetchNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
+    private let classroomReturnUseCase: ClassroomReturnUseCase
     private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
     public init(
@@ -30,6 +31,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         noticeListUseCase: FetchNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
         fetchOutingPassUseCase: FetchOutingPassUseCase,
+        classroomReturnUseCase: ClassroomReturnUseCase,
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
         self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
@@ -39,19 +41,21 @@ public class HomeViewModel: BaseViewModel, Stepper {
         self.noticeListUseCase = noticeListUseCase
         self.selfStudyUseCase = selfStudyUseCase
         self.fetchOutingPassUseCase = fetchOutingPassUseCase
+        self.classroomReturnUseCase = classroomReturnUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     public struct Input {
+        let todayDate: String
         let viewWillAppear: Observable<Void>
         let clickAlert: Observable<Void>
         let clickOutingPass: Observable<Void>
         let clickViewMoreNotice: Observable<Void>
-        let todayDate: String
+        let clickNotice: Observable<UUID>
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
-        let applyStatusData: Signal<HomeApplyStatusEntity?>
+        let applyStatusData: Signal<HomeApplyStatusEntity>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
         let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
@@ -64,16 +68,16 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
 
     private let viewModeData = PublishRelay<HomeViewType>()
-    private let applyStatusData = PublishRelay<HomeApplyStatusEntity?>()
+    private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
     private let noticeListData = BehaviorRelay<NoticeListEntity>(value: [])
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
-    private let timeTableHeight = PublishRelay<CGFloat>()
-    private let schoolMealHeight = PublishRelay<CGFloat>()
-    private let noticeViewHeight = PublishRelay<CGFloat>()
+    private let timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
+    private let schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
+    private let noticeViewHeight = BehaviorRelay<CGFloat>(value: 0)
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -108,6 +112,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { data in
                 let value = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
                 self.userDefaultStorage.set(to: value, forKey: .userInfoData)
+                self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
             }).disposed(by: disposeBag)
 
         input.viewWillAppear
@@ -132,7 +137,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { [weak self] data in
                 self?.timetableData.accept(data.timetables)
 
-                let height = CGFloat(data.timetables.count * 50)
+                let height = CGFloat(data.timetables.count * 55)
                 self?.timeTableHeight.accept(height)
             }).disposed(by: disposeBag)
 
@@ -147,7 +152,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .subscribe(onNext: { [weak self] data in
                 self?.schoolMealData.accept(data.meals.mealBundle)
 
-                let height = CGFloat(data.meals.mealBundle.count * 134)
+                let height = CGFloat(data.meals.mealBundle.count * 150)
                 self?.schoolMealHeight.accept(height)
             }).disposed(by: disposeBag)
 
@@ -188,6 +193,19 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: outingPassData)
             .disposed(by: disposeBag)
 
+        input.clickOutingPass
+            .flatMap {
+                self.classroomReturnUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind {_ in 
+                print("성공성공")
+            }
+            .disposed(by: disposeBag)
+
         input.clickAlert
             .map { PiCKStep.alertIsRequired }
             .bind(to: steps)
@@ -195,6 +213,13 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.clickViewMoreNotice
             .map { PiCKStep.noticeIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.clickNotice
+            .map { id in
+                PiCKStep.noitceDetailIsRequired(id: id)
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
@@ -207,9 +232,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
             noticeListData: noticeListData.asDriver(),
             selfStudyData: selfStudyData.asDriver(),
             outingPassData: outingPassData.asSignal(),
-            timeTableHeight: timeTableHeight.asDriver(onErrorJustReturn: 0),
-            schoolMealHeight: schoolMealHeight.asDriver(onErrorJustReturn: 0),
-            noticeViewHeight: noticeViewHeight.asDriver(onErrorJustReturn: 0)
+            timeTableHeight: timeTableHeight.asDriver(),
+            schoolMealHeight: schoolMealHeight.asDriver(),
+            noticeViewHeight: noticeViewHeight.asDriver()
         )
     }
 

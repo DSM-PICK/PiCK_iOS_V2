@@ -20,6 +20,11 @@ public class HomePassHeaderView: BaseView {
         return button.rx.tap
     }
 
+    private var userName: String {
+        let value = UserDefaultStorage.shared.get(forKey: .userNameData) as? String
+        return value ?? "알 수 없는 사용자"
+    }
+
     private let contentLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1
@@ -39,24 +44,56 @@ public class HomePassHeaderView: BaseView {
         textColor: .gray500,
         font: .caption2
     )
+    private lazy var waitingStackView = UIStackView(arrangedSubviews: [
+        waitingTitleLabel,
+        waitingContentLabel
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 6
+        $0.alignment = .center
+    }
 
     public func setup(
-        type: OutingType
-//        outingText: String?,
-//        classRoomText: String?,
-//        waitingTitleText: String?,
-//        waitingContentText: String?
+        isWait: Bool,
+        type: OutingType,
+        outingText: String? = nil,
+        startTime: String? = nil,
+        endTime: String? = nil,
+        classRoomText: String? = nil
     ) {
-        self.setupType(type: type)
-//        switch type {
-//        case .application:
-//            waitingTitleLabel.text = waitingTitleText
-//            waitingContentLabel.text = waitingContentText
-//        case .earlyReturn:
-//            
-//        case .classroom:
-//
-//        }
+        if isWait == true {
+//            self.waitingContentLabel.text = "상태가 바뀌면 픽에서 알림을 드릴게요!"
+            switch type {
+            case .application:
+                self.waitingTitleLabel.text = "외출 수락 대기 중입니다"
+            case .earlyReturn:
+                self.waitingTitleLabel.text = "조기귀가 수락 대기 중입니다"
+            case .classroom:
+                self.waitingTitleLabel.text = "교실 이동 수락 대기 중입니다"
+            }
+        } else {
+            switch type {
+            case .application:
+                let timeValue = "\(startTime ?? "정보 없음") - \(endTime ?? "정보 없음")"
+
+                self.contentLabel.text = "\(userName)님의 외출 시간은\n\(timeValue) 입니다"
+                self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
+
+                self.button.setTitle("외출증 보기", for: .normal)
+            case .earlyReturn:
+                self.contentLabel.text = "\(userName)님의 귀가 시간은\n\(startTime ?? "") 입니다"
+                self.contentLabel.changePointColor(targetString: startTime ?? "", color: .main500)
+                self.button.setTitle("외출증 보기", for: .normal)
+
+            case .classroom:
+                let timeValue = "\(startTime ?? "정보 없음")교시 - \(endTime ?? "정보 없음")교시"
+
+                self.contentLabel.text = "\(classRoomText ?? "정보 없음") 이동 시간은\n\(timeValue) 입니다"
+                self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
+                self.button.setTitle("돌아가기", for: .normal)
+            }
+        }
+        self.setupType(isWait: isWait)
     }
 
     public override func attribute() {
@@ -66,8 +103,7 @@ public class HomePassHeaderView: BaseView {
         [
             contentLabel,
             button,
-            waitingTitleLabel,
-            waitingContentLabel
+            waitingStackView
         ].forEach { self.addSubview($0) }
 
         contentLabel.snp.makeConstraints {
@@ -80,13 +116,18 @@ public class HomePassHeaderView: BaseView {
             $0.width.equalTo(120)
             $0.height.equalTo(40)
         }
+
+        waitingStackView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
 
-    private func setupType(type: OutingType) {
-        self.button.isHidden = false
-        self.contentLabel.isHidden = type == .application
-        self.waitingTitleLabel.isHidden = type == .application
-        self.waitingContentLabel.isHidden = type == .application
+    private func setupType(isWait: Bool) {
+        self.button.isHidden = isWait
+        self.contentLabel.isHidden = isWait
+
+        self.waitingTitleLabel.isHidden = !isWait
+        self.waitingContentLabel.isHidden = !isWait
     }
 
 }

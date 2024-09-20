@@ -21,9 +21,9 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
         $0.changePointFont(targetString: "자습 감독", font: .button2)
     }
     private let emptySelfStudyLabel = PiCKLabel(
-//        text: "오늘은 등록된\n자습 감독이 없습니다",
+        text: "오늘은\n자습감독 선생님이 없습니다",
         textColor: .modeBlack,
-        font: .body1
+        font: .label2
     )
     private lazy var floorStackView = UIStackView().then {
         $0.axis = .vertical
@@ -40,8 +40,10 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
         if selfStudyTeacherData.isEmpty {
 //            self.floorStackView.isHidden = true
 //            self.teacherStackView.isHidden = true
+            self.explainLabel.isHidden = true
             self.emptySelfStudyLabel.isHidden = false
         } else {
+            self.explainLabel.isHidden = false
             self.emptySelfStudyLabel.isHidden = true
             setupBannerLabel(data: selfStudyTeacherData)
         }

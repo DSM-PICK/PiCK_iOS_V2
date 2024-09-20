@@ -55,7 +55,7 @@ public class PiCKMainNavigationBar: BaseView {
     }
     public override func bind() {
         displayModeButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
 
                 let value = self?.userDefaultStorage.get(forKey: .displayMode) as! Int
@@ -67,7 +67,7 @@ public class PiCKMainNavigationBar: BaseView {
                 ) {
                     self?.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
                 }
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     public override func layout() {

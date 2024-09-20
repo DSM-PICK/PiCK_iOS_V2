@@ -78,16 +78,16 @@ public class LogOutAlert: UIViewController {
 
     private func bindActions() {
         cancelButton.rx.tap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.dismiss(animated: true)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         confirmButton.rx.tap
-            .bind(onNext: { [weak self] in
-                self?.dismiss(animated: true, completion: {
+            .bind { [weak self] in
+                self?.dismiss(animated: true) {
                     self?.clickLogout()
-                })
-            }).disposed(by: disposeBag)
+                }
+            }.disposed(by: disposeBag)
     }
     private func addView() {
         view.addSubview(backgroundView)

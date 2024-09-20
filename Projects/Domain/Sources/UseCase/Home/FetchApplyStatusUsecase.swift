@@ -11,7 +11,7 @@ public class FetchApplyStatusUsecase {
         self.repository = repository
     }
 
-    public func execute() -> Single<HomeApplyStatusEntity?> {
+    public func execute() -> Single<HomeApplyStatusEntity> {
         return repository.fetchMainData()
     }
 

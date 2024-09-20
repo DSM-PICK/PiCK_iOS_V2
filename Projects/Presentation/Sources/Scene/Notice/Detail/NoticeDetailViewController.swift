@@ -39,7 +39,9 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
 
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let mainView = UIView()
+    private let mainView = UIStackView().then {
+        $0.axis = .vertical
+    }
     private let contentLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .body1
@@ -60,13 +62,15 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
         )
         let output = viewModel.transform(input: input)
 
-        output.noticeDetailData.asObservable()
-            .bind(onNext: { [weak self] noticeData in
-                self?.titleLabel.text = noticeData.title
-                self?.dateLabel.text = noticeData.createAt
-                self?.teacherNameLabel.text = noticeData.teacher
-                self?.contentLabel.text = noticeData.content
-            }).disposed(by: disposeBag)
+        output.noticeDetailData
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, noticeData in
+                owner.titleLabel.text = noticeData.title
+                owner.dateLabel.text = noticeData.createAt
+                owner.teacherNameLabel.text = noticeData.teacher
+                owner.contentLabel.text = noticeData.content
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
@@ -75,13 +79,13 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
             lineView,
             scrollView
         ].forEach { view.addSubview($0) }
-        
+
         scrollView.addSubview(contentView)
-        
+
         contentView.addSubview(mainView)
-        
-        mainView.addSubview(contentLabel)
-        
+
+        mainView.addArrangedSubview(contentLabel)
+
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
@@ -95,23 +99,20 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(1)
         }
+
         scrollView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalTo(self.view)
         }
         mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.height.equalTo(self.view.frame.height * 1.2)
+            $0.top.equalToSuperview().inset(15)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.bottom.equalToSuperview()
         }
-        contentLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
-            $0.left.right.equalToSuperview().inset(24)
-        }
-
     }
 
 }

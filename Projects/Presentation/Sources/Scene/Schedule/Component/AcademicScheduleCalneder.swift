@@ -95,14 +95,14 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 
     public override func bind() {
         previousButton.rx.tap
-              .bind(onNext: { [weak self] in
-                  self?.moveCalendar(byMonths: -1)
-              }).disposed(by: disposeBag)
+            .bind { [weak self] in
+                self?.moveCalendar(byMonths: -1)
+            }.disposed(by: disposeBag)
 
-          nextButton.rx.tap
-              .bind(onNext: { [weak self] in
-                  self?.moveCalendar(byMonths: 1)
-              }).disposed(by: disposeBag)
+        nextButton.rx.tap
+            .bind { [weak self] in
+                self?.moveCalendar(byMonths: 1)
+            }.disposed(by: disposeBag)
     }
 
     public override func layout() {

@@ -9,8 +9,6 @@ public struct HomeApplyStatusDTO: Decodable {
     let startTime: String?
     let endTime: String?
     let classroom: String?
-    let startPeriod: Int?
-    let endPeriod: Int?
     let type: OutingType.RawValue?
     
     enum CodingKeys: String, CodingKey {
@@ -19,8 +17,6 @@ public struct HomeApplyStatusDTO: Decodable {
         case userName = "username"
         case startTime = "start"
         case endTime = "end"
-        case startPeriod = "start_period"
-        case endPeriod = "end_period"
     }
     
 }
@@ -33,8 +29,6 @@ extension HomeApplyStatusDTO {
             startTime: startTime,
             endTime: endTime,
             classroom: classroom,
-            startPeriod: startPeriod,
-            endPeriod: endPeriod,
             type: type
         )
     }

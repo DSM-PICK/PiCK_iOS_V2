@@ -4,17 +4,17 @@ import RxSwift
 
 import Domain
 
-class MainRepositoryImpl: HomeRepository {
+class HomeRepositoryImpl: HomeRepository {
     let remoteDataSource: HomeDataSource
 
     init(remoteDataSource: HomeDataSource) {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchMainData() -> Single<HomeApplyStatusEntity?> {
-        return remoteDataSource.fetchMainData()
+    func fetchMainData() -> Single<HomeApplyStatusEntity> {
+        return remoteDataSource.fetchHomeData()
             .map(HomeApplyStatusDTO.self)
             .map { $0.toDomain() }
     }
-    
+
 }

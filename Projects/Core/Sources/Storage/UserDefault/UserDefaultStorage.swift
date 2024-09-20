@@ -1,10 +1,11 @@
 import UIKit
 
 public enum UserDefaultKeys: String {
-    case homeViewMode = "homeViewMode"
-    case displayMode = "displayMode"
-    case pickerTimeMode = "pickerTimeMode"
-    case userInfoData = "userInfoData"
+    case homeViewMode
+    case displayMode
+    case pickerTimeMode
+    case userInfoData
+    case userNameData
 }
 
 public struct UserDefaultStorage: UserDefault {

@@ -106,42 +106,30 @@ public class PiCKTextField: BaseTextField {
 
     public override func bindActions() {
         self.rx.controlEvent(.editingDidBegin)
-            .subscribe(
-                onNext: { [weak self] _ in
-                    self?.layer.border(color: self?.borderColor, width: 1)
-                    self?.errorMessage.accept(nil)
-                }
-            )
-            .disposed(by: disposeBag)
-        
+            .bind { [weak self] _ in
+                self?.layer.border(color: self?.borderColor, width: 1)
+                self?.errorMessage.accept(nil)
+            }.disposed(by: disposeBag)
+
         self.textHideButton.rx.tap
-            .subscribe(
-                onNext: { [weak self] in
-                    self?.isSecureTextEntry.toggle()
-                    let imageName: UIImage = (self?.isSecureTextEntry ?? false) ? .eyeOff: .eyeOn
-                    self?.textHideButton.setImage(imageName, for:.normal)
-                }
-            )
-            .disposed(by: disposeBag)
-        
+            .bind { [weak self] in
+                self?.isSecureTextEntry.toggle()
+                let imageName: UIImage = (self?.isSecureTextEntry ?? false) ? .eyeOff: .eyeOn
+                self?.textHideButton.setImage(imageName, for:.normal)
+            }.disposed(by: disposeBag)
+
         self.rx.controlEvent(.editingDidEnd)
-            .subscribe(
-                onNext: { [weak self] in
-                    self?.layer.borderColor = UIColor.clear.cgColor
-                }
-            )
-            .disposed(by: disposeBag)
+            .bind { [weak self] in
+                self?.layer.borderColor = UIColor.clear.cgColor
+            }.disposed(by: disposeBag)
         
         errorMessage
-            .subscribe(
-                onNext: { [weak self] content in
-                    self?.errorLabel.isHidden = content == nil
-                    guard let content = content else { return }
-                    self?.layer.borderColor = UIColor.error.cgColor
-                    self?.errorLabel.text = "\(content)"
-                }
-            )
-            .disposed(by: disposeBag)
+            .bind { [weak self] content in
+                self?.errorLabel.isHidden = content == nil
+                guard let content = content else { return }
+                self?.layer.borderColor = UIColor.error.cgColor
+                self?.errorLabel.text = "\(content)"
+            }.disposed(by: disposeBag)
     }
 
 }

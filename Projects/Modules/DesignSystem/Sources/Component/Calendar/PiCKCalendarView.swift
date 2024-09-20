@@ -105,14 +105,14 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
 
     public override func bind() {
         previousButton.rx.tap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.moveCalendar(byMonths: -1)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         nextButton.rx.tap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.moveCalendar(byMonths: 1)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     public override func layout() {

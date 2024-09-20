@@ -47,12 +47,12 @@ public class PiCKSectionView: BaseView {
 
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
         sectionTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()//.inset(12)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.bottom.equalToSuperview()
             $0.height.equalTo(60 * items.count)
         }
     }

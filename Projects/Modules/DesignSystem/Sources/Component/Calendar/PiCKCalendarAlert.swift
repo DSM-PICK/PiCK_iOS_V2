@@ -64,9 +64,9 @@ public class PiCKCalendarAlert: UIViewController {
 
     private func bind() {
         self.toggleButton.buttonTap
-            .bind(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.dismiss(animated: true)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     private func layout() {
         view.addSubview(backgroundView)

@@ -8,11 +8,11 @@ import Core
 import AppNetwork
 
 protocol HomeDataSource {
-    func fetchMainData() -> Single<Response>
+    func fetchHomeData() -> Single<Response>
 }
 
 class HomeDataSourceImpl: BaseDataSource<HomeAPI>, HomeDataSource {
-    func fetchMainData() -> Single<Response> {
+    func fetchHomeData() -> Single<Response> {
         return request(.fetchHomeApplyStatus)
             .filterSuccessfulStatusCodes()
     }

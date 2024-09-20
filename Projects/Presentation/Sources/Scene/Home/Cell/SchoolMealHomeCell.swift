@@ -29,7 +29,7 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
 
         if menu.isEmpty {
             self.kcalLabel.isHidden = true
-            self.menuLabel.text = "등록된 급식이 없습니다"
+            self.menuLabel.text = "급식이 없습니다"
         } else {
             self.kcalLabel.isHidden = false
             self.menuLabel.text = menu.joined(separator: "\n")
