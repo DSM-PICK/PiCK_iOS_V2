@@ -10,7 +10,7 @@ public enum AllTabLabelEnum {
 
 public class AllTabLabel: BaseLabel {
     private var labelType: AllTabLabelEnum = .contentTitleLabel
-    
+
     public init(
         type: AllTabLabelEnum,
         text: String? = nil
@@ -18,11 +18,12 @@ public class AllTabLabel: BaseLabel {
         super.init(frame: .zero)
         self.labelType = type
         self.text = text
+        attribute()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func attribute() {
         self.font = .body1
 
