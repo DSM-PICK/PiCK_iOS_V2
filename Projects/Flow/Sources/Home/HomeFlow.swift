@@ -27,7 +27,7 @@ public class HomeFlow: Flow {
             return navigateToAlert()
         case .noticeIsRequired:
             return navigateToNotice()
-        case .noitceDetailIsRequired(let id):
+        case .noticeDetailIsRequired(let id):
             return navigateToNoticeDetail(id: id)
         default:
             return .none

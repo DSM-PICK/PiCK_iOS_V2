@@ -24,7 +24,7 @@ public class NoticeFlow: Flow {
         switch step {
         case .noticeIsRequired:
             return navigateToNotice()
-        case let .noitceDetailIsRequired(id):
+        case let .noticeDetailIsRequired(id):
             return navigateToNoticeDetail(id: id)
         default:
             return .none
