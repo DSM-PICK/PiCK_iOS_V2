@@ -13,34 +13,37 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     private let userDefaultStorage = UserDefaultStorage.shared
 
-    private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
+//    private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
     private let fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase
     private let timeTableUseCase: FetchTodayTimeTableUseCase
     private let schoolMealUseCase: FetchSchoolMealUseCase
     private let noticeListUseCase: FetchNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
+    private let fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase
     private let classroomReturnUseCase: ClassroomReturnUseCase
     private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
     public init(
-        fetchApplyStatusUseCase: FetchApplyStatusUsecase,
+//        fetchApplyStatusUseCase: FetchApplyStatusUsecase,
         fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase,
         timeTableUseCase: FetchTodayTimeTableUseCase,
         schoolMealUseCase: FetchSchoolMealUseCase,
         noticeListUseCase: FetchNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
         fetchOutingPassUseCase: FetchOutingPassUseCase,
+        fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase,
         classroomReturnUseCase: ClassroomReturnUseCase,
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
-        self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
+//        self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
         self.fetchWeekendMealPeriodUseCase = fetchWeekendMealPeriodUseCase
         self.timeTableUseCase = timeTableUseCase
         self.schoolMealUseCase = schoolMealUseCase
         self.noticeListUseCase = noticeListUseCase
         self.selfStudyUseCase = selfStudyUseCase
         self.fetchOutingPassUseCase = fetchOutingPassUseCase
+        self.fetchEarlyLeavePassUseCase = fetchEarlyLeavePassUseCase
         self.classroomReturnUseCase = classroomReturnUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
     }
@@ -115,16 +118,16 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
             }).disposed(by: disposeBag)
 
-        input.viewWillAppear
-            .flatMap {
-                self.fetchApplyStatusUseCase.execute()
-                    .catch {
-                        print($0.localizedDescription)
-                        return .never()
-                    }
-            }
-            .bind(to: applyStatusData)
-            .disposed(by: disposeBag)
+//        input.viewWillAppear
+//            .flatMap {
+//                self.fetchApplyStatusUseCase.execute()
+//                    .catch {
+//                        print($0.localizedDescription)
+//                        return .never()
+//                    }
+//            }
+//            .bind(to: applyStatusData)
+//            .disposed(by: disposeBag)
 
         input.viewWillAppear
             .flatMap {
@@ -195,6 +198,17 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.clickOutingPass
             .flatMap {
+                self.fetchEarlyLeavePassUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: outingPassData)
+            .disposed(by: disposeBag)
+
+        input.clickOutingPass
+            .flatMap {
                 self.classroomReturnUseCase.execute()
                     .catch {
                         print($0.localizedDescription)
@@ -218,7 +232,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.clickNotice
             .map { id in
-                PiCKStep.noitceDetailIsRequired(id: id)
+                PiCKStep.noticeDetailIsRequired(id: id)
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

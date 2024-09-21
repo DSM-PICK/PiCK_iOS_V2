@@ -42,7 +42,7 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
 
         input.clickNoticeCell
             .map { id in
-                PiCKStep.noitceDetailIsRequired(id: id)
+                PiCKStep.noticeDetailIsRequired(id: id)
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

@@ -69,6 +69,10 @@ let dependencies = Dependencies.init(
             .remote(
                 url: "https://github.com/firebase/firebase-ios-sdk.git",
                 requirement: .upToNextMajor(from: "10.3.0")
+            ),
+            .remote(
+                url: "https://github.com/daltoniam/Starscream.git",
+                requirement: .upToNextMajor(from: "4.0.6")
             )
         ],
         baseSettings: .settings(

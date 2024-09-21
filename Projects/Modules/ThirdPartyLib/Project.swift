@@ -23,6 +23,7 @@ let project = Project.makeModule(
         .SPM.SkeletonView,
         .SPM.FSCalendar,
         .SPM.RxDataSources,
-        .SPM.FCM
+        .SPM.FCM,
+        .SPM.StarScream
     ]
 )

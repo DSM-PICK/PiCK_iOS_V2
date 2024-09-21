@@ -88,13 +88,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
                         self?.calendarView.setupDate(date: date)
                         self?.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
 
-                        if date.toString(type: .fullDate) == self?.todayDate.toString(type: .fullDate) {
-                            self?.titleLabel.text = "\(date.toString(type: .monthAndDayKor))\n오늘의 자습 감독 선생님 입니다"
-                            self?.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
-                        } else {
-                            self?.titleLabel.text = "\(date.toString(type: .monthAndDayKor))의\n자습 감독 선생님입니다"
-                            self?.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDayKor))의", color: .main500)
-                        }
+                        self?.updateTitleLabel(with: date)
                     }
                 )
                 alert.modalTransitionStyle = .crossDissolve
@@ -150,6 +144,16 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
                 text: "\(teacher.teacherName) 선생님"
             )
             teacherStackView.addArrangedSubview(teacherLabel)
+        }
+    }
+
+    private func updateTitleLabel(with date: Date) {
+        if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+            self.titleLabel.text = "\(date.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다"
+            self.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
+        } else {
+            self.titleLabel.text = "\(date.toString(type: .monthAndDayKor))의\n자습 감독 선생님입니다"
+            self.titleLabel.changePointColor(targetString: "\(date.toString(type: .monthAndDayKor))의", color: .main500)
         }
     }
 
