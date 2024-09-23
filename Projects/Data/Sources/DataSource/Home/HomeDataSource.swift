@@ -34,9 +34,7 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
         let url = URL(string: "\(URLUtil.socketBaseURL)/main")
         var request = URLRequest(url: url!)
         request.timeoutInterval = 0
-        if let token = keychain.load(type: .accessToken) {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
+        request.setValue("\(keychain.load(type: .accessToken))", forHTTPHeaderField: "Authorization")
         socket = WebSocket(request: request)
         socket?.delegate = self
         socket?.connect()

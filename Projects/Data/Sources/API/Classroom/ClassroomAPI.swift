@@ -53,7 +53,7 @@ extension ClassroomAPI: PiCKAPI {
         }
     }
     
-    public var pickHeader: tokenType {
+    public var pickHeader: TokenType {
         switch self {
         default:
             return .accessToken

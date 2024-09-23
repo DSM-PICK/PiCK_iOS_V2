@@ -25,7 +25,11 @@ public class BaseTabBarController: UITabBarController {
 }
 
 extension BaseTabBarController: UITabBarControllerDelegate {
-    public func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func tabBarController(
+        _ tabBarController: UITabBarController,
+        animationControllerForTransitionFrom fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
         return SlideTransitionAnimator(viewControllers: viewControllers)
     }
 }

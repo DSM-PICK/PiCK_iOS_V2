@@ -8,7 +8,7 @@ public protocol PiCKAPI: TargetType {
     associatedtype ErrorType: Error
     var urlType: PiCKURL { get }
     var urlPath: String { get }
-    var pickHeader: tokenType { get }
+    var pickHeader: TokenType { get }
     var errorMap: [Int: ErrorType]? { get }
 }
 
@@ -57,12 +57,12 @@ public enum PiCKURL: String {
     }
 }
 
-public enum tokenType: String {
+public enum TokenType: String {
     case accessToken
     case refreshToken
     case tokenIsEmpty
 
-    var toHeader: [String : String] {
+    var toHeader: [String: String] {
         switch self {
         case .accessToken:
             return TokenStorage.shared.toHeader(.accessToken)

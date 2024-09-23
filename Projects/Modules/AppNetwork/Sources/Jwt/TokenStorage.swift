@@ -24,14 +24,14 @@ public class TokenStorage {
         }
     }
 
-    public func toHeader(_ tokenType: KeychainType) -> [String: String] {
+    public func toHeader(_ type: KeychainType) -> [String: String] {
         guard let accessToken = self.accessToken,
               let refreshToken = self.refreshToken
         else {
             return ["content-type": "application/json"]
         }
 
-        switch tokenType {
+        switch type {
         case .accessToken:
             return [
                 "content-type": "application/json",
@@ -52,7 +52,5 @@ public class TokenStorage {
     public func removeToken() {
         self.accessToken = nil
         self.refreshToken = nil
-        print("액세스: \(self.accessToken!)")
-        print("리프레시: \(self.refreshToken!)")
     }
 }
