@@ -11,12 +11,12 @@ open class BaseNavigationController: UINavigationController {
         backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
         return backButtonAppearance
     }
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBarAppearance()
     }
-    
+
     func setNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         let appearance2 = UINavigationBarAppearance()
@@ -34,11 +34,11 @@ open class BaseNavigationController: UINavigationController {
         navigationBar.scrollEdgeAppearance = appearance
         self.navigationController?.navigationBar.backItem?.title = nil
     }
-    
+
     static func makeNavigationController(rootViewController: UIViewController) -> BaseNavigationController {
         let navigationController = BaseNavigationController(rootViewController: rootViewController)
         navigationController.modalPresentationStyle = .fullScreen
         return navigationController
     }
-    
+
 }

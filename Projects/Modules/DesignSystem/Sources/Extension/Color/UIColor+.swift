@@ -1,13 +1,13 @@
 import UIKit
 
 public extension UIColor {
-    //MARK: background
+    // MARK: background
     static let background = DesignSystemAsset.Color.background.color
 
-    //MARK: error
+    // MARK: error
     static let error = DesignSystemAsset.Color.error.color
 
-    //MARK: gray
+    // MARK: gray
     static let gray50 = DesignSystemAsset.Color.gray50.color
     static let gray100 = DesignSystemAsset.Color.gray100.color
     static let gray200 = DesignSystemAsset.Color.gray200.color
@@ -18,7 +18,7 @@ public extension UIColor {
     static let gray700 = DesignSystemAsset.Color.gray700.color
     static let gray800 = DesignSystemAsset.Color.gray800.color
     static let gray900 = DesignSystemAsset.Color.gray900.color
-    //MARK: main
+    // MARK: main
     static let main50 = DesignSystemAsset.Color.main50.color
     static let main100 = DesignSystemAsset.Color.main100.color
     static let main200 = DesignSystemAsset.Color.main200.color
@@ -29,7 +29,7 @@ public extension UIColor {
     static let main700 = DesignSystemAsset.Color.main700.color
     static let main800 = DesignSystemAsset.Color.main800.color
     static let main900 = DesignSystemAsset.Color.main900.color
-    //MARK: mode
+    // MARK: mode
     static let modeWhite = DesignSystemAsset.Color.modeWhite.color
     static let modeBlack = DesignSystemAsset.Color.modeBlack.color
 }

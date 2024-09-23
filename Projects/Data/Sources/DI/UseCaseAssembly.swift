@@ -8,7 +8,7 @@ public final class UseCaseAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        //MARK: Auth
+        // MARK: Auth
         container.register(LoginUseCase.self) { resolver in
             LoginUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
@@ -18,23 +18,23 @@ public final class UseCaseAssembly: Assembly {
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
-        //MARK: Home
+        // MARK: Home
         container.register(FetchApplyStatusUsecase.self) { resolver in
             FetchApplyStatusUsecase(repository: resolver.resolve(HomeRepository.self)!)
         }
-        //MARK: SchoolMeal
+        // MARK: SchoolMeal
         container.register(FetchSchoolMealUseCase.self) { resolver in
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
         }
 
-        //MARK: Schedule
-        //timeTable
+        // MARK: Schedule
+        // timeTable
         container.register(FetchTodayTimeTableUseCase.self) { resolver in
             FetchTodayTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
         }
 
-        //MARK: Apply
-        //weekendMeal
+        // MARK: Apply
+        // weekendMeal
         container.register(FetchWeekendMealStatusUseCase.self) { resolver in
             FetchWeekendMealStatusUseCase(repository: resolver.resolve(WeekendMealRepository.self)!)
         }
@@ -47,21 +47,21 @@ public final class UseCaseAssembly: Assembly {
         container.register(FetchWeekendMealPeriodUseCase.self) { resolver in
             FetchWeekendMealPeriodUseCase(repository: resolver.resolve(WeekendMealRepository.self)!)
         }
-        //classroom
+        // classroom
         container.register(ClassroomMoveApplyUseCase.self) { resolver in
             ClassroomMoveApplyUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
         }
         container.register(ClassroomReturnUseCase.self) { resolver in
             ClassroomReturnUseCase(repository: resolver.resolve(ClassroomRepository.self)!)
         }
-        //outing
+        // outing
         container.register(OutingApplyUseCase.self) { resolver in
             OutingApplyUseCase(repository: resolver.resolve(OutingRepository.self)!)
         }
         container.register(FetchOutingPassUseCase.self) { resolver in
             FetchOutingPassUseCase(repository: resolver.resolve(OutingRepository.self)!)
         }
-        //earlyLeave
+        // earlyLeave
         container.register(EarlyLeaveApplyUseCase.self) { resolver in
             EarlyLeaveApplyUseCase(repository: resolver.resolve(EarlyLeaveRepository.self)!)
         }
@@ -69,26 +69,26 @@ public final class UseCaseAssembly: Assembly {
             FetchEarlyLeavePassUseCase(repository: resolver.resolve(EarlyLeaveRepository.self)!)
         }
 
-        //MARK: AllTab
-        //profile
+        // MARK: AllTab
+        // profile
         container.register(FetchSimpleProfileUseCase.self) { resolver in
             FetchSimpleProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
         }
         container.register(FetchDetailProfileUseCase.self) { resolver in
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
         }
-        //bug
+        // bug
         container.register(BugImageUploadUseCase.self) { resolver in
             BugImageUploadUseCase(repository: resolver.resolve(BugRepository.self)!)
         }
         container.register(BugReportUseCase.self) { resolver in
             BugReportUseCase(repository: resolver.resolve(BugRepository.self)!)
         }
-        //selfStudy
+        // selfStudy
         container.register(FetchSelfStudyUseCase.self) { resolver in
             FetchSelfStudyUseCase(repository: resolver.resolve(SelfStudyRepository.self)!)
         }
-        //notification
+        // notification
         container.register(FetchNotificationStatus.self) { resolver in
             FetchNotificationStatus(repository: resolver.resolve(NotificationRepository.self)!)
         }
@@ -96,7 +96,7 @@ public final class UseCaseAssembly: Assembly {
             NotificationSubscribeUseCase(repository: resolver.resolve(NotificationRepository.self)!)
         }
 
-        //MARK: Schedule
+        // MARK: Schedule
         container.register(FetchWeekTimeTableUseCase.self) { resolver in
             FetchWeekTimeTableUseCase(repository: resolver.resolve(TimeTableRepository.self)!)
         }
@@ -107,14 +107,13 @@ public final class UseCaseAssembly: Assembly {
             FetchAcademicScheduleUseCase(repository: resolver.resolve(AcademicScheduleRepository.self)!)
         }
 
-        //MARK: Notice
+        // MARK: Notice
         container.register(FetchNoticeListUseCase.self) { resolver in
             FetchNoticeListUseCase(repository: resolver.resolve(NoticeRepository.self)!)
         }
         container.register(FetchDetailNoticeUseCase.self) { resolver in
             FetchDetailNoticeUseCase(repository: resolver.resolve(NoticeRepository.self)!)
         }
-
     }
 
 }

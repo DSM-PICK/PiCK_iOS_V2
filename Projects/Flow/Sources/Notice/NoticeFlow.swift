@@ -20,7 +20,7 @@ public class NoticeFlow: Flow {
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .noticeIsRequired:
             return navigateToNotice()

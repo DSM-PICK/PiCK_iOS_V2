@@ -18,7 +18,7 @@ class SettingSectionView: BaseView {
     private let settingSectionView = PiCKSectionView(
         menuText: "설정",
         items: [
-            ("커스텀", .navigationSetting, .main700),
+            ("커스텀", .navigationSetting, .main700)
 //            ("알림 설정", .alert, .main700)
         ]
     )

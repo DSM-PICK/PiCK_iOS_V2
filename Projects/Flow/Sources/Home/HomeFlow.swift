@@ -12,14 +12,14 @@ public class HomeFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .homeIsRequired:
             return navigateToHome()
@@ -51,7 +51,7 @@ public class HomeFlow: Flow {
             root.hidesBottomBarWhenPushed = true
             self.rootViewController.pushViewController(root, animated: true)
         }
-        
+
         return .one(flowContributor: .contribute(
             withNextPresentable: alertFlow,
             withNextStepper: OneStepper(withSingleStep: PiCKStep.alertIsRequired)
@@ -60,12 +60,12 @@ public class HomeFlow: Flow {
 
     private func navigateToNotice() -> FlowContributors {
         let noticeFlow = NoticeFlow(container: self.container)
-        
+
         Flows.use(noticeFlow, when: .created) { root in
             root.hidesBottomBarWhenPushed = true
             self.rootViewController.pushViewController(root, animated: true)
         }
-        
+
         return .one(flowContributor: .contribute(
             withNextPresentable: noticeFlow,
             withNextStepper: OneStepper(withSingleStep: PiCKStep.noticeIsRequired)

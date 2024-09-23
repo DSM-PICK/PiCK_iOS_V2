@@ -56,7 +56,7 @@ public class TabsFlow: Flow {
             apply.tabBarItem = PiCkTabBarTypeItem(.apply)
             schedule.tabBarItem = PiCkTabBarTypeItem(.schedule)
             allTab.tabBarItem = PiCkTabBarTypeItem(.allTab)
-            
+
             self.rootViewController.setViewControllers([
                 home,
                 schoolMeal,

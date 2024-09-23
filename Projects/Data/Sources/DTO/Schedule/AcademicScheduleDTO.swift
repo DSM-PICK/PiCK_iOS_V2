@@ -8,7 +8,7 @@ public struct AcademicScheduleDTOElement: Decodable {
     let month: Int
     let day: Int
     let dayName: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id, month, day
         case eventName = "event_name"
@@ -26,9 +26,7 @@ extension AcademicScheduleDTOElement {
             dayName: dayName
         )
     }
-    
 }
-
 
 public typealias AcademicScheduleDTO = [AcademicScheduleDTOElement]
 

@@ -45,39 +45,24 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
     private lazy var calendarView = FSCalendar().then {
         $0.backgroundColor = .background
 
-        //MARK: 헤더 설정
         $0.calendarHeaderView.isHidden = true
         $0.locale = Locale(identifier: "ko_KR")
         $0.appearance.weekdayTextColor = .modeBlack
         $0.appearance.weekdayFont = .label1
-        //이전, 이후 달 안보이게
         $0.placeholderType = .none
-        //MARK: 셀 설정
-        //기본 셀 텍스트색
         $0.appearance.titleDefaultColor = .modeBlack
-        //선택한 셀 텍스트색
         $0.appearance.titleSelectionColor = .modeBlack
-        //셀 폰트
         $0.appearance.titleFont = .caption1
-        //선택한 셀 배경색
         $0.appearance.selectionColor = .background
-        //선택한 셀 borderColor
         $0.appearance.borderSelectionColor = .main100
-        //오늘 날짜 셀 텍스트색
         $0.appearance.titleTodayColor = .modeBlack
-        //오늘 날짜 선택시 텍스트 색
         $0.appearance.titleSelectionColor = .modeBlack
-        //오늘 날짜 셀 배경색
         $0.appearance.todayColor = .main100
-        //오늘 날짜 선택시 배경색
         $0.appearance.todaySelectionColor = .main100
-
-        //밑점 색상
         $0.appearance.eventDefaultColor = .main500
         $0.appearance.eventSelectionColor = .main500
         $0.appearance.eventOffset = .init(x: 0, y: 3.0)
 
-        //delegate 설정
         $0.delegate = self
         $0.dataSource = self
     }
@@ -144,7 +129,7 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
             calendarView.snp.makeConstraints {
                 $0.top.equalTo(topToggleButton.snp.bottom).offset(10)
                 $0.leading.trailing.equalToSuperview()
-                $0.bottom.equalTo(self.safeAreaLayoutGuide)//.offset(8)
+                $0.bottom.equalTo(self.safeAreaLayoutGuide)
             }
             headerStackView.snp.makeConstraints {
                 $0.centerX.equalToSuperview()

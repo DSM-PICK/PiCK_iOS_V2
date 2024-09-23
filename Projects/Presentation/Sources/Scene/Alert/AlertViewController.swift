@@ -59,15 +59,17 @@ extension AlertViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
-    
+
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: AlertTableViewCell.identifier, for: indexPath) as? AlertTableViewCell 
-        else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: AlertTableViewCell.identifier,
+            for: indexPath
+        ) as? AlertTableViewCell else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
         cell.setup(title: "test", daysAgo: "5")
         return cell
     }
-    
+
 }

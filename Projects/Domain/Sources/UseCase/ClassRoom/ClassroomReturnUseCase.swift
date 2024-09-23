@@ -4,7 +4,7 @@ import RxSwift
 
 public class ClassroomReturnUseCase {
     let repository: ClassroomRepository
-    
+
     public init(repository: ClassroomRepository) {
         self.repository = repository
     }

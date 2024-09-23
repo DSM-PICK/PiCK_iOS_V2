@@ -26,7 +26,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let clickLogOutTab: Observable<Void>
     }
     public struct Output {}
-    
+
     public func transform(input: Input) -> Output {
         input.clickNoticeTab
             .map { _ in PiCKStep.noticeIsRequired }

@@ -13,14 +13,14 @@ public class ApplyFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .applyIsRequired:
             return navigateToApply()
@@ -43,6 +43,7 @@ public class ApplyFlow: Flow {
 
     private func navigateToApply() -> FlowContributors {
         let vc = container.resolve(ApplyViewController.self)!
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

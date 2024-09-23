@@ -82,7 +82,7 @@ public class PiCKApplyStackView: BaseView {
     }
     public override func layout() {
         self.addSubview(backStackView)
-        
+
         backStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

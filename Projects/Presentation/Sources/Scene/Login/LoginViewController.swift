@@ -52,7 +52,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         output.idErrorDescription.asObservable()
             .bind(to: self.idTextField.errorMessage)
             .disposed(by: disposeBag)
-        
+
         output.passwordErrorDescription.asObservable()
             .bind(to: self.passwordTextField.errorMessage)
             .disposed(by: disposeBag)

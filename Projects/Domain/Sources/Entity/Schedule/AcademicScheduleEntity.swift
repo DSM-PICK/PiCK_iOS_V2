@@ -6,7 +6,7 @@ public struct AcademicScheduleEntityElement {
     public let month: Int
     public let day: Int
     public let dayName: String
-    
+
     public init(
         id: UUID,
         eventName: String,

@@ -11,7 +11,7 @@ public struct TabItemInfo {
 
 public enum PiCKTabBarType: Int {
     case home, schoolMeal, apply, schedule, allTab
-    
+
     func tabItemTuple() -> TabItemInfo {
         switch self {
         case .home:

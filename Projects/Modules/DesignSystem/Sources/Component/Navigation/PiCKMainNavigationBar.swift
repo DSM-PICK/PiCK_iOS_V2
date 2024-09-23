@@ -32,7 +32,7 @@ public class PiCKMainNavigationBar: BaseView {
     private let displayModeButton = PiCKImageButton(image: .displayMode, imageColor: .modeBlack)
     private let alertButton = PiCKImageButton(image: .alert, imageColor: .modeBlack)
     private lazy var rightItemStackView = UIStackView(arrangedSubviews: [
-        displayModeButton,
+        displayModeButton
         //            alertButton
     ]).then {
         $0.axis = .horizontal
@@ -42,7 +42,7 @@ public class PiCKMainNavigationBar: BaseView {
 
     public init(
         view: UIViewController
-    ){
+    ) {
         self.presentViewController = view
         super.init(frame: .zero)
     }
@@ -60,8 +60,6 @@ public class PiCKMainNavigationBar: BaseView {
                 return data
             }
             .bind { data in
-//                self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
-                //여기서 set을 할때 바뀐값이 아닌 원래 값을 set해서 변화가 없는듯
                 if data == 2 {
                     UserDefaultStorage.shared.set(to: 1, forKey: .displayMode)
                 } else {
@@ -71,7 +69,6 @@ public class PiCKMainNavigationBar: BaseView {
                 let value = self.userDefaultStorage.get(forKey: .displayMode) as? Int
 
 //                print("setValueWhenDisplayButtonDidTap: \(self?.displayType.rawValue)")
-
 
                 UIView.transition(
                     with: self.presentViewController.tabBarController!.view,

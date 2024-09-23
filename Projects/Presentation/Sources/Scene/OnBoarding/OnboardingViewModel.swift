@@ -58,7 +58,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
             .map { PiCKStep.loginIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
-        
+
         return Output()
     }
 

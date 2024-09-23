@@ -40,5 +40,5 @@ public class SelfStudyViewModel: BaseViewModel, Stepper {
 
         return Output(selfStudyData: selfStudyData.asDriver())
     }
-    
+
 }

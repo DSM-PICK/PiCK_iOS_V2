@@ -41,7 +41,7 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
             input.endPeriod
         )
 
-        let isApplyButtonEnable = info.map { floor, classRoom, startPeriod, endPeriod -> Bool in
+        let isApplyButtonEnable = info.map { _, classRoom, _, _ -> Bool in
             !classRoom.isEmpty
         }
 
@@ -80,5 +80,5 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
             isApplyButtonEnable: isApplyButtonEnable.asSignal(onErrorJustReturn: false)
         )
     }
-    
+
 }

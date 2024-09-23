@@ -1,7 +1,7 @@
 import Foundation
 
 import RxSwift
- 
+
 import Core
 
 public class FetchApplyStatusUsecase {

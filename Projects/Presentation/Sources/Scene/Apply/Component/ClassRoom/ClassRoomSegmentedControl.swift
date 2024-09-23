@@ -27,16 +27,16 @@ public class ClassroomSegmentedControl: UISegmentedControl {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
+
     private func removeBackgroundAndDivider() {
         let image = UIImage()
         self.setBackgroundImage(image, for: .normal, barMetrics: .default)
         self.setBackgroundImage(image, for: .selected, barMetrics: .default)
         self.setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-        
+
         self.setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
 

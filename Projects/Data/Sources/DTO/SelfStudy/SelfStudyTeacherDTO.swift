@@ -5,12 +5,12 @@ import Domain
 public struct SelfStudyTeacherDTOElement: Decodable {
     let floor: Int
     let teacherName: String
-    
+
     enum CodingKeys: String, CodingKey {
         case floor
         case teacherName = "teacher_name"
     }
-    
+
 }
 
 extension SelfStudyTeacherDTOElement {
@@ -20,9 +20,7 @@ extension SelfStudyTeacherDTOElement {
             teacherName: teacherName
         )
     }
-    
 }
-
 
 public typealias SelfStudyTeacherDTO = [SelfStudyTeacherDTOElement]
 

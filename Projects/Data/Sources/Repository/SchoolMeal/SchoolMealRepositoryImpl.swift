@@ -19,5 +19,5 @@ class SchoolMealRepositoryImpl: SchoolMealRepository {
             .map(SchoolMealDTO.self)
             .map { $0.toDomain() }
     }
-    
+
 }

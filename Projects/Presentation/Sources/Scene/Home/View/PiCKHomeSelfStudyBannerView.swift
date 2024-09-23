@@ -63,7 +63,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             floorStackView,
             teacherStackView
         ].forEach { self.addSubview($0) }
-        
+
         bannerBackgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -94,7 +94,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             let floorLabel = PiCKLabel(
                 text: "\(floor.floor)층",
                 textColor: .main900,
-                font: .label2, 
+                font: .label2,
                 alignment: .center
             )
             floorStackView.addArrangedSubview(floorLabel)

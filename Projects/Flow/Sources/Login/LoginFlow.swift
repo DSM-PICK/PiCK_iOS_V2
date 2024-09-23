@@ -19,18 +19,18 @@ public class LoginFlow: Flow {
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
-            case .loginIsRequired:
-                return navigateToLogin()
-            case .tabIsRequired:
-                return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
-            case .testIsRequired:
-                return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
-            case .logoutIsRequired:
-                return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
-            default:
-                return .none
+        case .loginIsRequired:
+            return navigateToLogin()
+        case .tabIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
+        case .testIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
+        case .logoutIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
+        default:
+            return .none
         }
     }
 

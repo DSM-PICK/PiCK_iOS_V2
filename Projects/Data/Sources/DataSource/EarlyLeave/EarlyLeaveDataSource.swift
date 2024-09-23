@@ -17,9 +17,9 @@ class EarlyLeaveDataSourceImpl: BaseDataSource<EarlyLeaveAPI>, EarlyLeaveDataSou
         return request(.earlyLeaveApply(req: req))
         .asCompletable()
     }
+
     func fetchEarlyLeavePass() -> Single<Response> {
         return request(.fetchEarlyLeavePass)
             .filterSuccessfulStatusCodes()
     }
-    
 }

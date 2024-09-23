@@ -29,7 +29,7 @@ extension DetailProfileDTO {
             grade: grade,
             classNum: classNum,
             num: num,
-            accountID: accountID,           
+            accountID: accountID,
             profile: profile
         )
     }

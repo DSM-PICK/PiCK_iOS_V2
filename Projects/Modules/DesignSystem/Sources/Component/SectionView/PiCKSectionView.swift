@@ -28,7 +28,7 @@ public class PiCKSectionView: BaseView {
 
     public init(menuText: String, items: [SectionModel]) {
         super.init(frame: .zero)
-        
+
         self.titleLabel.text = menuText
         self.items = items
     }

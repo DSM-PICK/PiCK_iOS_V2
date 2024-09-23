@@ -61,16 +61,16 @@ public class PiCKPageControl: UIPageControl {
             var originX: CGFloat = previousCirclesX
             var barColor: UIColor = selectedColor
             switch index {
-                case selectedIndex:
-                    percentageWidth = dotRadius * 2 + ((dotRadius * 2 + dotSpacings) * (1 - self.remainingDecimal))
-                    barColor = between(selectedColor, and: unselectedColor, percentage: remainingDecimal)
-                case selectedIndex + 2:
-                    percentageWidth = dotRadius * 2 + ((dotRadius * 2 + dotSpacings) * (self.remainingDecimal))
-                    originX = previousCirclesX - percentageWidth + dotRadius * 2
-                    barColor = between(unselectedColor, and: selectedColor, percentage: remainingDecimal)
-                default:
-                    percentageWidth = dotRadius * 2
-                    barColor = unselectedColor
+            case selectedIndex:
+                percentageWidth = dotRadius * 2 + ((dotRadius * 2 + dotSpacings) * (1 - self.remainingDecimal))
+                barColor = between(selectedColor, and: unselectedColor, percentage: remainingDecimal)
+            case selectedIndex + 2:
+                percentageWidth = dotRadius * 2 + ((dotRadius * 2 + dotSpacings) * (self.remainingDecimal))
+                originX = previousCirclesX - percentageWidth + dotRadius * 2
+                barColor = between(unselectedColor, and: selectedColor, percentage: remainingDecimal)
+            default:
+                percentageWidth = dotRadius * 2
+                barColor = unselectedColor
             }
             barColor.setFill()
             let bezierPath = UIBezierPath(roundedRect: .init(

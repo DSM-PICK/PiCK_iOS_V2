@@ -13,11 +13,11 @@ public enum OutingAPI {
 
 extension OutingAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
-    
+
     public var urlType: PiCKURL {
         return .application
     }
-    
+
     public var urlPath: String {
         switch self {
         case .outingApply:
@@ -26,7 +26,7 @@ extension OutingAPI: PiCKAPI {
             return "/my"
         }
     }
-    
+
     public var method: Moya.Method {
         switch self {
         case .outingApply:
@@ -35,7 +35,7 @@ extension OutingAPI: PiCKAPI {
             return .get
         }
     }
-    
+
     public var task: Moya.Task {
         switch self {
         case let .outingApply(req):
@@ -52,12 +52,12 @@ extension OutingAPI: PiCKAPI {
             return .requestPlain
         }
     }
-    
+
     public var pickHeader: TokenType {
         return .accessToken
     }
 
-    public var errorMap: [Int : PiCKError]? {
+    public var errorMap: [Int: PiCKError]? {
         return nil
     }
 

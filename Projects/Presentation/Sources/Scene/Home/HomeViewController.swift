@@ -54,7 +54,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .vertical
         $0.spacing = 20
     }
-    
+
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
@@ -114,7 +114,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
-        
+
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -181,7 +181,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind(to: noticeCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
 
@@ -219,9 +219,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.timeTableHeight.asObservable()
             .withUnretained(self)
             .bind { owner, height in
-                height == 0 ?
-                owner.timeTableHeight.accept(100):
-                owner.timeTableHeight.accept(height)
+                if height == 0 {
+                    owner.timeTableHeight.accept(100)
+                } else {
+                    owner.timeTableHeight.accept(height)
+                }
 
                 owner.setupViewType(type: owner.homeViewType)
             }.disposed(by: disposeBag)

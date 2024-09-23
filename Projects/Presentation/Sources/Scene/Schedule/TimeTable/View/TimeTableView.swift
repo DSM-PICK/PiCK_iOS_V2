@@ -58,7 +58,7 @@ public class TimeTableView: BaseView {
             .bind(to: collectionView.rx.items(
                 cellIdentifier: TimeTableBackgroundViewCell.identifier,
                 cellType: TimeTableBackgroundViewCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
 

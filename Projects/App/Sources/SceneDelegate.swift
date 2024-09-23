@@ -5,7 +5,6 @@ import RxFlow
 import Flow
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
     var coordinator = FlowCoordinator()
 
@@ -35,6 +34,4 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
 
-
 }
-

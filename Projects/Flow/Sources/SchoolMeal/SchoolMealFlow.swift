@@ -12,14 +12,14 @@ public class SchoolMealFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .schoolMealIsRequired:
             return navigateToSchoolMeal()
@@ -27,7 +27,7 @@ public class SchoolMealFlow: Flow {
             return .none
         }
     }
-    
+
     private func navigateToSchoolMeal() -> FlowContributors {
         let vc = container.resolve(SchoolMealViewController.self)!
 
@@ -37,5 +37,5 @@ public class SchoolMealFlow: Flow {
             withNextStepper: vc.viewModel
         ))
     }
-    
+
 }

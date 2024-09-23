@@ -18,9 +18,11 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
             type: HomeViewType.self
         ) as? HomeViewType
 
-        value == .timeTable ?
-        homeSettingTabViewText.accept(("메인페이지에서 급식 또는 시간표를 볼 수 있어요!\n현재는 시간표로 설정되어 있어요.", "급식으로 보기")) :
-        homeSettingTabViewText.accept(("메인페이지에서 급식 또는 시간표를 볼 수 있어요!\n현재는 급식으로 설정되어 있어요.", "시간표로 보기"))
+        if value == .timeTable {
+            homeSettingTabViewText.accept(("메인페이지에서 급식 또는 시간표를 볼 수 있어요!\n현재는 시간표로 설정되어 있어요.", "급식으로 보기"))
+        } else {
+            homeSettingTabViewText.accept(("메인페이지에서 급식 또는 시간표를 볼 수 있어요!\n현재는 급식으로 설정되어 있어요.", "시간표로 보기"))
+        }
 
         return value == .timeTable ? .schoolMeal : .timeTable
     }

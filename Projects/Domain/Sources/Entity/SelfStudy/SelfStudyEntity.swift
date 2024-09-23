@@ -3,7 +3,7 @@ import Foundation
 public struct SelfStudyEntityElement {
     public let floor: Int
     public let teacherName: String
-    
+
     public init(
         floor: Int,
         teacherName: String

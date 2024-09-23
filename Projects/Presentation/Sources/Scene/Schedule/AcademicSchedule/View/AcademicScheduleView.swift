@@ -109,7 +109,7 @@ public class AcademicScheduleView: BaseView {
             .bind(to: collectionView.rx.items(
                 cellIdentifier: AcademicScheduleCell.identifier,
                 cellType: AcademicScheduleCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.setup(schedule: item.eventName)
             }.disposed(by: disposeBag)
 

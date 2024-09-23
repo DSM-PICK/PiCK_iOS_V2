@@ -35,22 +35,22 @@ extension WeekendMealAPI: PiCKAPI {
 
     public var method: Moya.Method {
         switch self {
-            case .weekendMealApply:
-                return .patch
-            default:
-                return .get
+        case .weekendMealApply:
+            return .patch
+        default:
+            return .get
         }
     }
 
     public var task: Moya.Task {
         switch self {
-            case .weekendMealApply(let status):
-                return .requestParameters(
-                    parameters: ["status": status],
-                    encoding: URLEncoding.queryString
-                )
-            default:
-                return .requestPlain
+        case .weekendMealApply(let status):
+            return .requestParameters(
+                parameters: ["status": status],
+                encoding: URLEncoding.queryString
+            )
+        default:
+            return .requestPlain
         }
     }
 
@@ -58,9 +58,8 @@ extension WeekendMealAPI: PiCKAPI {
         return .accessToken
     }
 
-    public var errorMap: [Int : PiCKError]? {
+    public var errorMap: [Int: PiCKError]? {
         return nil
     }
 
 }
-

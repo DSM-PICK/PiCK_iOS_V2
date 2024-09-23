@@ -97,4 +97,3 @@ public class PiCKTextView: BaseView {
     }
 
 }
-

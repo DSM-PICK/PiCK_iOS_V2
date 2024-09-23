@@ -41,7 +41,7 @@ public class BugImageCollectionViewCell: BaseCollectionViewCell<Any> {
             imageView,
             deleteButton
         ].forEach { self.addSubview($0) }
-        
+
         imageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

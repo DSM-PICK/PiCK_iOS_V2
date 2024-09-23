@@ -6,7 +6,7 @@ import Moya
 
 public class BugReportUseCase {
     let repository: BugRepository
-    
+
     public init(repository: BugRepository) {
         self.repository = repository
     }

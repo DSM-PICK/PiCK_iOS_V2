@@ -6,12 +6,11 @@ public struct NoticeListDTOElement: Decodable {
     let id: UUID
     let title: String
     let createAt: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id, title
         case createAt = "create_at"
     }
-    
 }
 
 extension NoticeListDTOElement {
@@ -22,9 +21,7 @@ extension NoticeListDTOElement {
             createAt: createAt
         )
     }
-    
 }
-
 
 public typealias NoticeListDTO = [NoticeListDTOElement]
 

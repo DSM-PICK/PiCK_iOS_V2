@@ -52,7 +52,7 @@ public class TimeTableBackgroundViewCell: BaseCollectionViewCell<TimeTableEntity
             .bind(to: collectionView.rx.items(
                 cellIdentifier: TimeTableCollectionViewCell.identifier,
                 cellType: TimeTableCollectionViewCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
     }

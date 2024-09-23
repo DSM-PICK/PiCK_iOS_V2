@@ -16,4 +16,3 @@ public struct LoginRequestParams: Encodable {
     }
 
 }
-

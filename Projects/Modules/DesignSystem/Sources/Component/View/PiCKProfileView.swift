@@ -33,7 +33,7 @@ public class PiCKProfileView: BaseView {
             profileImageView,
             userInfoLabel
         ].forEach { self.addSubview($0) }
-        
+
         self.snp.makeConstraints {
             $0.height.equalTo(84)
         }
@@ -47,7 +47,6 @@ public class PiCKProfileView: BaseView {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(profileImageView.snp.trailing).offset(24)
         }
-
     }
 
 }

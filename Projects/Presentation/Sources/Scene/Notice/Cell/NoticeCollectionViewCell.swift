@@ -37,7 +37,7 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
         $0.tintColor = .main400
         $0.isHidden = true
     }
-    
+
     public override func adapt(model: NoticeListEntityElement) {
         super.adapt(model: model)
 
@@ -53,7 +53,7 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
             titleStackView,
             newNoticeIcon
         ].forEach { self.addSubview($0) }
-        
+
         noticeImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
@@ -67,5 +67,5 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
             $0.leading.equalTo(titleStackView.snp.trailing).offset(4)
         }
     }
-    
+
 }

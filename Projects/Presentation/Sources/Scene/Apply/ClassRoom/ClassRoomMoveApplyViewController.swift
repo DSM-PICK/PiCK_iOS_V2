@@ -81,32 +81,32 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                 self?.selectedSegemetedControlIndex.accept(index + 1)
                 self?.classroomText.accept("")
                 switch index {
-                case 0: 
+                case 0:
                     return self?.classroomData.firstFloor ?? []
                 case 1:
                     return self?.classroomData.secondFloor ?? []
                 case 2:
                     return self?.classroomData.thirdFloor ?? []
-                case 3: 
+                case 3:
                     return self?.classroomData.fourthFloor ?? []
                 case 4:
                     return self?.classroomData.fifthFloor ?? []
-                default: 
+                default:
                     return self?.classroomData.firstFloor ?? []
                 }
             }
             .bind(to: currentFloorClassroomArray)
             .disposed(by: disposeBag)
-        
+
         currentFloorClassroomArray
             .bind(to: classroomCollectionView.rx.items(
                 cellIdentifier: ClassroomCollectionViewCell.identifier,
                 cellType: ClassroomCollectionViewCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
 //                cell.adapt(model: .init(classRoom: [item]))
                 cell.setup(classroom: item)
             }.disposed(by: disposeBag)
-        
+
         classroomCollectionView.rx.itemSelected
             .withUnretained(self)
             .bind { owner, index in
@@ -114,10 +114,11 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                     owner.currentFloorClassroomArray.value[index.row]
                 )
             }.disposed(by: disposeBag)
-        
+
         nextButton.buttonTap
             .bind {
                 let vc = PiCKApplyTimePickerAlert(type: .classroom)
+
                 vc.selectedPeriod = { [weak self] startPeriod, endPeriod in
                     self?.startPeriod.accept(startPeriod)
                     self?.endPeriod.accept(endPeriod)
@@ -125,9 +126,9 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                 vc.clickApplyButton = { [weak self] in
                     self?.classroomMoveApplyRelay.accept(())
                 }
+
                 self.presentAsCustomDents(view: vc, height: 406)
             }.disposed(by: disposeBag)
-        
     }
 
     public override func addView() {

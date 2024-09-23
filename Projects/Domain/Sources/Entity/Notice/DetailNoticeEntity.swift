@@ -9,7 +9,7 @@ public struct DetailNoticeEntity {
     public init(
         title: String,
         content: String,
-        createAt: String, 
+        createAt: String,
         teacher: String
     ) {
         self.title = title

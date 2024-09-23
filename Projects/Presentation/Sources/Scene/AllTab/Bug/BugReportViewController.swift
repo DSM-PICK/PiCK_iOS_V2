@@ -137,12 +137,12 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
 extension BugReportViewController: PHPickerViewControllerDelegate {
     public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         self.dismiss(animated: true)
-        
+
         if !results.isEmpty {
             self.bugImageArray.accept([])
             self.imageArray.removeAll()
         }
-        
+
         for result in results {
             if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
                 result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
@@ -155,7 +155,7 @@ extension BugReportViewController: PHPickerViewControllerDelegate {
                     if self?.imageArray.count == results.count {
                         self?.bugImageArray.accept(self?.imageArray ?? [])
                         self?.bugDataArray.accept(self?.dataArray ?? [])
-                        
+
                         DispatchQueue.main.async {
                             self?.collectionView.isHidden = false
                         }
@@ -163,7 +163,6 @@ extension BugReportViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
-        
     }
-    
+
 }

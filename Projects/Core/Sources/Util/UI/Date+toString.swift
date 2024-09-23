@@ -8,7 +8,7 @@ public extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "KST")
         return dateFormatter.string(from: self)
     }
-    
+
     func toStringEng(type: DateFormatIndicated) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = type.rawValue

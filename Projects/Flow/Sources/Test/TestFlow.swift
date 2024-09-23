@@ -12,14 +12,14 @@ public class TestFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .testIsRequired:
             return navigateToTest()
@@ -27,7 +27,7 @@ public class TestFlow: Flow {
             return .none
         }
     }
-    
+
     private func navigateToTest() -> FlowContributors {
 //        let vc = container.resolve(BugReportViewController.self)!
         let vc = TestViewController()
@@ -37,5 +37,5 @@ public class TestFlow: Flow {
             withNextStepper: vc
         ))
     }
-    
+
 }

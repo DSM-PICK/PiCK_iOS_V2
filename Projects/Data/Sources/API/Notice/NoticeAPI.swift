@@ -14,11 +14,11 @@ public enum NoticeAPI {
 
 extension NoticeAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
-    
+
     public var urlType: PiCKURL {
         return .notice
     }
-    
+
     public var urlPath: String {
         switch self {
         case .fetchTodayNoticeList:
@@ -29,20 +29,20 @@ extension NoticeAPI: PiCKAPI {
             return "/\(id)"
         }
     }
-    
+
     public var method: Moya.Method {
         return .get
     }
-    
+
     public var task: Moya.Task {
         return .requestPlain
     }
-    
+
     public var pickHeader: TokenType {
         return .accessToken
     }
 
-    public var errorMap: [Int : PiCKError]? {
+    public var errorMap: [Int: PiCKError]? {
         return nil
     }
 

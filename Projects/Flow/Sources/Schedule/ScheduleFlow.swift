@@ -12,14 +12,14 @@ public class ScheduleFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
-    
+
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .scheduleIsRequired:
             return navigateToSchedule()
@@ -27,7 +27,7 @@ public class ScheduleFlow: Flow {
             return .none
         }
     }
-    
+
     private func navigateToSchedule() -> FlowContributors {
         let vc = container.resolve(ScheduleViewController.self)!
 
@@ -37,5 +37,5 @@ public class ScheduleFlow: Flow {
             withNextStepper: vc.viewModel
         ))
     }
-    
+
 }

@@ -9,7 +9,6 @@ import RxCocoa
 import Core
 
 public class PiCKImageButton: BaseButton {
-
     public var buttonTap: ControlEvent<Void> {
         return self.rx.tap
     }
@@ -20,7 +19,7 @@ public class PiCKImageButton: BaseButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     convenience public init(
         type: UIButton.ButtonType? = .system,
         image: UIImage,

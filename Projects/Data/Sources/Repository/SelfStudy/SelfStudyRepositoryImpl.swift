@@ -16,5 +16,5 @@ class SelfStudyRepositoryImpl: SelfStudyRepository {
             .map(SelfStudyTeacherDTO.self)
             .map { $0.toDomain() }
     }
-    
+
 }

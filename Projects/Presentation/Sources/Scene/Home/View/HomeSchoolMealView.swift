@@ -43,7 +43,7 @@ public class HomeSchoolMealView: BaseView {
             .bind(to: collectionView.rx.items(
                 cellIdentifier: SchoolMealHomeCell.identifier,
                 cellType: SchoolMealHomeCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.setup(
                     mealTime: item.1,
                     menu: item.2.menu,

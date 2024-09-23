@@ -3,38 +3,38 @@ import Foundation
 import RxFlow
 
 public enum PiCKStep: Step {
-    //start
+    // start
     case appIsRequired
     case onboardingIsRequired
     case loginIsRequired
 
-    //tab
+    // tab
     case tabIsRequired
     case popIsRequired
 
-    //home
+    // MARK: home
     case homeIsRequired
     case alertIsRequired
 
-    //schoolMeal
+    // MARK: schoolMeal
     case schoolMealIsRequired
 
-    //MARK: apply
+    // MARK: apply
     case applyIsRequired
     case applyAlertIsRequired(successType: SuccessType, alertType: DisappearAlertType)
-    //weekendMeal
+    // weekendMeal
     case weekendMealApplyIsRequired
-    //classroom
+    // classroom
     case classroomMoveApplyIsRequired
-    //outing
+    // outing
     case outingApplyIsRequired
-    //earlyLeave
+    // earlyLeave
     case earlyLeaveApplyIsRequired
 
-    //schedule
+    // MARK: schedule
     case scheduleIsRequired
 
-    //MARK: AllTab
+    // MARK: AllTab
     case allTabIsRequired
     case noticeIsRequired
     case noticeDetailIsRequired(id: UUID)
@@ -45,7 +45,7 @@ public enum PiCKStep: Step {
     case myPageIsRequired
     case logoutIsRequired
 
-    //test
+    // MARK: test
     case testIsRequired
 
 }

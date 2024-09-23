@@ -61,5 +61,5 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
 
         return Output(isApplyButtonEnable: isApplyButtonEnable.asSignal(onErrorJustReturn: false))
     }
-    
+
 }

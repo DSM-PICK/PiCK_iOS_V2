@@ -19,7 +19,7 @@ public class OnboardingFlow: Flow {
 
     public func navigate(to step: RxFlow.Step) -> RxFlow.FlowContributors {
         guard let step = step as? PiCKStep else { return .none }
-        
+
         switch step {
         case .onboardingIsRequired:
             return navigateToOnboarding()
@@ -33,15 +33,15 @@ public class OnboardingFlow: Flow {
             return .none
         }
     }
-    
+
     private func navigateToOnboarding() -> FlowContributors {
         let vc = OnboardingViewController(viewModel: container.resolve(OnboardingViewModel.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
-        
+
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
         ))
     }
-    
+
 }

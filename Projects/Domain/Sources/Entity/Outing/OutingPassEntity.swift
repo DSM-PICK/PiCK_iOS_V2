@@ -38,4 +38,3 @@ public struct OutingPassEntity {
         self.type = type
     }
 }
-

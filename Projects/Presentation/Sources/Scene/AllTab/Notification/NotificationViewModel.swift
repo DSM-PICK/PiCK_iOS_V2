@@ -22,7 +22,7 @@ public class NotificationViewModel: BaseViewModel, Stepper {
         self.notificationSubscribeUseCase = notificationSubscribeUseCase
     }
 
-    public struct Input { 
+    public struct Input {
         let viewWillAppear: Observable<Void>
         let outingStatus: Observable<Bool>
         let classroomStatus: Observable<Bool>

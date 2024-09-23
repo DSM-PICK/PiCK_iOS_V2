@@ -21,7 +21,7 @@ public class ScheduleSegmentedControl: UISegmentedControl {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    public override func layoutSubviews(){
+    public override func layoutSubviews() {
         super.layoutSubviews()
         setup()
         layout()
@@ -34,7 +34,7 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         self.setBackgroundImage(image, for: .highlighted, barMetrics: .default)
         self.setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
-    
+
     private func setup() {
         self.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.gray600,
@@ -42,24 +42,21 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         ], for: .normal)
         self.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.modeBlack
-        ],for: .selected)
+        ], for: .selected)
         self.layer.cornerRadius = self.radius
         self.layer.masksToBounds = true
     }
     private func layout() {
         let selectedImageViewIndex = numberOfSegments
-        if let selectedImageView = subviews[selectedImageViewIndex] as? UIImageView
-        {
+        if let selectedImageView = subviews[selectedImageViewIndex] as? UIImageView {
             selectedImageView.backgroundColor = .main50
             selectedImageView.image = nil
-            
             selectedImageView.bounds = selectedImageView.bounds.insetBy(dx: segmentInset, dy: segmentInset)
-            
+
             selectedImageView.layer.masksToBounds = true
             selectedImageView.layer.cornerRadius = self.radius - (segmentInset / 2)
-            
+
             selectedImageView.layer.removeAnimation(forKey: "SelectionBounds")
-            
         }
     }
 

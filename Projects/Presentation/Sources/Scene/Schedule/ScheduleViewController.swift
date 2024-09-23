@@ -34,7 +34,7 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     private let segmentedControl = ScheduleSegmentedControl(items: ["시간표", "학사일정"])
     private lazy var timeTableView = TimeTableView(frame: viewSize)
     private lazy var academicScheduleView = AcademicScheduleView(
-        frame: viewSize, 
+        frame: viewSize,
         clickYearAndMonth: { year, month in
             self.academiScheduleYearAndMonth.accept((
                 year.toString(type: .year),

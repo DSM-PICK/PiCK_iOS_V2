@@ -48,7 +48,7 @@ class SlideTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        
+
         guard let fromVC = transitionContext.viewController(forKey: .from),
               let fromView = fromVC.view,
               let fromIndex = getIndex(forViewController: fromVC),
@@ -59,7 +59,7 @@ class SlideTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             transitionContext.completeTransition(false)
             return
         }
-        
+
         let frame = transitionContext.initialFrame(for: fromVC)
         var fromFrameEnd = frame
         var toFrameStart = frame
@@ -68,7 +68,7 @@ class SlideTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         toFrameStart.origin.x = toIndex > fromIndex ? +frame.width : -frame.width
 
         toView.frame = toFrameStart
-        
+
         DispatchQueue.main.async {
             transitionContext.containerView.addSubview(toView)
             UIView.animate(withDuration: self.transitionDuration) {

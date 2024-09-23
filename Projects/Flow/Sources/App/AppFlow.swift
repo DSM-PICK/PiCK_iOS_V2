@@ -26,16 +26,16 @@ public class AppFlow: Flow {
         }
 
         switch step {
-            case .onboardingIsRequired:
-                return presentOnboardingView()
-            case .loginIsRequired:
-                return presentLoginView()
-            case .tabIsRequired:
-                return presentTabView()
-            case .testIsRequired:
-                return presentTestView()
-            default:
-                return .none
+        case .onboardingIsRequired:
+            return presentOnboardingView()
+        case .loginIsRequired:
+            return presentLoginView()
+        case .tabIsRequired:
+            return presentTabView()
+        case .testIsRequired:
+            return presentTestView()
+        default:
+            return .none
         }
     }
 

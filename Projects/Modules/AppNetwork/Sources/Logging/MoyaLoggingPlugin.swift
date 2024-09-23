@@ -31,7 +31,7 @@ public final class MoyaLoggingPlugin: PluginType {
       onFail(error, target: target)
     }
   }
-    
+
   func onSuceed(_ response: Response, target: TargetType, isFromError: Bool) {
     let request = response.request
     let url = request?.url?.absoluteString ?? "nil"
@@ -48,7 +48,7 @@ public final class MoyaLoggingPlugin: PluginType {
     log.append("------------------- END HTTP (\(response.data.count)-byte body) -------------------")
     print(log)
   }
-    
+
   func onFail(_ error: MoyaError, target: TargetType) {
     if let response = error.response {
       onSuceed(response, target: target, isFromError: true)
@@ -60,6 +60,5 @@ public final class MoyaLoggingPlugin: PluginType {
     log.append("<-- END HTTP")
     print(log)
   }
-    
-    
+
 }

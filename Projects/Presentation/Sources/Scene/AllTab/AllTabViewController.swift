@@ -38,7 +38,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     }
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
-        
+
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {

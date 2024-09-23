@@ -144,8 +144,8 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self?.timeTableHeight.accept(height)
             }).disposed(by: disposeBag)
 
-        input.viewWillAppear.asObservable()
-            .flatMap { date in
+        input.viewWillAppear
+            .flatMap {
                 self.schoolMealUseCase.execute(date: input.todayDate)
                     .catch {
                         print($0.localizedDescription)
@@ -236,7 +236,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         return Output(
-            viewMode: viewModeData.asSignal(), 
+            viewMode: viewModeData.asSignal(),
             applyStatusData: applyStatusData.asSignal(),
             weekendMealPeriodData: weekendMealPeriodData.asSignal(),
             timetableData: timetableData.asDriver(),

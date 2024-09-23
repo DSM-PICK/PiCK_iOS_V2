@@ -76,7 +76,7 @@ public class PiCKTextField: BaseTextField {
             textHideButton,
             errorLabel
         ].forEach { self.addSubview($0) }
-        
+
         titleLabel.snp.makeConstraints {
             $0.bottom.equalTo(self.snp.top).offset(-12)
             $0.leading.equalToSuperview()
@@ -115,14 +115,14 @@ public class PiCKTextField: BaseTextField {
             .bind { [weak self] in
                 self?.isSecureTextEntry.toggle()
                 let imageName: UIImage = (self?.isSecureTextEntry ?? false) ? .eyeOff: .eyeOn
-                self?.textHideButton.setImage(imageName, for:.normal)
+                self?.textHideButton.setImage(imageName, for: .normal)
             }.disposed(by: disposeBag)
 
         self.rx.controlEvent(.editingDidEnd)
             .bind { [weak self] in
                 self?.layer.borderColor = UIColor.clear.cgColor
             }.disposed(by: disposeBag)
-        
+
         errorMessage
             .bind { [weak self] content in
                 self?.errorLabel.isHidden = content == nil

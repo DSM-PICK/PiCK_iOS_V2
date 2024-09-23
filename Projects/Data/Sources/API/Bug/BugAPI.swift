@@ -61,7 +61,7 @@ extension BugAPI: PiCKAPI {
         return .accessToken
     }
 
-    public var errorMap: [Int : PiCKError]? {
+    public var errorMap: [Int: PiCKError]? {
         return nil
     }
 

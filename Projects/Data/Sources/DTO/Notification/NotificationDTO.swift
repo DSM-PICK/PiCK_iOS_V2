@@ -34,7 +34,7 @@ public struct NotificationDTOElement: Decodable {
 extension NotificationDTOElement {
     func toDomain() -> NotificationEntityElement {
         return .init(
-            topic: topic, 
+            topic: topic,
             isSubscribed: isSubscribed
         )
     }

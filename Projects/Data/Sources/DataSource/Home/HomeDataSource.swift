@@ -18,7 +18,16 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
     private var socket: WebSocket?
 
 //    private var applyStatusRelay = HomeApplyStatusEntity(userID: UUID(), userName: "", startTime: "", endTime: "", classroom: "", type: "")
-    private var applyStatusRelay = BehaviorRelay<HomeApplyStatusEntity>(value: .init(userID: UUID(), userName: "", startTime: "", endTime: "", classroom: "", type: ""))
+    private var applyStatusRelay = BehaviorRelay<HomeApplyStatusEntity>(
+        value: .init(
+            userID: UUID(),
+            userName: "",
+            startTime: "",
+            endTime: "",
+            classroom: "",
+            type: ""
+        )
+    )
 
     init(keychain: Keychain) {
         self.keychain = keychain

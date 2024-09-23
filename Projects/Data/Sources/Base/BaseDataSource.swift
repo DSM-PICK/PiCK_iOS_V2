@@ -66,7 +66,6 @@ private extension BaseDataSource {
             }
     }
 
-    
     func requestWithAccessToken(_ api: API) -> Single<Response> {
         return .deferred {
             self.defaultRequest(api)

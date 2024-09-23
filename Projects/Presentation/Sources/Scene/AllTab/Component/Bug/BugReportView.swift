@@ -27,8 +27,11 @@ public class BugReportView: BaseView {
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청").then {
         $0.isHidden = true
     }
-    private let textView = PiCKTextView(title: "버그에 대해 설명해주세요. *", pointText: "*", placeholder: "자세히 입력해주세요").then {
-        
+    private let textView = PiCKTextView(
+        title: "버그에 대해 설명해주세요. *",
+        pointText: "*",
+        placeholder: "자세히 입력해주세요"
+    ).then {
         $0.isHidden = true
     }
     private let imageView = BugImageView().then {

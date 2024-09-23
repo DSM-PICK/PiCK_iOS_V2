@@ -44,7 +44,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
             .bind(to: noticeCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self
-            )) { row, item, cell in
+            )) { _, item, cell in
                 cell.adapt(model: item)
             }.disposed(by: disposeBag)
 

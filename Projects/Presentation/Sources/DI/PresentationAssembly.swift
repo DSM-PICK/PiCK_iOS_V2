@@ -9,7 +9,7 @@ public final class PresentationAssembly: Assembly {
     public init() {}
 
     public func assemble(container: Container) {
-        //MARK: Onboarding
+        // MARK: Onboarding
         container.register(OnboardingViewController.self) { resolver in
             OnboardingViewController(viewModel: resolver.resolve(OnboardingViewModel.self)!)
         }
@@ -20,7 +20,7 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        //MARK: Login
+        // MARK: Login
         container.register(LoginViewController.self) { resolver in
             LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
         }
@@ -30,7 +30,7 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        //MARK: Home
+        // MARK: Home
         container.register(HomeViewController.self) { resolver in
             HomeViewController(viewModel: resolver.resolve(HomeViewModel.self)!)
         }
@@ -48,7 +48,7 @@ public final class PresentationAssembly: Assembly {
                 fetchProfileUseCase: resolver.resolve(FetchSimpleProfileUseCase.self)!
             )
         }
-        //Alert
+        // Alert
         container.register(AlertViewController.self) { resolver in
             AlertViewController(viewModel: resolver.resolve(AlertViewModel.self)!)
         }
@@ -56,7 +56,7 @@ public final class PresentationAssembly: Assembly {
             AlertViewModel()
         }
 
-        //MARK: SchoolMeal
+        // MARK: SchoolMeal
         container.register(SchoolMealViewController.self) { resolver in
             SchoolMealViewController(viewModel: resolver.resolve(SchoolMealViewModel.self)!)
         }
@@ -66,14 +66,14 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        //MARK: Apply
+        // MARK: Apply
         container.register(ApplyViewController.self) { resolver in
             ApplyViewController(viewModel: resolver.resolve(ApplyViewModel.self)!)
         }
         container.register(ApplyViewModel.self) { resolver in
             ApplyViewModel()
         }
-        //WeekendMeal
+        // WeekendMeal
         container.register(WeekendMealApplyViewController.self) { resolver in
             WeekendMealApplyViewController(viewModel: resolver.resolve(WeekendMealApplyViewModel.self)!)
         }
@@ -84,7 +84,7 @@ public final class PresentationAssembly: Assembly {
                 weekendMealApplicationUseCase: resolver.resolve(FetchWeekendMealApplicationUseCase.self)!
             )
         }
-        //ClassoomMove
+        // ClassoomMove
         container.register(ClassroomMoveApplyViewController.self) { resolver in
             ClassroomMoveApplyViewController(viewModel: resolver.resolve(ClassroomMoveApplyViewModel.self)!)
         }
@@ -92,14 +92,14 @@ public final class PresentationAssembly: Assembly {
             ClassroomMoveApplyViewModel(
                 classRoomMoveApplyUseCase: resolver.resolve(ClassroomMoveApplyUseCase.self)!)
         }
-        //Outing
+        // Outing
         container.register(OutingApplyViewController.self) { resolver in
             OutingApplyViewController(viewModel: resolver.resolve(OutingApplyViewModel.self)!)
         }
         container.register(OutingApplyViewModel.self) { resolver in
             OutingApplyViewModel(outingApplyUseCase: resolver.resolve(OutingApplyUseCase.self)!)
         }
-        //EarlyLeave
+        // EarlyLeave
         container.register(EarlyLeaveApplyViewController.self) { resolver in
             EarlyLeaveApplyViewController(viewModel: resolver.resolve(EarlyLeaveApplyViewModel.self)!)
         }
@@ -107,7 +107,7 @@ public final class PresentationAssembly: Assembly {
             EarlyLeaveApplyViewModel(earlyLeaveApplyUseCase: resolver.resolve(EarlyLeaveApplyUseCase.self)!)
         }
 
-        //MARK: Schedule
+        // MARK: Schedule
         container.register(ScheduleViewController.self) { resolver in
             ScheduleViewController(viewModel: resolver.resolve(ScheduleViewModel.self)!)
         }
@@ -119,7 +119,7 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        //MARK: AllTab
+        // MARK: AllTab
         container.register(AllTabViewController.self) { resolver in
             AllTabViewController(viewModel: resolver.resolve(AllTabViewModel.self)!)
         }
@@ -127,7 +127,7 @@ public final class PresentationAssembly: Assembly {
             AllTabViewModel(
                 logoutUseCase: resolver.resolve(LogoutUseCase.self)!)
         }
-        //Notice
+        // Notice
         container.register(NoticeListViewController.self) { resolver in
             NoticeListViewController(viewModel: resolver.resolve(NoticeListViewModel.self)!)
         }
@@ -140,7 +140,7 @@ public final class PresentationAssembly: Assembly {
         container.register(NoticeDetailViewModel.self) { resolver in
             NoticeDetailViewModel(noticeDetailUseCase: resolver.resolve(FetchDetailNoticeUseCase.self)!)
         }
-        //SelfStudy
+        // SelfStudy
         container.register(SelfStudyViewController.self) { resolver in
             SelfStudyViewController(viewModel: resolver.resolve(SelfStudyViewModel.self)!)
         }
@@ -149,7 +149,7 @@ public final class PresentationAssembly: Assembly {
                 fetchSelfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!
             )
         }
-        //Bug
+        // Bug
         container.register(BugReportViewController.self) { resolver in
             BugReportViewController(viewModel: resolver.resolve(BugReportViewModel.self)!)
         }
@@ -159,14 +159,14 @@ public final class PresentationAssembly: Assembly {
                 bugReportUseCase: resolver.resolve(BugReportUseCase.self)!
             )
         }
-        //CustomSetting
+        // CustomSetting
         container.register(CustomSettingViewController.self) { resolver in
             CustomSettingViewController(viewModel: resolver.resolve(CustomSettingViewModel.self)!)
         }
         container.register(CustomSettingViewModel.self) { resolver in
             CustomSettingViewModel()
         }
-        //Notification
+        // Notification
         container.register(NotificationViewController.self) { resolver in
             NotificationViewController(viewModel: resolver.resolve(NotificationViewModel.self)!)
         }
@@ -176,7 +176,7 @@ public final class PresentationAssembly: Assembly {
                 notificationSubscribeUseCase: resolver.resolve(NotificationSubscribeUseCase.self)!
             )
         }
-        //MyPage
+        // MyPage
         container.register(MyPageViewController.self) { resolver in
             MyPageViewController(viewModel: resolver.resolve(MyPageViewModel.self)!)
         }
@@ -185,7 +185,6 @@ public final class PresentationAssembly: Assembly {
                 profileUsecase: resolver.resolve(FetchDetailProfileUseCase.self)!
             )
         }
-
     }
 
 }

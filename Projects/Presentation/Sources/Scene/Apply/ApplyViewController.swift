@@ -17,7 +17,7 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
 
     public override func attribute() {
         super.attribute()
-        
+
         view.backgroundColor = .background
     }
     public override func configureNavgationBarLayOutSubviews() {
@@ -32,7 +32,7 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
             clickOutingButton: applyTabView.clickOutingTab.asObservable(),
             clickEarlyLeaveButton: applyTabView.clickEarlyLeaveTab.asObservable()
         )
-        let output = viewModel.transform(input: input)
+        _ = viewModel.transform(input: input)
     }
     public override func addView() {
         [

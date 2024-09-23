@@ -49,5 +49,5 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
 
         return Output(noticeListData: noticeListData.asDriver())
     }
-    
+
 }

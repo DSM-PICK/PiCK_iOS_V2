@@ -53,7 +53,7 @@ extension NotificationAPI: PiCKAPI {
         return .accessToken
     }
 
-    public var errorMap: [Int : PiCKError]? {
+    public var errorMap: [Int: PiCKError]? {
         return nil
     }
 

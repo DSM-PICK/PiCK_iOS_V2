@@ -21,7 +21,7 @@ public extension PiCKAPI {
         urlType.asURLString + urlPath
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         switch pickHeader {
         case .accessToken:
             return TokenStorage.shared.toHeader(.accessToken)

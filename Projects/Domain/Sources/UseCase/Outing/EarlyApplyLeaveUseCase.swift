@@ -14,4 +14,3 @@ public class EarlyLeaveApplyUseCase {
         return repository.earlyLeaveApply(req: req)
     }
 }
-

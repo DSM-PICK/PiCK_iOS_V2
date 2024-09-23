@@ -43,7 +43,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
                     password: password,
                     deviceToken: Messaging.messaging().fcmToken ?? ""
                 ))
-                .catch { id in
+                .catch { _ in
                     self.idErrorDescription.accept("아이디를 다시 확인해주세요")
                     self.passwordErrorDescription.accept("비밀번호를 다시 확인해주세요")
                     return .never()

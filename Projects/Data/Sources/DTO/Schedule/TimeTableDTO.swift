@@ -5,7 +5,6 @@ import Domain
 public struct TimeTableDTO: Decodable {
     public let date: String
     public let timetables: [TimeTableDTOElement]
-    
 }
 
 extension TimeTableDTO {
