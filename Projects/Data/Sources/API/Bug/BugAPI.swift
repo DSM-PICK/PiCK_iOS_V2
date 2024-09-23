@@ -57,7 +57,7 @@ extension BugAPI: PiCKAPI {
         }
     }
 
-    public var pickHeader: tokenType {
+    public var pickHeader: TokenType {
         return .accessToken
     }
 

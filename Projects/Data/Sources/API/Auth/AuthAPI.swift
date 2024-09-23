@@ -52,7 +52,7 @@ extension AuthAPI: PiCKAPI {
         }
     }
     
-    public var pickHeader: tokenType {
+    public var pickHeader: TokenType {
         switch self {
         case .refreshToken:
             return .refreshToken

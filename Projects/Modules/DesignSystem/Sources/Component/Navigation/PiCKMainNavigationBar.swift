@@ -68,7 +68,7 @@ public class PiCKMainNavigationBar: BaseView {
                     UserDefaultStorage.shared.set(to: 2, forKey: .displayMode)
                 }
 
-                let value = self.userDefaultStorage.get(forKey: .displayMode) as! Int
+                let value = self.userDefaultStorage.get(forKey: .displayMode) as? Int
 
 //                print("setValueWhenDisplayButtonDidTap: \(self?.displayType.rawValue)")
 
@@ -78,7 +78,7 @@ public class PiCKMainNavigationBar: BaseView {
                     duration: 0.7,
                     options: .transitionCrossDissolve
                 ) {
-                    self.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
+                    self.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value ?? 0) ?? .unspecified
                 }
             }.disposed(by: disposeBag)
     }

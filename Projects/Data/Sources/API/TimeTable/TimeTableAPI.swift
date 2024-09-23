@@ -35,7 +35,7 @@ extension TimeTableAPI: PiCKAPI {
         return .requestPlain
     }
     
-    public var pickHeader: tokenType {
+    public var pickHeader: TokenType {
         return .accessToken
     }
 

@@ -86,7 +86,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         input.viewWillAppear
             .subscribe(onNext: { [weak self] in
                 if let data = self?.userDefaultStorage.getUserDataType(forKey: .homeViewMode, type: HomeViewType.self) {
-                    self?.viewModeData.accept(data as! HomeViewType)
+                    self?.viewModeData.accept(data as? HomeViewType ?? .timeTable)
                 } else {
                     self?.userDefaultStorage.setUserDataType(to: HomeViewType.timeTable, forKey: .homeViewMode)
                     self?.viewModeData.accept(.timeTable)

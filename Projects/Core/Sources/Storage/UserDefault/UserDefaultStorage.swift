@@ -34,7 +34,7 @@ public struct UserDefaultStorage: UserDefault {
 
         if let data = UserDefaults.standard.object(forKey: forKey.rawValue) {
             do {
-                let decodedData = try decoder.decode(T.self, from: data as! Data)
+                let decodedData = try decoder.decode(T.self, from: data as? Data ?? Data())
                 return decodedData
             } catch {
                 print("Fail To Decode UserDataType: \(error.localizedDescription)")

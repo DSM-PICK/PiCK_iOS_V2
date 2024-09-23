@@ -1,7 +1,6 @@
 import UIKit
 
 public class PiCKPageControl: UIPageControl {
-    
     private var selectedIndex: Int = 0
     private var remainingDecimal: CGFloat = 0
     private var selectedColor: UIColor = .clear {
@@ -14,7 +13,7 @@ public class PiCKPageControl: UIPageControl {
             reset()
         }
     }
-    
+
     public var dotRadius: CGFloat = 4 {
         didSet {
             reset()
@@ -30,7 +29,7 @@ public class PiCKPageControl: UIPageControl {
             reset()
         }
     }
-    
+
     public override var currentPage: Int {
         didSet {
             reset()
@@ -52,7 +51,7 @@ public class PiCKPageControl: UIPageControl {
             return .clear
         }
     }
-    
+
     public override func draw(_ rect: CGRect) {
         guard numberOfPages > 0 else { return }
         for index in 0 ... numberOfPages {
@@ -83,40 +82,42 @@ public class PiCKPageControl: UIPageControl {
             bezierPath.fill()
         }
     }
-    
+
     public override var intrinsicContentSize: CGSize {
         let spacesWidth = CGFloat(numberOfPages) * dotSpacings
         let dotsWidth = CGFloat(numberOfPages + 1) * (dotRadius * 2)
         return .init(width: spacesWidth + dotsWidth, height: dotRadius * 2)
     }
-    
+
     public func setOffset(_ offset: CGFloat, width: CGFloat) {
         selectedIndex = Int(offset / width)
         remainingDecimal = offset / width - CGFloat(selectedIndex)
         setNeedsDisplay()
     }
-    
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.setOffset(scrollView.contentOffset.x, width: scrollView.bounds.width)
     }
-    
+
     public func scrollViewDidScrollAtMain(_ scrollView: UIScrollView) {
         self.setOffset(scrollView.contentOffset.x, width: scrollView.bounds.width - 48)
     }
-    
+
     private func reset() {
         self.invalidateIntrinsicContentSize()
         self.setNeedsDisplay()
     }
-    
+
     private func between(_ color1: UIColor, and color2: UIColor, percentage: CGFloat) -> UIColor {
         let percentage = max(min(percentage, 100), 0)
         switch percentage {
         case 0: return color1
         case 1: return color2
         default:
-            var (red1, green1, blue1, alpha1): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
-            var (red2, green2, blue2, alpha2): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
+            var (red1, red2): (CGFloat, CGFloat) = (0, 0)
+            var (green1, green2): (CGFloat, CGFloat) = (0, 0)
+            var (blue1, blue2): (CGFloat, CGFloat) = (0, 0)
+            var (alpha1, alpha2): (CGFloat, CGFloat) = (0, 0)
             guard color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1) else { return color1 }
             guard color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2) else { return color2 }
             return UIColor(

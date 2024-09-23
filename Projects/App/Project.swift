@@ -18,7 +18,7 @@ let settings: Settings = .settings(
     defaultSettings: .recommended
 )
 
-let scripts: [TargetScript] = [.googleInfoPlistScripts]
+let scripts: [TargetScript] = isCI ? [.googleInfoPlistScripts] : [.swiftLint, .googleInfoPlistScripts]
 
 let targets: [Target] = [
     .init(
