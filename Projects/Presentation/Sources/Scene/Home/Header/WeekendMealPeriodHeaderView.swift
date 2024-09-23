@@ -20,7 +20,8 @@ public class WeekendMealPeriodHeaderView: BaseView {
     }
     private let announcementLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label2
+        font: .label2,
+        alignment: .center
     )
 
     public func setup(

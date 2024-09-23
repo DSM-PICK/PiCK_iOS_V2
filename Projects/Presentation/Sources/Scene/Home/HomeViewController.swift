@@ -14,7 +14,6 @@ import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
     private var homeViewType: HomeViewType = .timeTable
-//    private var socket: WebSocket?
 
     private var clickNoticeRelay = PublishRelay<UUID>()
 
