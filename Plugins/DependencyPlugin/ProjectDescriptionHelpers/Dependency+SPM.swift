@@ -21,6 +21,7 @@ public extension TargetDependency.SPM {
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
     static let FCM = TargetDependency.package(product: "FirebaseMessaging")
+    static let StarScream = TargetDependency.external(name: "Starscream")
 }
 
 public extension Package {

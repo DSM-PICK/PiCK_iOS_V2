@@ -10,10 +10,14 @@ public enum PickerTimeType {
 }
 
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
-    private var pickerTimeType: PickerTimeType = .period
+    private var pickerTimeType: PickerTimeType = .hour
+
     public var periodText = BehaviorRelay<Int>(value: 1)
     public var hourText = BehaviorRelay<Int>(value: 8)
     public var minText = BehaviorRelay<Int>(value: 0)
+
+    private let currentHour: Int
+    private let currentMinute: Int
 
     private let periodArray = Array(1...10)
     private let hourArray = Array(8...23)
@@ -21,12 +25,40 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 
     public init(type: PickerTimeType) {
         self.pickerTimeType = type
+
+        let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
+        self.currentHour = now.hour ?? 8
+        self.currentMinute = now.minute ?? 0
+
+        hourText.accept(currentHour)
+        minText.accept(currentMinute)
+
         super.init(frame: .zero)
         self.delegate = self
         self.dataSource = self
+
+        setInitialSelectedRow()
     }
+
     required init?(coder: NSCoder) {
+        let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
+        self.currentHour = now.hour ?? 8
+        self.currentMinute = now.minute ?? 0
+
         super.init(coder: coder)
+    }
+
+    private func setInitialSelectedRow() {
+        switch pickerTimeType {
+        case .period:
+            self.selectRow(0, inComponent: 0, animated: false)
+        case .hour:
+            if let initialHourIndex = hourArray.firstIndex(of: currentHour) {
+                self.selectRow(initialHourIndex, inComponent: 0, animated: false)
+            }
+        case .min:
+            self.selectRow(currentMinute, inComponent: 0, animated: false)
+        }
     }
 
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -47,6 +79,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 40
     }
+
     public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 35
     }
@@ -77,12 +110,10 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         switch pickerTimeType {
         case .period:
             periodText.accept(periodArray[row])
+
         case .hour:
-            if hourArray[row] == 8 {
-                hourText.accept(8)
-            } else {
-                hourText.accept(hourArray[row])
-            }
+            hourText.accept(hourArray[row])
+
         case .min:
             minText.accept(minArray[row])
         }

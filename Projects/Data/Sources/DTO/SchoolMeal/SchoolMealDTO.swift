@@ -5,6 +5,11 @@ import Domain
 struct SchoolMealDTO: Decodable {
     public let date: String
     public let meals: SchoolMealDTOElement
+
+    enum CodingKeys: String, CodingKey {
+        case date
+        case meals = "meal_list"
+    }
 }
 
 extension SchoolMealDTO {

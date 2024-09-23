@@ -20,6 +20,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let noticeListUseCase: FetchNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
+    private let fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase
     private let classroomReturnUseCase: ClassroomReturnUseCase
     private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
@@ -31,6 +32,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         noticeListUseCase: FetchNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
         fetchOutingPassUseCase: FetchOutingPassUseCase,
+        fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase,
         classroomReturnUseCase: ClassroomReturnUseCase,
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
@@ -41,6 +43,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         self.noticeListUseCase = noticeListUseCase
         self.selfStudyUseCase = selfStudyUseCase
         self.fetchOutingPassUseCase = fetchOutingPassUseCase
+        self.fetchEarlyLeavePassUseCase = fetchEarlyLeavePassUseCase
         self.classroomReturnUseCase = classroomReturnUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
     }
@@ -195,15 +198,24 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.clickOutingPass
             .flatMap {
+                self.fetchEarlyLeavePassUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: outingPassData)
+            .disposed(by: disposeBag)
+
+        input.clickOutingPass
+            .flatMap {
                 self.classroomReturnUseCase.execute()
                     .catch {
                         print($0.localizedDescription)
                         return .never()
                     }
             }
-            .bind {_ in 
-                print("성공성공")
-            }
+            .subscribe()
             .disposed(by: disposeBag)
 
         input.clickAlert
@@ -218,7 +230,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.clickNotice
             .map { id in
-                PiCKStep.noitceDetailIsRequired(id: id)
+                PiCKStep.noticeDetailIsRequired(id: id)
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

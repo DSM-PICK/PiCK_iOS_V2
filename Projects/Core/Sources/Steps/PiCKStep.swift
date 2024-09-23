@@ -37,7 +37,7 @@ public enum PiCKStep: Step {
     //MARK: AllTab
     case allTabIsRequired
     case noticeIsRequired
-    case noitceDetailIsRequired(id: UUID)
+    case noticeDetailIsRequired(id: UUID)
     case selfStudyIsRequired
     case bugReportIsRequired
     case customIsRequired

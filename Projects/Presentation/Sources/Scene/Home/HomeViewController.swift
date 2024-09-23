@@ -6,12 +6,15 @@ import Then
 import RxSwift
 import RxCocoa
 
+import Starscream
+
 import Core
 import Domain
 import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
     private var homeViewType: HomeViewType = .timeTable
+//    private var socket: WebSocket?
 
     private var clickNoticeRelay = PublishRelay<UUID>()
 
@@ -52,7 +55,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .vertical
         $0.spacing = 20
     }
-
+    
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
         font: .label1
@@ -110,16 +113,12 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.spacing = 20
     }
 
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-//        viewWillAppearRelay.accept(())
-    }
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
-
+        
         navigationController?.isNavigationBarHidden = true
     }
+
     public override func bind() {
         let input = HomeViewModel.Input(
             todayDate: todayDate.toString(type: .fullDate),
@@ -141,15 +140,18 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                let ddd = data.type?.isEmpty
-                owner.passHeaderView.isHidden = ddd!
+                print("제발: \(data)")
+                let passIsHidden = data.type?.isEmpty
+                let isWait = data.userName == .none
+                owner.passHeaderView.isHidden = passIsHidden!
                 owner.passHeaderView.setup(
-                    isWait: false,
+                    isWait: isWait,
                     type: OutingType(rawValue: (data.type)!) ?? .application,
                     startTime: data.startTime,
                     endTime: data.endTime,
                     classRoomText: data.classroom
                 )
+                owner.loadViewIfNeeded()
             }.disposed(by: disposeBag)
 
         output.weekendMealPeriodData
@@ -189,17 +191,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .withUnretained(self)
             .bind { owner, data in
                 owner.clickNoticeRelay.accept(data.id)
-            }
-            .disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         output.outingPassData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                let alert = PassView()
-                alert.modalTransitionStyle = .crossDissolve
-                alert.modalPresentationStyle = .overFullScreen
-                owner.present(alert, animated: true)
-                alert.setup(
+                let pass = PassView()
+                pass.modalTransitionStyle = .crossDissolve
+                pass.modalPresentationStyle = .overFullScreen
+                owner.present(pass, animated: true)
+                pass.setup(
                     name: data.userName,
                     info: "\(data.grade ?? 0)학년 \(data.classNum ?? 0)반 \(data.num ?? 0)번",
                     time: "\(data.start ?? "") ~ \(data.end ?? "")",
@@ -211,20 +212,19 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.selfStudyData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                owner.selfStudyBannerView.setup(selfStudyTeacherData: data)
+                owner.selfStudyBannerView.setup(
+                    selfStudyTeacherData: data
+                )
             }.disposed(by: disposeBag)
 
         output.timeTableHeight.asObservable()
             .withUnretained(self)
             .bind { owner, height in
-                if height == 0 {
-                    owner.timeTableHeight.accept(100)
-                    
-                } else {
-                    owner.timeTableHeight.accept(height)
-                }
+                height == 0 ?
+                owner.timeTableHeight.accept(100):
+                owner.timeTableHeight.accept(height)
+
                 owner.setupViewType(type: owner.homeViewType)
-//                owner.setLayout()
             }.disposed(by: disposeBag)
 
         output.schoolMealHeight.asObservable()
@@ -232,7 +232,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind { owner, height in
                 owner.schoolMealHeight.accept(height)
                 owner.setupViewType(type: owner.homeViewType)
-//                owner.setLayout()
             }.disposed(by: disposeBag)
 
         output.noticeViewHeight.asObservable()
@@ -241,10 +240,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 owner.noticeCollectionView.snp.remakeConstraints {
                     $0.height.equalTo(height)
                 }
-//                owner.setLayout()
             }.disposed(by: disposeBag)
     }
-
     public override func addView() {
         [
             navigationBar,

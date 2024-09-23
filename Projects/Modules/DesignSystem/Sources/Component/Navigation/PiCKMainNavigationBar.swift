@@ -19,25 +19,25 @@ public class PiCKMainNavigationBar: BaseView {
          return alertButton.buttonTap
      }
 
-    private var displayType: UIUserInterfaceStyle {
-        let data = userDefaultStorage.get(forKey: .displayMode) as? Int
-
-        return data == 2 ? .light : .dark
-    }
+//    private var displayType: UIUserInterfaceStyle {
+//        let data = userDefaultStorage.get(forKey: .displayMode) as? Int
+//        print("displayType: \(data)")
+//
+//        return data == 2 ? .light : .dark
+//    }
 
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
         $0.contentMode = .scaleAspectFit
     }
     private let displayModeButton = PiCKImageButton(image: .displayMode, imageColor: .modeBlack)
     private let alertButton = PiCKImageButton(image: .alert, imageColor: .modeBlack)
-    private lazy var rightItemStackView = UIStackView(
-        arrangedSubviews: [
-            displayModeButton,
-//            alertButton
-        ]).then {
-            $0.axis = .horizontal
-            $0.spacing = 12
-            $0.distribution = .fillEqually
+    private lazy var rightItemStackView = UIStackView(arrangedSubviews: [
+        displayModeButton,
+        //            alertButton
+    ]).then {
+        $0.axis = .horizontal
+        $0.spacing = 12
+        $0.distribution = .fillEqually
     }
 
     public init(
@@ -55,17 +55,30 @@ public class PiCKMainNavigationBar: BaseView {
     }
     public override func bind() {
         displayModeButton.buttonTap
-            .bind { [weak self] in
-                self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
+            .map {
+                let data = self.userDefaultStorage.get(forKey: .displayMode) as? Int
+                return data
+            }
+            .bind { data in
+//                self?.userDefaultStorage.set(to: self?.displayType.rawValue, forKey: .displayMode)
+                //여기서 set을 할때 바뀐값이 아닌 원래 값을 set해서 변화가 없는듯
+                if data == 2 {
+                    UserDefaultStorage.shared.set(to: 1, forKey: .displayMode)
+                } else {
+                    UserDefaultStorage.shared.set(to: 2, forKey: .displayMode)
+                }
 
-                let value = self?.userDefaultStorage.get(forKey: .displayMode) as! Int
+                let value = self.userDefaultStorage.get(forKey: .displayMode) as! Int
+
+//                print("setValueWhenDisplayButtonDidTap: \(self?.displayType.rawValue)")
+
 
                 UIView.transition(
-                    with: self!.presentViewController.tabBarController!.view,
+                    with: self.presentViewController.tabBarController!.view,
                     duration: 0.7,
                     options: .transitionCrossDissolve
                 ) {
-                    self?.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
+                    self.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value) ?? .unspecified
                 }
             }.disposed(by: disposeBag)
     }

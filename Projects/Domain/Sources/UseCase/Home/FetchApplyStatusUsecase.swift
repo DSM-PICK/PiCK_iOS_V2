@@ -12,7 +12,7 @@ public class FetchApplyStatusUsecase {
     }
 
     public func execute() -> Single<HomeApplyStatusEntity> {
-        return repository.fetchMainData()
+        return repository.fetchApplyStatus()
     }
 
 }

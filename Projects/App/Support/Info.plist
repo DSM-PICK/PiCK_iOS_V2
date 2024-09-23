@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SOCKET_BASE_URL</key>
+	<string>$(SOCKET_BASE_URL)</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -62,6 +64,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

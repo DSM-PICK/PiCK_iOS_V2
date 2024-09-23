@@ -5,7 +5,6 @@ import Core
 public struct OutingPassEntity {
     public let userName: String
     public let teacherName: String
-    public let startTime: String?
     public let start: String?
     public let end: String?
     public let reason: String
@@ -18,7 +17,6 @@ public struct OutingPassEntity {
     public init(
         userName: String,
         teacherName: String,
-        startTime: String?,
         start: String?,
         end: String?,
         reason: String,
@@ -30,7 +28,6 @@ public struct OutingPassEntity {
     ) {
         self.userName = userName
         self.teacherName = teacherName
-        self.startTime = startTime
         self.start = start
         self.end = end
         self.reason = reason
