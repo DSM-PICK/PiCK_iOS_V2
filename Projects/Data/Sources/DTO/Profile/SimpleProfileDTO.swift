@@ -10,7 +10,8 @@ public struct SimpleProfileDTO: Decodable {
     let profile: String?
 
     enum CodingKeys: String, CodingKey {
-        case name, grade, num, profile
+        case grade, num, profile
+        case name = "user_name"
         case classNum = "class_num"
     }
 }

@@ -17,5 +17,5 @@ class SchoolMealDataSourceImpl: BaseDataSource<SchoolMealAPI>, SchoolMealDataSou
         return request(.fetchSchoolMeal(date: date))
             .filterSuccessfulStatusCodes()
     }
-    
+
 }

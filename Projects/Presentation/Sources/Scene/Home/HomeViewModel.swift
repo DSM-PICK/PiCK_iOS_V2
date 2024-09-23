@@ -13,7 +13,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     private let userDefaultStorage = UserDefaultStorage.shared
 
-//    private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
+    private let fetchApplyStatusUseCase: FetchApplyStatusUsecase
     private let fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase
     private let timeTableUseCase: FetchTodayTimeTableUseCase
     private let schoolMealUseCase: FetchSchoolMealUseCase
@@ -25,7 +25,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let fetchProfileUseCase: FetchSimpleProfileUseCase
 
     public init(
-//        fetchApplyStatusUseCase: FetchApplyStatusUsecase,
+        fetchApplyStatusUseCase: FetchApplyStatusUsecase,
         fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase,
         timeTableUseCase: FetchTodayTimeTableUseCase,
         schoolMealUseCase: FetchSchoolMealUseCase,
@@ -36,7 +36,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         classroomReturnUseCase: ClassroomReturnUseCase,
         fetchProfileUseCase: FetchSimpleProfileUseCase
     ) {
-//        self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
+        self.fetchApplyStatusUseCase = fetchApplyStatusUseCase
         self.fetchWeekendMealPeriodUseCase = fetchWeekendMealPeriodUseCase
         self.timeTableUseCase = timeTableUseCase
         self.schoolMealUseCase = schoolMealUseCase
@@ -118,16 +118,16 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
             }).disposed(by: disposeBag)
 
-//        input.viewWillAppear
-//            .flatMap {
-//                self.fetchApplyStatusUseCase.execute()
-//                    .catch {
-//                        print($0.localizedDescription)
-//                        return .never()
-//                    }
-//            }
-//            .bind(to: applyStatusData)
-//            .disposed(by: disposeBag)
+        input.viewWillAppear
+            .flatMap {
+                self.fetchApplyStatusUseCase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: applyStatusData)
+            .disposed(by: disposeBag)
 
         input.viewWillAppear
             .flatMap {
@@ -215,9 +215,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
                         return .never()
                     }
             }
-            .bind {_ in 
-                print("성공성공")
-            }
+            .subscribe()
             .disposed(by: disposeBag)
 
         input.clickAlert

@@ -22,21 +22,32 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
             type: PickerTimeSelectType.self
         ) as? PickerTimeSelectType
 
-        if value == .time {
-            self.explainLabel.text = "희망 외출 시간을 선택하세요"
-        } else {
+        if value == .period {
             self.explainLabel.text = "희망 외출 교시를 선택하세요"
+        } else {
+            self.explainLabel.text = "희망 외출 시간을 선택하세요"
         }
 
         return value ?? .time
     }
 
-    private let titleLabel = PiCKLabel(text: "외출 신청", textColor: .modeBlack, font: .heading4)
-    private lazy var explainLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
+    private let titleLabel = PiCKLabel(
+        text: "외출 신청",
+        textColor: .modeBlack,
+        font: .heading4
+    )
+    private lazy var explainLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
     private let startTimeSelectButton = TimeSelectButton(type: .system)
     private let sinceLabel = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
     private let endTimeSelectButton = TimeSelectButton(type: .system)
-    private let untilLabel = PiCKLabel(text: "까지", textColor: .modeBlack, font: .label1)
+    private let untilLabel = PiCKLabel(
+        text: "까지",
+        textColor: .modeBlack,
+        font: .label1
+    )
     private let periodSelectButton = TimeSelectButton(type: .system)
     private lazy var outingTimeStackView = UIStackView(arrangedSubviews: [
         startTimeSelectButton,

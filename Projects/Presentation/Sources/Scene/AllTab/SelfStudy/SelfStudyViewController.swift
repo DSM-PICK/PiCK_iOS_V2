@@ -88,7 +88,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
                         self?.calendarView.setupDate(date: date)
                         self?.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
 
-                        self?.updateTitleLabel(with: date)
+                        self?.updateTitleLabel(date: date)
                     }
                 )
                 alert.modalTransitionStyle = .crossDissolve
@@ -147,7 +147,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         }
     }
 
-    private func updateTitleLabel(with date: Date) {
+    private func updateTitleLabel(date: Date) {
         if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
             self.titleLabel.text = "\(date.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다"
             self.titleLabel.changePointColor(targetString: "오늘의 자습 감독", color: .main500)

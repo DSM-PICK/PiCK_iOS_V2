@@ -12,7 +12,8 @@ public struct DetailProfileDTO: Decodable {
     let profile: String?
 
     enum CodingKeys: String, CodingKey {
-        case profile, name, grade, num
+        case profile, grade, num
+        case name = "user_name"
         case classNum = "class_num"
         case birthDay = "birth_day"
         case accountID = "account_id"

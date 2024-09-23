@@ -65,6 +65,9 @@ public final class UseCaseAssembly: Assembly {
         container.register(EarlyLeaveApplyUseCase.self) { resolver in
             EarlyLeaveApplyUseCase(repository: resolver.resolve(EarlyLeaveRepository.self)!)
         }
+        container.register(FetchEarlyLeavePassUseCase.self) { resolver in
+            FetchEarlyLeavePassUseCase(repository: resolver.resolve(EarlyLeaveRepository.self)!)
+        }
 
         //MARK: AllTab
         //profile

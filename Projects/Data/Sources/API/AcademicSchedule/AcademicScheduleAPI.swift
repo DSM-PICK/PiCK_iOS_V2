@@ -45,7 +45,8 @@ extension AcademicScheduleAPI: PiCKAPI {
             return .requestParameters(
                 parameters: [
                     "date": date
-                ], encoding: URLEncoding.queryString
+                ], 
+                encoding: URLEncoding.queryString
             )
         }
     }

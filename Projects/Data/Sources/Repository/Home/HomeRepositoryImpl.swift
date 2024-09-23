@@ -11,10 +11,8 @@ class HomeRepositoryImpl: HomeRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchMainData() -> Single<HomeApplyStatusEntity> {
-        return remoteDataSource.fetchHomeData()
-            .map(HomeApplyStatusDTO.self)
-            .map { $0.toDomain() }
+    func fetchApplyStatus() -> Single<HomeApplyStatusEntity> {
+        return Single.just(remoteDataSource.fetchApplyStatus())
     }
 
 }

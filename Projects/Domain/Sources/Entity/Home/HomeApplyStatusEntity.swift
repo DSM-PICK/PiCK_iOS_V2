@@ -9,7 +9,7 @@ public struct HomeApplyStatusEntity {
     public let endTime: String?
     public let classroom: String?
     public let type: OutingType.RawValue?
-    
+
     public init(
         userID: UUID?,
         userName: String?,
@@ -25,5 +25,5 @@ public struct HomeApplyStatusEntity {
         self.classroom = classroom
         self.type = type
     }
-    
+
 }
