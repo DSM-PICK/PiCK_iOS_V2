@@ -1,4 +1,3 @@
-
 import UIKit
 
 import SnapKit
@@ -48,22 +47,22 @@ public class EarlyLeaveApplyViewController: BaseViewController<EarlyLeaveApplyVi
         let output =  viewModel.transform(input: input)
 
         output.isApplyButtonEnable.asObservable()
-            .bind(
-                onNext: { [weak self] isEnabled in
-                    self?.applyButton.isEnabled = isEnabled
-                }
-            ).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.applyButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
 
         startTimeSelectButton.buttonTap
             .bind {
-                let vc = PiCKApplyTimePickerAlert(type: .outingStart)
-                vc.selectedTime = { [weak self] hour, min in
+                let alert = PiCKApplyTimePickerAlert(type: .earlyLeave)
+                alert.selectedTime = { [weak self] hour, min in
                     self?.startTime.accept("\(hour):\(min)")
                     self?.startTimeSelectButton.setup(text: "\(hour)시 \(min)분")
                 }
-                self.presentAsCustomDents(view: vc, height: 406)
+                self.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
     }
+
     public override func addView() {
         [
             titleLabel,

@@ -84,7 +84,12 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         return 35
     }
 
-    public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+    public func pickerView(
+        _ pickerView: UIPickerView,
+        viewForRow row: Int,
+        forComponent component: Int,
+        reusing view: UIView?
+    ) -> UIView {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
         
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))

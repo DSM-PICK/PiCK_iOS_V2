@@ -21,8 +21,9 @@ public class PiCKDisappearAlert: UIViewController {
     public init(
         successType: SuccessType,
         alertType: DisappearAlertType
-    ){
+    ) {
         super.init(nibName: nil, bundle: nil)
+
         self.textSetting(successType: successType, alertType: alertType)
     }
     required init?(coder: NSCoder) {
@@ -53,12 +54,12 @@ public class PiCKDisappearAlert: UIViewController {
     }
     private func layout() {
         view.addSubview(backgroundView)
-        
+
         [
             imageView,
             alertLabel
         ].forEach { backgroundView.addSubview($0) }
-        
+
         backgroundView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(86)

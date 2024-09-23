@@ -95,7 +95,6 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                 alert.selectedTime = { [weak self] hour, min in
                     self?.startTimeRelay.accept("\(hour):\(min)")
                     self?.startTimeSelectButton.setup(text: "\(hour)시 \(min)분")
-                    
                 }
                 self?.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
@@ -185,7 +184,6 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview().inset(60)
         }
-
     }
 
 }

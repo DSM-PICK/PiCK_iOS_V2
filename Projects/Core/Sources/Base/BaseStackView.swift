@@ -5,7 +5,7 @@ import RxCocoa
 
 open class BaseStackView: UIStackView {
     public let disposeBag = DisposeBag()
-    
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()
@@ -15,14 +15,14 @@ open class BaseStackView: UIStackView {
     public required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     open func attribute() {
-        //뷰 관련 코드를 설정하는 함수
+        // 뷰 관련 코드를 설정하는 함수
     }
     open func bind() {
-        //UI 바인딩을 설정하는 함수
+        // UI 바인딩을 설정하는 함수
     }
     open func layout() {
-        //레이아웃을 설정하는 함수
+        // 레이아웃을 설정하는 함수
     }
 }

@@ -1,7 +1,6 @@
 import UIKit
 
 open class BaseLabel: UILabel {
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -12,7 +11,7 @@ open class BaseLabel: UILabel {
     }
 
     open func attribute() {
-        //UILable 관련 설정을 하는 함수
+        // UILable 관련 설정을 하는 함수
     }
 
 }
