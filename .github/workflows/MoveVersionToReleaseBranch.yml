@@ -23,5 +23,5 @@ jobs:
           echo $(git merge -Xtheirs origin/develop)
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${{  github.ref_name }}" Projects/App/Support/Info.plist
           git add -A
-          git commit -m "🚀 :: Deploy version ${{  github.ref_name }} to testflight"
+          git commit -m "🚀 :: Deploy version ${{  github.ref_name }}"
           git push
