@@ -35,7 +35,7 @@ public class OnboardingFlow: Flow {
     }
 
     private func navigateToOnboarding() -> FlowContributors {
-        let vc = OnboardingViewController(viewModel: container.resolve(OnboardingViewModel.self)!)
+        let vc = container.resolve(OnboardingViewController.self)!
         self.rootViewController.pushViewController(vc, animated: true)
 
         return .one(flowContributor: .contribute(
