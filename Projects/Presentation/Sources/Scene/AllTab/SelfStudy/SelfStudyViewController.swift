@@ -20,7 +20,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         textColor: .modeBlack,
         font: .heading4,
         numberOfLines: 0
-    ).then{
+    ).then {
         $0.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
     }
 

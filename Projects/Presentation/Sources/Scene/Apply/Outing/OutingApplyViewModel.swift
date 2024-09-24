@@ -69,7 +69,9 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        return Output(isApplyButtonEnable: isApplyButtonEnable.asSignal(onErrorJustReturn: false))
+        return Output(
+            isApplyButtonEnable: isApplyButtonEnable.asSignal(onErrorJustReturn: false)
+        )
     }
 
 }

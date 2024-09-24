@@ -60,7 +60,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         $0.spacing = 12
     }
     private let outingReasonTextView = PiCKTextView(title: "외출 사유를 입력하세요", placeholder: "자세히 입력해주세요")
-    private let applyButton = PiCKButton(buttonText: "신청하기", isEnabled: false)
+    private let applyButton = PiCKButton(buttonText: "신청하기")
 
     public override func attribute() {
         super.attribute()

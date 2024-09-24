@@ -36,9 +36,11 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
         if value == .none {
             value = .time
         }
-        value == .time ?
-        pickerSettingTabViewText.accept(("픽에서 신청할 때 시간 또는 교시로 설정할 수 있어요!\n현재는 시간으로 설정되어 있어요.", "교시로 설정하기")) :
-        pickerSettingTabViewText.accept(("픽에서 신청할 때 시간 또는 교시로 설정할 수 있어요!\n현재는 교시로 설정되어 있어요.", "시간으로 설정하기"))
+        if value == .time {
+            pickerSettingTabViewText.accept(("픽에서 신청할 때 시간 또는 교시로 설정할 수 있어요!\n현재는 시간으로 설정되어 있어요.", "교시로 설정하기"))
+        } else {
+            pickerSettingTabViewText.accept(("픽에서 신청할 때 시간 또는 교시로 설정할 수 있어요!\n현재는 교시로 설정되어 있어요.", "시간으로 설정하기"))
+        }
 
         return value == .time ? .period : .time
     }
@@ -50,7 +52,7 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
         let clickHomeSetting: Observable<Void>
         let clickPickerSetting: Observable<Void>
     }
-    public struct Output { 
+    public struct Output {
         let homeSettingTabViewText: Driver<(String, String)>
         let pickerSettingTabViewText: Driver<(String, String)>
     }
