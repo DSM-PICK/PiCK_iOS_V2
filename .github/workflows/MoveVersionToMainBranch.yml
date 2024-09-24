@@ -17,7 +17,9 @@ jobs:
 
       - name: git merge to main
         run: |
+          git config --global user.name 'Team PiCK'
+          git config --global user.email 'cyj070513@gmail.com'
           git config pull.rebase false
           git checkout -t origin/main
-          echo $(git merge -Xtheirs origin/release -m "😛 :: Deploy version ${{ env.RELEASE_VERSION }} to AppStore")
+          echo $(git merge -Xtheirs origin/release -m "🚀 :: Deploy version ${{ env.RELEASE_VERSION }} to AppStore")
           git push
