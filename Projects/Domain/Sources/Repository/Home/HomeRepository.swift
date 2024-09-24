@@ -5,5 +5,5 @@ import RxSwift
 import Core
 
 public protocol HomeRepository {
-    func fetchApplyStatus() -> Single<HomeApplyStatusEntity>
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity>
 }

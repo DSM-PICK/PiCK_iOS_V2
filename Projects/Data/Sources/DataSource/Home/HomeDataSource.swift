@@ -10,24 +10,14 @@ import Domain
 import AppNetwork
 
 protocol HomeDataSource {
-    func fetchApplyStatus() -> HomeApplyStatusEntity
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity>
 }
 
 class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
     private let keychain: Keychain
     private var socket: WebSocket?
 
-//    private var applyStatusRelay = HomeApplyStatusEntity(userID: UUID(), userName: "", startTime: "", endTime: "", classroom: "", type: "")
-    private var applyStatusRelay = BehaviorRelay<HomeApplyStatusEntity>(
-        value: .init(
-            userID: UUID(),
-            userName: "",
-            startTime: "",
-            endTime: "",
-            classroom: "",
-            type: ""
-        )
-    )
+    private var applyStatusRelay = PublishRelay<HomeApplyStatusEntity>()
 
     init(keychain: Keychain) {
         self.keychain = keychain
@@ -42,15 +32,15 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
     func connectSocket() {
         let url = URL(string: "\(URLUtil.socketBaseURL)/main")
         var request = URLRequest(url: url!)
-        request.timeoutInterval = 0
+        request.timeoutInterval = 5
         request.setValue("\(keychain.load(type: .accessToken))", forHTTPHeaderField: "Authorization")
         socket = WebSocket(request: request)
         socket?.delegate = self
         socket?.connect()
     }
 
-    func fetchApplyStatus() -> HomeApplyStatusEntity {
-        return applyStatusRelay.value
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity> {
+        return applyStatusRelay.asObservable()
     }
 
 }
@@ -69,9 +59,21 @@ extension HomeDataSourceImpl {
             print("websocket is disconnected: \(reason) with code: \(code)")
 
         case .text(let text):
-            let homeApplyStatus = try? JSONDecoder().decode(HomeApplyStatusDTO.self, from: text.data(using: .utf8) ?? Data())
+            let homeApplyStatus = try? JSONDecoder().decode(
+                HomeApplyStatusDTO.self,
+                from: text.data(using: .utf8) ?? Data()
+            )
 
-            self.applyStatusRelay.accept(homeApplyStatus?.toDomain() ?? .init(userID: UUID(), userName: "", startTime: "", endTime: "", classroom: "", type: ""))
+            self.applyStatusRelay.accept(
+                homeApplyStatus?.toDomain() ?? .init(
+                    userID: nil,
+                    userName: nil,
+                    startTime: nil,
+                    endTime: nil,
+                    classroom: nil,
+                    type: nil
+                )
+            )
 
         case .error(let error):
             print("websocket is error = \(error!)")

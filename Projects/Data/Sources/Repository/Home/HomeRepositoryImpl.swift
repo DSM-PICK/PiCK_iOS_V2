@@ -11,8 +11,8 @@ class HomeRepositoryImpl: HomeRepository {
         self.remoteDataSource = remoteDataSource
     }
 
-    func fetchApplyStatus() -> Single<HomeApplyStatusEntity> {
-        return Single.just(remoteDataSource.fetchApplyStatus())
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity> {
+        return remoteDataSource.fetchApplyStatus()
     }
 
 }

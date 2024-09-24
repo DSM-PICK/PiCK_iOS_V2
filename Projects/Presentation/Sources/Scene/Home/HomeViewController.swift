@@ -139,13 +139,12 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                print("제발: \(data)")
                 let passIsHidden = data.type?.isEmpty
                 let isWait = data.userName == .none
-                owner.passHeaderView.isHidden = passIsHidden!
+                owner.passHeaderView.isHidden = passIsHidden ?? true
                 owner.passHeaderView.setup(
                     isWait: isWait,
-                    type: OutingType(rawValue: (data.type)!) ?? .application,
+                    type: OutingType(rawValue: data.type ?? "") ?? .application,
                     startTime: data.startTime,
                     endTime: data.endTime,
                     classRoomText: data.classroom
@@ -299,7 +298,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     public override func setLayoutData() {
         let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
-        self.profileView.setup(image: .profile, info: userInfoData ?? "")
+        self.profileView.setup(image: .profile, info: userInfoData ?? "정보가 없는 사용자")
     }
 
     private func setupViewType(type: HomeViewType) {
