@@ -43,8 +43,8 @@ extension ClassroomAPI: PiCKAPI {
                 parameters: [
                     "floor": req.floor,
                     "classroom_name": req.classroomName,
-                    "start_period": req.startPeriod,
-                    "end_period": req.endPeriod
+                    "start": req.startPeriod,
+                    "end": req.endPeriod
                 ],
                 encoding: JSONEncoding.default
             )
