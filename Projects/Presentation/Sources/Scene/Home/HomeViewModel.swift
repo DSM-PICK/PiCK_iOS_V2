@@ -148,6 +148,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .flatMap {
                 self.schoolMealUseCase.execute(date: input.todayDate)
                     .catch {
+                        self.steps.accept(PiCKStep.onboardingIsRequired)
                         print($0.localizedDescription)
                         return .never()
                     }
