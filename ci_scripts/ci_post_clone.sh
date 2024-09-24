@@ -16,7 +16,8 @@ mise install tuist@3.40.0
 
 tuist version
 
-make reset
+make clean
+make cache_clean
 
 tuist fetch
 TUIST_CI=1 tuist generate
