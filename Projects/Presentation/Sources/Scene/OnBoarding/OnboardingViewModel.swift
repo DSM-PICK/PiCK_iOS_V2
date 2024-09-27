@@ -36,8 +36,8 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
         let showComponet: Signal<Void>
     }
 
-    let animate = PublishRelay<Void>()
-    let showComponet = PublishRelay<Void>()
+    private let animate = PublishRelay<Void>()
+    private let showComponent = PublishRelay<Void>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -68,8 +68,8 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
         input.componentAppear.asObservable()
             .throttle(.seconds(2), scheduler: MainScheduler.asyncInstance)
-            .map { _ in self.showComponet.accept(()) }
-            .bind(to: showComponet)
+            .map { _ in self.showComponent.accept(()) }
+            .bind(to: showComponent)
             .disposed(by: disposeBag)
 
         input.clickOnboardingButton
@@ -79,7 +79,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
         return Output(
             animate: animate.asSignal(),
-            showComponet: showComponet.asSignal()
+            showComponet: showComponent.asSignal()
         )
     }
 

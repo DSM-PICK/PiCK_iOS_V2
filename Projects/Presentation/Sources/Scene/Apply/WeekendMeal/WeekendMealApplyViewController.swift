@@ -58,10 +58,9 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
                     status: data.status,
                     month: data.month
                 )
+                owner.saveButton.isHidden = !data.status
             }.disposed(by: disposeBag)
     }
-
-    public override func bindAction() { }
 
     public override func addView() {
         [

@@ -9,7 +9,6 @@ import RxCocoa
 import FSCalendar
 
 import Core
-import Domain
 
 public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSource {
     private var calendarType: CalendarType = .schoolMealWeek

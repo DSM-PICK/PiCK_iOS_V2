@@ -122,16 +122,11 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
     }
 
     private func getDateEventArray() -> [Date] {
-        let currentDate = Date()
-        let currentYear = Calendar.current.component(.year, from: currentDate)
-
         var dateArray: [Date] = []
         let currentPageYear = Calendar.current.component(.year, from: calendarView.currentPage)
 
         for date in monthAcademicScheduleData.value {
-            if currentYear == currentPageYear {
-                dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
-            }
+            dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
         }
 
         return dateArray
@@ -140,15 +135,25 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 }
 
 extension AcademicScheduleCalneder {
-    public func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+    public func calendarCurrentPageDidChange(
+        _ calendar: FSCalendar
+    ) {
         self.calendarHeaderLabel.text = calendar.currentPage.toString(type: .yearsAndMonthKor)
+        notifyYearAndMonthChange(date: calendar.currentPage)
     }
 
-    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    public func calendar(
+        _ calendar: FSCalendar,
+        didSelect date: Date,
+        at monthPosition: FSCalendarMonthPosition
+    ) {
         self.clickDate(date)
     }
 
-    public func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+    public func calendar(
+        _ calendar: FSCalendar,
+        numberOfEventsFor date: Date
+    ) -> Int {
         return self.getDateEventArray().contains(date) ? 1 : 0
     }
 
