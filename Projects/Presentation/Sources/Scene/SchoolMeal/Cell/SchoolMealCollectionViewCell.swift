@@ -9,22 +9,21 @@ import DesignSystem
 public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
     static let identifier = "SchoolMealTableViewCell"
 
-    private let mealTimeLabel = PiCKLabel(
+    private var mealTimeLabel = PiCKLabel(
         textColor: .main700,
         font: .subTitle1
     )
-    private let kcalLabel = PiCKLabel(
+    private var kcalLabel = PiCKLabel(
         textColor: .modeWhite,
         font: .caption2,
         alignment: .center,
         backgroundColor: .main500,
         cornerRadius: 12
     )
-    private let menuLabel = PiCKLabel(
+    private var menuLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1,
-        numberOfLines: 0,
-        alignment: .left
+        numberOfLines: 0
     )
     private lazy var infoStackView = UIStackView(arrangedSubviews: [
         mealTimeLabel,
@@ -75,7 +74,7 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
         }
         menuLabel.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
-            $0.leading.equalToSuperview().inset(190)
+            $0.leading.equalToSuperview().inset(180)
             $0.trailing.equalToSuperview().inset(10)
         }
     }
