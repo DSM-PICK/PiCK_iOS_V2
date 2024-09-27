@@ -9,25 +9,22 @@ import Core
 
 public class PiCKLottieView: UIView {
     private var lottieAnimationView: LottieAnimationView?
-    private var animation: LottieAnimation?
     private let rawValue = UserDefaultStorage.shared.get(forKey: .displayMode) as? Int
+
+    private var animation: LottieAnimation? {
+        switch rawValue {
+        case 2:
+            return AnimationAsset.darkLottie.animation
+
+        default:
+            return AnimationAsset.whiteLottie.animation
+        }
+    }
 
     public init() {
         super.init(frame: .zero)
 
-//        let animation: LottieAnimation? = AnimationAsset.pickLottie.animation
-        var animation: LottieAnimation? {
-            switch rawValue {
-            case 2:
-                AnimationAsset.darkLottie.animation
-
-            default:
-                AnimationAsset.whiteLottie.animation
-            }
-        }
-
         self.lottieAnimationView = .init(animation: animation)
-
         self.configureView()
     }
     required init?(coder: NSCoder) {
@@ -44,8 +41,8 @@ public class PiCKLottieView: UIView {
     }
 
     public func play() {
-        self.lottieAnimationView?.play()
         self.lottieAnimationView?.animationSpeed = 3.5
+        self.lottieAnimationView?.play()
     }
 
 }
