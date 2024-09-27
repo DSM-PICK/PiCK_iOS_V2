@@ -30,13 +30,13 @@ public extension UIImage {
     static let imageIcon = DesignSystemAsset.Image.image.image
     static let checkIcon = DesignSystemAsset.Image.check.image
     static let failIcon = DesignSystemAsset.Image.fail.image
-    //MARK: TabBarIcon
+    // MARK: TabBarIcon
     static let homeIcon = DesignSystemAsset.Image.homeIcon.image
     static let schoolMealIcon = DesignSystemAsset.Image.schoolMealIcon.image
     static let applyIcon = DesignSystemAsset.Image.applyIcon.image
     static let scheduleIcon = DesignSystemAsset.Image.scheduleIcon.image
     static let allTabIcon = DesignSystemAsset.Image.allTabIcon.image
-    //MARK: Image
+    // MARK: Image
     static let mainBanner = DesignSystemAsset.Image.mainBanner.image
     static let noticeBanner = DesignSystemAsset.Image.noticeBanner.image
 }
