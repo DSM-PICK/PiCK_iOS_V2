@@ -5,13 +5,26 @@ import SnapKit
 
 import Lottie
 
+import Core
+
 public class PiCKLottieView: UIView {
     private var lottieAnimationView: LottieAnimationView?
+    private var animation: LottieAnimation?
+    private let rawValue = UserDefaultStorage.shared.get(forKey: .displayMode) as? Int
 
     public init() {
         super.init(frame: .zero)
 
-        let animation: LottieAnimation? = AnimationAsset.pickLottie.animation
+//        let animation: LottieAnimation? = AnimationAsset.pickLottie.animation
+        var animation: LottieAnimation? {
+            switch rawValue {
+            case 2:
+                AnimationAsset.darkLottie.animation
+
+            default:
+                AnimationAsset.whiteLottie.animation
+            }
+        }
 
         self.lottieAnimationView = .init(animation: animation)
 
@@ -32,7 +45,7 @@ public class PiCKLottieView: UIView {
 
     public func play() {
         self.lottieAnimationView?.play()
-        self.lottieAnimationView?.animationSpeed = 1.5
+        self.lottieAnimationView?.animationSpeed = 3.5
     }
 
 }

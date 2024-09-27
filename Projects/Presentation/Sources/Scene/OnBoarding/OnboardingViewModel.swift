@@ -36,8 +36,8 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
         let showComponet: Signal<Void>
     }
 
-    let animate = PublishRelay<Void>()
-    let showComponet = PublishRelay<Void>()
+    private let animate = PublishRelay<Void>()
+    private let showComponet = PublishRelay<Void>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
