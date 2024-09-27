@@ -21,6 +21,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
 
     public override func attribute() {
         super.attribute()
+
         [
             logoImageView,
             onboardingButton

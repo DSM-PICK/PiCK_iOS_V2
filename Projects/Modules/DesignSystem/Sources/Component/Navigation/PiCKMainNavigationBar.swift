@@ -19,13 +19,6 @@ public class PiCKMainNavigationBar: BaseView {
          return alertButton.buttonTap
      }
 
-//    private var displayType: UIUserInterfaceStyle {
-//        let data = userDefaultStorage.get(forKey: .displayMode) as? Int
-//        print("displayType: \(data)")
-//
-//        return data == 2 ? .light : .dark
-//    }
-
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
         $0.contentMode = .scaleAspectFit
     }
@@ -67,8 +60,6 @@ public class PiCKMainNavigationBar: BaseView {
                 }
 
                 let value = self.userDefaultStorage.get(forKey: .displayMode) as? Int
-
-//                print("setValueWhenDisplayButtonDidTap: \(self?.displayType.rawValue)")
 
                 UIView.transition(
                     with: self.presentViewController.tabBarController!.view,

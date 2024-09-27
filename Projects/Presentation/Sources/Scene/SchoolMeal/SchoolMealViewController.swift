@@ -82,6 +82,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
                 self?.present(alert, animated: true)
             }.disposed(by: disposeBag)
     }
+
     public override func addView() {
         [
             navigationBar,
