@@ -17,7 +17,6 @@ public class PiCKCalendarAlert: UIViewController {
 
     private let backgroundView = UIView().then {
         $0.backgroundColor = .background
-        $0.layer.cornerRadius = 20
     }
     private lazy var calendarView = PiCKCalendarView(
         calnedarType: calendarType,
@@ -77,6 +76,11 @@ public class PiCKCalendarAlert: UIViewController {
 
         switch calendarType {
         case .schoolMealMonth:
+            self.backgroundView.layer.roundCorners(
+                cornerRadius: 20,
+                byRoundingCorners: [.bottomLeft, .bottomRight]
+            )
+
             backgroundView.snp.makeConstraints {
                 $0.top.leading.trailing.equalToSuperview()
                 $0.height.equalTo(379)
@@ -91,6 +95,11 @@ public class PiCKCalendarAlert: UIViewController {
                 $0.bottom.equalToSuperview().inset(10)
             }
         case .selfStudyMonth:
+            self.backgroundView.layer.roundCorners(
+                cornerRadius: 20,
+                byRoundingCorners: [.topLeft, .topRight]
+            )
+
             backgroundView.snp.makeConstraints {
                 $0.leading.trailing.bottom.equalToSuperview()
                 $0.height.equalTo(379)
