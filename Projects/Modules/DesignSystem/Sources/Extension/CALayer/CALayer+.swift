@@ -6,8 +6,11 @@ public extension CALayer {
         self.borderWidth = width
     }
 
-    func addDotBorder(color: UIColor, lineWidth: CGFloat, dotRadius: CGFloat) {
-
+    func addDotBorder(
+        color: UIColor,
+        lineWidth: CGFloat,
+        dotRadius: CGFloat
+    ) {
         self.sublayers?.removeAll(where: { $0.name == "DotBorder" })
 
         let dotBorder = CAShapeLayer()
@@ -22,4 +25,23 @@ public extension CALayer {
         self.addSublayer(dotBorder)
     }
 
+    func roundCorners(
+        cornerRadius: CGFloat,
+        byRoundingCorners: UIRectCorner
+    ) {
+        let path = UIBezierPath(
+            roundedRect: self.bounds,
+            byRoundingCorners: byRoundingCorners,
+            cornerRadii: CGSize(
+                width:cornerRadius,
+                height: cornerRadius
+            )
+        )
+
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = self.bounds
+        maskLayer.path = path.cgPath
+
+        self.mask = maskLayer
+    }
 }
