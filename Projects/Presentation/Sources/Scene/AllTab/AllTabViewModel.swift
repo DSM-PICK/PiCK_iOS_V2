@@ -17,8 +17,8 @@ public class AllTabViewModel: BaseViewModel, Stepper {
     }
 
     public struct Input {
-        let clickNoticeTab: Observable<IndexPath>
         let clickSelfStudyTab: Observable<IndexPath>
+        let clickNoticeTab: Observable<IndexPath>
         let clickBugReportTab: Observable<IndexPath>
         let clickCutomTab: Observable<IndexPath>
         let clickNotificationSettingTab: Observable<IndexPath>
@@ -28,13 +28,13 @@ public class AllTabViewModel: BaseViewModel, Stepper {
     public struct Output {}
 
     public func transform(input: Input) -> Output {
-        input.clickNoticeTab
-            .map { _ in PiCKStep.noticeIsRequired }
+        input.clickSelfStudyTab
+            .map { _ in PiCKStep.selfStudyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickSelfStudyTab
-            .map { _ in PiCKStep.selfStudyIsRequired }
+        input.clickNoticeTab
+            .map { _ in PiCKStep.noticeIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

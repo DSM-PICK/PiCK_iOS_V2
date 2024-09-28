@@ -11,16 +11,16 @@ import DesignSystem
 
 class HelpSectionView: BaseView {
     enum HelpSectionType: Int {
-        case notice
         case selfStudy
+        case notice
         case bugReport
     }
 
     private let helpSectionView = PiCKSectionView(
         menuText: "도움말",
         items: [
-            ("공지사항", .voice, .main700),
-            ("자습 감독 선생님 확인", .smile, .main700)
+            ("자습 감독 선생님 확인", .smile, .main700),
+            ("공지사항", .voice, .main700)
 //            ("버그 제보", .bug, .main700)
         ]
     )
