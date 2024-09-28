@@ -43,8 +43,8 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     }
     public override func bind() {
         let input = AllTabViewModel.Input(
-            clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
+            clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
             clickCutomTab: settingSectionView.getSelectedItem(type: .custom),
             clickNotificationSettingTab: settingSectionView.getSelectedItem(type: .notificationSetting),
@@ -54,16 +54,18 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
 
         _ = viewModel.transform(input: input)
 
-        self.accountSectionView.getSelectedItem(type: .logOut)
+        accountSectionView
+            .getSelectedItem(type: .logOut)
             .asObservable()
-            .subscribe(onNext: { [weak self] _ in
+            .withUnretained(self)
+            .bind { owner, _ in
                 let vc = LogOutAlert(clickLogout: {
-                    self?.logoutRelay.accept(())
+                    owner.logoutRelay.accept(())
                 })
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
-                self?.present(vc, animated: true)
-            }).disposed(by: disposeBag)
+                owner.present(vc, animated: true)
+            }.disposed(by: disposeBag)
     }
 
     public override func addView() {

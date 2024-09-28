@@ -67,7 +67,6 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
             onboardingButton
         ].forEach { view.addSubview($0) }
     }
-
     public override func setLayout() {
         animationView.snp.makeConstraints {
             $0.center.equalToSuperview()
@@ -75,7 +74,8 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
         }
         logoImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.size.equalTo(300)
+            $0.width.equalTo(240)
+            $0.height.equalTo(86)
         }
         onboardingButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
