@@ -1,7 +1,7 @@
 #!/bin/sh
 cd ../
 git clone https://github.com/DSM-PICK/PiCK_iOS_V2_XCConfig.git
-mv PiCK_iOS_V2_XCConfig/XCConfig/ .
+mv PiCK_iOS_V2_XCConfig/XCConfig/.
 
 git clone https://github.com/DSM-PICK/PiCK-iOS-GoogleInfo.git
 mv PiCK-iOS-GoogleInfo/FireBase/Projects/App/Resources/
