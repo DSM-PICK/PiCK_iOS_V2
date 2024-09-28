@@ -5,7 +5,7 @@ import DependencyPlugin
 let project = Project.makeModule(
     name: "Flow",
     platform: .iOS,
-    product: .staticFramework,
+    product: .staticLibrary,
     dependencies: [
         .Projects.presentation,
         .Projects.data,

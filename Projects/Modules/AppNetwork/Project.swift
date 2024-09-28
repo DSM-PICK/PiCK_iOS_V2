@@ -5,7 +5,7 @@ import DependencyPlugin
 let project = Project.makeModule(
     name: "AppNetwork",
     platform: .iOS,
-    product: .framework,
+    product: .staticFramework,
     dependencies: [
         .Projects.core
     ]
