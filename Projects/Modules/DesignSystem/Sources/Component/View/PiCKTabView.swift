@@ -23,8 +23,12 @@ public class PiCKTabView: BaseView {
                 initialSpringVelocity: 1,
                 options: .transitionCrossDissolve
             ) { [self] in
-                detailStackView.arrangedSubviews.forEach { $0.isHidden = !isOpen }
-                detailStackView.arrangedSubviews.forEach { $0.alpha = isOpen ? 1 : 0 }
+                detailStackView.arrangedSubviews.forEach {
+                    $0.isHidden = !isOpen
+                }
+                detailStackView.arrangedSubviews.forEach {
+                    $0.alpha = isOpen ? 1 : 0
+                }
                 backgroundView.layer.border(color: borderColor, width: 1)
                 self.layoutIfNeeded()
             }
@@ -44,7 +48,10 @@ public class PiCKTabView: BaseView {
     private let iconImageView = UIImageView().then {
         $0.tintColor = .gray800
     }
-    private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
     private lazy var titleStackView = UIStackView(arrangedSubviews: [
         iconImageView,
         titleLabel
@@ -67,10 +74,15 @@ public class PiCKTabView: BaseView {
         explainLabel,
         actionButton
     ]).then {
-        $0.spacing = 16
         $0.axis = .vertical
+        $0.spacing = 16
+        $0.layoutMargins = .init(
+            top: 16,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
         $0.isLayoutMarginsRelativeArrangement = true
-        $0.layoutMargins = .init(top: 16, left: 0, bottom: 0, right: 0)
     }
 
     public func setup(

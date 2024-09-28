@@ -13,11 +13,11 @@ public class PiCKMainNavigationBar: BaseView {
     private let userDefaultStorage = UserDefaultStorage.shared
 
     public var displayModeButtonTap: ControlEvent<Void> {
-         return displayModeButton.buttonTap
-     }
+        return displayModeButton.buttonTap
+    }
     public var alertButtonTap: ControlEvent<Void> {
-         return alertButton.buttonTap
-     }
+        return alertButton.buttonTap
+    }
 
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
         $0.contentMode = .scaleAspectFit
@@ -66,8 +66,11 @@ public class PiCKMainNavigationBar: BaseView {
                     duration: 0.7,
                     options: .transitionCrossDissolve
                 ) {
-                    self.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: value ?? 0) ?? .unspecified
+                    self.presentViewController.tabBarController?.view.window?.overrideUserInterfaceStyle = UIUserInterfaceStyle(
+                        rawValue: value ?? 0
+                    ) ?? .unspecified
                 }
+                self.presentViewController.loadViewIfNeeded()
             }.disposed(by: disposeBag)
     }
 
