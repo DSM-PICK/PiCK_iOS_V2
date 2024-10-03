@@ -10,8 +10,15 @@ import DesignSystem
 public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
     static let identifier = "SchoolMealCollectionViewCell"
 
-    private let mealTimeLabel = PiCKLabel(textColor: .main700, font: .subTitle1)
-    private let menuLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 0)
+    private let mealTimeLabel = PiCKLabel(
+        textColor: .main700,
+        font: .subTitle1
+    )
+    private let menuLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .body1,
+        numberOfLines: 0
+    )
     private let kcalLabel = PiCKLabel(
         textColor: .background,
         font: .caption2,
@@ -51,6 +58,7 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
         menuLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(mealTimeLabel.snp.trailing).offset(70)
+            $0.trailing.equalToSuperview().inset(90)
         }
         kcalLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()

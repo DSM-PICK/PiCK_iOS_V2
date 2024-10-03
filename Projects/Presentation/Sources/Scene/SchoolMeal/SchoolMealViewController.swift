@@ -28,7 +28,10 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         $0.changePointColor(targetString: "오늘", color: .main500)
     }
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
-        $0.itemSize = .init(width: self.view.frame.width - 48, height: 154)
+        $0.itemSize = .init(
+            width: self.view.frame.width - 48,
+            height: 154
+        )
         $0.minimumLineSpacing = 20
     }
     private lazy var schoolMealCollectionView = UICollectionView(
@@ -49,7 +52,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         navigationController?.isNavigationBarHidden = true
     }
     public override func bindAction() {
-        loadSchoolMealRelay.accept(todayDate.toString(type: .fullDate))
+        loadSchoolMeal(date: todayDate)
     }
     public override func bind() {
         let input = SchoolMealViewModel.Input(
@@ -113,8 +116,9 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     }
 
     private func loadSchoolMeal(date: Date) {
-        self.schoolMealCalendarView.setupDate(date: date)
         self.loadSchoolMealRelay.accept(date.toString(type: .fullDate))
+
+        self.schoolMealCalendarView.setupDate(date: date)
 
         if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
             self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDayKor))"

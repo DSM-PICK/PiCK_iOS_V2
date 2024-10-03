@@ -23,7 +23,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
         super.attribute()
 
         [
-            logoImageView,
+//            logoImageView,
             onboardingButton
         ].forEach { $0.isHidden = true }
     }
@@ -41,7 +41,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
             .bind { [weak self] in
                 guard let self else { return }
                 if !isOnLoading {
-                    animationView.play()
+//                    animationView.play()
                     isOnLoading = true
                 }
             }.disposed(by: disposeBag)
@@ -62,16 +62,16 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
 
     public override func addView() {
         [
-            animationView,
+//            animationView,
             logoImageView,
             onboardingButton
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
-        animationView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.size.equalTo(300)
-        }
+//        animationView.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.size.equalTo(300)
+//        }
         logoImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(240)
@@ -85,7 +85,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
 
     private func setComponetAppear() {
         [
-            logoImageView,
+//            logoImageView,
             onboardingButton
         ].forEach { $0.isHidden = false }
 
