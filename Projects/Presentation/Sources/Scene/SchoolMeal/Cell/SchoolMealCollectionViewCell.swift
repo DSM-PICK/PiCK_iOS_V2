@@ -20,11 +20,6 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
         backgroundColor: .main500,
         cornerRadius: 12
     )
-    private var menuLabel = PiCKLabel(
-        textColor: .modeBlack,
-        font: .label1,
-        numberOfLines: 0
-    )
     private lazy var infoStackView = UIStackView(arrangedSubviews: [
         mealTimeLabel,
         kcalLabel
@@ -34,6 +29,11 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
         $0.alignment = .center
         $0.distribution = .fillEqually
     }
+    private var menuLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1,
+        numberOfLines: 0
+    )
 
     public func setup(
         mealTime: String,
