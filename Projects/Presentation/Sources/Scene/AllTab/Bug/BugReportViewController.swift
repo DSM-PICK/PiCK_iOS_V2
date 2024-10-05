@@ -17,7 +17,7 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
     private var dataArray: [Data] = []
     private var bugDataArray = BehaviorRelay<[Data]>(value: [])
 
-    private let bugLocationView = BugReportView(type: .location)
+    private let bugTitleView = BugReportView(type: .location)
     private let bugExplainView = BugReportView(type: .explain)
     private let bugImageView = BugReportView(type: .photo)
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
@@ -58,18 +58,20 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
     }
     public override func bind() {
         let input = BugReportViewModel.Input(
-            bugTitle: bugLocationView.titleText.asObservable(),
-            bugExplain: bugLocationView.contentText.asObservable(),
+            bugTitle: bugTitleView.titleText.asObservable(),
+            bugContent: bugExplainView.contentText.asObservable(),
             bugImages: bugDataArray.asObservable(),
             clickBugReport: reportButton.buttonTap.asObservable()
         )
 
         let output = viewModel.transform(input: input)
 
-        output.isReportButtonEnable.asObservable()
-            .bind(onNext: { [weak self] isEnabled in
-                self?.reportButton.isEnabled = isEnabled
-            }).disposed(by: disposeBag)
+        output.isReportButtonEnable
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.reportButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
 
         bugImageArray.bind(to: collectionView.rx.items(
             cellIdentifier: BugImageCollectionViewCell.identifier,
@@ -79,38 +81,42 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
             cell.deleteButtonTap
                 .bind {
                     self?.imageArray.remove(at: row)
-                    self?.bugImageArray.accept(self?.imageArray ?? [])
                     self?.dataArray.remove(at: row)
+                    self?.bugImageArray.accept(self?.imageArray ?? [])
                     self?.bugDataArray.accept(self?.dataArray ?? [])
                     self?.collectionView.reloadData()
+                    // 배열들 관계가 너무 꼬인듯
                 }.disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
     }
+
     public override func bindAction() {
         super.bindAction()
 
         bugImageView.rx.tapGesture()
             .when(.recognized)
-            .bind(onNext: { [self] _ in
-                present(pickerViewController, animated: true)
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.present(owner.pickerViewController, animated: true)
+            }.disposed(by: disposeBag)
     }
+
     public override func addView() {
         [
-            bugLocationView,
+            bugTitleView,
             bugExplainView,
             bugImageStackView,
             reportButton
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
-        bugLocationView.snp.makeConstraints {
+        bugTitleView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(28)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(71)
         }
         bugExplainView.snp.makeConstraints {
-            $0.top.equalTo(bugLocationView.snp.bottom).offset(40)
+            $0.top.equalTo(bugTitleView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(151)
         }
