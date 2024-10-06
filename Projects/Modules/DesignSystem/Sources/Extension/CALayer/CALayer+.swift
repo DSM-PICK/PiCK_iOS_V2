@@ -33,7 +33,7 @@ public extension CALayer {
             roundedRect: self.bounds,
             byRoundingCorners: byRoundingCorners,
             cornerRadii: CGSize(
-                width:cornerRadius,
+                width: cornerRadius,
                 height: cornerRadius
             )
         )
