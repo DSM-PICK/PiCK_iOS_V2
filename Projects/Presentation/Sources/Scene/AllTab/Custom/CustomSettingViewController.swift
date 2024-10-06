@@ -11,8 +11,8 @@ import DesignSystem
 
 public class CustomSettingViewController: BaseViewController<CustomSettingViewModel> {
     private lazy var tabArray = [
-        homeSettingTabView
-//        pickerSettingTabView
+        homeSettingTabView,
+        pickerSettingTabView
     ]
 
     private let titleLabel = PiCKLabel(
