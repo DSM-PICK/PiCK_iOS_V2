@@ -132,6 +132,9 @@ public class AllTabFlow: Flow {
         alert.modalPresentationStyle = .overFullScreen
         alert.modalTransitionStyle = .crossDissolve
 
+        if successType == .success {
+            self.rootViewController.tabBarController?.selectedIndex = 0
+        }
         self.rootViewController.popToRootViewController(animated: true)
         self.rootViewController.present(alert, animated: true)
         return .none

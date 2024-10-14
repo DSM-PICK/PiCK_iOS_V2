@@ -103,7 +103,6 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                 cellIdentifier: ClassroomCollectionViewCell.identifier,
                 cellType: ClassroomCollectionViewCell.self
             )) { _, item, cell in
-//                cell.adapt(model: .init(classRoom: [item]))
                 cell.setup(classroom: item)
             }.disposed(by: disposeBag)
 
@@ -116,18 +115,18 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             }.disposed(by: disposeBag)
 
         nextButton.buttonTap
-            .bind {
-                let vc = PiCKApplyTimePickerAlert(type: .classroom)
+            .bind { [weak self] in
+                let alert = PiCKApplyTimePickerAlert(type: .classroom)
 
-                vc.selectedPeriod = { [weak self] startPeriod, endPeriod in
+                alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
                     self?.startPeriod.accept(startPeriod)
                     self?.endPeriod.accept(endPeriod)
                 }
-                vc.clickApplyButton = { [weak self] in
+                alert.clickApplyButton = { [weak self] in
                     self?.classroomMoveApplyRelay.accept(())
                 }
 
-                self.presentAsCustomDents(view: vc, height: 406)
+                self?.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
     }
 

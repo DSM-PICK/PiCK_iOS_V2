@@ -41,7 +41,11 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         font: .label1
     )
     private let startTimeSelectButton = TimeSelectButton(type: .system)
-    private let sinceLabel = PiCKLabel(text: "부터", textColor: .modeBlack, font: .label1)
+    private let sinceLabel = PiCKLabel(
+        text: "부터",
+        textColor: .modeBlack,
+        font: .label1
+    )
     private let endTimeSelectButton = TimeSelectButton(type: .system)
     private let untilLabel = PiCKLabel(
         text: "까지",
@@ -59,7 +63,10 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         $0.axis = .horizontal
         $0.spacing = 12
     }
-    private let outingReasonTextView = PiCKTextView(title: "외출 사유를 입력하세요", placeholder: "자세히 입력해주세요")
+    private let outingReasonTextView = PiCKTextView(
+        title: "외출 사유를 입력하세요",
+        placeholder: "자세히 입력해주세요"
+    )
     private let applyButton = PiCKButton(buttonText: "신청하기")
 
     public override func attribute() {
@@ -92,10 +99,14 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
         startTimeSelectButton.buttonTap
             .bind { [weak self] in
                 let alert = PiCKApplyTimePickerAlert(type: .outingStart)
+
                 alert.selectedTime = { [weak self] hour, min in
                     self?.startTimeRelay.accept("\(hour):\(min)")
-                    self?.startTimeSelectButton.setup(text: "\(hour)시 \(min)분")
+                    self?.startTimeSelectButton.setup(
+                        text: "\(hour)시 \(min)분"
+                    )
                 }
+
                 self?.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
 
@@ -105,7 +116,9 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
 
                 alert.selectedTime = { [weak self] hour, min in
                     self?.endTimeRelay.accept("\(hour):\(min)")
-                    self?.endTimeSelectButton.setup(text: "\(hour)시 \(min)분")
+                    self?.endTimeSelectButton.setup(
+                        text: "\(hour)시 \(min)분"
+                    )
 
                     self?.applicationType.accept(.time)
                 }
@@ -118,9 +131,11 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
                 let alert = PiCKApplyTimePickerAlert(type: .outingPeriod)
 
                 alert.selectedPeriod = { [weak self] startPeriod, endPeriod in
-                    self?.startTimeRelay.accept("\(startPeriod)교시")
-                    self?.endTimeRelay.accept("\(endPeriod)교시")
-                    self?.periodSelectButton.setup(text: "\(startPeriod)교시 부터\t\t\(endPeriod)교시 까지")
+                    self?.startTimeRelay.accept("\(startPeriod)")
+                    self?.endTimeRelay.accept("\(endPeriod)")
+                    self?.periodSelectButton.setup(
+                        text: "\(startPeriod)교시 부터\t\t\(endPeriod)교시 까지"
+                    )
 
                     self?.applicationType.accept(.period)
                 }

@@ -51,6 +51,24 @@ public class TimeTableView: BaseView {
         timeTableData: WeekTimeTableEntity
     ) {
         self.timeTableData.accept(timeTableData)
+
+        let today = Calendar.current.startOfDay(for: Date())
+
+        if let todayIndex = timeTableData.firstIndex(where: { timetable in
+            Calendar.current.isDate(
+                timetable.date.toDate(type: .fullDate),
+                inSameDayAs: today
+            )
+        }) {
+            let indexPath = IndexPath(item: todayIndex, section: 0)
+            collectionView.scrollToItem(
+                at: indexPath,
+                at: .centeredHorizontally,
+                animated: false
+            )
+
+            pageControl.currentPage = todayIndex
+        }
     }
 
     public override func bind() {
