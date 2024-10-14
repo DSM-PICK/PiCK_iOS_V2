@@ -11,10 +11,10 @@ import DesignSystem
 
 public class NotificationViewController: BaseViewController<NotificationViewModel> {
     private lazy var switchViewArray = [
-        outingStatusNotificationSwitchView,
+        outingStatusSwitchView,
         classroomStatusSwitchView,
-        noticeNotificationSwitchView,
-        weekendMealNotificationSwitchView
+        noticeSwitchView,
+        weekendMealSwitchView
     ]
 
     private let allNotificationSwitchView = NotificationSwitchView(title: "전체 알림")
@@ -31,15 +31,15 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
         textColor: .gray500,
         font: .body1
     )
-    private let outingStatusNotificationSwitchView = NotificationSwitchView(title: "외출 상태 변경")
+    private let outingStatusSwitchView = NotificationSwitchView(title: "외출 상태 변경")
     private let classroomStatusSwitchView = NotificationSwitchView(title: "교실 이동 상태 변경")
-    private let noticeNotificationSwitchView = NotificationSwitchView(title: "새로운 공지 등록")
-    private let weekendMealNotificationSwitchView = NotificationSwitchView(title: "주말 급식 신청기간")
+    private let noticeSwitchView = NotificationSwitchView(title: "새로운 공지 등록")
+    private let weekendMealSwitchView = NotificationSwitchView(title: "주말 급식 신청기간")
     private lazy var switchStackView = UIStackView(arrangedSubviews: [
-        outingStatusNotificationSwitchView,
+        outingStatusSwitchView,
         classroomStatusSwitchView,
-        noticeNotificationSwitchView,
-        weekendMealNotificationSwitchView
+        noticeSwitchView,
+        weekendMealSwitchView
     ]).then {
         $0.axis = .vertical
         $0.spacing = 12
@@ -55,10 +55,10 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     public override func bind() {
         let input = NotificationViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            outingStatus: outingStatusNotificationSwitchView.clickSwitchButton.asObservable(),
+            outingStatus: outingStatusSwitchView.clickSwitchButton.asObservable(),
             classroomStatus: classroomStatusSwitchView.clickSwitchButton.asObservable(),
-            newNoticeStatus: noticeNotificationSwitchView.clickSwitchButton.asObservable(),
-            weekendMealStatus: weekendMealNotificationSwitchView.clickSwitchButton.asObservable()
+            newNoticeStatus: noticeSwitchView.clickSwitchButton.asObservable(),
+            weekendMealStatus: weekendMealSwitchView.clickSwitchButton.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -85,7 +85,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
                 }
             }.disposed(by: disposeBag)
 
-        outingStatusNotificationSwitchView.clickSwitchButton
+        outingStatusSwitchView.clickSwitchButton
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
@@ -99,14 +99,14 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
                 owner.toggleButton()
             }.disposed(by: disposeBag)
 
-        noticeNotificationSwitchView.clickSwitchButton
+        noticeSwitchView.clickSwitchButton
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
                 owner.toggleButton()
             }.disposed(by: disposeBag)
 
-        weekendMealNotificationSwitchView.clickSwitchButton
+        weekendMealSwitchView.clickSwitchButton
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
@@ -151,10 +151,10 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
 
     private func toggleButton() {
         if (
-            outingStatusNotificationSwitchView.switchIsOn &&
+            outingStatusSwitchView.switchIsOn &&
             classroomStatusSwitchView.switchIsOn &&
-            noticeNotificationSwitchView.switchIsOn &&
-            weekendMealNotificationSwitchView.switchIsOn
+            noticeSwitchView.switchIsOn &&
+            weekendMealSwitchView.switchIsOn
         ) == true {
             self.allNotificationSwitchView.setup(isOn: true)
         } else {
