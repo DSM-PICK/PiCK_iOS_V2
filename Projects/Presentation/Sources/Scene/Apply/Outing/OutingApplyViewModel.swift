@@ -42,13 +42,15 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             !reason!.isEmpty && !startTime.isEmpty && !endTime.isEmpty && startTime <= endTime
         }
 
-        input.clickOutingApply.asObservable()
+        input.clickOutingApply
             .withLatestFrom(info)
             .flatMap { reason, startTime, endTime, applicationType in
                 self.outingApplyUseCase.execute(req: .init(
                     reason: reason ?? "",
-                    startTime: startTime,
-                    endTime: endTime,
+                    startTime: applicationType == .period ?
+                    "\(startTime)교시" : startTime,
+                    endTime: applicationType == .period ?
+                    "\(endTime)교시" : endTime,
                     applicationType: applicationType.rawValue
                 ))
                 .catch {
@@ -61,10 +63,14 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
                     print($0.localizedDescription)
                     return .never()
                 }
-                .andThen(Single.just(PiCKStep.applyAlertIsRequired(
-                    successType: .success,
-                    alertType: .outing
-                )))
+                .andThen(
+                    Single.just(
+                        PiCKStep.applyAlertIsRequired(
+                            successType: .success,
+                            alertType: .outing
+                        )
+                    )
+                )
             }
             .bind(to: steps)
             .disposed(by: disposeBag)
