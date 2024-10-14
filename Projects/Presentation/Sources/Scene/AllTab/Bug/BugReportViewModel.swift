@@ -24,7 +24,7 @@ public class BugReportViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let bugTitle: Observable<String?>
-        let bugExplain: Observable<String?>
+        let bugContent: Observable<String?>
         let bugImages: Observable<[Data]>
         let clickBugReport: Observable<Void>
     }
@@ -35,12 +35,12 @@ public class BugReportViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         let info = Observable.combineLatest(
             input.bugTitle,
-            input.bugExplain,
+            input.bugContent,
             input.bugImages
         )
 
-        let isReportButtonEnable = info.map { title, explain, images -> Bool in
-            !title!.isEmpty && !explain!.isEmpty && !images.isEmpty
+        let isReportButtonEnable = info.map { title, content, _ -> Bool in
+            !title!.isEmpty && !content!.isEmpty
         }
 
         input.clickBugReport
@@ -48,12 +48,8 @@ public class BugReportViewModel: BaseViewModel, Stepper {
             .flatMap { title, content, images in
                 self.bugImageUploadUseCase.execute(images: images)
                 .catch {
-                    self.steps.accept(PiCKStep.applyAlertIsRequired(
-                        successType: .fail,
-                        alertType: .bug
-                    ))
                     print($0.localizedDescription)
-                    return .never()
+                    return .just([])
                 }
                 .flatMap { images in
                     self.bugReportUseCase.execute(req: .init(
@@ -61,14 +57,18 @@ public class BugReportViewModel: BaseViewModel, Stepper {
                         content: content ?? "",
                         fileName: images
                     ))
-                        .catch {
-                            print($0.localizedDescription)
-                            return .never()
-                        }
-                        .andThen(Single.just(PiCKStep.applyAlertIsRequired(
-                            successType: .success,
-                            alertType: .bug
-                        )))
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+                    .andThen(
+                        Single.just(
+                            PiCKStep.applyAlertIsRequired(
+                                successType: .success,
+                                alertType: .bug
+                            )
+                        )
+                    )
                 }
             }
             .bind(to: steps)

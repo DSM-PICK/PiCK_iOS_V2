@@ -34,7 +34,12 @@ extension BugAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case .uploadImage(let images):
-            var multiformData = [MultipartFormData]()
+            var multiformData: [MultipartFormData] = [
+                .init(
+                    provider: .data(Data()),
+                    name: ""
+                )
+            ]
 
             for image in images {
                 multiformData.append(.init(
@@ -46,6 +51,7 @@ extension BugAPI: PiCKAPI {
             }
 
             return .uploadMultipart(multiformData)
+
         case .bugReport(let req):
             return .requestParameters(
                 parameters: [

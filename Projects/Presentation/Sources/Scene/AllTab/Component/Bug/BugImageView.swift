@@ -10,7 +10,11 @@ public class BugImageView: BaseView {
     private let imageView = UIImageView(image: .imageIcon).then {
         $0.tintColor = .gray500
     }
-    private let explainLabel = PiCKLabel(text: "사진을 첨부해주세요.", textColor: .gray500, font: .caption2)
+    private let explainLabel = PiCKLabel(
+        text: "사진을 첨부해주세요.",
+        textColor: .gray500,
+        font: .caption2
+    )
 
     public override func attribute() {
         super.attribute()
@@ -37,7 +41,11 @@ public class BugImageView: BaseView {
     }
 
     private func setDashedLine() {
-        self.layer.addDotBorder(color: .gray600, lineWidth: 1, dotRadius: 3)
+        self.layer.addDotBorder(
+            color: .gray600,
+            lineWidth: 1,
+            dotRadius: 3
+        )
     }
 
 }

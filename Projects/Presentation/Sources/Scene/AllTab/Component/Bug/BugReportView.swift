@@ -9,7 +9,6 @@ import DesignSystem
 public enum BugType {
     case location
     case explain
-    case photo
 }
 
 public class BugReportView: BaseView {
@@ -34,9 +33,6 @@ public class BugReportView: BaseView {
     ).then {
         $0.isHidden = true
     }
-    private let imageView = BugImageView().then {
-        $0.isHidden = true
-    }
 
     public init(
         type: BugType
@@ -53,8 +49,7 @@ public class BugReportView: BaseView {
         [
             titleLabel,
             textField,
-            textView,
-            imageView
+            textView
         ].forEach { self.addSubview($0) }
 
         titleLabel.snp.makeConstraints {
@@ -68,10 +63,6 @@ public class BugReportView: BaseView {
         textView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        imageView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
     }
 
     private func typeSetting() {
@@ -83,9 +74,6 @@ public class BugReportView: BaseView {
         case .explain:
             titleLabel.isHidden = true
             textView.isHidden = false
-        case .photo:
-            titleLabel.text = "버그 사진을 첨부해주세요"
-            imageView.isHidden = false
         }
     }
 

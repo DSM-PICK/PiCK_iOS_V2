@@ -36,6 +36,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
         $0.spacing = 24
         $0.isLayoutMarginsRelativeArrangement = true
     }
+
     public override func configureNavgationBarLayOutSubviews() {
         super.configureNavgationBarLayOutSubviews()
 
@@ -59,12 +60,12 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
-                let vc = LogOutAlert(clickLogout: {
+                let alert = LogOutAlert(clickLogout: {
                     owner.logoutRelay.accept(())
                 })
-                vc.modalPresentationStyle = .overFullScreen
-                vc.modalTransitionStyle = .crossDissolve
-                owner.present(vc, animated: true)
+                alert.modalPresentationStyle = .overFullScreen
+                alert.modalTransitionStyle = .crossDissolve
+                owner.present(alert, animated: true)
             }.disposed(by: disposeBag)
     }
 

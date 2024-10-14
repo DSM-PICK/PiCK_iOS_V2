@@ -33,6 +33,11 @@ public class BugImageCollectionViewCell: BaseCollectionViewCell<Any> {
         self.imageView.image = image
     }
 
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.disposeBag = DisposeBag()
+    }
     public override func attribute() {
         self.layer.cornerRadius = 4
     }
