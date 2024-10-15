@@ -15,7 +15,7 @@ extension BugAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
     public var urlType: PiCKURL {
-        .bug
+        return .bug
     }
 
     public var urlPath: String {

@@ -113,9 +113,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     }
             }
             .subscribe(onNext: { data in
-                let value = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
-                self.userDefaultStorage.set(to: value, forKey: .userInfoData)
+                let infoValue = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
+
+                self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
+//                self.userDefaultStorage.set(to: data.profile, forKey: .userProfileImageData)
             }).disposed(by: disposeBag)
 
         input.viewWillAppear

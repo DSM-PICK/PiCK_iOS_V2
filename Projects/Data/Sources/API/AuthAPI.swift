@@ -15,7 +15,7 @@ extension AuthAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
     public var urlType: PiCKURL {
-        .user
+        return .user
     }
 
     public var urlPath: String {

@@ -7,6 +7,8 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
+import Kingfisher
+
 import Core
 
 public class PiCKProfileView: BaseView {
@@ -18,10 +20,13 @@ public class PiCKProfileView: BaseView {
     )
 
     public func setup(
-        image: UIImage,
+        image: String,
         info: String
     ) {
-        self.profileImageView.image = image
+        self.profileImageView.kf.setImage(
+            with: URL(string: image),
+            placeholder: UIImage.profile
+        )
         self.userInfoLabel.text = "대덕소프트웨어마이스터고\n\(info)"
     }
 

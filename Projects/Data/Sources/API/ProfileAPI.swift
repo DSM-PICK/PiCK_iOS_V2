@@ -9,6 +9,7 @@ import AppNetwork
 public enum ProfileAPI {
     case fetchSimpleProfile
     case fetchDetailProfile
+    case uploadProfileImage(image: Data)
 }
 
 extension ProfileAPI: PiCKAPI {
@@ -24,15 +25,35 @@ extension ProfileAPI: PiCKAPI {
             return "/simple"
         case .fetchDetailProfile:
             return "/details"
+        case .uploadProfileImage:
+            return "/profile"
         }
     }
 
     public var method: Moya.Method {
-        return .get
+        switch self {
+        case .uploadProfileImage:
+            return .patch
+        default:
+            return .get
+        }
     }
 
     public var task: Moya.Task {
-        return .requestPlain
+        switch self {
+        case .uploadProfileImage(let image):
+            var multiformData: [MultipartFormData] = []
+            multiformData.append(.init(
+                provider: .data(image),
+                name: "file",
+                fileName: "file.jpg",
+                mimeType: "file/jpg"
+            ))
+
+            return .uploadMultipart(multiformData)
+        default:
+            return .requestPlain
+        }
     }
 
     public var pickHeader: TokenType {

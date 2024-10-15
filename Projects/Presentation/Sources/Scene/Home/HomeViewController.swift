@@ -297,8 +297,15 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
 
     public override func setLayoutData() {
-        let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
-        self.profileView.setup(image: .profile, info: userInfoData ?? "정보가 없는 사용자")
+        let userDefaultStorage = UserDefaultStorage.shared
+
+        let userInfoData = userDefaultStorage.get(forKey: .userInfoData) as? String
+        let userInfoImage = userDefaultStorage.get(forKey: .userProfileImageData) as? String
+
+        self.profileView.setup(
+            image: userInfoImage ?? "",
+            info: userInfoData ?? "정보가 없는 사용자"
+        )
     }
 
     private func setupViewType(type: HomeViewType) {
