@@ -133,7 +133,7 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
         picker.dismiss(animated: true) {
             let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             self.profileImageView.image = image
-            self.profileImageData.accept(info[UIImagePickerController.InfoKey.editedImage] as? Data ?? Data())
+            self.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
         }
     }
 }

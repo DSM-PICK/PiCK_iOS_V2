@@ -12,7 +12,11 @@ import Kingfisher
 import Core
 
 public class PiCKProfileView: BaseView {
-    private let profileImageView = UIImageView(image: .profile)
+    private let profileImageView = UIImageView().then {
+        $0.contentMode = .scaleToFill
+        $0.layer.cornerRadius = 30
+        $0.clipsToBounds = true
+    }
     private let userInfoLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .label1,
