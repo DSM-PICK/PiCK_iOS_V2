@@ -15,9 +15,9 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     private var profileImageData = PublishRelay<Data>()
 
     private let profileImageView = UIImageView().then {
-        $0.contentMode = .scaleToFill
         $0.layer.cornerRadius = 40
         $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
     }
     private let changeButton = UIButton(type: .system).then {
         $0.setTitle("변경하기", for: .normal)
@@ -75,12 +75,12 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     }
     public override func bindAction() {
         changeButton.rx.tap
-            .bind {
+            .bind { [weak self] in
                 let picker = UIImagePickerController()
                 picker.sourceType = .photoLibrary
                 picker.allowsEditing = true
                 picker.delegate = self
-                self.present(picker, animated: true)
+                self?.present(picker, animated: true)
             }.disposed(by: disposeBag)
     }
 
@@ -130,10 +130,11 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        picker.dismiss(animated: true) {
+        picker.dismiss(animated: true) { [weak self] in
             let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
-            self.profileImageView.image = image
-            self.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
+            self?.profileImageView.image = image
+            self?.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
+            UserDefaultStorage.shared.remove(forKey: .userProfileImageData)
         }
     }
 }
