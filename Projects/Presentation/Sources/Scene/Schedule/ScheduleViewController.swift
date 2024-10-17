@@ -31,7 +31,9 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let segmentedControl = ScheduleSegmentedControl(items: ["시간표", "학사일정"])
+    private let segmentedControl = ScheduleSegmentedControl(
+        items: ["시간표", "학사일정"]
+    )
     private lazy var timeTableView = TimeTableView(frame: viewSize)
     private lazy var academicScheduleView = AcademicScheduleView(
         frame: viewSize,
@@ -60,25 +62,28 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
         let output = viewModel.transform(input: input)
 
         output.timeTableData.asObservable()
-            .subscribe(onNext: { [weak self] data in
-                self?.timeTableView.timeTableSetup(
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.timeTableView.timeTableSetup(
                     timeTableData: data
                 )
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         output.monthAcademicScheduleData.asObservable()
-            .subscribe(onNext: { [weak self] data in
-                self?.academicScheduleView.monthAcademicScheduleSetup(
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.academicScheduleView.monthAcademicScheduleSetup(
                     monthAcademicSchedule: data
                 )
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         output.academicScheduleData.asObservable()
-            .subscribe(onNext: { [weak self] data in
-                self?.academicScheduleView.academicScheduleSetup(
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.academicScheduleView.academicScheduleSetup(
                     academicSchedule: data
-                )
-            }).disposed(by: disposeBag)
+                    )
+            }.disposed(by: disposeBag)
 
         segmentedControl.rx.selectedSegmentIndex
             .map { $0 != 0 }
@@ -86,13 +91,11 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
             .disposed(by: disposeBag)
 
         shouldHideFirstView
-            .subscribe(
-                onNext: { [weak self] shouldHide in
-                    self?.timeTableView.isHidden = shouldHide
-                    self?.academicScheduleView.isHidden = !shouldHide
-                }
-            )
-            .disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, shouldHide in
+                owner.timeTableView.isHidden = shouldHide
+                owner.academicScheduleView.isHidden = !shouldHide
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
