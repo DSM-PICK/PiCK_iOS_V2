@@ -12,13 +12,19 @@ public class MyPageViewModel: BaseViewModel, Stepper {
     public var steps = PublishRelay<Step>()
 
     private let profileUsecase: FetchDetailProfileUseCase
+    private let uploadProfileImageUseCase: UploadProfileImageUseCase
 
-    public init(profileUsecase: FetchDetailProfileUseCase) {
+    public init(
+        profileUsecase: FetchDetailProfileUseCase,
+        uploadProfileImageUseCase: UploadProfileImageUseCase
+    ) {
         self.profileUsecase = profileUsecase
+        self.uploadProfileImageUseCase = uploadProfileImageUseCase
     }
 
     public struct Input {
         let viewWillAppear: Observable<Void>
+        let profileImage: Observable<Data>
     }
     public struct Output {
         let profileData: Signal<DetailProfileEntity>
@@ -36,6 +42,17 @@ public class MyPageViewModel: BaseViewModel, Stepper {
                     }
             }
             .bind(to: profileData)
+            .disposed(by: disposeBag)
+
+        input.profileImage
+            .flatMap { image in
+                self.uploadProfileImageUseCase.execute(image: image)
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .subscribe()
             .disposed(by: disposeBag)
 
         return Output(profileData: profileData.asSignal())

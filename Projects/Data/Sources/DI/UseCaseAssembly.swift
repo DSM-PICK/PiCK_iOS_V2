@@ -77,6 +77,9 @@ public final class UseCaseAssembly: Assembly {
         container.register(FetchDetailProfileUseCase.self) { resolver in
             FetchDetailProfileUseCase(repository: resolver.resolve(ProfileRepository.self)!)
         }
+        container.register(UploadProfileImageUseCase.self) { resolver in
+            UploadProfileImageUseCase(repository: resolver.resolve(ProfileRepository.self)!)
+        }
         // bug
         container.register(BugImageUploadUseCase.self) { resolver in
             BugImageUploadUseCase(repository: resolver.resolve(BugRepository.self)!)
