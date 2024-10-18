@@ -95,17 +95,6 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 }
             }).disposed(by: disposeBag)
 
-        input.viewWillAppear.flatMap {
-            self.fetchProfileUseCase.execute()
-                .catch {
-                    print($0.localizedDescription)
-                    return .never()
-                }
-        }
-        .bind(to: profileData)
-        .disposed(by: disposeBag)
-
-
         input.viewWillAppear
             .flatMap {
                 self.fetchWeekendMealPeriodUseCase.execute()
@@ -130,6 +119,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
                 self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
+                self.profileData.accept(data)
             }).disposed(by: disposeBag)
 
         input.viewWillAppear
