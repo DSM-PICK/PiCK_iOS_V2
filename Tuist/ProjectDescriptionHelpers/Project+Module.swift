@@ -29,13 +29,15 @@ extension Project {
         ["OTHER_LDFLAGS": .string("$(inherited) -all_load")] :
         ["OTHER_LDFLAGS": .string("$(inherited)")]
         
-        var configurations = configurations
-        if configurations.isEmpty {
-            configurations = [
-                .debug(name: .stage, xcconfig: .relativeToXCConfig(type: .stage, name: name)),
-                .release(name: .prod, xcconfig: .relativeToXCConfig(type: .prod, name: name))
-              ]
-        }
+        let configurations: [Configuration] = isCI ?
+        [
+          .debug(name: .stage),
+          .release(name: .prod)
+        ] :
+        [
+          .debug(name: .stage, xcconfig: .relativeToXCConfig(type: .stage, name: name)),
+          .release(name: .prod, xcconfig: .relativeToXCConfig(type: .prod, name: name))
+        ]
 
         let settings: Settings = .settings(
             base: env.baseSetting
