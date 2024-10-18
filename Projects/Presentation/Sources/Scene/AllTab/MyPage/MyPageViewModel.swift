@@ -11,14 +11,14 @@ public class MyPageViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    private let profileUsecase: FetchDetailProfileUseCase
+    private let fetchProfileUsecase: FetchDetailProfileUseCase
     private let uploadProfileImageUseCase: UploadProfileImageUseCase
 
     public init(
         profileUsecase: FetchDetailProfileUseCase,
         uploadProfileImageUseCase: UploadProfileImageUseCase
     ) {
-        self.profileUsecase = profileUsecase
+        self.fetchProfileUsecase = profileUsecase
         self.uploadProfileImageUseCase = uploadProfileImageUseCase
     }
 
@@ -35,7 +35,7 @@ public class MyPageViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         input.viewWillAppear
             .flatMap {
-                self.profileUsecase.execute()
+                self.fetchProfileUsecase.execute()
                     .catch {
                         print($0.localizedDescription)
                         return .never()

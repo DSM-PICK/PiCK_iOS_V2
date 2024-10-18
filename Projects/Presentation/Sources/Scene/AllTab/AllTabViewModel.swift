@@ -10,13 +10,20 @@ import Domain
 public class AllTabViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
+
+    private let fetchProfileUsecase: FetchSimpleProfileUseCase
     private let logoutUseCase: LogoutUseCase
 
-    public init(logoutUseCase: LogoutUseCase) {
+    public init(
+        fetchProfileUsecase: FetchSimpleProfileUseCase,
+        logoutUseCase: LogoutUseCase
+    ) {
+        self.fetchProfileUsecase = fetchProfileUsecase
         self.logoutUseCase = logoutUseCase
     }
 
     public struct Input {
+        let viewWillAppear: Observable<Void>
         let clickSelfStudyTab: Observable<IndexPath>
         let clickNoticeTab: Observable<IndexPath>
         let clickBugReportTab: Observable<IndexPath>
@@ -25,9 +32,24 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let clickMyPageTab: Observable<IndexPath>
         let clickLogOutTab: Observable<Void>
     }
-    public struct Output {}
+    public struct Output {
+        let profileData: Signal<SimpleProfileEntity>
+    }
+
+    private let profileData = PublishRelay<SimpleProfileEntity>()
 
     public func transform(input: Input) -> Output {
+        input.viewWillAppear
+            .flatMap {
+                self.fetchProfileUsecase.execute()
+                    .catch {
+                        print($0.localizedDescription)
+                        return .never()
+                    }
+            }
+            .bind(to: profileData)
+            .disposed(by: disposeBag)
+
         input.clickSelfStudyTab
             .map { _ in PiCKStep.selfStudyIsRequired }
             .bind(to: steps)
@@ -66,7 +88,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        return Output()
+        return Output(profileData: profileData.asSignal())
     }
 
 }

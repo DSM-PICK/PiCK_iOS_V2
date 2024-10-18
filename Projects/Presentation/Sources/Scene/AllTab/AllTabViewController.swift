@@ -44,6 +44,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     }
     public override func bind() {
         let input = AllTabViewModel.Input(
+            viewWillAppear: viewWillAppearRelay.asObservable(),
             clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
             clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
@@ -53,7 +54,18 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             clickLogOutTab: logoutRelay.asObservable()
         )
 
-        _ = viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
+
+        output.profileData.asObservable()
+            .withUnretained(self)
+            .bind { owner, profileData in
+                let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
+
+                owner.profileView.setup(
+                    image: profileData.profile ?? "",
+                    info: userInfoData ?? "정보가 없는 사용자"
+                )
+            }.disposed(by: disposeBag)
 
         accountSectionView
             .getSelectedItem(type: .logOut)
@@ -101,18 +113,6 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
-    }
-
-    public override func setLayoutData() {
-        let userDefaultStorage = UserDefaultStorage.shared
-
-        let userInfoData = userDefaultStorage.get(forKey: .userInfoData) as? String
-        let userInfoImage = userDefaultStorage.get(forKey: .userProfileImageData) as? String
-
-        self.profileView.setup(
-            image: userInfoImage ?? "",
-            info: userInfoData ?? "정보가 없는 사용자"
-        )
     }
 
 }

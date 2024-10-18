@@ -125,7 +125,9 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(AllTabViewModel.self) { resolver in
             AllTabViewModel(
-                logoutUseCase: resolver.resolve(LogoutUseCase.self)!)
+                fetchProfileUsecase: resolver.resolve(FetchSimpleProfileUseCase.self)!,
+                logoutUseCase: resolver.resolve(LogoutUseCase.self)!
+            )
         }
         // Notice
         container.register(NoticeListViewController.self) { resolver in

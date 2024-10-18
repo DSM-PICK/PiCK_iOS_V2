@@ -134,7 +134,6 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
             let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             self?.profileImageView.image = image
             self?.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
-            UserDefaultStorage.shared.remove(forKey: .userProfileImageData)
         }
     }
 }

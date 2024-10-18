@@ -58,6 +58,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
+        let profileData: Signal<SimpleProfileEntity>
         let applyStatusData: Signal<HomeApplyStatusEntity>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
@@ -71,6 +72,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
 
     private let viewModeData = PublishRelay<HomeViewType>()
+    private let profileData = PublishRelay<SimpleProfileEntity>()
     private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
@@ -92,6 +94,17 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     self?.viewModeData.accept(.timeTable)
                 }
             }).disposed(by: disposeBag)
+
+        input.viewWillAppear.flatMap {
+            self.fetchProfileUseCase.execute()
+                .catch {
+                    print($0.localizedDescription)
+                    return .never()
+                }
+        }
+        .bind(to: profileData)
+        .disposed(by: disposeBag)
+
 
         input.viewWillAppear
             .flatMap {
@@ -117,7 +130,6 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
                 self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
-//                self.userDefaultStorage.set(to: data.profile, forKey: .userProfileImageData)
             }).disposed(by: disposeBag)
 
         input.viewWillAppear
@@ -239,6 +251,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         return Output(
             viewMode: viewModeData.asSignal(),
+            profileData: profileData.asSignal(),
             applyStatusData: applyStatusData.asSignal(),
             weekendMealPeriodData: weekendMealPeriodData.asSignal(),
             timetableData: timetableData.asDriver(),
