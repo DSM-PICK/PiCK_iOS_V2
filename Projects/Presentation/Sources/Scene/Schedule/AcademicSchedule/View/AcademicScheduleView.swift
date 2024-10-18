@@ -39,7 +39,10 @@ public class AcademicScheduleView: BaseView {
     ).then {
         $0.changePointColor(targetString: "오늘", color: .main500)
     }
-    private let scheduleLabel = PiCKLabel(textColor: .gray800, font: .caption2)
+    private let scheduleLabel = PiCKLabel(
+        textColor: .gray800,
+        font: .caption2
+    )
     private lazy var labelStackView = UIStackView(arrangedSubviews: [
         dateLabel,
         scheduleLabel
@@ -60,7 +63,8 @@ public class AcademicScheduleView: BaseView {
         $0.showsVerticalScrollIndicator = false
         $0.register(
             AcademicScheduleCell.self,
-            forCellWithReuseIdentifier: AcademicScheduleCell.identifier)
+            forCellWithReuseIdentifier: AcademicScheduleCell.identifier
+        )
     }
     private lazy var emptyScheduleLabel = PiCKLabel(
         text: "일정이 없습니다.",

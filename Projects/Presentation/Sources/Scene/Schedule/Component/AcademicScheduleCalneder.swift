@@ -24,8 +24,14 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         textColor: .modeBlack,
         font: .label1
     )
-    private let previousButton = PiCKImageButton(image: .leftArrow, imageColor: .modeBlack)
-    private let nextButton = PiCKImageButton(image: .rightArrow, imageColor: .modeBlack)
+    private let previousButton = PiCKImageButton(
+        image: .leftArrow,
+        imageColor: .modeBlack
+    )
+    private let nextButton = PiCKImageButton(
+        image: .rightArrow,
+        imageColor: .modeBlack
+    )
     private lazy var headerStackView = UIStackView(arrangedSubviews: [
         previousButton,
         calendarHeaderLabel,
@@ -74,6 +80,9 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
         self.clickYearAndMonth = clickYearAndMonth
         self.clickDate = clickDate
         super.init(frame: .zero)
+
+        let todayDate = Date()
+        clickDate(todayDate)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
