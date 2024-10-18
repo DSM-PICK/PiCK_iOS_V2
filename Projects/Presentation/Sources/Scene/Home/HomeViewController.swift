@@ -136,6 +136,17 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 owner.homeViewType = data
             }.disposed(by: disposeBag)
 
+        output.profileData.asObservable()
+            .withUnretained(self)
+            .bind { owner, data in
+                let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
+
+                owner.profileView.setup(
+                    image: data.profile ?? "",
+                    info: userInfoData ?? "정보가 없는 사용자"
+                )
+            }.disposed(by: disposeBag)
+
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
@@ -294,11 +305,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         selfStudyBannerView.snp.makeConstraints {
             $0.height.equalTo(160)
         }
-    }
-
-    public override func setLayoutData() {
-        let userInfoData = UserDefaultStorage.shared.get(forKey: .userInfoData) as? String
-        self.profileView.setup(image: .profile, info: userInfoData ?? "정보가 없는 사용자")
     }
 
     private func setupViewType(type: HomeViewType) {

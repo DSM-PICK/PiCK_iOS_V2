@@ -7,8 +7,8 @@ let project = Project.makeModule(
     platform: .iOS,
     product: .staticLibrary,
     dependencies: [
-        .Projects.presentation,
         .Projects.data,
+        .Projects.presentation,
         .SPM.FCM
     ]
 )

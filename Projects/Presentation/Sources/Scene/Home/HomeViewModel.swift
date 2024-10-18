@@ -58,6 +58,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
+        let profileData: Signal<SimpleProfileEntity>
         let applyStatusData: Signal<HomeApplyStatusEntity>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
@@ -71,6 +72,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     }
 
     private let viewModeData = PublishRelay<HomeViewType>()
+    private let profileData = PublishRelay<SimpleProfileEntity>()
     private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
@@ -93,6 +95,17 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 }
             }).disposed(by: disposeBag)
 
+        input.viewWillAppear.flatMap {
+            self.fetchProfileUseCase.execute()
+                .catch {
+                    print($0.localizedDescription)
+                    return .never()
+                }
+        }
+        .bind(to: profileData)
+        .disposed(by: disposeBag)
+
+
         input.viewWillAppear
             .flatMap {
                 self.fetchWeekendMealPeriodUseCase.execute()
@@ -113,8 +126,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     }
             }
             .subscribe(onNext: { data in
-                let value = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
-                self.userDefaultStorage.set(to: value, forKey: .userInfoData)
+                let infoValue = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
+
+                self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
             }).disposed(by: disposeBag)
 
@@ -237,6 +251,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         return Output(
             viewMode: viewModeData.asSignal(),
+            profileData: profileData.asSignal(),
             applyStatusData: applyStatusData.asSignal(),
             weekendMealPeriodData: weekendMealPeriodData.asSignal(),
             timetableData: timetableData.asDriver(),

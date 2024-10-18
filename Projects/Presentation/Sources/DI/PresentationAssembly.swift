@@ -125,7 +125,9 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(AllTabViewModel.self) { resolver in
             AllTabViewModel(
-                logoutUseCase: resolver.resolve(LogoutUseCase.self)!)
+                fetchProfileUsecase: resolver.resolve(FetchSimpleProfileUseCase.self)!,
+                logoutUseCase: resolver.resolve(LogoutUseCase.self)!
+            )
         }
         // Notice
         container.register(NoticeListViewController.self) { resolver in
@@ -182,7 +184,8 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(MyPageViewModel.self) { resolver in
             MyPageViewModel(
-                profileUsecase: resolver.resolve(FetchDetailProfileUseCase.self)!
+                profileUsecase: resolver.resolve(FetchDetailProfileUseCase.self)!,
+                uploadProfileImageUseCase: resolver.resolve(UploadProfileImageUseCase.self)!
             )
         }
     }

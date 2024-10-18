@@ -23,4 +23,8 @@ class ProfileRepositoryImpl: ProfileRepository {
             .map { $0.toDomain() }
     }
 
+    func uploadProfileImage(image: Data) -> Completable {
+        return remoteDataSource.uploadProfileImage(image: image)
+    }
+
 }
