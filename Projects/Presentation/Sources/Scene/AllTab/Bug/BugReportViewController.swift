@@ -91,10 +91,11 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
                     self?.bugImageArray.accept(self?.imageArray ?? [])
                     self?.bugDataArray.accept(self?.dataArray ?? [])
 
-                    self?.collectionView.reloadData()
-                        self?.collectionView.isHidden = true
                     if self?.imageArray.isEmpty == true {
+                        self?.collectionView.isHidden = true
                     }
+
+                    self?.collectionView.reloadData()
                 }.disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
     }
