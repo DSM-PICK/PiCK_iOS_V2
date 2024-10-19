@@ -1,6 +1,5 @@
 //import Moya
 //import Core
-//import Data
 //import Foundation
 //
 //public struct JwtPlugin: PluginType {
@@ -56,7 +55,15 @@
 //    func saveToken(token: TokenDTO) {
 //        keychain.save(type: .accessToken, value: token.accessToken)
 //        keychain.save(type: .refreshToken, value: token.refreshToken)
-//        keychain.save(type: .accessExpiresAt, value: token.accessExpiresAt)
-//        keychain.save(type: .refreshExpiresAt, value: token.refreshExpiresAt)
 //    }
+//}
+//
+//public enum JwtTokenType: String {
+//    case accessToken = "Authorization"
+//    case refreshToken = "X-Refresh-Token"
+//    case none
+//}
+//
+//public protocol JwtAuthorizable {
+//    var jwtTokenType: JwtTokenType { get }
 //}
