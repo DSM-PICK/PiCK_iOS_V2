@@ -3,14 +3,14 @@ import Foundation
 import Core
 
 public struct NotificationRequestParams: Encodable {
-    public let type: NotificationType
+    public let topic: NotificationType.RawValue
     public let isSubscribed: Bool
 
     public init(
-        type: NotificationType,
+        topic: NotificationType.RawValue,
         isSubscribed: Bool
     ) {
-        self.type = type
+        self.topic = topic
         self.isSubscribed = isSubscribed
     }
 
