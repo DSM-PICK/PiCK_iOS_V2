@@ -161,7 +161,7 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
     }
     public override func setLayout() {
         allNotificationSwitchView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(28)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(28)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(64)
         }
