@@ -12,16 +12,25 @@ import DesignSystem
 public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntityElement> {
     static let identifier = "TimeTableCollectionViewCell"
 
-    private let periodLabel = PiCKLabel(textColor: .modeBlack, font: .subTitle2)
+    private let periodLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .subTitle2
+    )
     private let subjectImageView = UIImageView()
-    private let subjectLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
+    private let subjectLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .label1
+    )
 
     public override func adapt(model: TimeTableEntityElement) {
         super.adapt(model: model)
 
         self.periodLabel.text = "\(model.period)교시"
         self.periodLabel.changePointColor(targetString: "\(model.period)", color: .main500)
-        self.subjectImageView.kf.setImage(with: URL(string: model.subjectImage)!)
+        self.subjectImageView.kf.setImage(
+            with: URL(string: model.subjectImage)!,
+            placeholder: UIImage.defaultTimeTableIcon
+        )
         self.subjectLabel.text = model.subjectName
     }
 

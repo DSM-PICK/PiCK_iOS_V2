@@ -132,10 +132,10 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 
     private func getDateEventArray() -> [Date] {
         var dateArray: [Date] = []
-        let currentPageYear = Calendar.current.component(.year, from: calendarView.currentPage)
+        let currentYear = Calendar.current.component(.year, from: Date())
 
         for date in monthAcademicScheduleData.value {
-            dateArray.append("\(currentPageYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
+            dateArray.append("\(currentYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
         }
 
         return dateArray
