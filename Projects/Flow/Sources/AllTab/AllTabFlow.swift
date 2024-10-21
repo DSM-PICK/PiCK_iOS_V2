@@ -103,7 +103,7 @@ public class AllTabFlow: Flow {
     }
 
     private func navigateToNotificationSetting() -> FlowContributors {
-        let vc = container.resolve(NotificationViewController.self)!
+        let vc = container.resolve(NotificationSettingViewController.self)!
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)

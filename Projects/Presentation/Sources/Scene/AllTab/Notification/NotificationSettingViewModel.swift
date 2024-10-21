@@ -7,7 +7,7 @@ import RxFlow
 import Core
 import Domain
 
-public class NotificationViewModel: BaseViewModel, Stepper {
+public class NotificationSettingViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 

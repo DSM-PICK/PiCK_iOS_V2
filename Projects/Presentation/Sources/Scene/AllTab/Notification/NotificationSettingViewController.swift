@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class NotificationViewController: BaseViewController<NotificationViewModel> {
+public class NotificationSettingViewController: BaseViewController<NotificationSettingViewModel> {
     private lazy var switchViewArray = [
         outingStatusSwitchView,
         classroomStatusSwitchView,
@@ -53,7 +53,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
 
     public override func bind() {
-        let input = NotificationViewModel.Input(
+        let input = NotificationSettingViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
             outingStatus: outingStatusSwitchView.clickSwitchButton.asObservable(),
             classroomStatus: classroomStatusSwitchView.clickSwitchButton.asObservable(),
