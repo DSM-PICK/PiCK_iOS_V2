@@ -12,7 +12,7 @@ import Core
 import Domain
 import DesignSystem
 
-public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarDataSource {
+public class AcademicScheduleCalendar: BaseView, FSCalendarDelegate, FSCalendarDataSource {
     public var clickYearAndMonth: (Date, Date) -> Void
     public var clickDate: (Date) -> Void
 
@@ -132,7 +132,7 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 
     private func getDateEventArray() -> [Date] {
         var dateArray: [Date] = []
-        let currentYear = Calendar.current.component(.year, from: Date())
+        let currentYear = Calendar.current.component(.year, from: calendarView.currentPage)
 
         for date in monthAcademicScheduleData.value {
             dateArray.append("\(currentYear)-\(date.month)-\(date.day)".toDate(type: .fullDate))
@@ -143,7 +143,7 @@ public class AcademicScheduleCalneder: BaseView, FSCalendarDelegate, FSCalendarD
 
 }
 
-extension AcademicScheduleCalneder {
+extension AcademicScheduleCalendar {
     public func calendarCurrentPageDidChange(
         _ calendar: FSCalendar
     ) {
