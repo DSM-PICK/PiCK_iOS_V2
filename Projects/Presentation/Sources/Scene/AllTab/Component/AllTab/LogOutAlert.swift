@@ -18,7 +18,11 @@ public class LogOutAlert: UIViewController {
         $0.backgroundColor = .background
         $0.layer.cornerRadius = 8
     }
-    private let titleLabel = PiCKLabel(text: "정말 로그아웃 하시겠습니까?", textColor: .modeBlack, font: .subTitle2)
+    private let titleLabel = PiCKLabel(
+        text: "정말 로그아웃 하시겠습니까?",
+        textColor: .modeBlack,
+        font: .subTitle2
+    )
     private let explainLabel = PiCKLabel(
         text: "기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다.",
         textColor: .gray700,
