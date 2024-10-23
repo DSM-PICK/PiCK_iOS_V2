@@ -41,7 +41,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
                 self.loginUseCase.execute(req: .init(
                     accountID: id,
                     password: password,
-                    deviceToken: Messaging.messaging().fcmToken ?? ""
+                    deviceToken: Messaging.messaging().fcmToken
                 ))
                 .catch { _ in
                     self.idErrorDescription.accept("아이디를 다시 확인해주세요")
