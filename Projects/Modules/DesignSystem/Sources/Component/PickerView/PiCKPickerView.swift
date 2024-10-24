@@ -5,10 +5,6 @@ import RxCocoa
 
 import Core
 
-public enum PickerTimeType {
-    case period, hour, min
-}
-
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     private var pickerTimeType: PickerTimeType = .hour
 
