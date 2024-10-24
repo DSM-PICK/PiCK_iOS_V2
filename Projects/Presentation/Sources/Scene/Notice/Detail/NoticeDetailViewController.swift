@@ -87,7 +87,7 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
         mainView.addArrangedSubview(contentLabel)
 
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
         subTextStackView.snp.makeConstraints {

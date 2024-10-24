@@ -49,7 +49,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
             clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
             clickCutomTab: settingSectionView.getSelectedItem(type: .custom),
-            clickNotificationSettingTab: settingSectionView.getSelectedItem(type: .notificationSetting),
+            clickNotificationSettingTab: settingSectionView.getSelectedItem(type: .notification),
             clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage),
             clickLogOutTab: logoutRelay.asObservable()
         )
@@ -63,7 +63,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
 
                 owner.profileView.setup(
                     image: profileData.profile ?? "",
-                    info: userInfoData ?? "정보가 없는 사용자"
+                    info: userInfoData ?? ""
                 )
             }.disposed(by: disposeBag)
 

@@ -15,14 +15,15 @@ public struct NotificationDTO: Decodable {
 extension NotificationDTO {
     func toDomain() -> NotificationEntity {
         return .init(
-            subscribeTopicResponse: subscribeTopicResponse.map { $0.toDomain() }
+            subscribeTopicResponse: subscribeTopicResponse.map { $0.toDomain()
+            }
         )
     }
 
 }
 
 public struct NotificationDTOElement: Decodable {
-    let topic: NotificationType.RawValue
+    let topic: NotificationType
     let isSubscribed: Bool
 
     enum CodingKeys: String, CodingKey {

@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class NotificationViewController: BaseViewController<NotificationViewModel> {
+public class NotificationSettingViewController: BaseViewController<NotificationSettingViewModel> {
     private lazy var switchViewArray = [
         outingStatusSwitchView,
         classroomStatusSwitchView,
@@ -53,8 +53,9 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
 
     public override func bind() {
-        let input = NotificationViewModel.Input(
+        let input = NotificationSettingViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
+            allStatus: allNotificationSwitchView.clickSwitchButton.asObservable(),
             outingStatus: outingStatusSwitchView.clickSwitchButton.asObservable(),
             classroomStatus: classroomStatusSwitchView.clickSwitchButton.asObservable(),
             newNoticeStatus: noticeSwitchView.clickSwitchButton.asObservable(),
@@ -62,17 +63,39 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
         )
         let output = viewModel.transform(input: input)
 
-        output.notificationStatus.asObservable()
+        output.allNotificationStatus
+            .asObservable()
             .withUnretained(self)
-            .bind { owner, status in
-                let isSubscribedArray = status.subscribeTopicResponse.map { $0.isSubscribed }
+            .bind { owner, isOn in
+                owner.allNotificationSwitchView.setup(isOn: isOn)
+            }.disposed(by: disposeBag)
 
-                for (index, switchView) in owner.switchViewArray.enumerated() {
-                    switchView.setup(isOn: isSubscribedArray[index])
-                }
+        output.outingNotificationStatus
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isOn in
+                owner.outingStatusSwitchView.setup(isOn: isOn)
+            }.disposed(by: disposeBag)
 
-                let allSubscribed = isSubscribedArray.allSatisfy { $0 }
-                owner.allNotificationSwitchView.setup(isOn: allSubscribed)
+        output.classroomNotificationStatus
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isOn in
+                owner.classroomStatusSwitchView.setup(isOn: isOn)
+            }.disposed(by: disposeBag)
+
+        output.newNoticeNotificationStatus
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isOn in
+                owner.noticeSwitchView.setup(isOn: isOn)
+            }.disposed(by: disposeBag)
+
+        output.weekendMealNotificationStatus
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isOn in
+                owner.weekendMealSwitchView.setup(isOn: isOn)
             }.disposed(by: disposeBag)
     }
     public override func bindAction() {
@@ -125,7 +148,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
     }
     public override func setLayout() {
         allNotificationSwitchView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(28)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(28)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(64)
         }
@@ -155,7 +178,7 @@ public class NotificationViewController: BaseViewController<NotificationViewMode
             classroomStatusSwitchView.switchIsOn &&
             noticeSwitchView.switchIsOn &&
             weekendMealSwitchView.switchIsOn
-        ) == true {
+        ) {
             self.allNotificationSwitchView.setup(isOn: true)
         } else {
             self.allNotificationSwitchView.setup(isOn: false)

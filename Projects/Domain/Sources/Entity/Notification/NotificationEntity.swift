@@ -11,11 +11,11 @@ public struct NotificationEntity {
 }
 
 public struct NotificationEntityElement {
-    public let topic: NotificationType.RawValue
+    public let topic: NotificationType
     public let isSubscribed: Bool
 
     public init(
-        topic: NotificationType.RawValue,
+        topic: NotificationType,
         isSubscribed: Bool
     ) {
         self.topic = topic
