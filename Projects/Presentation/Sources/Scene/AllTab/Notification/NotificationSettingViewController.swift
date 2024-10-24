@@ -63,19 +63,6 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
         )
         let output = viewModel.transform(input: input)
 
-//        output.allNotificationStatus.asObservable()
-//            .withUnretained(self)
-//            .bind { owner, status in
-//                let isSubscribedArray = status.subscribeTopicResponse.map { $0.isSubscribed }
-//
-//                for (index, switchView) in owner.switchViewArray.enumerated() {
-//                    switchView.setup(isOn: isSubscribedArray[index])
-//                }
-//
-//                let allSubscribed = isSubscribedArray.allSatisfy { $0 }
-//                owner.allNotificationSwitchView.setup(isOn: allSubscribed)
-//            }.disposed(by: disposeBag)
-
         output.allNotificationStatus
             .asObservable()
             .withUnretained(self)
@@ -191,7 +178,7 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
             classroomStatusSwitchView.switchIsOn &&
             noticeSwitchView.switchIsOn &&
             weekendMealSwitchView.switchIsOn
-        ) == true {
+        ) {
             self.allNotificationSwitchView.setup(isOn: true)
         } else {
             self.allNotificationSwitchView.setup(isOn: false)

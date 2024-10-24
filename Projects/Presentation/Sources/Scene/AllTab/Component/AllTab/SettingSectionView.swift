@@ -12,7 +12,7 @@ import DesignSystem
 class SettingSectionView: BaseView {
     enum SettingSectionType: Int {
         case custom
-        case notificationSetting
+        case notification
     }
 
     private let settingSectionView = PiCKSectionView(

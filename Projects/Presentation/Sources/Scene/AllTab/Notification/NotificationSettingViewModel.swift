@@ -76,7 +76,7 @@ public class NotificationSettingViewModel: BaseViewModel, Stepper {
                         classroomNotificationStatus.value &&
                         newNoticeNotificationStatus.value &&
                         weekendMealNotificationStatus.value
-                    ) == true {
+                    ) {
                         allNotificationStatus.accept(true)
                     } else {
                         allNotificationStatus.accept(false)
