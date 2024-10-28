@@ -143,7 +143,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
                 owner.profileView.setup(
                     image: data.profile ?? "",
-                    info: userInfoData ?? "정보가 없는 사용자"
+                    info: userInfoData ?? ""
                 )
             }.disposed(by: disposeBag)
 
