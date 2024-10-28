@@ -95,7 +95,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     public override func setLayout() {
         profileImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(40)
             $0.size.equalTo(80)
         }
         changeButton.snp.makeConstraints {

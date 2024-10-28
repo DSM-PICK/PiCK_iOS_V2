@@ -71,7 +71,7 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
         ].forEach { view.addSubview($0) }
 
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(32)
             $0.leading.equalToSuperview().inset(24)
         }
         explainLabel.snp.makeConstraints {

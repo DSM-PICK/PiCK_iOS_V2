@@ -41,7 +41,7 @@ extension NotificationAPI: PiCKAPI {
         case let .subscribeNotification(req):
             return .requestParameters(
                 parameters: [
-                    "topic": req.type.rawValue,
+                    "topic": req.topic,
                     "is_subscribed": req.isSubscribed
                 ], encoding: JSONEncoding.default)
         case .fetchSubscribeStatus:

@@ -169,11 +169,11 @@ public final class PresentationAssembly: Assembly {
             CustomSettingViewModel()
         }
         // Notification
-        container.register(NotificationViewController.self) { resolver in
-            NotificationViewController(viewModel: resolver.resolve(NotificationViewModel.self)!)
+        container.register(NotificationSettingViewController.self) { resolver in
+            NotificationSettingViewController(viewModel: resolver.resolve(NotificationSettingViewModel.self)!)
         }
-        container.register(NotificationViewModel.self) { resolver in
-            NotificationViewModel(
+        container.register(NotificationSettingViewModel.self) { resolver in
+            NotificationSettingViewModel(
                 fetchNotificationStatusUseCase: resolver.resolve(FetchNotificationStatus.self)!,
                 notificationSubscribeUseCase: resolver.resolve(NotificationSubscribeUseCase.self)!
             )

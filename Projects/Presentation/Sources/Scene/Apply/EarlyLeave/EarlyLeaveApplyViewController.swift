@@ -74,7 +74,7 @@ public class EarlyLeaveApplyViewController: BaseViewController<EarlyLeaveApplyVi
     }
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(32)
             $0.leading.equalToSuperview().inset(24)
         }
         explainLabel.snp.makeConstraints {

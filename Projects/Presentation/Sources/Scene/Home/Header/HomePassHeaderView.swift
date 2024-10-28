@@ -22,7 +22,7 @@ public class HomePassHeaderView: BaseView {
 
     private var userName: String {
         let value = UserDefaultStorage.shared.get(forKey: .userNameData) as? String
-        return value ?? "알 수 없는 사용자"
+        return value ?? ""
     }
 
     private let contentLabel = PiCKLabel(

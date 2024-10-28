@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.pickv2.app</string>
+		<string>$(AppIdentifierPrefix)$(APP_BUNDLE_ID)</string>
 	</array>
 </dict>
 </plist>
