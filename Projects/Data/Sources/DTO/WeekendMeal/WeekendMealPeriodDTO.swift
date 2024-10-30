@@ -11,10 +11,16 @@ public struct WeekendMealPeriodDTO: Decodable {
 
 extension WeekendMealPeriodDTO {
     func toDomain() -> WeekendMealPeriodEntity {
+        var weekendMealPeriod: String {
+            guard let start, let end else { return "" }
+            let startDate = start.toDate(type: .fullDate).toString(type: .monthAndDayKor)
+            let endDate = end.toDate(type: .fullDate).toString(type: .monthAndDayKor)
+            return "(\(startDate) ~ \(endDate))"
+        }
+
         return .init(
             status: status,
-            start: start,
-            end: end
+            period: weekendMealPeriod
         )
     }
 }
