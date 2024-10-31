@@ -25,15 +25,9 @@ public class WeekendMealPeriodHeaderView: BaseView {
     )
 
     public func setup(
-        startPeriodText: String?,
-        endPeriodText: String?
+        period: String
     ) {
-        let startPeriod = startPeriodText?.toDate(type: .fullDate).toString(type: .monthAndDayKor) ?? ""
-        let endPeriod = endPeriodText?.toDate(type: .fullDate).toString(type: .monthAndDayKor) ?? ""
-
-        let period = "\(startPeriod)~\(endPeriod)"
-
-        self.announcementLabel.text = "지금은 주말 급식 신청 기간입니다 (\(period))"
+        self.announcementLabel.text = "지금은 주말 급식 신청 기간입니다 \(period)"
         self.announcementLabel.changePointColor(targetString: "주말 급식 신청 기간", color: .main900)
     }
 
