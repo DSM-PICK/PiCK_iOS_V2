@@ -14,12 +14,7 @@ public class WeekendMealApplyView: BaseView {
 
     public var applyState = BehaviorRelay<Bool>(value: false)
 
-    private let applyDate = Date()
-    private let calendar = Calendar.current
-    private lazy var nextMonth = calendar.date(byAdding: .month, value: 1, to: applyDate)
-
     private lazy var currnetMonthWeekendMealApplyLabel = PiCKLabel(
-        text: "\(nextMonth?.toString(type: .month) ?? "Error") 주말 급식 신청",
         textColor: .modeBlack,
         font: .body1
     )
@@ -34,17 +29,18 @@ public class WeekendMealApplyView: BaseView {
         $0.distribution = .fillEqually
     }
 
-    public func setApplyText(
+    public func setup(
         status: Bool,
-        month: Int?
+        month: Int
     ) {
         if status == true {
-            self.currnetMonthWeekendMealApplyLabel.text = "\(month ?? 0)월 주말 급식 신청"
-            self.buttonStackView.isHidden = false
+            self.currnetMonthWeekendMealApplyLabel.text = "\(month)월 주말 급식 신청"
         } else {
-            self.currnetMonthWeekendMealApplyLabel.text = "지금은 신청 기간이 아닙니다."
-            self.buttonStackView.isHidden = true
+            let statusText = "\(status ? "신청" : "미신청")"
+            self.currnetMonthWeekendMealApplyLabel.text = "주말 급식 신청 상태는 \(statusText)입니다."
+            self.currnetMonthWeekendMealApplyLabel.changePointColor(targetString: "\(statusText)", color: .main500)
         }
+        self.buttonStackView.isHidden = !status
     }
     public func setStatus(
         status: Bool
@@ -70,20 +66,21 @@ public class WeekendMealApplyView: BaseView {
     }
     public override func bind() {
         applyState.asObservable()
-            .subscribe(onNext: { data in
-                self.applyButton.isSelected = data
-                self.notApplyButton.isSelected = !data
-            }).disposed(by: disposeBag)
+            .withUnretained(self)
+            .bind { owner, data in
+                owner.applyButton.isSelected = data
+                owner.notApplyButton.isSelected = !data
+            }.disposed(by: disposeBag)
 
-        applyButton.rx.tap
-            .bind(onNext: { [self] in
+        applyButton.buttonTap
+            .bind { [self] in
                 clickRadioButton(button: applyButton)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
 
         notApplyButton.buttonTap
-            .bind(onNext: { [self] in
+            .bind { [self] in
                 clickRadioButton(button: notApplyButton)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     public override func layout() {
         [

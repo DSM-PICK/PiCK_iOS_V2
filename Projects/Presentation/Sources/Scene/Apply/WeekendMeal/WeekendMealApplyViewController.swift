@@ -54,9 +54,9 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
             .asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                owner.weekendMealApplyView.setApplyText(
+                owner.weekendMealApplyView.setup(
                     status: data.status,
-                    month: data.month
+                    month: data.month ?? 0
                 )
                 owner.saveButton.isHidden = !data.status
             }.disposed(by: disposeBag)
