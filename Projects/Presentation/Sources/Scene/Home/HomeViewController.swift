@@ -89,8 +89,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
     private lazy var noticeCollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
-        $0.itemSize = .init(width: self.view.frame.width, height: 81)
         $0.minimumLineSpacing = 5
+        $0.itemSize = .init(
+            width: self.view.frame.width,
+            height: 81
+        )
     }
     private lazy var noticeCollectionView = UICollectionView(
         frame: .zero,
@@ -168,19 +171,18 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .withUnretained(self)
             .bind { owner, data in
                 owner.weekendMealPeriodHeaderView.isHidden = !data.status
-                owner.weekendMealPeriodHeaderView.setup(
-                    startPeriodText: data.start,
-                    endPeriodText: data.end
-                )
+                owner.weekendMealPeriodHeaderView.setup(period: data.period)
             }.disposed(by: disposeBag)
 
-        output.timetableData.asObservable()
+        output.timetableData
+            .asObservable()
             .withUnretained(self)
             .bind { owner, data in
                 owner.timeTableView.setup(timeTableData: data)
             }.disposed(by: disposeBag)
 
-        output.schoolMealData.asObservable()
+        output.schoolMealData
+            .asObservable()
             .withUnretained(self)
             .bind { owner, data in
                 owner.schoolMealView.setup(schoolMealData: data)
