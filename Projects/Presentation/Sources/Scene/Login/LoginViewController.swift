@@ -34,7 +34,10 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     ).then {
         $0.isSecurity = true
     }
-    private let loginButton = PiCKButton(type: .system, buttonText: "로그인하기", isHidden: false)
+    private let loginButton = PiCKButton(
+        buttonText: "로그인하기",
+        isHidden: false
+    )
 
     public override func attribute() {
         super.attribute()
@@ -70,7 +73,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
 
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(124)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(80)
             $0.leading.equalToSuperview().inset(24)
         }
         explainLabel.snp.makeConstraints {

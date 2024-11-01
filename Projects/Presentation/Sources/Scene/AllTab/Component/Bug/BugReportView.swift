@@ -25,6 +25,7 @@ public class BugReportView: BaseView {
     private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청").then {
         $0.isHidden = true
+        $0.keyboardType = .default
     }
     private let textView = PiCKTextView(
         title: "버그에 대해 설명해주세요. *",

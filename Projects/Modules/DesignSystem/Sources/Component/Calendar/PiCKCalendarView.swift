@@ -24,14 +24,23 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
 
     private var dateSelectRelay = PublishRelay<Void>()
 
-    private let topToggleButton = PiCKImageButton(image: .topArrow, imageColor: .main500)
+    private let topToggleButton = PiCKImageButton(
+        image: .topArrow,
+        imageColor: .main500
+    )
     private lazy var calendarHeaderLabel = PiCKLabel(
         text: calendarView.currentPage.toString(type: .yearsAndMonthKor),
         textColor: .modeBlack,
         font: .label1
     )
-    private let previousButton = PiCKImageButton(image: .leftArrow, imageColor: .modeBlack)
-    private let nextButton = PiCKImageButton(image: .rightArrow, imageColor: .modeBlack)
+    private let previousButton = PiCKImageButton(
+        image: .leftArrow,
+        imageColor: .modeBlack
+    )
+    private let nextButton = PiCKImageButton(
+        image: .rightArrow,
+        imageColor: .modeBlack
+    )
     private lazy var headerStackView = UIStackView(arrangedSubviews: [
         previousButton,
         calendarHeaderLabel,
@@ -65,7 +74,10 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
         $0.delegate = self
         $0.dataSource = self
     }
-    private let bottomToggleButton = PiCKImageButton(image: .bottomArrow, imageColor: .main500)
+    private let bottomToggleButton = PiCKImageButton(
+        image: .bottomArrow,
+        imageColor: .main500
+    )
 
     public func setupDate(
         date: Date
@@ -81,6 +93,7 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
         self.clickDate = clickDate
         self.calendarType = calnedarType
         super.init(frame: .zero)
+
         setupCalendar(type: calnedarType)
     }
     required init?(coder: NSCoder) {
@@ -178,7 +191,10 @@ extension PiCKCalendarView {
         self.calendarHeaderLabel.text = calendar.currentPage.toString(type: .yearsAndMonthKor)
     }
 
-    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    public func calendar(
+        _ calendar: FSCalendar,
+        didSelect date: Date, at monthPosition: FSCalendarMonthPosition
+    ) {
         self.clickDate(date)
     }
 

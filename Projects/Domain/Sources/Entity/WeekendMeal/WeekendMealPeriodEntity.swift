@@ -4,17 +4,11 @@ import Core
 
 public struct WeekendMealPeriodEntity {
     public let status: Bool
-    public let start: String?
-    public let end: String?
+    public let period: String
 
-    public init(
-        status: Bool,
-        start: String?,
-        end: String?
-    ) {
+    public init(status: Bool, period: String) {
         self.status = status
-        self.start = start
-        self.end = end
+        self.period = period
     }
 
 }

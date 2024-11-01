@@ -91,10 +91,11 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
                     self?.bugImageArray.accept(self?.imageArray ?? [])
                     self?.bugDataArray.accept(self?.dataArray ?? [])
 
-                    self?.collectionView.reloadData()
-                        self?.collectionView.isHidden = true
                     if self?.imageArray.isEmpty == true {
+                        self?.collectionView.isHidden = true
                     }
+
+                    self?.collectionView.reloadData()
                 }.disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
     }
@@ -121,7 +122,7 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
     }
     public override func setLayout() {
         bugTitleView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(28)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(28)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(71)
         }

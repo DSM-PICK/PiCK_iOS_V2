@@ -25,10 +25,6 @@ extension Project {
 
         let scripts: [TargetScript] = isCI ? [] : [.swiftLint]
 
-        let ldFlagsSettings: SettingsDictionary = product == .framework ?
-        ["OTHER_LDFLAGS": .string("$(inherited) -all_load")] :
-        ["OTHER_LDFLAGS": .string("$(inherited)")]
-        
         let configurations: [Configuration] = isCI ?
         [
           .debug(name: .stage),
@@ -42,8 +38,7 @@ extension Project {
         let settings: Settings = .settings(
             base: env.baseSetting
                 .merging(.codeSign)
-                .merging(settings)
-                .merging(ldFlagsSettings),
+                .merging(settings),
             configurations: configurations,
             defaultSettings: .recommended
         )

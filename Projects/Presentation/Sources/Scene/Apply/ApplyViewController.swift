@@ -12,17 +12,14 @@ import DesignSystem
 public class ApplyViewController: BaseViewController<ApplyViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let applyLabel = PiCKLabel(text: "신청", textColor: .modeBlack, font: .heading4)
+    private let applyLabel = PiCKLabel(
+        text: "신청",
+        textColor: .modeBlack,
+        font: .heading4
+    )
     private let applyTabView = PiCKApplyStackView()
 
-    public override func attribute() {
-        super.attribute()
-
-        view.backgroundColor = .background
-    }
     public override func configureNavgationBarLayOutSubviews() {
-        super.configureNavgationBarLayOutSubviews()
-
         navigationController?.isNavigationBarHidden = true
     }
     public override func bind() {

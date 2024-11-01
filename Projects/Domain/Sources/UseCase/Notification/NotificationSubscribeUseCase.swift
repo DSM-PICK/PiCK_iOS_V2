@@ -2,7 +2,7 @@ import Foundation
 
 import RxSwift
 
-import Moya
+import Core
 
 public class NotificationSubscribeUseCase {
     let repository: NotificationRepository
@@ -11,8 +11,11 @@ public class NotificationSubscribeUseCase {
         self.repository = repository
     }
 
-    public func execute(req: NotificationRequestParams) -> Completable {
-        return repository.subscribeNotification(req: req)
+    public func execute(topic: NotificationType, isSubscribed: Bool) -> Completable {
+        return repository.subscribeNotification(req: .init(
+            topic: topic.rawValue,
+            isSubscribed: isSubscribed
+        ))
     }
 
 }

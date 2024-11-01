@@ -106,7 +106,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         ].forEach { view.addSubview($0) }
 
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(52)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(52)
             $0.leading.equalToSuperview().inset(24)
         }
         floorStackView.snp.makeConstraints {

@@ -5,10 +5,6 @@ import RxCocoa
 
 import Core
 
-public enum PickerTimeType {
-    case period, hour, min
-}
-
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     private var pickerTimeType: PickerTimeType = .hour
 
@@ -17,7 +13,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     public var minText = BehaviorRelay<Int>(value: 0)
 
     private let currentHour: Int
-    private let currentMinute: Int
+    private let currentMin: Int
 
     private let periodArray = Array(1...10)
     private let hourArray = Array(8...23)
@@ -28,10 +24,10 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 
         let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
         self.currentHour = now.hour ?? 8
-        self.currentMinute = now.minute ?? 0
+        self.currentMin = now.minute ?? 0
 
         hourText.accept(currentHour)
-        minText.accept(currentMinute)
+        minText.accept(currentMin)
 
         super.init(frame: .zero)
         self.delegate = self
@@ -43,7 +39,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     required init?(coder: NSCoder) {
         let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
         self.currentHour = now.hour ?? 8
-        self.currentMinute = now.minute ?? 0
+        self.currentMin = now.minute ?? 0
 
         super.init(coder: coder)
     }
@@ -57,7 +53,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
                 self.selectRow(initialHourIndex, inComponent: 0, animated: false)
             }
         case .min:
-            self.selectRow(currentMinute, inComponent: 0, animated: false)
+            self.selectRow(currentMin, inComponent: 0, animated: false)
         }
     }
 

@@ -47,8 +47,6 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     }
 
     public override func configureNavgationBarLayOutSubviews() {
-        super.configureNavgationBarLayOutSubviews()
-
         navigationController?.isNavigationBarHidden = true
     }
     public override func bindAction() {

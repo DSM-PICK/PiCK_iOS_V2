@@ -19,7 +19,7 @@ public class AcademicScheduleView: BaseView {
 
     private let todayDate = Date()
 
-    private lazy var calenderView = AcademicScheduleCalneder(
+    private lazy var calenderView = AcademicScheduleCalendar(
         clickYearAndMonth: { year, month in
             self.clickYearAndMonth(year, month)
         }, clickDate: { date in
