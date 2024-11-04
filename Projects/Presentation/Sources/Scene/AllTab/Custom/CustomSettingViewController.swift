@@ -28,12 +28,12 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
     private let homeSettingTabView = PiCKTabView(
         title: "메인페이지 설정",
         explain: "",
-        icon: .alert
+        icon: .mainIcon
     )
     private lazy var pickerSettingTabView = PiCKTabView(
         title: "신청 단위 설정",
         explain: "",
-        icon: .alert
+        icon: .timeIcon
     )
     private lazy var tabStackView = UIStackView(arrangedSubviews: tabArray).then {
         $0.axis = .vertical
