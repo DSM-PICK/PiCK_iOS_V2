@@ -64,6 +64,9 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             teacherStackView
         ].forEach { self.addSubview($0) }
 
+        self.snp.makeConstraints {
+            $0.height.equalTo(160)
+        }
         bannerBackgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
