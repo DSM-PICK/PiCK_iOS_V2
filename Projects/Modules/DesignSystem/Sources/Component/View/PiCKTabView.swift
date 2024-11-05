@@ -110,8 +110,9 @@ public class PiCKTabView: BaseView {
     public override func bind() {
         self.rx.tapGesture()
             .when(.recognized)
-            .bind { _ in
-                self.isOpen.toggle()
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.isOpen.toggle()
             }.disposed(by: disposeBag)
     }
     public override func layout() {
