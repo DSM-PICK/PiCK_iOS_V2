@@ -34,11 +34,11 @@ public class WeekendMealApplyView: BaseView {
         isApplicable: Bool,
         month: Int
     ) {
-        if isApplicable == true {
+        if isApplicable {
             self.currnetMonthWeekendMealApplyLabel.text = "\(month)월 주말 급식 신청"
         } else {
             let statusText = status ? "신청입니다" : "미신청입니다"
-            self.currnetMonthWeekendMealApplyLabel.text = "주말 급식 신청 상태는 \(statusText)"
+            self.currnetMonthWeekendMealApplyLabel.text = "주말 급식 신청 상태는 \(statusText)."
             self.currnetMonthWeekendMealApplyLabel.changePointColor(targetString: "\(statusText)", color: .main500)
         }
 
