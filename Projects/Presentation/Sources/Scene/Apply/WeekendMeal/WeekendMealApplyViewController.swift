@@ -41,24 +41,17 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
         )
         let output = viewModel.transform(input: input)
 
-        output.weekendMealStatus
-            .asObservable()
-            .withUnretained(self)
-            .bind { owner, status in
-                owner.weekendMealApplyView.setStatus(
-                    status: status == .ok
-                )
-            }.disposed(by: disposeBag)
-
-        output.weekendMealApplicationPeriod
-            .asObservable()
-            .withUnretained(self)
-            .bind { owner, data in
-                owner.weekendMealApplyView.setup(
-                    status: data.status,
+        Observable.combineLatest(
+                output.weekendMealStatus.asObservable(),
+                output.weekendMealApplicationPeriod.asObservable()
+            )
+            .bind { [weak self] status, data in
+                self?.weekendMealApplyView.setup(
+                    status: status == .ok,
+                    isApplicable: data.isApplicable,
                     month: data.month ?? 0
                 )
-                owner.saveButton.isHidden = !data.status
+                self?.saveButton.isHidden = !data.isApplicable
             }.disposed(by: disposeBag)
     }
 

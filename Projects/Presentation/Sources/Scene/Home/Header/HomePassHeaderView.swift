@@ -74,7 +74,7 @@ public class HomePassHeaderView: BaseView {
         } else {
             switch type {
             case .application:
-                let timeValue = "\(startTime ?? "정보 없음") - \(endTime ?? "정보 없음")"
+                let timeValue = "\(startTime ?? "") - \(endTime ?? "")"
 
                 self.contentLabel.text = "\(userName)님의 외출 시간은\n\(timeValue) 입니다"
                 self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
@@ -86,7 +86,7 @@ public class HomePassHeaderView: BaseView {
                 self.button.setTitle("외출증 보기", for: .normal)
 
             case .classroom:
-                let timeValue = "\(startTime ?? "정보 없음")교시 - \(endTime ?? "정보 없음")교시"
+                let timeValue = "\(startTime ?? "")교시 - \(endTime ?? "")교시"
 
                 self.contentLabel.text = "\(classRoomText ?? "정보 없음") 이동 시간은\n\(timeValue) 입니다"
                 self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
@@ -105,6 +105,10 @@ public class HomePassHeaderView: BaseView {
             button,
             waitingStackView
         ].forEach { self.addSubview($0) }
+
+        self.snp.makeConstraints {
+            $0.height.equalTo(72)
+        }
 
         contentLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()

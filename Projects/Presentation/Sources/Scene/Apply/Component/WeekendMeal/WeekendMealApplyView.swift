@@ -31,20 +31,18 @@ public class WeekendMealApplyView: BaseView {
 
     public func setup(
         status: Bool,
+        isApplicable: Bool,
         month: Int
     ) {
-        if status == true {
+        if isApplicable {
             self.currnetMonthWeekendMealApplyLabel.text = "\(month)월 주말 급식 신청"
         } else {
-            let statusText = "\(status ? "신청" : "미신청")"
-            self.currnetMonthWeekendMealApplyLabel.text = "주말 급식 신청 상태는 \(statusText)입니다."
+            let statusText = status ? "신청입니다" : "미신청입니다"
+            self.currnetMonthWeekendMealApplyLabel.text = "주말 급식 신청 상태는 \(statusText)."
             self.currnetMonthWeekendMealApplyLabel.changePointColor(targetString: "\(statusText)", color: .main500)
         }
-        self.buttonStackView.isHidden = !status
-    }
-    public func setStatus(
-        status: Bool
-    ) {
+
+        self.buttonStackView.isHidden = !isApplicable
         self.applyState.accept(status)
     }
 

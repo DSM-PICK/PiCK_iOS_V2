@@ -64,12 +64,6 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .bind(to: weekendMealApplicationPeriod)
             .disposed(by: disposeBag)
 
-//        input.applyStatus
-//            .bind {
-//                self.weekendMealStatusRelay.accept($0)
-//            }
-//            .disposed(by: disposeBag)
-
         input.clickApplyButton
             .withLatestFrom(input.applyStatus)
             .flatMap { status in

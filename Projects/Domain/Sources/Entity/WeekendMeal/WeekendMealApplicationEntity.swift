@@ -3,14 +3,14 @@ import Foundation
 import Core
 
 public struct WeekendMealApplicationEntity {
-    public let status: Bool
+    public let isApplicable: Bool
     public let month: Int?
 
     public init(
-        status: Bool,
+        isApplicable: Bool,
         month: Int?
     ) {
-        self.status = status
+        self.isApplicable = isApplicable
         self.month = month
     }
 

@@ -116,8 +116,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
 
     public override func configureNavgationBarLayOutSubviews() {
-        super.configureNavgationBarLayOutSubviews()
-
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -294,18 +292,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
-        passHeaderView.snp.makeConstraints {
-            $0.height.equalTo(72)
-        }
 
         mainView.snp.makeConstraints {
             $0.top.equalTo(headerStackView.snp.bottom).offset(32)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
-        }
-
-        selfStudyBannerView.snp.makeConstraints {
-            $0.height.equalTo(160)
         }
     }
 

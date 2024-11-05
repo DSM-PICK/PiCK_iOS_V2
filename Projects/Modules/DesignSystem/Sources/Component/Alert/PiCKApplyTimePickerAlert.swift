@@ -61,7 +61,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                     self?.clickApplyButton!()
 
                 case .outingStart, .outingEnd, .earlyLeave:
-                    let hour = self?.timePickerView.outingHourValue ?? 0
+                    let hour = self?.timePickerView.outingHourValue ?? 8
                     let min = self?.timePickerView.outingMinValue ?? 0
 
                     let hourString = String(format: "%02d", hour)
