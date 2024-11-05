@@ -30,7 +30,7 @@ public extension UIImage {
     static let imageIcon = DesignSystemAsset.Image.image.image
     static let checkIcon = DesignSystemAsset.Image.check.image
     static let failIcon = DesignSystemAsset.Image.fail.image
-    static let defaultTimeTableIcon = DesignSystemAsset.Image.defaultTimeTable2.image
+    static let defaultTimeTableIcon = DesignSystemAsset.Image.defaultTimeTable1.image
     static let mainIcon = DesignSystemAsset.Image.main.image
     static let timeIcon = DesignSystemAsset.Image.time.image
     // MARK: TabBarIcon
