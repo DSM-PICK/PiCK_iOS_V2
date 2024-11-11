@@ -36,6 +36,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private let mainView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 32
+        $0.layoutMargins = .init(
+            top: 0,
+            left: 0,
+            bottom: 16,
+            right: 0
+        )
+        $0.isLayoutMarginsRelativeArrangement = true
     }
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
@@ -248,6 +255,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.noticeViewHeight.asObservable()
             .withUnretained(self)
             .bind { owner, height in
+                if height == 0 {
+                    owner.noticeStackView.isHidden = true
+                }
                 owner.noticeCollectionView.snp.remakeConstraints {
                     $0.height.equalTo(height)
                 }

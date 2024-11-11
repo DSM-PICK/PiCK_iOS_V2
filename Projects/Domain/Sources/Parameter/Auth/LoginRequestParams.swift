@@ -15,4 +15,10 @@ public struct LoginRequestParams: Encodable {
         self.deviceToken = deviceToken
     }
 
+    enum CodingKeys: String, CodingKey {
+        case accountID = "account_id"
+        case password
+        case deviceToken = "device_token"
+    }
+
 }
