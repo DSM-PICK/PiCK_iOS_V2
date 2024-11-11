@@ -82,7 +82,7 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
             .bind { owner, data in
                 owner.academicScheduleView.academicScheduleSetup(
                     academicSchedule: data
-                    )
+                )
             }.disposed(by: disposeBag)
 
         segmentedControl.rx.selectedSegmentIndex
