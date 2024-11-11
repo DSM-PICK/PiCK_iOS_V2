@@ -39,7 +39,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
     private let animate = PublishRelay<Void>()
     private let showComponent = PublishRelay<Void>()
-    private let prensetnAlert = PublishRelay<Void>()
+    private let presentAlert = PublishRelay<Void>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
@@ -57,7 +57,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
                             switch error {
                             case .serverError:
-                                self.prensetnAlert.accept(())
+                                self.presentAlert.accept(())
                                 return .never()
                             default:
                                 return .never()
@@ -88,7 +88,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
         return Output(
             animate: animate.asSignal(),
             showComponet: showComponent.asSignal(),
-            presentAlert: prensetnAlert.asSignal()
+            presentAlert: presentAlert.asSignal()
         )
     }
 
