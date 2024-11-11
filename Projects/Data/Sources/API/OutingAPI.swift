@@ -39,15 +39,7 @@ extension OutingAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .outingApply(req):
-            return .requestParameters(
-                parameters: [
-                    "reason": req.reason,
-                    "start": req.startTime,
-                    "end": req.endTime,
-                    "application_type": req.applicationType
-                ],
-                encoding: JSONEncoding.default
-            )
+            return .requestJSONEncodable(req)
         default:
             return .requestPlain
         }

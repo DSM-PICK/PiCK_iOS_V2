@@ -46,7 +46,9 @@ extension WeekendMealAPI: PiCKAPI {
         switch self {
         case .weekendMealApply(let status):
             return .requestParameters(
-                parameters: ["status": status],
+                parameters: [
+                    "status": status
+                ],
                 encoding: URLEncoding.queryString
             )
         default:

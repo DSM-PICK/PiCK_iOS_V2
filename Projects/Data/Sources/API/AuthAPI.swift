@@ -39,14 +39,7 @@ extension AuthAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .login(req):
-            return .requestParameters(
-                parameters: [
-                    "account_id": req.accountID,
-                    "password": req.password,
-                    "device_token": req.deviceToken ?? ""
-                ],
-                encoding: JSONEncoding.default
-            )
+            return .requestJSONEncodable(req)
         default:
             return .requestPlain
         }

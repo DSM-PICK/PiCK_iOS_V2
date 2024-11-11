@@ -20,4 +20,11 @@ public struct OutingApplyRequestParams: Encodable {
         self.applicationType = applicationType
     }
 
+    enum CodingKeys: String, CodingKey {
+        case reason
+        case startTime = "start"
+        case endTime = "end"
+        case applicationType = "application_type"
+    }
+
 }

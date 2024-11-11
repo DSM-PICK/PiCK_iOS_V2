@@ -32,7 +32,9 @@ extension SchoolMealAPI: PiCKAPI {
         switch self {
         case .fetchSchoolMeal(let date):
             return .requestParameters(
-                parameters: ["date": date],
+                parameters: [
+                    "date": date
+                ],
                 encoding: URLEncoding.queryString
             )
         }

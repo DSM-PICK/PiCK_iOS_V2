@@ -16,4 +16,9 @@ public struct BugRequestParams: Encodable {
         self.fileName = fileName
     }
 
+    enum CodingKeys: String, CodingKey {
+        case title, model, content
+        case fileName = "file_name"
+    }
+
 }

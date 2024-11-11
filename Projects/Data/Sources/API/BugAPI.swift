@@ -52,14 +52,8 @@ extension BugAPI: PiCKAPI {
 
             return .uploadMultipart(multiformData)
 
-        case .bugReport(let req):
-            return .requestParameters(
-                parameters: [
-                    "title": req.title,
-                    "model": req.model,
-                    "content": req.content,
-                    "file_name": req.fileName
-                ], encoding: JSONEncoding.default)
+        case let .bugReport(req):
+            return .requestJSONEncodable(req)
         }
     }
 

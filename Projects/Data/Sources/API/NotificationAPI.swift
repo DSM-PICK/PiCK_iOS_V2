@@ -39,11 +39,7 @@ extension NotificationAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .subscribeNotification(req):
-            return .requestParameters(
-                parameters: [
-                    "topic": req.topic,
-                    "is_subscribed": req.isSubscribed
-                ], encoding: JSONEncoding.default)
+            return .requestJSONEncodable(req)
         case .fetchSubscribeStatus:
             return .requestPlain
         }
