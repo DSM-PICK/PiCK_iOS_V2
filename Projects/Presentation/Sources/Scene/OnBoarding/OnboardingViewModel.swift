@@ -34,30 +34,38 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
     public struct Output {
         let animate: Signal<Void>
         let showComponet: Signal<Void>
+        let presentAlert: Signal<Void>
     }
 
     private let animate = PublishRelay<Void>()
     private let showComponent = PublishRelay<Void>()
+    private let prensetnAlert = PublishRelay<Void>()
 
     public func transform(input: Input) -> Output {
         input.viewWillAppear
             .flatMap {
-                 self.refreshTokenUseCase.execute()
-                     .catch {
-                         print($0.localizedDescription)
+                self.refreshTokenUseCase.execute()
+                    .catch { _ in
+                        return self.loginUseCase.execute(req: .init(
+                            accountID: self.keychain.load(type: .id),
+                            password: self.keychain.load(type: .password),
+                            deviceToken: Messaging.messaging().fcmToken ?? ""
+                        ))
+                        .catch { error in
+                            guard let error = error as? PiCKError
+                            else { return .never() }
 
-                         return self.loginUseCase.execute(req: .init(
-                             accountID: self.keychain.load(type: .id),
-                             password: self.keychain.load(type: .password),
-                             deviceToken: Messaging.messaging().fcmToken ?? ""
-                         ))
-                         .catch {
-                             print($0.localizedDescription)
-                             return .never()
-                         }
-                     }
-                     .andThen(Single.just(PiCKStep.tabIsRequired))
-             }
+                            switch error {
+                            case .serverError:
+                                self.prensetnAlert.accept(())
+                                return .never()
+                            default:
+                                return .never()
+                            }
+                        }
+                    }
+                    .andThen(Single.just(PiCKStep.tabIsRequired))
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
@@ -79,7 +87,8 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
         return Output(
             animate: animate.asSignal(),
-            showComponet: showComponent.asSignal()
+            showComponet: showComponent.asSignal(),
+            presentAlert: prensetnAlert.asSignal()
         )
     }
 

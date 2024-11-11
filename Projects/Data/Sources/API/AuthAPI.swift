@@ -62,7 +62,9 @@ extension AuthAPI: PiCKAPI {
     }
 
     public var errorMap: [Int: PiCKError]? {
-        return nil
+        return [
+            503: .serverError
+        ]
     }
 
 }
