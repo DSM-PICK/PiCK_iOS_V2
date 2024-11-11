@@ -72,9 +72,13 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
-                let alert = LogOutAlert(clickLogout: {
+                let alert = PiCKAlert(
+                    titleText: "정말 로그아웃 하시겠습니까?",
+                    explainText: "기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다.",
+                    type: .negative
+                ) {
                     owner.logoutRelay.accept(())
-                })
+                }
                 alert.modalPresentationStyle = .overFullScreen
                 alert.modalTransitionStyle = .crossDissolve
                 owner.present(alert, animated: true)
