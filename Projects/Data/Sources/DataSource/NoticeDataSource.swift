@@ -9,12 +9,18 @@ import Domain
 
 protocol NoticeDataSource {
     func fetchNoticeList() -> Single<Response>
+    func fetchSimpleNoticeList() -> Single<Response>
     func fetchDetailNotice(id: UUID) -> Single<Response>
 }
 
 class NoticeDataSourceImpl: BaseDataSource<NoticeAPI>, NoticeDataSource {
     func fetchNoticeList() -> Single<Response> {
         return request(.fetchNoticeList)
+            .filterSuccessfulStatusCodes()
+    }
+
+    func fetchSimpleNoticeList() -> Single<Response> {
+        return request(.fetchSimpleNoticeList)
             .filterSuccessfulStatusCodes()
     }
 
