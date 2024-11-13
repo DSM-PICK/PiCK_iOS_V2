@@ -24,11 +24,6 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
         connectSocket()
     }
 
-    deinit {
-        socket?.disconnect()
-        socket?.delegate = nil
-    }
-
     func connectSocket() {
         let url = URL(string: "\(URLUtil.socketBaseURL)/main")
         var request = URLRequest(url: url!)

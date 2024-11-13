@@ -140,7 +140,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.viewMode.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                owner.setupViewType(type: data)
                 owner.homeViewType = data
             }.disposed(by: disposeBag)
 
@@ -195,6 +194,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.noticeListData
             .asObservable()
+            .do(onNext: {
+                if $0.isEmpty {
+                    self.noticeStackView.isHidden = true
+                } else {
+                    self.noticeStackView.isHidden = false
+                }
+            })
             .bind(to: noticeCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self
@@ -255,9 +261,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.noticeViewHeight.asObservable()
             .withUnretained(self)
             .bind { owner, height in
-                if height == 0 {
-                    owner.noticeStackView.isHidden = true
-                }
                 owner.noticeCollectionView.snp.remakeConstraints {
                     $0.height.equalTo(height)
                 }
