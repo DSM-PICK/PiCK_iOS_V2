@@ -36,6 +36,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private let mainView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 32
+        $0.layoutMargins = .init(
+            top: 0,
+            left: 0,
+            bottom: 16,
+            right: 0
+        )
+        $0.isLayoutMarginsRelativeArrangement = true
     }
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
@@ -133,7 +140,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.viewMode.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                owner.setupViewType(type: data)
                 owner.homeViewType = data
             }.disposed(by: disposeBag)
 
@@ -188,6 +194,13 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
         output.noticeListData
             .asObservable()
+            .do(onNext: {
+                if $0.isEmpty {
+                    self.noticeStackView.isHidden = true
+                } else {
+                    self.noticeStackView.isHidden = false
+                }
+            })
             .bind(to: noticeCollectionView.rx.items(
                 cellIdentifier: NoticeCollectionViewCell.identifier,
                 cellType: NoticeCollectionViewCell.self

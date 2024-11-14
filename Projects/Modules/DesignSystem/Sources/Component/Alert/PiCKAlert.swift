@@ -7,9 +7,13 @@ import RxSwift
 import RxCocoa
 
 import Core
-import DesignSystem
 
-public class LogOutAlert: UIViewController {
+public enum PiCKAlertType {
+    case positive
+    case negative
+}
+
+public class PiCKAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
     public var clickLogout: () -> Void
@@ -19,12 +23,10 @@ public class LogOutAlert: UIViewController {
         $0.layer.cornerRadius = 8
     }
     private let titleLabel = PiCKLabel(
-        text: "정말 로그아웃 하시겠습니까?",
         textColor: .modeBlack,
         font: .subTitle2
     )
     private let explainLabel = PiCKLabel(
-        text: "기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다.",
         textColor: .gray700,
         font: .body1,
         numberOfLines: 2
@@ -53,8 +55,16 @@ public class LogOutAlert: UIViewController {
     }
 
     public init(
+        titleText: String,
+        explainText: String,
+        type: PiCKAlertType,
         clickLogout: @escaping () -> Void
     ) {
+        self.titleLabel.text = titleText
+        self.explainLabel.text = explainText
+        if type == .positive {
+            cancelButton.isHidden = true
+        }
         self.clickLogout = clickLogout
         super.init(nibName: nil, bundle: nil)
     }

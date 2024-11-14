@@ -39,15 +39,7 @@ extension ClassroomAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .classroomMoveApply(req):
-            return .requestParameters(
-                parameters: [
-                    "floor": req.floor,
-                    "classroom_name": req.classroomName,
-                    "start": req.startPeriod,
-                    "end": req.endPeriod
-                ],
-                encoding: JSONEncoding.default
-            )
+            return .requestJSONEncodable(req)
         default:
             return .requestPlain
         }

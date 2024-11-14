@@ -17,7 +17,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase
     private let timeTableUseCase: FetchTodayTimeTableUseCase
     private let schoolMealUseCase: FetchSchoolMealUseCase
-    private let noticeListUseCase: FetchNoticeListUseCase
+    private let noticeListUseCase: FetchSimpleNoticeListUseCase
     private let selfStudyUseCase: FetchSelfStudyUseCase
     private let fetchOutingPassUseCase: FetchOutingPassUseCase
     private let fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase
@@ -29,7 +29,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         fetchWeekendMealPeriodUseCase: FetchWeekendMealPeriodUseCase,
         timeTableUseCase: FetchTodayTimeTableUseCase,
         schoolMealUseCase: FetchSchoolMealUseCase,
-        noticeListUseCase: FetchNoticeListUseCase,
+        noticeListUseCase: FetchSimpleNoticeListUseCase,
         selfStudyUseCase: FetchSelfStudyUseCase,
         fetchOutingPassUseCase: FetchOutingPassUseCase,
         fetchEarlyLeavePassUseCase: FetchEarlyLeavePassUseCase,
@@ -63,7 +63,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
         let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
-        let noticeListData: Driver<NoticeListEntity>
+        let noticeListData: Signal<NoticeListEntity>
         let selfStudyData: Driver<SelfStudyEntity>
         let outingPassData: Signal<OutingPassEntity>
         let timeTableHeight: Driver<CGFloat>
@@ -78,7 +78,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
-    private let noticeListData = BehaviorRelay<NoticeListEntity>(value: [])
+    private let noticeListData = PublishRelay<NoticeListEntity>()
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
     private let timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
     private let schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
@@ -171,10 +171,9 @@ public class HomeViewModel: BaseViewModel, Stepper {
                         return .never()
                     }
             }
-            .subscribe(onNext: { [weak self] noticeData in
-                let value = Array(noticeData.prefix(5))
-                self?.noticeListData.accept(value)
-                let height = CGFloat(value.count)
+            .subscribe(onNext: { [weak self] data in
+                self?.noticeListData.accept(data)
+                let height = CGFloat(data.count)
                 self?.noticeViewHeight.accept(height * 86)
             }).disposed(by: disposeBag)
 
@@ -246,7 +245,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             weekendMealPeriodData: weekendMealPeriodData.asSignal(),
             timetableData: timetableData.asDriver(),
             schoolMealData: schoolMealData.asDriver(),
-            noticeListData: noticeListData.asDriver(),
+            noticeListData: noticeListData.asSignal(),
             selfStudyData: selfStudyData.asDriver(),
             outingPassData: outingPassData.asSignal(),
             timeTableHeight: timeTableHeight.asDriver(),

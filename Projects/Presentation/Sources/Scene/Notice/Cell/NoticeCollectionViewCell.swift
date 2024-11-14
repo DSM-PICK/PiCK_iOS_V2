@@ -44,7 +44,9 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
         self.id = model.id
         self.titleLabel.text = model.title
         self.daysAgoLabel.text = model.createAt
-//        self.newNoticeIcon.isHidden = isNew
+        if model.createAt == Date().toString(type: .fullDate) {
+            self.newNoticeIcon.isHidden = false
+        }
     }
 
     public override func layout() {

@@ -40,7 +40,7 @@ public final class PresentationAssembly: Assembly {
                 fetchWeekendMealPeriodUseCase: resolver.resolve(FetchWeekendMealPeriodUseCase.self)!,
                 timeTableUseCase: resolver.resolve(FetchTodayTimeTableUseCase.self)!,
                 schoolMealUseCase: resolver.resolve(FetchSchoolMealUseCase.self)!,
-                noticeListUseCase: resolver.resolve(FetchNoticeListUseCase.self)!,
+                noticeListUseCase: resolver.resolve(FetchSimpleNoticeListUseCase.self)!,
                 selfStudyUseCase: resolver.resolve(FetchSelfStudyUseCase.self)!,
                 fetchOutingPassUseCase: resolver.resolve(FetchOutingPassUseCase.self)!,
                 fetchEarlyLeavePassUseCase: resolver.resolve(FetchEarlyLeavePassUseCase.self)!,

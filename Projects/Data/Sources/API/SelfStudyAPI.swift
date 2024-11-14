@@ -35,7 +35,9 @@ extension SelfStudyAPI: PiCKAPI {
         switch self {
         case .fetchSelfStudyTeacher(let date):
             return .requestParameters(
-                parameters: ["date": date],
+                parameters: [
+                    "date": date
+                ],
                 encoding: URLEncoding.queryString
             )
         }

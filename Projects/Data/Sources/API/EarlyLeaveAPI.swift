@@ -39,13 +39,7 @@ extension EarlyLeaveAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .earlyLeaveApply(req):
-            return .requestParameters(
-                parameters: [
-                    "reason": req.reason,
-                    "start": req.startTime
-                ],
-                encoding: JSONEncoding.default
-            )
+            return .requestJSONEncodable(req)
         case .fetchEarlyLeavePass:
             return .requestPlain
         }

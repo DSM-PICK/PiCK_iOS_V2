@@ -38,8 +38,6 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
         selfStudyTeacherData: SelfStudyEntity
     ) {
         if selfStudyTeacherData.isEmpty {
-//            self.floorStackView.isHidden = true
-//            self.teacherStackView.isHidden = true
             self.explainLabel.isHidden = true
             self.emptySelfStudyLabel.isHidden = false
         } else {

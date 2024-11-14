@@ -17,6 +17,12 @@ class NoticeRepositoryImpl: NoticeRepository {
             .map { $0.toDomain() }
     }
 
+    func fetchSimpleNoticeList() -> Single<NoticeListEntity> {
+        return remoteDataSource.fetchSimpleNoticeList()
+            .map(NoticeListDTO.self)
+            .map { $0.toDomain() }
+    }
+
     func fetchDetailNotice(id: UUID) -> Single<DetailNoticeEntity> {
         return remoteDataSource.fetchDetailNotice(id: id)
             .map(DetailNoticeDTO.self)

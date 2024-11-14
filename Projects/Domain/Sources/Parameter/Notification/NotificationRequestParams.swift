@@ -14,4 +14,9 @@ public struct NotificationRequestParams: Encodable {
         self.isSubscribed = isSubscribed
     }
 
+    enum CodingKeys: String, CodingKey {
+        case topic
+        case isSubscribed = "is_subscribed"
+    }
+
 }

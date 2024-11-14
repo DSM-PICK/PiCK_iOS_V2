@@ -7,8 +7,8 @@ import Domain
 import AppNetwork
 
 public enum NoticeAPI {
-    case fetchTodayNoticeList
     case fetchNoticeList
+    case fetchSimpleNoticeList
     case fetchDetailNotice(id: UUID)
 }
 
@@ -21,10 +21,10 @@ extension NoticeAPI: PiCKAPI {
 
     public var urlPath: String {
         switch self {
-        case .fetchTodayNoticeList:
-            return "/today"
         case .fetchNoticeList:
             return "/simple"
+        case .fetchSimpleNoticeList:
+            return "/today"
         case .fetchDetailNotice(let id):
             return "/\(id)"
         }

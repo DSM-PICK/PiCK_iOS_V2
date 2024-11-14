@@ -12,4 +12,9 @@ public struct EarlyLeaveApplyRequestParams: Encodable {
         self.startTime = startTime
     }
 
+    enum CodingKeys: String, CodingKey {
+        case reason
+        case startTime = "start"
+    }
+
 }

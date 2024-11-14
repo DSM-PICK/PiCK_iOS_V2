@@ -18,4 +18,11 @@ public struct ClassroomMoveRequestParams: Encodable {
         self.endPeriod = endPeriod
     }
 
+    enum CodingKeys: String, CodingKey {
+        case floor
+        case classroomName = "classroom_name"
+        case startPeriod = "start"
+        case endPeriod = "end"
+    }
+
 }

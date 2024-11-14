@@ -13,7 +13,7 @@ public let env = ProjectEnvironment(
     appName: "PiCK-iOS-V2",
     targetName: "PiCK-iOS-V2",
     organizationName: "com.pick.app",
-    deploymentTarget: .iOS(targetVersion: "16.0", devices: .iphone),
+    deploymentTarget: .iOS(targetVersion: "16.0", devices: [.iphone, .ipad]),
     platform: .iOS,
     baseSetting: ["OTHER_LDFLAGS": ["$(inherited) -Objc"]]
 )
