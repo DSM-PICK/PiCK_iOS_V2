@@ -79,8 +79,6 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
                 ) {
                     owner.logoutRelay.accept(())
                 }
-                alert.modalPresentationStyle = .overFullScreen
-                alert.modalTransitionStyle = .crossDissolve
                 owner.present(alert, animated: true)
             }.disposed(by: disposeBag)
     }
