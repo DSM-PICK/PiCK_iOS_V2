@@ -6,8 +6,6 @@ import Then
 import RxSwift
 import RxCocoa
 
-import Starscream
-
 import Core
 import Domain
 import DesignSystem
@@ -25,7 +23,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         width: self.view.frame.width,
         height: 0
     )
-    private lazy var timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
+    private lazy var timeTableHeight = BehaviorRelay<CGFloat>(value: 100)
     private lazy var schoolMealHeight = BehaviorRelay<CGFloat>(value: 0)
 
     private let scrollView = UIScrollView().then {
@@ -242,9 +240,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.timeTableHeight.asObservable()
             .withUnretained(self)
             .bind { owner, height in
-                if height == 0 {
-                    owner.timeTableHeight.accept(100)
-                } else {
+                if height != 0 {
                     owner.timeTableHeight.accept(height)
                 }
 
@@ -314,24 +310,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     }
 
     private func setupViewType(type: HomeViewType) {
-        switch type {
-        case .timeTable:
-            self.todaysLabel.text = "오늘의 시간표"
-            self.schoolMealView.isHidden = true
-            self.timeTableView.isHidden = false
+        let isTimeTable = (type == .timeTable)
+        self.todaysLabel.text = isTimeTable ? "오늘의 시간표" : "오늘의 급식"
 
-            mainStackView.snp.remakeConstraints {
-                $0.height.equalTo(self.timeTableHeight.value)
-            }
+        self.timeTableView.isHidden = !isTimeTable
+        self.schoolMealView.isHidden = isTimeTable
 
-        case .schoolMeal:
-            self.todaysLabel.text = "오늘의 급식"
-            self.timeTableView.isHidden = true
-            self.schoolMealView.isHidden = false
+        let height = isTimeTable ? self.timeTableHeight.value : self.schoolMealHeight.value
 
-            mainStackView.snp.remakeConstraints {
-                $0.height.equalTo(self.schoolMealHeight.value)
-            }
+        mainStackView.snp.remakeConstraints {
+            $0.height.equalTo(height)
         }
     }
 

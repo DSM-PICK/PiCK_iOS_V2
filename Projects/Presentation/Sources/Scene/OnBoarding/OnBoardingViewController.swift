@@ -69,9 +69,6 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
                 ) {
                     print("click")
                 }
-                alert.modalTransitionStyle = .crossDissolve
-                alert.modalPresentationStyle = .overFullScreen
-
                 owner.present(alert, animated: true)
             }.disposed(by: disposeBag)
     }
