@@ -62,7 +62,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         let applyStatusData: Signal<HomeApplyStatusEntity>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
-        let schoolMealData: Driver<[(Int, String, MealEntityElement)]>
+        let schoolMealData: Driver<[(String, MealEntityElement)]>
         let noticeListData: Signal<NoticeListEntity>
         let selfStudyData: Driver<SelfStudyEntity>
         let outingPassData: Signal<OutingPassEntity>
@@ -76,7 +76,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
-    private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
+    private let schoolMealData = BehaviorRelay<[(String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
     private let noticeListData = PublishRelay<NoticeListEntity>()
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])

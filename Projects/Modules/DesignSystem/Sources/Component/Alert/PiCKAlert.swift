@@ -67,6 +67,8 @@ public class PiCKAlert: UIViewController {
         }
         self.clickLogout = clickLogout
         super.init(nibName: nil, bundle: nil)
+        self.modalTransitionStyle = .crossDissolve
+        self.modalPresentationStyle = .overFullScreen
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

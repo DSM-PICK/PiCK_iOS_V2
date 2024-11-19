@@ -58,15 +58,16 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         )
         let output = viewModel.transform(input: input)
 
-        output.schoolMealData.asObservable()
+        output.schoolMealData
+            .asObservable()
             .bind(to: schoolMealCollectionView.rx.items(
                 cellIdentifier: SchoolMealCollectionViewCell.identifier,
                 cellType: SchoolMealCollectionViewCell.self
             )) { _, item, cell in
                 cell.setup(
-                    mealTime: item.1,
-                    menu: item.2.menu,
-                    kcal: item.2.kcal
+                    mealTime: item.0,
+                    menu: item.1.menu,
+                    kcal: item.1.kcal
                 )
             }.disposed(by: disposeBag)
 

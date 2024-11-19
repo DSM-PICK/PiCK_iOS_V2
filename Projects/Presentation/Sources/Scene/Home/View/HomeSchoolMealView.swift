@@ -11,7 +11,7 @@ import Domain
 import DesignSystem
 
 public class HomeSchoolMealView: BaseView {
-    private let schoolMealData = BehaviorRelay<[(Int, String, MealEntityElement)]>(value: [])
+    private let schoolMealData = BehaviorRelay<[(String, MealEntityElement)]>(value: [])
 
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -33,7 +33,7 @@ public class HomeSchoolMealView: BaseView {
     }
 
     public func setup(
-        schoolMealData: [(Int, String, MealEntityElement)]
+        schoolMealData: [(String, MealEntityElement)]
     ) {
         self.schoolMealData.accept(schoolMealData)
     }
@@ -45,9 +45,9 @@ public class HomeSchoolMealView: BaseView {
                 cellType: SchoolMealHomeCell.self
             )) { _, item, cell in
                 cell.setup(
-                    mealTime: item.1,
-                    menu: item.2.menu,
-                    kcal: item.2.kcal
+                    mealTime: item.0,
+                    menu: item.1.menu,
+                    kcal: item.1.kcal
                 )
             }.disposed(by: disposeBag)
     }
