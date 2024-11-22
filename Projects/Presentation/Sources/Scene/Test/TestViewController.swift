@@ -12,6 +12,7 @@ import Moya
 import Core
 import Domain
 import DesignSystem
+import Data
 
 public class TestViewController: UIViewController, Stepper {
     public var steps = PublishRelay<Step>()
@@ -25,21 +26,12 @@ public class TestViewController: UIViewController, Stepper {
         super.viewDidLoad()
 
         view.backgroundColor = .background
-        bind()
+//        bind()
     }
     public override func viewDidLayoutSubviews() {
         layout()
     }
 
-    private func bind() {
-        button1.buttonTap
-            .bind {
-                let alert = PassView()
-                alert.modalTransitionStyle = .crossDissolve
-                alert.modalPresentationStyle = .overFullScreen
-                self.present(alert, animated: true)
-            }.disposed(by: disposeBag)
-    }
 //    private func bind() {
 //        button1.rx.tap
 //            .bind {
@@ -112,4 +104,14 @@ public class TestViewController: UIViewController, Stepper {
         }
     }
 
+}
+
+struct TestDTO: Codable {
+    let accessToken: String
+    let refreshToken: String
+
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+    }
 }
