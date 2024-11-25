@@ -35,10 +35,13 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         viewWillAppearRelay.accept(())
         bindAction()
     }
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    open override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         addView()
         setLayout()
+    }
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         configureNavgationBarLayOutSubviews()
         setLayoutData()
     }

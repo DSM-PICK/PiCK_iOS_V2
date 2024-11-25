@@ -136,4 +136,5 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
             self?.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
         }
     }
+
 }

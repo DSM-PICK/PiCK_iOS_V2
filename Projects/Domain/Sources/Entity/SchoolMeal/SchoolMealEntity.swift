@@ -9,9 +9,9 @@ public struct SchoolMealEntity {
 }
 
 public struct SchoolMealEntityElement {
-    public let mealBundle: [(Int, String, MealEntityElement)]
+    public let mealBundle: [(String, MealEntityElement)]
 
-    public init(mealBundle: [(Int, String, MealEntityElement)]) {
+    public init(mealBundle: [(String, MealEntityElement)]) {
         self.mealBundle = mealBundle
     }
 }

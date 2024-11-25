@@ -19,18 +19,16 @@ extension SchoolMealDTO {
 }
 
 struct SchoolMealDTOElement: Decodable {
-   public let breakfast: MealDTOElement
-   public let lunch: MealDTOElement
-   public let dinner: MealDTOElement
+   public let breakfast, lunch, dinner: MealDTOElement
 }
 
 extension SchoolMealDTOElement {
     func toDomain() -> SchoolMealEntityElement {
         return .init(
             mealBundle: [
-                (0, "조식", breakfast.toDomain()),
-                (1, "중식", lunch.toDomain()),
-                (2, "석식", dinner.toDomain())
+                ("조식", breakfast.toDomain()),
+                ("중식", lunch.toDomain()),
+                ("석식", dinner.toDomain())
             ]
         )
     }
