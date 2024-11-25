@@ -3,10 +3,8 @@ import UIKit
 public extension UIColor {
     // MARK: background
     static let background = DesignSystemAsset.Color.background.color
-
     // MARK: error
     static let error = DesignSystemAsset.Color.error.color
-
     // MARK: gray
     static let gray50 = DesignSystemAsset.Color.gray50.color
     static let gray100 = DesignSystemAsset.Color.gray100.color
