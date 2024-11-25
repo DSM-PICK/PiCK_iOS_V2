@@ -32,8 +32,6 @@ public class AppFlow: Flow {
             return presentLoginView()
         case .tabIsRequired:
             return presentTabView()
-        case .testIsRequired:
-            return presentTestView()
         default:
             return .none
         }
@@ -97,21 +95,6 @@ public class AppFlow: Flow {
                 withNextPresentable: tabsFlow,
                 withNextStepper: OneStepper(
                     withSingleStep: PiCKStep.tabIsRequired
-                )
-            )
-        )
-    }
-
-    private func presentTestView() -> FlowContributors {
-        let testFlow = TestFlow(container: self.container)
-        Flows.use(testFlow, when: .created) { [weak self] root in
-            self?.window.rootViewController = root
-        }
-        return .one(
-            flowContributor: .contribute(
-                withNextPresentable: testFlow,
-                withNextStepper: OneStepper(
-                    withSingleStep: PiCKStep.testIsRequired
                 )
             )
         )
