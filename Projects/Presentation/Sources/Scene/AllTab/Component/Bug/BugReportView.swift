@@ -22,7 +22,10 @@ public class BugReportView: BaseView {
         return textView.textViewText
     }
 
-    private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .label1)
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .pickFont(.label1)
+    )
     private let textField = PiCKTextField(placeholder: "예: 메인, 외출 신청").then {
         $0.isHidden = true
         $0.keyboardType = .default

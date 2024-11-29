@@ -15,12 +15,12 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
     private let titleLabel = PiCKLabel(
         text: "주말 급식",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let explainLabel = PiCKLabel(
         text: "신청 여부는 담임 선생님이 확인 후 영양사 선생님에게 전달돼요.",
         textColor: .gray500,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
     private lazy var weekendMealApplyView = WeekendMealApplyView(clickWeekendMealStatus: { data in
         self.weekendMealStatusRelay.accept(data)

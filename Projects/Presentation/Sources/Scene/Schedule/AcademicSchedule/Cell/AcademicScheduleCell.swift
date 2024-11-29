@@ -18,7 +18,7 @@ public class AcademicScheduleCell: BaseCollectionViewCell<Any> {
     }
     private let scheduleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle2
+        font: .pickFont(.subTitle2)
     )
 
     public func setup(schedule: String) {

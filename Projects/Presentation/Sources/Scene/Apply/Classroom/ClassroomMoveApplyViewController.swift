@@ -22,12 +22,12 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     private let titleLabel = PiCKLabel(
         text: "교실 이동",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let explainLabel = PiCKLabel(
         text: "자습 감독 선생님께서 수락 후 이동할 수 있습니다.",
         textColor: .gray600,
-        font: .body2
+        font: .pickFont(.body2)
     )
     private let floorSegmentedControl = ClassroomSegmentedControl(items: [
         "1층", "2층", "3층", "4층", "5층"

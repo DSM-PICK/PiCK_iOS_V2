@@ -20,16 +20,16 @@ public class PassView: UIViewController {
     private let titleLabel = PiCKLabel(
         text: "외출증",
         textColor: .modeBlack,
-        font: .subTitle1
+        font: .pickFont(.subTitle1)
     )
 
     private let nameLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .heading2
+        font: .pickFont(.heading2)
     )
     private let infoLabel = PiCKLabel(
         textColor: .gray700,
-        font: .subTitle2
+        font: .pickFont(.subTitle2)
     )
     private lazy var userInfoStackView = UIStackView(arrangedSubviews: [
         nameLabel,

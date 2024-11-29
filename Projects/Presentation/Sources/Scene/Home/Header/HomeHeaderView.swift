@@ -12,11 +12,11 @@ import DesignSystem
 public class HomeHeaderView: BaseView {
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let explainLabel = PiCKLabel(
         textColor: .gray500,
-        font: .body2
+        font: .pickFont(.body2)
     )
 
     public func setup(

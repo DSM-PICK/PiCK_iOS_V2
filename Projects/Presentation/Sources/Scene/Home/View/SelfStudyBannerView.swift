@@ -10,20 +10,20 @@ import Core
 import Domain
 import DesignSystem
 
-public class PiCKHomeSelfStudyBannerView: BaseView {
-    private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
+public class SelfStudyBannerView: BaseView {
+    private let backgroundImageView = UIImageView(image: .mainBanner)
 
     private let explainLabel = PiCKLabel(
         text: "오늘의 자습 감독 선생님 입니다",
         textColor: .gray900,
-        font: .label2
+        font: .pickFont(.label2)
     ).then {
-        $0.changePointFont(targetString: "자습 감독", font: .button2)
+        $0.changePointFont(targetString: "자습 감독", font: .pickFont(.button2))
     }
     private let emptySelfStudyLabel = PiCKLabel(
         text: "오늘은\n자습감독 선생님이 없습니다",
         textColor: .modeBlack,
-        font: .label2
+        font: .pickFont(.label2)
     )
     private lazy var floorStackView = UIStackView().then {
         $0.axis = .vertical
@@ -55,7 +55,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
 
     public override func layout() {
         [
-            bannerBackgroundImageView,
+            backgroundImageView,
             explainLabel,
             emptySelfStudyLabel,
             floorStackView,
@@ -65,7 +65,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
         self.snp.makeConstraints {
             $0.height.equalTo(160)
         }
-        bannerBackgroundImageView.snp.makeConstraints {
+        backgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         explainLabel.snp.makeConstraints {
@@ -95,7 +95,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             let floorLabel = PiCKLabel(
                 text: "\(floor.floor)층",
                 textColor: .main900,
-                font: .label2,
+                font: .pickFont(.label2),
                 alignment: .center
             )
             floorStackView.addArrangedSubview(floorLabel)
@@ -107,7 +107,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             let teacherLabel = PiCKLabel(
                 text: "\(teacher.teacherName) 선생님",
                 textColor: .modeBlack,
-                font: .subTitle3
+                font: .pickFont(.subTitle3)
             )
             teacherStackView.addArrangedSubview(teacherLabel)
         }

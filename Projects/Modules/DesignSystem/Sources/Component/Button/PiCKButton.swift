@@ -53,7 +53,7 @@ public class PiCKButton: BaseButton {
     public override func attribute() {
         self.backgroundColor = bgColor
         self.setTitleColor(.modeWhite, for: .normal)
-        self.titleLabel?.font = .button1
+        self.titleLabel?.font = .pickFont(.button1)
         self.layer.cornerRadius = 8
     }
 

@@ -62,7 +62,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     private let todaysLabel = PiCKLabel(
         textColor: .gray700,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private lazy var timeTableView = HomeTimeTableView(frame: subViewSize)
     private lazy var schoolMealView = HomeSchoolMealView(frame: subViewSize)
@@ -74,16 +74,16 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         $0.axis = .vertical
         $0.spacing = 20
     }
-    private let selfStudyBannerView = PiCKHomeSelfStudyBannerView()
+    private let selfStudyBannerView = SelfStudyBannerView()
     private let recentNoticeLabel = PiCKLabel(
         text: "최신 공지",
         textColor: .gray700,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let viewMoreButton = UIButton(type: .system).then {
         $0.setTitle("더보기", for: .normal)
         $0.setTitleColor(.gray800, for: .normal)
-        $0.titleLabel?.font = .label1
+        $0.titleLabel?.font = .pickFont(.label1)
     }
     private lazy var noticeTitleStackView = UIStackView(arrangedSubviews: [
         recentNoticeLabel,

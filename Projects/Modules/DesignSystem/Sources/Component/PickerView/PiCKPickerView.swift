@@ -90,7 +90,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
         label.textColor = .modeBlack
-        label.font = .heading4
+        label.font = .pickFont(.heading4)
         label.textAlignment = .center
 
         view.addSubview(label)

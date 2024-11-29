@@ -24,7 +24,7 @@ public class PiCKTextField: BaseTextField {
 
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let textHideButton = UIButton(type: .system).then {
         $0.setImage(.eyeOff, for: .normal)
@@ -34,7 +34,7 @@ public class PiCKTextField: BaseTextField {
     }
     private let errorLabel = PiCKLabel(
         textColor: .error,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
 
     public init(
@@ -60,7 +60,7 @@ public class PiCKTextField: BaseTextField {
 
     public override func attribute() {
         self.textColor = .modeBlack
-        self.font = .caption1
+        self.font = .pickFont(.caption1)
         self.backgroundColor = .gray50
         self.layer.cornerRadius = 4
         self.layer.border(color: borderColor, width: 1)
@@ -99,7 +99,7 @@ public class PiCKTextField: BaseTextField {
             string: string,
             attributes: [
                 .foregroundColor: UIColor.gray500,
-                .font: UIFont.caption2
+                .font: UIFont.pickFont(.caption2)
             ]
         )
     }

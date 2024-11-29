@@ -23,7 +23,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     private lazy var dateLabel = PiCKLabel(
         text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     ).then {
         $0.changePointColor(targetString: "오늘", color: .main500)
     }

@@ -15,7 +15,7 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
     private let applyLabel = PiCKLabel(
         text: "신청",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let applyTabView = PiCKApplyStackView()
 

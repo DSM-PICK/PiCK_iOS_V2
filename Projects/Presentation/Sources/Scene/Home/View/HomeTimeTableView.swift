@@ -21,7 +21,7 @@ public class HomeTimeTableView: BaseView {
     private let emptyTimeTableLabel = PiCKLabel(
         text: "오늘은 등록된 시간표가 없습니다",
         textColor: .modeBlack,
-        font: .body1,
+        font: .pickFont(.body1),
         isHidden: true
     )
 

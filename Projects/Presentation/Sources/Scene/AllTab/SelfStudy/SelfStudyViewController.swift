@@ -18,7 +18,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
     private lazy var titleLabel = PiCKLabel(
         text: "\(todayDate.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다",
         textColor: .modeBlack,
-        font: .heading4,
+        font: .pickFont(.heading4),
         numberOfLines: 0
     ).then {
         $0.changePointColor(targetString: "오늘의 자습 감독", color: .main500)
@@ -37,7 +37,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
     private let emptySelfStudyLabel = PiCKLabel(
         text: "등록된 자습 감독 선생님이 없습니다.",
         textColor: .modeBlack,
-        font: .body1,
+        font: .pickFont(.body1),
         isHidden: true
     )
     private lazy var calendarView = PiCKCalendarView(

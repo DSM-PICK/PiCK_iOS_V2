@@ -14,12 +14,12 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntity
 
     private let periodLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle2
+        font: .pickFont(.subTitle2)
     )
     private let subjectImageView = UIImageView()
     private let subjectLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
 
     public override func adapt(model: TimeTableEntityElement) {

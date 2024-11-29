@@ -13,7 +13,7 @@ public class PiCKSectionView: BaseView {
 
     private var titleLabel = PiCKLabel(
         textColor: .gray600,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let sectionTableView = UITableView().then {
         $0.backgroundColor = .background

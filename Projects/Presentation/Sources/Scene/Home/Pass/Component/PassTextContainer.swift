@@ -9,11 +9,11 @@ import DesignSystem
 public class PassTextContainer: BaseView {
     private let titleLabel = PiCKLabel(
         textColor: .gray700,
-        font: .body2
+        font: .pickFont(.body2)
     )
     private let contentLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle3
+        font: .pickFont(.subTitle3)
     )
 
     public func setup(

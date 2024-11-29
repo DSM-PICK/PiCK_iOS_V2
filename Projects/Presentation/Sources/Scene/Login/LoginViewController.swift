@@ -13,14 +13,14 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
     private let titleLabel = PiCKLabel(
         text: "PiCK에 로그인하기",
         textColor: .modeBlack,
-        font: .heading2
+        font: .pickFont(.heading2)
     ).then {
         $0.changePointColor(targetString: "PiCK", color: .main500)
     }
     private let explainLabel = PiCKLabel(
         text: "스퀘어 계정으로 로그인 해주세요.",
         textColor: .gray600,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private let idTextField = PiCKTextField(
         titleText: "아이디",
