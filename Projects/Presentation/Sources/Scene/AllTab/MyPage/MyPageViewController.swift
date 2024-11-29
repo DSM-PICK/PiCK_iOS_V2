@@ -22,7 +22,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     private let changeButton = UIButton(type: .system).then {
         $0.setTitle("변경하기", for: .normal)
         $0.setTitleColor(.gray500, for: .normal)
-        $0.titleLabel?.font = .body1
+        $0.titleLabel?.font = .pickFont(.body1)
     }
 
     private lazy var userInfoLabelStackView = UIStackView().then {

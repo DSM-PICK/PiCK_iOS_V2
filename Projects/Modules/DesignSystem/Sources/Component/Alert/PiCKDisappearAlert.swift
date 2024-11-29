@@ -16,7 +16,10 @@ public class PiCKDisappearAlert: UIViewController {
         $0.layer.cornerRadius = 24
     }
     private let imageView = UIImageView()
-    private let alertLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
+    private let alertLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .pickFont(.body1)
+    )
 
     public init(
         successType: SuccessType,

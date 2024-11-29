@@ -20,7 +20,7 @@ public class NotificationSwitchView: BaseView {
 
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle1
+        font: .pickFont(.subTitle1)
     )
     private lazy var switchButton = UISwitch().then {
         $0.onTintColor = .main500

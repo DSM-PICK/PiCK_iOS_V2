@@ -31,7 +31,7 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
     private lazy var calendarHeaderLabel = PiCKLabel(
         text: calendarView.currentPage.toString(type: .yearsAndMonthKor),
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let previousButton = PiCKImageButton(
         image: .leftArrow,
@@ -56,11 +56,11 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
         $0.calendarHeaderView.isHidden = true
         $0.locale = Locale(identifier: "ko_KR")
         $0.appearance.weekdayTextColor = .modeBlack
-        $0.appearance.weekdayFont = .label1
+        $0.appearance.weekdayFont = .pickFont(.label1)
         $0.placeholderType = .none
         $0.appearance.titleDefaultColor = .modeBlack
         $0.appearance.titleSelectionColor = .modeBlack
-        $0.appearance.titleFont = .caption1
+        $0.appearance.titleFont = .pickFont(.caption1)
         $0.appearance.selectionColor = .background
         $0.appearance.borderSelectionColor = .main100
         $0.appearance.titleTodayColor = .modeBlack

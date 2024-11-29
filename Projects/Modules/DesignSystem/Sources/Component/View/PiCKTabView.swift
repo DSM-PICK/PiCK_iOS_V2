@@ -50,7 +50,7 @@ public class PiCKTabView: BaseView {
     }
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private lazy var titleStackView = UIStackView(arrangedSubviews: [
         iconImageView,
@@ -62,7 +62,7 @@ public class PiCKTabView: BaseView {
 
     private let explainLabel = PiCKLabel(
         textColor: .gray800,
-        font: .label2,
+        font: .pickFont(.label2),
         isHidden: true
     )
     private lazy var actionButton = PiCKButton(

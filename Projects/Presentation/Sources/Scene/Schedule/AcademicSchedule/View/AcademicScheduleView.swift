@@ -35,13 +35,13 @@ public class AcademicScheduleView: BaseView {
     private lazy var dateLabel = PiCKLabel(
         text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,
-        font: .caption1
+        font: .pickFont(.caption1)
     ).then {
         $0.changePointColor(targetString: "오늘", color: .main500)
     }
     private let scheduleLabel = PiCKLabel(
         textColor: .gray800,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
     private lazy var labelStackView = UIStackView(arrangedSubviews: [
         dateLabel,
@@ -69,7 +69,7 @@ public class AcademicScheduleView: BaseView {
     private lazy var emptyScheduleLabel = PiCKLabel(
         text: "일정이 없습니다.",
         textColor: .gray800,
-        font: .caption1,
+        font: .pickFont(.caption1),
         isHidden: true
     )
 

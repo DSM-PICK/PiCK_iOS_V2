@@ -22,7 +22,7 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
     private let bugImageLabel = PiCKLabel(
         text: "버그 사진을 첨부해주세요",
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let bugImageView = BugImageView()
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {

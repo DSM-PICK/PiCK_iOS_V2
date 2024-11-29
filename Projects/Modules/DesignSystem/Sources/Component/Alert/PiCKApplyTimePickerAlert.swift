@@ -19,7 +19,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
 
     private let explainLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let periodPickerView = PiCKClassroomPickerContainerView()
     private let timePickerView = PiCKOutingPickerContainerView()

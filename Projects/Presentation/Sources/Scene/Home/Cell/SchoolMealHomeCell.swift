@@ -12,16 +12,16 @@ public class SchoolMealHomeCell: BaseCollectionViewCell<Any> {
 
     private let mealTimeLabel = PiCKLabel(
         textColor: .main700,
-        font: .subTitle1
+        font: .pickFont(.subTitle1)
     )
     private let menuLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .body1,
+        font: .pickFont(.body1),
         numberOfLines: 0
     )
     private let kcalLabel = PiCKLabel(
         textColor: .background,
-        font: .caption2,
+        font: .pickFont(.caption2),
         alignment: .center,
         backgroundColor: .main500,
         cornerRadius: 12

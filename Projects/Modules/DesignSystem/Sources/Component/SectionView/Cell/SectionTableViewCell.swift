@@ -20,7 +20,7 @@ public class SectionTableViewCell: BaseTableViewCell {
     private let sectionImageView = UIImageView()
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
 
     public func setup(

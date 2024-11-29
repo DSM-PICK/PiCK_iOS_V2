@@ -11,11 +11,15 @@ import DesignSystem
 
 public class AlertViewController: BaseViewController<AlertViewModel> {
 
-    private let newAlertLabel = PiCKLabel(text: "읽지 않은 알림 (0)", textColor: .modeBlack, font: .subTitle2)
+    private let newAlertLabel = PiCKLabel(
+        text: "읽지 않은 알림 (0)",
+        textColor: .modeBlack,
+        font: .pickFont(.subTitle2)
+    )
     private let readAllButton = UIButton(type: .system).then {
         $0.setTitle("모두 읽음", for: .normal)
         $0.setTitleColor(.main500, for: .normal)
-        $0.titleLabel?.font = .subTitle2
+        $0.titleLabel?.font = .pickFont(.subTitle2)
     }
     private lazy var alertStackView = UIStackView(arrangedSubviews: [
         newAlertLabel,

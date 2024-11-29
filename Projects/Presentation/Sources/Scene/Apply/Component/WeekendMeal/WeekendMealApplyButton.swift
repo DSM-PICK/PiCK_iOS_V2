@@ -47,7 +47,7 @@ public class WeekendMealApplyButton: BaseButton {
     public override func attribute() {
         self.backgroundColor = bgColor
         self.setTitleColor(titleColor, for: .normal)
-        self.titleLabel?.font = .button2
+        self.titleLabel?.font = .pickFont(.button2)
         self.layer.cornerRadius = 4
         self.tintColor = .clear
     }

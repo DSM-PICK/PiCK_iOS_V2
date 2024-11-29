@@ -22,7 +22,7 @@ public class PiCKClassroomPickerContainerView: BaseView {
     }
 
     private let startPickerView = PiCKPickerView(type: .period)
-    private let startPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
+    private let startPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .pickFont(.subTitle1))
     private lazy var startPeriodStackView = UIStackView(arrangedSubviews: [
         startPickerView,
         startPeriodLabel
@@ -30,10 +30,10 @@ public class PiCKClassroomPickerContainerView: BaseView {
         $0.axis = .horizontal
     }
 
-    private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .heading3)
+    private let dashLabel = PiCKLabel(text: "-", textColor: .modeBlack, font: .pickFont(.heading3))
 
     private let endPickerView = PiCKPickerView(type: .period)
-    private let endPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .subTitle1)
+    private let endPeriodLabel = PiCKLabel(text: "교시", textColor: .modeBlack, font: .pickFont(.subTitle1))
     private lazy var endPeriodStackView = UIStackView(arrangedSubviews: [
         endPickerView,
         endPeriodLabel
