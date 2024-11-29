@@ -17,6 +17,7 @@ extension Project {
         platform: Platform = env.platform,
         product: Product,
         packages: [Package] = [],
+        deploymentTarget: DeploymentTarget = env.deploymentTarget,
         dependencies: [TargetDependency],
         settings: SettingsDictionary = [:],
         configurations: [Configuration] = [],
@@ -28,7 +29,6 @@ extension Project {
         let ldFlagsSettings: SettingsDictionary = product == .framework ?
         ["OTHER_LDFLAGS": .string("$(inherited) -all_load")] :
         ["OTHER_LDFLAGS": .string("$(inherited)")]
-        
 
         let configurations: [Configuration] = isCI ?
         [
@@ -55,7 +55,7 @@ extension Project {
                 platform: platform,
                 product: product,
                 bundleId: "\(env.organizationName).\(name)",
-                deploymentTarget: env.deploymentTarget,
+                deploymentTarget: deploymentTarget,
                 infoPlist: .extendingDefault(with: additionalPlistRows),
                 sources: sources,
                 resources: resources,

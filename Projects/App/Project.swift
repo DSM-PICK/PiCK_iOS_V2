@@ -34,9 +34,25 @@ let targets: [Target] = [
         scripts: scripts,
         dependencies: [
             .Projects.flow,
-            .SPM.FCM
+            .SPM.FCM,
+            .target(name: "\(env.appName)-Watch")
         ],
         settings: .settings(base: env.baseSetting)
+    ),
+    .init(
+        name: "\(env.targetName)-Watch",
+        platform: .watchOS,
+        product: .app,
+        productName: "\(env.appName)-Watch",
+        bundleId: "$(APP_BUNDLE_ID).watchapp",
+        infoPlist: .file(path: "WatchApp/Support/Info.plist"),
+        sources: ["WatchApp/Sources/**"],
+        resources: ["WatchApp/Resources/**"],
+        dependencies: [
+//            .external(name: "Swinject")
+            .Module.watchAppNetwork,
+            .Module.watchDesignSystem
+        ]
     )
 ]
 

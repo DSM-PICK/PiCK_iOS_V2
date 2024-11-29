@@ -4,6 +4,6 @@ import EnvironmentPlugin
 let workspace = Workspace(
     name: env.appName,
     projects: [
-        "Projects/**"
+        "Projects/App"
     ]
 )
