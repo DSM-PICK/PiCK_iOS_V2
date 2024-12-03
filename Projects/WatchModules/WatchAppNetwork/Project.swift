@@ -6,5 +6,7 @@ let project = Project.makeModule(
     platform: .watchOS,
     product: .staticFramework,
     deploymentTarget: .watchOS(targetVersion: "9.0"),
-    dependencies: []
+    dependencies: [
+        .WatchModule.thirdPartyLib
+    ]
 )

@@ -50,8 +50,8 @@ let targets: [Target] = [
         resources: ["WatchApp/Resources/**"],
         dependencies: [
 //            .external(name: "Swinject")
-            .Module.watchAppNetwork,
-            .Module.watchDesignSystem
+            .WatchModule.watchAppNetwork,
+            .WatchModule.watchDesignSystem
         ]
     )
 ]
