@@ -22,7 +22,7 @@ public final class MoyaLoggingPlugin: PluginType {
     log.append("------------------- END \(method) --------------------------")
     print(log)
   }
-  // Response가 왔을 때
+
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
     switch result {
     case let .success(response):

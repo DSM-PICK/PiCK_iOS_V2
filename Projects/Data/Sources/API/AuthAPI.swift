@@ -14,7 +14,7 @@ public enum AuthAPI {
 extension AuthAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
-    public var urlType: PiCKURL {
+    public var domain: PiCKDomain {
         return .user
     }
 

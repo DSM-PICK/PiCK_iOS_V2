@@ -2,8 +2,8 @@ import Foundation
 
 import Core
 
-public class TokenStorage {
-    public static let shared = TokenStorage()
+public class JwtStore {
+    public static let shared = JwtStore()
     private let keyChain = KeychainImpl()
 
     public var accessToken: String? {
@@ -53,4 +53,5 @@ public class TokenStorage {
         self.accessToken = nil
         self.refreshToken = nil
     }
+
 }

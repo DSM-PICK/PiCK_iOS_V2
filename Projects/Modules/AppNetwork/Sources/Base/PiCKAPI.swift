@@ -6,7 +6,7 @@ import Core
 
 public protocol PiCKAPI: TargetType {
     associatedtype ErrorType: Error
-    var urlType: PiCKURL { get }
+    var domain: PiCKDomain { get }
     var urlPath: String { get }
     var pickHeader: TokenType { get }
     var errorMap: [Int: ErrorType]? { get }
@@ -18,15 +18,15 @@ public extension PiCKAPI {
     }
 
     var path: String {
-        urlType.asURLString + urlPath
+        domain.asURLString + urlPath
     }
 
     var headers: [String: String]? {
         switch pickHeader {
         case .accessToken:
-            return TokenStorage.shared.toHeader(.accessToken)
+            return JwtStore.shared.toHeader(.accessToken)
         case .refreshToken:
-            return TokenStorage.shared.toHeader(.refreshToken)
+            return JwtStore.shared.toHeader(.refreshToken)
         case .tokenIsEmpty:
             return ["Content-Type": "application/json"]
         }
@@ -37,7 +37,7 @@ public extension PiCKAPI {
     }
 }
 
-public enum PiCKURL: String {
+public enum PiCKDomain: String {
     case user
     case main
     case selfStudy = "self-study"
@@ -65,9 +65,9 @@ public enum TokenType: String {
     var toHeader: [String: String] {
         switch self {
         case .accessToken:
-            return TokenStorage.shared.toHeader(.accessToken)
+            return JwtStore.shared.toHeader(.accessToken)
         case .refreshToken:
-            return TokenStorage.shared.toHeader(.refreshToken)
+            return JwtStore.shared.toHeader(.refreshToken)
         case .tokenIsEmpty:
             return ["Content-Type": "application/json"]
         }

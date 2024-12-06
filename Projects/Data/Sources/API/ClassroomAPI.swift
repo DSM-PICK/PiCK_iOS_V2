@@ -14,7 +14,7 @@ public enum ClassroomAPI {
 extension ClassroomAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
-    public var urlType: PiCKURL {
+    public var domain: PiCKDomain {
         return .classroom
     }
 
