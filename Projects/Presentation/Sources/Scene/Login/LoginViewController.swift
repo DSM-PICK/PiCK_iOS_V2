@@ -60,13 +60,9 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
             .bind(to: self.passwordTextField.errorMessage)
             .disposed(by: disposeBag)
 
-        Observable.combineLatest(
-            idTextField.rx.text.orEmpty,
-            passwordTextField.rx.text.orEmpty
-        )
-        .map { !$0.isEmpty && !$1.isEmpty }
-        .bind(to: loginButton.rx.isEnabled)
-        .disposed(by: disposeBag)
+        output.buttonEnabled
+            .drive(loginButton.rx.isEnabled)
+            .disposed(by: disposeBag)
     }
     public override func addView() {
         [
