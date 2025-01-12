@@ -27,7 +27,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
     public struct Output {
         let idErrorDescription: Signal<String?>
         let passwordErrorDescription: Signal<String?>
-        let buttonEnabled: Driver<Bool>
+        let isButtonEnabled: Driver<Bool>
     }
 
     private let passwordErrorDescription = PublishRelay<String?>()
@@ -35,7 +35,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
 
     public func transform(input: Input) -> Output {
 
-        let buttonEnabled = Observable.combineLatest(
+        let isButtonEnabled = Observable.combineLatest(
                 input.idText,
                 input.passwordText
             )
@@ -68,7 +68,7 @@ public class LoginViewModel: BaseViewModel, Stepper {
         return Output(
             idErrorDescription: idErrorDescription.asSignal(),
             passwordErrorDescription: passwordErrorDescription.asSignal(),
-            buttonEnabled: buttonEnabled
+            isButtonEnabled: isButtonEnabled
         )
     }
 
