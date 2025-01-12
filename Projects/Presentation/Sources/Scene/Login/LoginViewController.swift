@@ -59,8 +59,11 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
         output.passwordErrorDescription.asObservable()
             .bind(to: self.passwordTextField.errorMessage)
             .disposed(by: disposeBag)
-    }
 
+        output.buttonEnabled
+            .drive(loginButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+    }
     public override func addView() {
         [
             titleLabel,
