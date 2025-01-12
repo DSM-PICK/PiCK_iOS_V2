@@ -18,7 +18,7 @@ public class PiCKButton: BaseButton {
         }
     }
     private var bgColor: UIColor {
-        isEnabled ? .main500 : .main100
+        isEnabled ? .main100 : .main500
     }
 
     override public init(frame: CGRect) {
