@@ -157,6 +157,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind { owner, data in
                 let passIsHidden = data.type?.isEmpty
                 let isWait = data.userName == .none
+
                 owner.passHeaderView.isHidden = passIsHidden ?? true
                 owner.passHeaderView.setup(
                     isWait: isWait,
