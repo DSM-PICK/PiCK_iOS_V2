@@ -11,8 +11,6 @@ import Domain
 import DesignSystem
 
 public class SelfStudyBannerView: BaseView {
-    private let backgroundImageView = UIImageView(image: .mainBanner)
-
     private let explainLabel = PiCKLabel(
         text: "오늘의 자습 감독 선생님 입니다",
         textColor: .gray900,
@@ -33,6 +31,7 @@ public class SelfStudyBannerView: BaseView {
         $0.axis = .vertical
         $0.distribution = .fillEqually
     }
+    private let calendarImageVIew = UIImageView(image: .calendarIcon)
 
     public func setup(
         selfStudyTeacherData: SelfStudyEntity
@@ -50,23 +49,21 @@ public class SelfStudyBannerView: BaseView {
     public override func attribute() {
         super.attribute()
 
+        self.backgroundColor = .gray50
         self.layer.cornerRadius = 12
     }
 
     public override func layout() {
         [
-            backgroundImageView,
             explainLabel,
             emptySelfStudyLabel,
             floorStackView,
-            teacherStackView
+            teacherStackView,
+            calendarImageVIew
         ].forEach { self.addSubview($0) }
 
         self.snp.makeConstraints {
             $0.height.equalTo(160)
-        }
-        backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
         }
         explainLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(27.5)
@@ -85,6 +82,11 @@ public class SelfStudyBannerView: BaseView {
             $0.top.equalTo(explainLabel.snp.bottom).offset(16)
             $0.leading.equalTo(floorStackView.snp.trailing).offset(16)
             $0.height.equalTo(75)
+        }
+        calendarImageVIew.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(20)
+            $0.size.equalTo(140)
         }
     }
 
