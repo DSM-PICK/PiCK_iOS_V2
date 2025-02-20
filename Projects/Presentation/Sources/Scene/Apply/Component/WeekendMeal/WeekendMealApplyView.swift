@@ -16,7 +16,7 @@ public class WeekendMealApplyView: BaseView {
 
     private lazy var currnetMonthWeekendMealApplyLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private let applyButton = WeekendMealApplyButton(buttonText: "신청")
     private let notApplyButton = WeekendMealApplyButton(buttonText: "미신청")

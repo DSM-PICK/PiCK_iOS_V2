@@ -34,23 +34,23 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
     private let titleLabel = PiCKLabel(
         text: "외출 신청",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private lazy var explainLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let startTimeSelectButton = TimeSelectButton(type: .system)
     private let sinceLabel = PiCKLabel(
         text: "부터",
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let endTimeSelectButton = TimeSelectButton(type: .system)
     private let untilLabel = PiCKLabel(
         text: "까지",
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let periodSelectButton = TimeSelectButton(type: .system)
     private lazy var outingTimeStackView = UIStackView(arrangedSubviews: [

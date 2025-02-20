@@ -38,7 +38,7 @@ public class ScheduleSegmentedControl: UISegmentedControl {
     private func setup() {
         self.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.gray600,
-            .font: UIFont.label1
+            .font: UIFont.pickFont(.label1)
         ], for: .normal)
         self.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.modeBlack

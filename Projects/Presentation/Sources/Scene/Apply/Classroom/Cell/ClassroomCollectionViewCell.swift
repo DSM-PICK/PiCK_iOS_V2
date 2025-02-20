@@ -22,7 +22,11 @@ public class ClassroomCollectionViewCell: BaseCollectionViewCell<Any> {
         isSelected ? .main100 : .background
     }
 
-    private let classroomLabel = PiCKLabel(textColor: .modeBlack, font: .body1, numberOfLines: 1)
+    private let classroomLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .pickFont(.body1),
+        numberOfLines: 1
+    )
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,12 +35,6 @@ public class ClassroomCollectionViewCell: BaseCollectionViewCell<Any> {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    public override func adapt(model: ClassRoomModel) {
-//        super.adapt(model: model)
-//
-//        self.classRoomLabel.text = model.classRoom
-//        self.layout()
-//    }
     public func setup(
         classroom: String
     ) {

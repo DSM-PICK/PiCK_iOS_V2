@@ -19,7 +19,7 @@ public class PiCKProfileView: BaseView {
     }
     private let userInfoLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1,
+        font: .pickFont(.label1),
         numberOfLines: 0
     )
 

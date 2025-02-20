@@ -16,15 +16,15 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
 
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle1
+        font: .pickFont(.subTitle1)
     )
     private let dateLabel = PiCKLabel(
         textColor: .gray500,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private let teacherNameLabel = PiCKLabel(
         textColor: .gray500,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private lazy var subTextStackView = UIStackView(arrangedSubviews: [
         dateLabel,
@@ -44,7 +44,7 @@ public class NoticeDetailViewController: BaseViewController<NoticeDetailViewMode
     }
     private let contentLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .body1
+        font: .pickFont(.body1)
     )
 
     public override func attribute() {

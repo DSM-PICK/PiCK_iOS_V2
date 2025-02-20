@@ -22,7 +22,7 @@ public class BugImageCollectionViewCell: BaseCollectionViewCell<Any> {
     private let deleteButton = UIButton(type: .system).then {
         $0.setTitle("삭제", for: .normal)
         $0.setTitleColor(.error, for: .normal)
-        $0.titleLabel?.font = .caption2
+        $0.titleLabel?.font = .pickFont(.caption2)
         $0.backgroundColor = .modeWhite
         $0.layer.cornerRadius = 8
     }

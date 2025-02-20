@@ -33,13 +33,11 @@ public extension UIImage {
     static let defaultTimeTableIcon = DesignSystemAsset.Image.defaultTimeTable1.image
     static let mainIcon = DesignSystemAsset.Image.main.image
     static let timeIcon = DesignSystemAsset.Image.time.image
+    static let calendarIcon = DesignSystemAsset.Image.calendar.image
     // MARK: TabBarIcon
     static let homeIcon = DesignSystemAsset.Image.homeIcon.image
     static let schoolMealIcon = DesignSystemAsset.Image.schoolMealIcon.image
     static let applyIcon = DesignSystemAsset.Image.applyIcon.image
     static let scheduleIcon = DesignSystemAsset.Image.scheduleIcon.image
     static let allTabIcon = DesignSystemAsset.Image.allTabIcon.image
-    // MARK: Image
-    static let mainBanner = DesignSystemAsset.Image.mainBanner.image
-    static let noticeBanner = DesignSystemAsset.Image.noticeBanner.image
 }

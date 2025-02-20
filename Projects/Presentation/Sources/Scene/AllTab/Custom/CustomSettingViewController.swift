@@ -18,12 +18,12 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
     private let titleLabel = PiCKLabel(
         text: "커스텀",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let subTitleLabel = PiCKLabel(
         text: "픽은 커스텀할 수 있어요!",
         textColor: .gray500,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private let homeSettingTabView = PiCKTabView(
         title: "메인페이지 설정",

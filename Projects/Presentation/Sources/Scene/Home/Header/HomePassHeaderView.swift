@@ -27,22 +27,22 @@ public class HomePassHeaderView: BaseView {
 
     private let contentLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let button = UIButton(type: .system).then {
         $0.setTitleColor(.modeWhite, for: .normal)
-        $0.titleLabel?.font = .button2
+        $0.titleLabel?.font = .pickFont(.button2)
         $0.backgroundColor = .main400
         $0.layer.cornerRadius = 8
     }
 
     private let waitingTitleLabel = PiCKLabel(
         textColor: .main500,
-        font: .subTitle2
+        font: .pickFont(.subTitle2)
     )
     private let waitingContentLabel = PiCKLabel(
         textColor: .gray500,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
     private lazy var waitingStackView = UIStackView(arrangedSubviews: [
         waitingTitleLabel,

@@ -13,7 +13,7 @@ public class BugImageView: BaseView {
     private let explainLabel = PiCKLabel(
         text: "사진을 첨부해주세요.",
         textColor: .gray500,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
 
     public override func attribute() {

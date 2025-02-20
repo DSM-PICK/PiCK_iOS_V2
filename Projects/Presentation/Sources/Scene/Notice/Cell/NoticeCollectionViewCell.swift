@@ -20,11 +20,11 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
     }
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let daysAgoLabel = PiCKLabel(
         textColor: .gray600,
-        font: .body2
+        font: .pickFont(.body2)
     )
     private lazy var titleStackView = UIStackView(arrangedSubviews: [
         titleLabel,

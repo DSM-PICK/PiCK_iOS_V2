@@ -37,9 +37,16 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             input.endTime,
             input.applicationType
         )
-
-        let isApplyButtonEnable = info.map { reason, startTime, endTime, _ -> Bool in
-            !reason!.isEmpty && !startTime.isEmpty && !endTime.isEmpty && startTime <= endTime
+        let isApplyButtonEnable = info.map { reason, startTime, endTime, outingType -> Bool in
+            if reason!.isEmpty || startTime.isEmpty || endTime.isEmpty {
+                return false
+            }
+            if outingType == .period {
+                let startPeriod = Int(startTime) ?? 0
+                let endPeriod = Int(endTime) ?? 0
+                return startPeriod <= endPeriod
+            }
+            return startTime <= endTime
         }
 
         input.clickOutingApply
