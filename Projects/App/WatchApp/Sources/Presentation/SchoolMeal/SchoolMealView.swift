@@ -3,7 +3,7 @@ import SwiftUI
 import WatchDesignSystem
 
 struct SchoolMealView: View {
-    @StateObject var postViewModel: SchoolMealViewModel = SchoolMealViewModel()
+    @StateObject var schoolMealViewModel: SchoolMealViewModel = SchoolMealViewModel()
 
     var body: some View {
         ScrollView {
@@ -11,24 +11,30 @@ struct SchoolMealView: View {
                 alignment: .leading,
                 spacing: 8
             ) {
-                if let getPostData = postViewModel.getPostData {
-                    SchoolMealCell(
-                        mealTimeIcon: .breakfastIcon,
-                        menu: getPostData.breakfast.menu.joined(separator: "\n")
-                    )
-                    SchoolMealCell(
-                        mealTimeIcon: .lunchIcon,
-                        menu: getPostData.lunch.menu.joined(separator: "\n")
-                    )
-                    SchoolMealCell(
-                        mealTimeIcon: .dinnerIcon,
-                        menu: getPostData.dinner.menu.joined(separator: "\n")
-                    )
-                }
+                let schoolMealData = schoolMealViewModel.schoolMealDTO
+                if schoolMealData == nil {
+                        Text("등록된 급식이 없습니다")
+                            .font(.pickFont(.body1))
+                            .foregroundStyle(Color.modeWhite)
+                            .padding(.top, 28)
+                    } else {
+                        SchoolMealCell(
+                            mealTimeIcon: .breakfastIcon,
+                            menu: schoolMealData?.breakfast.menu.joined(separator: "\n")
+                        )
+                        SchoolMealCell(
+                            mealTimeIcon: .lunchIcon,
+                            menu: schoolMealData?.lunch.menu.joined(separator: "\n")
+                        )
+                        SchoolMealCell(
+                            mealTimeIcon: .dinnerIcon,
+                            menu: schoolMealData?.dinner.menu.joined(separator: "\n")
+                        )
+                    }
             }
             .padding(.horizontal, 12)
             .onAppear {
-                postViewModel.requestPost()
+                schoolMealViewModel.requestPost()
             }
         }
     }

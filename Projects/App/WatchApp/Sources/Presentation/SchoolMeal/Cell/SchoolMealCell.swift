@@ -19,7 +19,7 @@ struct SchoolMealCell: View {
             mealTimeIcon
                 .foregroundStyle(Color.main200)
             Text(menu)
-                .font(.pickFont(.body3))
+                .font(.pickFont(.body2))
                 .foregroundStyle(Color.modeWhite)
                 .multilineTextAlignment(.center)
         }

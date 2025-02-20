@@ -8,19 +8,15 @@ import Moya
 import WatchAppNetwork
 
 class TimeTableViewModel: ObservableObject {
-    @Published var getPostData: [TimeTableDTOElement?]?
+    @Published var timeTableDTO: [TimeTableDTOElement?]?
+    private let watchService = WatchService()
     private let disposeBag = DisposeBag()
-    let watchService = WatchService()
-
-    init() {
-        requestPost()
-    }
 
     func requestPost() {
         watchService.fetchTimeTable()
             .asObservable()
             .subscribe(onNext: { data in
-                self.getPostData = data
+                self.timeTableDTO = data
             }).disposed(by: disposeBag)
     }
 

@@ -13,22 +13,20 @@ struct HomeCell: View {
     }
 
     var body: some View {
-        GeometryReader { geo in
-            VStack(alignment: .leading) {
-                Text(viewType.rawValue)
-                    .font(.pickFont(.subTitle2))
-                    .foregroundStyle(Color.modeWhite)
-                    .padding(.horizontal, 12)
-                ScrollView {
-                    LazyVStack(spacing: 8) {
-                        switch viewType {
-                        case .schoolMeal:
-                            SchoolMealView()
-                        case .timeTable:
-                            TimeTableView()
-                        case .selfStudy:
-                            SelfStudyView()
-                        }
+        VStack(alignment: .leading) {
+            Text(viewType.rawValue)
+                .font(.pickFont(.subTitle2))
+                .foregroundStyle(Color.modeWhite)
+                .padding(.horizontal, 12)
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    switch viewType {
+                    case .schoolMeal:
+                        SchoolMealView()
+                    case .timeTable:
+                        TimeTableView()
+                    case .selfStudy:
+                        SelfStudyView()
                     }
                 }
             }
@@ -39,5 +37,5 @@ struct HomeCell: View {
 }
 
 #Preview {
-    HomeCell(viewType: .schoolMeal)
+    HomeView()
 }

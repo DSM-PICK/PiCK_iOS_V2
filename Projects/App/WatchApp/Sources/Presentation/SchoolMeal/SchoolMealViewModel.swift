@@ -6,19 +6,15 @@ import RxCocoa
 import WatchAppNetwork
 
 class SchoolMealViewModel: ObservableObject {
-    @Published var getPostData: SchoolMealDTOElement?
-    private let disposeBag = DisposeBag()
+    @Published var schoolMealDTO: SchoolMealDTOElement?
     private let watchService = WatchService()
-
-    init() {
-        requestPost()
-    }
+    private let disposeBag = DisposeBag()
 
     func requestPost() {
         watchService.fetchSchoolMeal(date: "2024-11-12")
             .asObservable()
             .subscribe(onNext: { data in
-                self.getPostData = data
+                self.schoolMealDTO = data
             }).disposed(by: disposeBag)
     }
 
