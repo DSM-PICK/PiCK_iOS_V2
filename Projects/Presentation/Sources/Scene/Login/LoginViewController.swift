@@ -60,7 +60,7 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
             .bind(to: self.passwordTextField.errorMessage)
             .disposed(by: disposeBag)
 
-        output.buttonEnabled
+        output.isButtonEnabled
             .drive(loginButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
