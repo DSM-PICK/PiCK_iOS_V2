@@ -10,21 +10,14 @@ enum ViewType: String {
 }
 
 struct HomeView: View {
-    @State private var currentStep = 0
-
     var body: some View {
-        GeometryReader { geo in
-            TabView(
-                selection: $currentStep.animation()
-            ) {
-                HomeCell(viewType: .schoolMeal)
-                HomeCell(viewType: .timeTable)
-                HomeCell(viewType: .selfStudy)
-            }
-            .tabViewStyle(.page)
+        TabView {
+            HomeCell(viewType: .schoolMeal)
+            HomeCell(viewType: .timeTable)
+            HomeCell(viewType: .selfStudy)
         }
+        .tabViewStyle(.page)
     }
-
 }
 
 #Preview {
