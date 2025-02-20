@@ -15,12 +15,12 @@ public class EarlyLeaveApplyViewController: BaseViewController<EarlyLeaveApplyVi
     private let titleLabel = PiCKLabel(
         text: "조기 귀가 신청",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let explainLabel = PiCKLabel(
         text: "희망 귀가 시간을 선택하세요",
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private let startTimeSelectButton = TimeSelectButton(type: .system)
     private let outingReasonTextView = PiCKTextView(

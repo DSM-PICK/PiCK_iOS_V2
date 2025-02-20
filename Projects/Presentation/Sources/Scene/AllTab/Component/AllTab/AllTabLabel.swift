@@ -25,7 +25,7 @@ public class AllTabLabel: BaseLabel {
     }
 
     public override func attribute() {
-        self.font = .body1
+        self.font = .pickFont(.body1)
 
         switch labelType {
         case .contentTitleLabel:

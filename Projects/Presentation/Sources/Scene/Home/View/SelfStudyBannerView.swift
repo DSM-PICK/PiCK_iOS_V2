@@ -10,20 +10,18 @@ import Core
 import Domain
 import DesignSystem
 
-public class PiCKHomeSelfStudyBannerView: BaseView {
-    private let bannerBackgroundImageView = UIImageView(image: .mainBanner)
-
+public class SelfStudyBannerView: BaseView {
     private let explainLabel = PiCKLabel(
         text: "오늘의 자습 감독 선생님 입니다",
         textColor: .gray900,
-        font: .label2
+        font: .pickFont(.label2)
     ).then {
-        $0.changePointFont(targetString: "자습 감독", font: .button2)
+        $0.changePointFont(targetString: "자습 감독", font: .pickFont(.button2))
     }
     private let emptySelfStudyLabel = PiCKLabel(
         text: "오늘은\n자습감독 선생님이 없습니다",
         textColor: .modeBlack,
-        font: .label2
+        font: .pickFont(.label2)
     )
     private lazy var floorStackView = UIStackView().then {
         $0.axis = .vertical
@@ -33,6 +31,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
         $0.axis = .vertical
         $0.distribution = .fillEqually
     }
+    private let calendarImageVIew = UIImageView(image: .calendarIcon)
 
     public func setup(
         selfStudyTeacherData: SelfStudyEntity
@@ -50,23 +49,21 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
     public override func attribute() {
         super.attribute()
 
+        self.backgroundColor = .gray50
         self.layer.cornerRadius = 12
     }
 
     public override func layout() {
         [
-            bannerBackgroundImageView,
             explainLabel,
             emptySelfStudyLabel,
             floorStackView,
-            teacherStackView
+            teacherStackView,
+            calendarImageVIew
         ].forEach { self.addSubview($0) }
 
         self.snp.makeConstraints {
             $0.height.equalTo(160)
-        }
-        bannerBackgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
         }
         explainLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(27.5)
@@ -86,6 +83,11 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             $0.leading.equalTo(floorStackView.snp.trailing).offset(16)
             $0.height.equalTo(75)
         }
+        calendarImageVIew.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(20)
+            $0.size.equalTo(140)
+        }
     }
 
     private func setupBannerLabel(data: SelfStudyEntity) {
@@ -95,7 +97,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             let floorLabel = PiCKLabel(
                 text: "\(floor.floor)층",
                 textColor: .main900,
-                font: .label2,
+                font: .pickFont(.label2),
                 alignment: .center
             )
             floorStackView.addArrangedSubview(floorLabel)
@@ -107,7 +109,7 @@ public class PiCKHomeSelfStudyBannerView: BaseView {
             let teacherLabel = PiCKLabel(
                 text: "\(teacher.teacherName) 선생님",
                 textColor: .modeBlack,
-                font: .subTitle3
+                font: .pickFont(.subTitle3)
             )
             teacherStackView.addArrangedSubview(teacherLabel)
         }

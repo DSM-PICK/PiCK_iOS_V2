@@ -7,7 +7,7 @@ public class PiCKLabel: BaseLabel {
     public init(
         text: String? = nil,
         textColor: UIColor? = .clear,
-        font: UIFont? = .body1,
+        font: UIFont? = .pickFont(.body1),
         numberOfLines: Int? = 0,
         alignment: NSTextAlignment? = .left,
         backgroundColor: UIColor? = .clear,

@@ -11,11 +11,11 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
 
     private var mealTimeLabel = PiCKLabel(
         textColor: .main700,
-        font: .subTitle1
+        font: .pickFont(.subTitle1)
     )
     private var kcalLabel = PiCKLabel(
         textColor: .modeWhite,
-        font: .caption2,
+        font: .pickFont(.caption2),
         alignment: .center,
         backgroundColor: .main500,
         cornerRadius: 12
@@ -31,7 +31,7 @@ public class SchoolMealCollectionViewCell: BaseCollectionViewCell<Any> {
     }
     private var menuLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1,
+        font: .pickFont(.label1),
         numberOfLines: 0
     )
 

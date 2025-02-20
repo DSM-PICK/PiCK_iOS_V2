@@ -24,12 +24,12 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
     private let titleLabel = PiCKLabel(
         text: "맞춤 알림",
         textColor: .modeBlack,
-        font: .heading4
+        font: .pickFont(.heading4)
     )
     private let subTitleLabel = PiCKLabel(
         text: "원하시는 알림을 설정하면 원하는 알림만 보내드릴게요.",
         textColor: .gray500,
-        font: .body1
+        font: .pickFont(.body1)
     )
     private let outingStatusSwitchView = NotificationSwitchView(title: "외출 상태 변경")
     private let classroomStatusSwitchView = NotificationSwitchView(title: "교실 이동 상태 변경")

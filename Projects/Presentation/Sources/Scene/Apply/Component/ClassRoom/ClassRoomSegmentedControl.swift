@@ -58,7 +58,7 @@ public class ClassroomSegmentedControl: UISegmentedControl {
         self.setTitleTextAttributes(
             [
                 NSAttributedString.Key.foregroundColor: UIColor.gray500,
-                    .font: UIFont.body1
+                .font: UIFont.pickFont(.body1)
             ],
             for: .normal
         )

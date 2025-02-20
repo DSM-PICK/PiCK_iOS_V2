@@ -9,8 +9,14 @@ import DesignSystem
 public class AlertTableViewCell: BaseTableViewCell {
     static let identifier = "AlertTableViewCell"
 
-    private let titleLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
-    private let daysAgoLabel = PiCKLabel(textColor: .gray500, font: .body2)
+    private let titleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .pickFont(.body1)
+    )
+    private let daysAgoLabel = PiCKLabel(
+        textColor: .gray500,
+        font: .pickFont(.body2)
+    )
 
     public func setup(
         title: String,

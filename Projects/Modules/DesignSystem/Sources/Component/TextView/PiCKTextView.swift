@@ -21,11 +21,11 @@ public class PiCKTextView: BaseView {
 
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .label1
+        font: .pickFont(.label1)
     )
     private lazy var textView = UITextView().then {
         $0.textColor = .modeBlack
-        $0.font = .caption2
+        $0.font = .pickFont(.caption2)
         $0.textContainer.maximumNumberOfLines = 8
         $0.backgroundColor = .gray50
         $0.layer.border(color: .clear, width: 1)
@@ -36,7 +36,7 @@ public class PiCKTextView: BaseView {
     }
     private let placeholderLabel = PiCKLabel(
         textColor: .gray500,
-        font: .caption2
+        font: .pickFont(.caption2)
     )
 
     public init(

@@ -14,7 +14,10 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     public var viewWillAppearRelay = PublishRelay<Void>()
 
     public var navigationTitleText: String?
-    private let navigationTitleLabel = PiCKLabel(textColor: .modeBlack, font: .body1)
+    private let navigationTitleLabel = PiCKLabel(
+        textColor: .modeBlack,
+        font: .pickFont(.body1)
+    )
 
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel

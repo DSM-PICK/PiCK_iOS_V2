@@ -14,11 +14,14 @@ public class TimeTableBackgroundViewCell: BaseCollectionViewCell<TimeTableEntity
 
     private lazy var timeTableData = PublishRelay<[TimeTableEntityElement]>()
 
-    private let dateLabel = PiCKLabel(textColor: .gray900, font: .label1)
+    private let dateLabel = PiCKLabel(
+        textColor: .gray900,
+        font: .pickFont(.label1)
+    )
     private let emptyTimeTableLabel = PiCKLabel(
         text: "시간표가 없습니다.",
         textColor: .gray800,
-        font: .caption1
+        font: .pickFont(.caption1)
     )
     private lazy var collectionviewLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical

@@ -24,24 +24,24 @@ public class PiCKAlert: UIViewController {
     }
     private let titleLabel = PiCKLabel(
         textColor: .modeBlack,
-        font: .subTitle2
+        font: .pickFont(.subTitle2)
     )
     private let explainLabel = PiCKLabel(
         textColor: .gray700,
-        font: .body1,
+        font: .pickFont(.body1),
         numberOfLines: 2
     )
     private let cancelButton = UIButton(type: .system).then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(.gray600, for: .normal)
-        $0.titleLabel?.font = .button1
+        $0.titleLabel?.font = .pickFont(.button1)
         $0.layer.cornerRadius = 4
         $0.backgroundColor = .gray50
     }
     private let confirmButton = UIButton(type: .system).then {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.modeWhite, for: .normal)
-        $0.titleLabel?.font = .button1
+        $0.titleLabel?.font = .pickFont(.button1)
         $0.layer.cornerRadius = 4
         $0.backgroundColor = .main500
     }

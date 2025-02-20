@@ -27,7 +27,7 @@ public class TimeSelectButton: BaseButton {
     private let textLabel = PiCKLabel(
         text: "선택",
         textColor: .gray500,
-        font: .caption1
+        font: .pickFont(.caption1)
     )
 
     public func setup(text: String) {
