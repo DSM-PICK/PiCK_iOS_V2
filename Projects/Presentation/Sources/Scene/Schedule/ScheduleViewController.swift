@@ -111,12 +111,12 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
             $0.leading.trailing.equalToSuperview()
         }
         segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(28)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(46)
         }
         timeTableView.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom).offset(30)
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(40)
         }
