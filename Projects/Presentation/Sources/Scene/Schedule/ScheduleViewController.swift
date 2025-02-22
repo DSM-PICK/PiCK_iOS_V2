@@ -21,14 +21,26 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     private var shouldHideFirstView: Observable<Bool> {
         return shouldHideFirstViewRelay.asObservable()
     }
-
-    private lazy var viewSize = CGRect(
-        x: 0,
-        y: 0,
-        width: self.view.frame.width,
-        height: self.view.frame.height * 0.63
-    )
-
+    private var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    private lazy var viewSize: CGRect = {
+        if isIPad {
+            return CGRect(
+                x: 0,
+                y: 0,
+                width: self.view.frame.width * 0.8,
+                height: self.view.frame.height * 0.7
+            )
+        } else {
+            return CGRect(
+                x: 0,
+                y: 0,
+                width: self.view.frame.width,
+                height: self.view.frame.height * 0.63
+            )
+        }
+    }()
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
     private let segmentedControl = ScheduleSegmentedControl(
@@ -106,17 +118,24 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
         ].forEach { view.addSubview($0) }
     }
     public override func setLayout() {
+        if isIPad {
+            setIPadLayout()
+        } else {
+            setPhoneLayout()
+        }
+    }
+    private func setPhoneLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
         segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(28)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(46)
         }
         timeTableView.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom).offset(30)
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(40)
         }
@@ -126,5 +145,28 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
             $0.bottom.equalToSuperview()
         }
     }
-
+    private func setIPadLayout() {
+        navigationBar.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+        }
+        segmentedControl.snp.makeConstraints {
+            $0.top.equalTo(navigationBar.snp.bottom).offset(32)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(view.frame.width * 0.5)
+            $0.height.equalTo(52)
+        }
+        timeTableView.snp.makeConstraints {
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(36)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(view.frame.width * 0.8)
+            $0.bottom.equalToSuperview().inset(60)
+        }
+        academicScheduleView.snp.makeConstraints {
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(36)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(view.frame.width * 0.8)
+            $0.bottom.equalToSuperview().inset(60)
+        }
+    }
 }
