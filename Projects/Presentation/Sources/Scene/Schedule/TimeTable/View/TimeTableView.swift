@@ -97,7 +97,7 @@ public class TimeTableView: BaseView {
         }
         pageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(collectionView.snp.bottom).offset(5)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
 
