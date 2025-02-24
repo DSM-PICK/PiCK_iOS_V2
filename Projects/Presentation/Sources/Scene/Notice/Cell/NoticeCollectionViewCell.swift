@@ -43,7 +43,10 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
 
         self.id = model.id
         self.titleLabel.text = model.title
-        self.daysAgoLabel.text = model.createAt
+
+        let dateGap = Calendar.current.getDateGap(from: model.createAt.toDate(type: .fullDate))
+        self.daysAgoLabel.text = "\(dateGap == 0 ? "오늘" : "\(dateGap)일 전")"
+
         if model.createAt == Date().toString(type: .fullDate) {
             self.newNoticeIcon.isHidden = false
         }
@@ -65,7 +68,7 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
             $0.leading.equalTo(noticeImageView.snp.trailing).offset(24)
         }
         newNoticeIcon.snp.makeConstraints {
-            $0.top.equalTo(titleStackView.snp.top).offset(2.5)
+            $0.top.equalTo(titleStackView.snp.top).offset(2)
             $0.leading.equalTo(titleStackView.snp.trailing).offset(4)
         }
     }
