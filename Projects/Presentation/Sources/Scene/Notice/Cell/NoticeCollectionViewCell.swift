@@ -38,6 +38,13 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
         $0.isHidden = true
     }
 
+    /// Updates the cell's UI components using details from the provided notice model.
+    ///
+    /// Assigns the unique identifier and title from the model, calculates the number of days since
+    /// the notice's creation, and updates the daysAgo label accordingly. If the notice was created
+    /// today, the label displays "오늘" and the new notice icon is revealed.
+    ///
+    /// - Parameter model: The notice model containing the data used to populate the cell.
     public override func adapt(model: NoticeListEntityElement) {
         super.adapt(model: model)
 
@@ -52,6 +59,9 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
         }
     }
 
+    /// Configures the layout of the cell's subviews.
+    ///
+    /// This method adds the notice image view, title stack view, and new notice icon as subviews, then defines their constraints using SnapKit. The notice image view is centered vertically and inset 24 points from the left. The title stack view is centered vertically and positioned 24 points to the right of the notice image view. The new notice icon is aligned with the top of the title stack view with a 2-point vertical offset and placed 4 points to its right.
     public override func layout() {
         [
             noticeImageView,

@@ -6,6 +6,12 @@ public extension Date {
         return Calendar.current.date(from: component) ?? Date()
     }
 
+    /// Returns a formatted string representation of the date using the specified format.
+    /// 
+    /// The method formats the date according to the pattern provided by `type`'s raw value and applies the Korean locale ("ko_kr") and Korea Standard Time ("KST").
+    /// 
+    /// - Parameter type: A date format indicator whose raw value defines the desired date format.
+    /// - Returns: A string containing the formatted date.
     func toString(type: DateFormatIndicated) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = type.rawValue
