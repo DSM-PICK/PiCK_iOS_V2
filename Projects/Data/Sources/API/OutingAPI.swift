@@ -14,7 +14,7 @@ public enum OutingAPI {
 extension OutingAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
-    public var urlType: PiCKURL {
+    public var domain: PiCKDomain {
         return .application
     }
 

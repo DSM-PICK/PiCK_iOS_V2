@@ -16,7 +16,7 @@ public enum WeekendMealAPI {
 extension WeekendMealAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
-    public var urlType: PiCKURL {
+    public var domain: PiCKDomain {
         return .weekendMeal
     }
 

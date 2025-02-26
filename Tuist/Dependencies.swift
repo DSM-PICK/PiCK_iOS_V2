@@ -82,5 +82,5 @@ let dependencies = Dependencies.init(
             ]
         )
     ),
-    platforms: [.iOS]
+    platforms: [.iOS, .watchOS]
 )

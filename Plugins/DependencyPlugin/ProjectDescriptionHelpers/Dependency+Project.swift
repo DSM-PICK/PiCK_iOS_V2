@@ -3,6 +3,7 @@ import ProjectDescription
 public extension TargetDependency {
     struct Projects {}
     struct Module {}
+    struct WatchModule {}
 }
 
 public extension TargetDependency.Projects {
@@ -29,6 +30,19 @@ public extension TargetDependency.Module {
         return .project(
             target: name,
             path: .relativeToRoot("Projects/Modules/\(name)")
+        )
+    }
+}
+
+public extension TargetDependency.WatchModule {
+    static let watchAppNetwork = module(name: "WatchAppNetwork")
+    static let watchDesignSystem = module(name: "WatchDesignSystem")
+    static let thirdPartyLib = module(name: "WatchThirdPartyLib")
+
+    static func module(name: String) -> TargetDependency {
+        return .project(
+            target: name,
+            path: .relativeToRoot("Projects/WatchModules/\(name)")
         )
     }
 }

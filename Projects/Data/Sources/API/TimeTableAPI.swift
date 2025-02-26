@@ -14,7 +14,7 @@ public enum TimeTableAPI {
 extension TimeTableAPI: PiCKAPI {
     public typealias ErrorType = PiCKError
 
-    public var urlType: PiCKURL {
+    public var domain: PiCKDomain {
         return .timeTable
     }
 
