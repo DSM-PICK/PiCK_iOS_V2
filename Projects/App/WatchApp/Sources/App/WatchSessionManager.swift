@@ -31,18 +31,14 @@ public class WatchSessionManager: NSObject, WCSessionDelegate, ObservableObject 
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {
-        print("✅ Watch WCSession 활성화 완료: \(activationState)\n")
-
         sendMessage(message: [:]) { data in
             guard let accessToken = data["access_token"] as? String else {
                 return
             }
-            print("✅ accessToken 저장 성공: \(accessToken)")
             self.keychain.save(type: .accessToken, value: accessToken)
         } error: { error in
-            print("❌메세지 전송 오류: \(error.localizedDescription)")
+            print("\(error.localizedDescription)")
         }
-
     }
 
     public func session(
@@ -50,14 +46,10 @@ public class WatchSessionManager: NSObject, WCSessionDelegate, ObservableObject 
         didReceiveMessage message: [String: Any],
         replyHandler: @escaping ([String: Any]) -> Void
     ) {
-        print("✅ iPhone에서 메시지 수신 성공: \(message)")
-
         guard let accessToken = message["access_token"] as? String else {
-            print("❌ accessToken 없음")
+            print("accessToken 로드 실패")
             return
         }
-        print("✅ accessToken 저장 성공: \(accessToken)")
-
         self.keychain.save(type: .accessToken, value: accessToken)
     }
 
@@ -72,7 +64,6 @@ extension WatchSessionManager {
         guard session.activationState == .activated else {
             return
         }
-
         session.sendMessage(message, replyHandler: reply, errorHandler: error)
     }
 
