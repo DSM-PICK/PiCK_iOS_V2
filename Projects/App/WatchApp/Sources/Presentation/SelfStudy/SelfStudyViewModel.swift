@@ -13,7 +13,7 @@ class SelfStudyViewModel: ObservableObject {
     private let disposeBag = DisposeBag()
 
     func requestPost() {
-        watchService.fetchSelfStudy(date: "2025-02-07")
+        watchService.fetchSelfStudy(date: Date().toString())
             .asObservable()
             .subscribe(onNext: { data in
                 self.selfStudyDTO = data

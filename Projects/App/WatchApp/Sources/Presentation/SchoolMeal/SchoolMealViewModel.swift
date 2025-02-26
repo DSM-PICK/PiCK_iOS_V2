@@ -11,7 +11,7 @@ class SchoolMealViewModel: ObservableObject {
     private let disposeBag = DisposeBag()
 
     func requestPost() {
-        watchService.fetchSchoolMeal(date: "2024-11-12")
+        watchService.fetchSchoolMeal(date: Date().toString())
             .asObservable()
             .subscribe(onNext: { data in
                 self.schoolMealDTO = data
