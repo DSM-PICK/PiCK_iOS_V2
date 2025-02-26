@@ -11,7 +11,11 @@ struct SchoolMealCell: View {
         menu: String?
     ) {
         self.mealTimeIcon = mealTimeIcon
-        self.menu = menu ?? "급식이 없습니다"
+        if menu == "" {
+            self.menu = "급식이 없습니다"
+        } else {
+            self.menu = menu ?? ""
+        }
     }
 
     var body: some View {

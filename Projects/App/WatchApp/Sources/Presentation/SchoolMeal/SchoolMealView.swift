@@ -4,20 +4,23 @@ import WatchDesignSystem
 
 struct SchoolMealView: View {
     @StateObject var schoolMealViewModel: SchoolMealViewModel = SchoolMealViewModel()
-
     var body: some View {
         ScrollView {
             LazyVStack(
                 alignment: .leading,
                 spacing: 8
             ) {
+                Text("급식")
+                    .font(.pickFont(.subTitle2))
+                    .foregroundStyle(Color.modeWhite)
                 let schoolMealData = schoolMealViewModel.schoolMealDTO
                 if schoolMealData == nil {
-                        Text("등록된 급식이 없습니다")
+                    VStack(alignment: .center) {
+                        Text("아이폰에서 먼저 로그인 후\n접속해주세요")
                             .font(.pickFont(.body1))
                             .foregroundStyle(Color.modeWhite)
-                            .padding(.top, 28)
-                    } else {
+                    }
+                } else {
                         SchoolMealCell(
                             mealTimeIcon: .breakfastIcon,
                             menu: schoolMealData?.breakfast.menu.joined(separator: "\n")
