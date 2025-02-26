@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 import WatchDesignSystem
 
@@ -9,7 +8,6 @@ struct HomeView: View {
             SchoolMealView()
             TimeTableView()
             SelfStudyView()
-
         }
         .tabViewStyle(.page)
     }
