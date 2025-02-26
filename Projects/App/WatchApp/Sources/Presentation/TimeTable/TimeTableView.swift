@@ -13,7 +13,13 @@ struct TimeTableView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: 16) {
+            LazyVStack(
+                alignment: .leading,
+                spacing: 16
+            ) {
+                Text("시간표")
+                    .font(.pickFont(.subTitle2))
+                    .foregroundStyle(Color.modeWhite)
                 if let timeTableData = timeTableViewModel.timeTableDTO {
                     if timeTableData.isEmpty {
                         Text("등록된 시간표가 없습니다")
@@ -33,7 +39,6 @@ struct TimeTableView: View {
                     }
                 }
             }
-            .padding(.top, 16)
             .padding(.horizontal, 12)
             .onAppear {
                 timeTableViewModel.requestPost()
