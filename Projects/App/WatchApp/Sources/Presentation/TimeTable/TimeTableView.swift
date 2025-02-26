@@ -41,7 +41,7 @@ struct TimeTableView: View {
             }
             .padding(.horizontal, 12)
             .onAppear {
-                timeTableViewModel.requestPost()
+                timeTableViewModel.fetchTimeTable()
             }
         }
     }

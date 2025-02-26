@@ -12,7 +12,7 @@ class TimeTableViewModel: ObservableObject {
     private let watchService = WatchService()
     private let disposeBag = DisposeBag()
 
-    func requestPost() {
+    func fetchTimeTable() {
         watchService.fetchTimeTable()
             .asObservable()
             .subscribe(onNext: { data in

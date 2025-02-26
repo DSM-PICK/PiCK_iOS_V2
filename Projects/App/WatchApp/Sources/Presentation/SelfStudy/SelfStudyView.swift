@@ -34,7 +34,7 @@ struct SelfStudyView: View {
             }
             .padding(.horizontal, 12)
             .onAppear {
-                selfStudyViewModel.requestPost()
+                selfStudyViewModel.fetchSelfStudy()
             }
         }
     }

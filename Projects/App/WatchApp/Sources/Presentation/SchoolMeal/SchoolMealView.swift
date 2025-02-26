@@ -37,7 +37,7 @@ struct SchoolMealView: View {
             }
             .padding(.horizontal, 12)
             .onAppear {
-                schoolMealViewModel.requestPost()
+                schoolMealViewModel.fetchSchoolMeal()
             }
         }
     }
