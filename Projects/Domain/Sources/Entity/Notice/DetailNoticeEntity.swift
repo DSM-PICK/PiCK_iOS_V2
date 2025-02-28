@@ -15,7 +15,7 @@ public struct DetailNoticeEntity {
         self.title = title
         self.content = content
         self.createAt = createAt
-        self.teacher = teacher
+        self.teacher = "\(teacher) 선생님"
     }
 
 }
