@@ -67,7 +67,7 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
                     explainText: "더욱 원활한 서비스 이용을 위해\n노력중이니 조금만 기다려주세요!",
                     type: .positive
                 ) {
-                    print("click")
+                    exit(1);
                 }
                 owner.present(alert, animated: true)
             }.disposed(by: disposeBag)
