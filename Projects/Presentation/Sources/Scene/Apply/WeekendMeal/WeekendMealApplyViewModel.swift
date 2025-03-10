@@ -68,7 +68,7 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .withLatestFrom(input.applyStatus)
             .flatMap { status in
                 let alertType = status == .ok ? DisappearAlertType.weekendMeal : .weekendMealCancel
-                
+
                 return self.weekendMealStatusUseCase.execute()
                     .map { WeekendMealType(rawValue: $0.status) ?? .ok }
                     .flatMap { currentStatus -> Single<PiCKStep> in
@@ -78,7 +78,7 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
                                 alertType: alertType
                             ))
                         }
-                        
+
                         return self.weekendMealApplyUseCase.execute(status: status)
                             .andThen(.just(.applyAlertIsRequired(
                                 successType: .success,
