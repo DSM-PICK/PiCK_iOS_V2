@@ -67,28 +67,33 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
         input.clickApplyButton
             .withLatestFrom(input.applyStatus)
             .flatMap { status in
-                self.weekendMealApplyUseCase.execute(status: status)
-                    .catch {
-                        self.steps.accept(
-                            PiCKStep.applyAlertIsRequired(
-                                successType: .fail,
-                                alertType: .weekendMeal
-                            )
-                        )
-                        print($0.localizedDescription)
-                        return .never()
-                    }
-                    .andThen(
-                        Single.just(
-                            PiCKStep.applyAlertIsRequired(
-                                successType: .success,
-                                alertType: .weekendMeal
-                            ))
-                    )
-            }
-            .bind(to: steps)
-            .disposed(by: disposeBag)
+                let alertType = status == .ok ? DisappearAlertType.weekendMeal : .weekendMealCancel
 
+                return self.weekendMealStatusUseCase.execute()
+                    .map { WeekendMealType(rawValue: $0.status) ?? .ok }
+                    .flatMap { currentStatus -> Single<PiCKStep> in
+                        if currentStatus == status {
+                            return .just(.applyAlertIsRequired(
+                                successType: .already,
+                                alertType: alertType
+                            ))
+                        }
+
+                        return self.weekendMealApplyUseCase.execute(status: status)
+                            .andThen(.just(.applyAlertIsRequired(
+                                successType: .success,
+                                alertType: alertType
+                            )))
+                            .catch { _ in .just(.applyAlertIsRequired(
+                                successType: .fail,
+                                alertType: alertType
+                            ))}
+                    }
+            }
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept($0)
+            })
+            .disposed(by: disposeBag)
         return Output(
             weekendMealStatus: weekendMealStatusRelay.asSignal(),
             weekendMealApplicationPeriod: weekendMealApplicationPeriod.asSignal()
