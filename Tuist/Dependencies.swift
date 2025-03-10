@@ -52,11 +52,6 @@ let dependencies = Dependencies.init(
                 url: "https://github.com/airbnb/lottie-ios",
                 requirement: .upToNextMajor(from: "4.3.3")
             ),
-            //SkeletonView
-            .remote(
-                url: "https://github.com/Juanpe/SkeletonView.git",
-                requirement: .upToNextMajor(from: "1.7.0")
-            ),
             //FSCalendar
             .remote(
                 url: "https://github.com/WenchaoD/FSCalendar.git",
