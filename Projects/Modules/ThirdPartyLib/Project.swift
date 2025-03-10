@@ -20,7 +20,6 @@ let project = Project.makeModule(
         .SPM.RxGesture,
         .SPM.Swinject,
         .SPM.Lottie,
-        .SPM.SkeletonView,
         .SPM.FSCalendar,
         .SPM.RxDataSources,
         .SPM.FCM,
