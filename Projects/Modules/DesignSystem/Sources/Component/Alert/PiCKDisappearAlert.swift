@@ -82,54 +82,66 @@ public class PiCKDisappearAlert: UIViewController {
         successType: SuccessType,
         alertType: DisappearAlertType
     ) {
+        setupImageView(for: successType)
+        alertLabel.text = createAlertMessage(successType: successType, alertType: alertType)
+    }
+
+    private func setupImageView(for successType: SuccessType) {
         switch successType {
-        case .success:
-            self.imageView.image = .checkIcon
-            self.imageView.tintColor = .main500
-
-            switch alertType {
-            case .weekendMeal:
-                self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
-
-            case .classroom:
-                self.alertLabel.text = "교실 이동 신청이 완료되었습니다!"
-
-            case .outing:
-                self.alertLabel.text = "외출 신청이 완료되었습니다!"
-
-            case .earlyLeave:
-                self.alertLabel.text = "조기 귀가 신청이 완료되었습니다!"
-
-            case .bug:
-                self.alertLabel.text = "버그 제보가 완료되었습니다!"
-
-            case .complete:
-                self.alertLabel.text = "완료되었습니다!"
-            }
+        case .success, .already:
+            imageView.image = .checkIcon
+            imageView.tintColor = .main500
         case .fail:
-            self.imageView.image = .failIcon
-            self.imageView.tintColor = .error
-
-            switch alertType {
-            case .weekendMeal:
-                self.alertLabel.text = "주말 급식 신청을 실패했습니다."
-
-            case .classroom:
-                self.alertLabel.text = "교실 이동 신청을 실패했습니다."
-
-            case .outing:
-                self.alertLabel.text = "외출 신청을 실패했습니다."
-
-            case .earlyLeave:
-                self.alertLabel.text = "조기 귀가 신청을 실패했습니다."
-
-            case .bug:
-                self.alertLabel.text = "버그 제보를 실패했습니다."
-
-            case .complete:
-                self.alertLabel.text = "실패했습니다."
-            }
+            imageView.image = .failIcon
+            imageView.tintColor = .error
         }
     }
 
+    private struct AlertAction {
+        let text: String
+        let subjectParticle: String
+        let objectParticle: String
+
+        static func create(_ text: String, hasFinalConsonant: Bool) -> AlertAction {
+            return AlertAction(
+                text: text,
+                subjectParticle: hasFinalConsonant ? "이" : "가",
+                objectParticle: hasFinalConsonant ? "을" : "를"
+            )
+        }
+    }
+
+    private func createAlertMessage(
+        successType: SuccessType,
+        alertType: DisappearAlertType
+    ) -> String {
+        let action: AlertAction
+
+        switch alertType {
+        case .complete:
+            return successType == .fail ? "실패했습니다." : "완료되었습니다!"
+
+        case .weekendMeal:
+            action = .create("주말 급식 신청", hasFinalConsonant: true)
+        case .weekendMealCancel:
+            action = .create("주말 급식 신청 취소", hasFinalConsonant: false)
+        case .classroom:
+            action = .create("교실 이동 신청", hasFinalConsonant: true)
+        case .outing:
+            action = .create("외출 신청", hasFinalConsonant: true)
+        case .earlyLeave:
+            action = .create("조기 귀가 신청", hasFinalConsonant: true)
+        case .bug:
+            action = .create("버그 제보", hasFinalConsonant: false)
+        }
+
+        switch successType {
+        case .success:
+            return "\(action.text)\(action.subjectParticle) 완료되었습니다!"
+        case .fail:
+            return "\(action.text)\(action.objectParticle) 실패했습니다."
+        case .already:
+            return "이미 \(action.text)\(action.subjectParticle) 완료되었습니다."
+        }
+    }
 }

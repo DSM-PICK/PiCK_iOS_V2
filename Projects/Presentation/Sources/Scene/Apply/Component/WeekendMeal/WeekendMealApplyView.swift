@@ -44,6 +44,7 @@ public class WeekendMealApplyView: BaseView {
 
         self.buttonStackView.isHidden = !isApplicable
         self.applyState.accept(status)
+        self.clickWeekendMealStatus(status ? .ok : .no)
     }
 
     public init(
