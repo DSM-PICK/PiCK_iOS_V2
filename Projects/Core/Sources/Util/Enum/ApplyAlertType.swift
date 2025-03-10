@@ -1,10 +1,10 @@
 import Foundation
 
 public enum SuccessType {
-    case success, fail
+    case success, fail, already
 }
 
 public enum DisappearAlertType {
     case complete
-    case weekendMeal, classroom, outing, earlyLeave, bug
+    case weekendMeal, weekendMealCancel, classroom, outing, earlyLeave, bug
 }

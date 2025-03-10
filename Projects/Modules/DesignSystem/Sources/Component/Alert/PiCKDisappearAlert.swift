@@ -91,6 +91,9 @@ public class PiCKDisappearAlert: UIViewController {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
 
+            case .weekendMealCancel:
+                self.alertLabel.text = "주말 급식 신청 취소가 완료되었습니다!"
+
             case .classroom:
                 self.alertLabel.text = "교실 이동 신청이 완료되었습니다!"
 
@@ -114,6 +117,9 @@ public class PiCKDisappearAlert: UIViewController {
             case .weekendMeal:
                 self.alertLabel.text = "주말 급식 신청을 실패했습니다."
 
+            case.weekendMealCancel:
+                self.alertLabel.text = "주말 급식 신청 취소를 실패했습니다."
+
             case .classroom:
                 self.alertLabel.text = "교실 이동 신청을 실패했습니다."
 
@@ -128,6 +134,32 @@ public class PiCKDisappearAlert: UIViewController {
 
             case .complete:
                 self.alertLabel.text = "실패했습니다."
+            }
+        case .already:
+            self.imageView.image = .checkIcon
+            self.imageView.tintColor = .main500
+
+            switch alertType {
+            case .weekendMeal:
+                self.alertLabel.text = "이미 주말 급식 신청이 완료되었습니다."
+
+            case .weekendMealCancel:
+                self.alertLabel.text = "이미 주말 급식 신청 취소가 완료되었습니다."
+
+            case .classroom:
+                self.alertLabel.text = "교실 이동 신청이 이미 완료되었습니다."
+
+            case .outing:
+                self.alertLabel.text = "이미 외출 신청이 완료되었습니다."
+
+            case .earlyLeave:
+                self.alertLabel.text = "이미 조기 귀가 신청이 완료되었습니다."
+
+            case .bug:
+                self.alertLabel.text = "이미 버그 제보가 완료되었습니다."
+
+            case .complete:
+                self.alertLabel.text = "이미 완료되었습니다!"
             }
         }
     }
