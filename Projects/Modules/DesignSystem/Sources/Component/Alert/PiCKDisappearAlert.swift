@@ -82,86 +82,52 @@ public class PiCKDisappearAlert: UIViewController {
         successType: SuccessType,
         alertType: DisappearAlertType
     ) {
+        setupImageView(for: successType)
+        alertLabel.text = createAlertMessage(successType: successType, alertType: alertType)
+    }
+
+    private func setupImageView(for successType: SuccessType) {
         switch successType {
-        case .success:
-            self.imageView.image = .checkIcon
-            self.imageView.tintColor = .main500
-
-            switch alertType {
-            case .weekendMeal:
-                self.alertLabel.text = "주말 급식 신청이 완료되었습니다!"
-
-            case .weekendMealCancel:
-                self.alertLabel.text = "주말 급식 신청 취소가 완료되었습니다!"
-
-            case .classroom:
-                self.alertLabel.text = "교실 이동 신청이 완료되었습니다!"
-
-            case .outing:
-                self.alertLabel.text = "외출 신청이 완료되었습니다!"
-
-            case .earlyLeave:
-                self.alertLabel.text = "조기 귀가 신청이 완료되었습니다!"
-
-            case .bug:
-                self.alertLabel.text = "버그 제보가 완료되었습니다!"
-
-            case .complete:
-                self.alertLabel.text = "완료되었습니다!"
-            }
+        case .success, .already:
+            imageView.image = .checkIcon
+            imageView.tintColor = .main500
         case .fail:
-            self.imageView.image = .failIcon
-            self.imageView.tintColor = .error
-
-            switch alertType {
-            case .weekendMeal:
-                self.alertLabel.text = "주말 급식 신청을 실패했습니다."
-
-            case.weekendMealCancel:
-                self.alertLabel.text = "주말 급식 신청 취소를 실패했습니다."
-
-            case .classroom:
-                self.alertLabel.text = "교실 이동 신청을 실패했습니다."
-
-            case .outing:
-                self.alertLabel.text = "외출 신청을 실패했습니다."
-
-            case .earlyLeave:
-                self.alertLabel.text = "조기 귀가 신청을 실패했습니다."
-
-            case .bug:
-                self.alertLabel.text = "버그 제보를 실패했습니다."
-
-            case .complete:
-                self.alertLabel.text = "실패했습니다."
-            }
-        case .already:
-            self.imageView.image = .checkIcon
-            self.imageView.tintColor = .main500
-
-            switch alertType {
-            case .weekendMeal:
-                self.alertLabel.text = "이미 주말 급식 신청이 완료되었습니다."
-
-            case .weekendMealCancel:
-                self.alertLabel.text = "이미 주말 급식 신청 취소가 완료되었습니다."
-
-            case .classroom:
-                self.alertLabel.text = "교실 이동 신청이 이미 완료되었습니다."
-
-            case .outing:
-                self.alertLabel.text = "이미 외출 신청이 완료되었습니다."
-
-            case .earlyLeave:
-                self.alertLabel.text = "이미 조기 귀가 신청이 완료되었습니다."
-
-            case .bug:
-                self.alertLabel.text = "이미 버그 제보가 완료되었습니다."
-
-            case .complete:
-                self.alertLabel.text = "이미 완료되었습니다!"
-            }
+            imageView.image = .failIcon
+            imageView.tintColor = .error
         }
     }
 
+    private func createAlertMessage(
+        successType: SuccessType,
+        alertType: DisappearAlertType
+    ) -> String {
+        let action: String
+
+        switch alertType {
+        case .complete:
+            return successType == .fail ? "실패했습니다." : "완료되었습니다!"
+
+        case .weekendMeal:
+            action = "주말 급식 신청"
+        case .weekendMealCancel:
+            action = "주말 급식 신청 취소"
+        case .classroom:
+            action = "교실 이동 신청"
+        case .outing:
+            action = "외출 신청"
+        case .earlyLeave:
+            action = "조기 귀가 신청"
+        case .bug:
+            action = "버그 제보"
+        }
+
+        switch successType {
+        case .success:
+            return "\(action)이 완료되었습니다!"
+        case .fail:
+            return "\(action)을 실패했습니다."
+        case .already:
+            return "이미 \(action)이 완료되었습니다."
+        }
+    }
 }
