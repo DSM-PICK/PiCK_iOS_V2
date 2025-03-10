@@ -49,7 +49,6 @@ let targets: [Target] = [
         sources: ["WatchApp/Sources/**"],
         resources: ["WatchApp/Resources/**"],
         dependencies: [
-//            .external(name: "Swinject")
             .WatchModule.watchAppNetwork,
             .WatchModule.watchDesignSystem
         ]
