@@ -97,37 +97,51 @@ public class PiCKDisappearAlert: UIViewController {
         }
     }
 
+    private struct AlertAction {
+        let text: String
+        let subjectParticle: String
+        let objectParticle: String
+
+        static func create(_ text: String, hasFinalConsonant: Bool) -> AlertAction {
+            return AlertAction(
+                text: text,
+                subjectParticle: hasFinalConsonant ? "이" : "가",
+                objectParticle: hasFinalConsonant ? "을" : "를"
+            )
+        }
+    }
+
     private func createAlertMessage(
         successType: SuccessType,
         alertType: DisappearAlertType
     ) -> String {
-        let action: String
+        let action: AlertAction
 
         switch alertType {
         case .complete:
             return successType == .fail ? "실패했습니다." : "완료되었습니다!"
 
         case .weekendMeal:
-            action = "주말 급식 신청"
+            action = .create("주말 급식 신청", hasFinalConsonant: true)
         case .weekendMealCancel:
-            action = "주말 급식 신청 취소"
+            action = .create("주말 급식 신청 취소", hasFinalConsonant: false)
         case .classroom:
-            action = "교실 이동 신청"
+            action = .create("교실 이동 신청", hasFinalConsonant: true)
         case .outing:
-            action = "외출 신청"
+            action = .create("외출 신청", hasFinalConsonant: true)
         case .earlyLeave:
-            action = "조기 귀가 신청"
+            action = .create("조기 귀가 신청", hasFinalConsonant: true)
         case .bug:
-            action = "버그 제보"
+            action = .create("버그 제보", hasFinalConsonant: false)
         }
 
         switch successType {
         case .success:
-            return "\(action)이 완료되었습니다!"
+            return "\(action.text)\(action.subjectParticle) 완료되었습니다!"
         case .fail:
-            return "\(action)을 실패했습니다."
+            return "\(action.text)\(action.objectParticle) 실패했습니다."
         case .already:
-            return "이미 \(action)이 완료되었습니다."
+            return "이미 \(action.text)\(action.subjectParticle) 완료되었습니다."
         }
     }
 }
