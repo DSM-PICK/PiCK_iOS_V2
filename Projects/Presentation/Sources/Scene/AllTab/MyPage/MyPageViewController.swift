@@ -13,7 +13,6 @@ import DesignSystem
 
 public class MyPageViewController: BaseViewController<MyPageViewModel> {
     private let setCustomProfileReslay = PublishRelay<Void>()
-    private let setDefaultProfileReslay = PublishRelay<Void>()
 
     private var profileImageData = PublishRelay<Data>()
 
@@ -79,12 +78,12 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     }
     public override func bindAction() {
         setCustomProfileReslay.bind { [weak self] in
-                let picker = UIImagePickerController()
-                picker.sourceType = .photoLibrary
-                picker.allowsEditing = true
-                picker.delegate = self
-                self?.present(picker, animated: true)
-            }.disposed(by: disposeBag)
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self?.present(picker, animated: true)
+        }.disposed(by: disposeBag)
     }
 
     public override func addView() {
@@ -152,5 +151,4 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
             self?.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
         }
     }
-
 }
