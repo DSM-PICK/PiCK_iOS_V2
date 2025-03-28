@@ -115,7 +115,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     }
 
     private func setupProfile() {
-        changeButton.menu = UIMenu(title: "프로필 설정", children: [
+        changeButton.menu = UIMenu(title: "프로필 이미지 설정", children: [
             UIAction(title: "사진 선택하기", handler: { _ in
                 self.setCustomProfileReslay.accept(())
             }),
