@@ -11,8 +11,7 @@ public class FetchApplyStatusUsecase {
         self.repository = repository
     }
 
-    public func execute() -> Observable<HomeApplyStatusEntity> {
+    public func execute() -> Observable<HomeApplyStatusEntity?> {
         return repository.fetchApplyStatus()
     }
-
 }

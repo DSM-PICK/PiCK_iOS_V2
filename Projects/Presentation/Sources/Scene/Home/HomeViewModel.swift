@@ -59,7 +59,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     public struct Output {
         let viewMode: Signal<HomeViewType>
         let profileData: Signal<SimpleProfileEntity>
-        let applyStatusData: Signal<HomeApplyStatusEntity>
+        let applyStatusData: Signal<HomeApplyStatusEntity?>
         let weekendMealPeriodData: Signal<WeekendMealPeriodEntity>
         let timetableData: Driver<[TimeTableEntityElement]>
         let schoolMealData: Driver<[(String, MealEntityElement)]>
@@ -73,7 +73,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     private let viewModeData = PublishRelay<HomeViewType>()
     private let profileData = PublishRelay<SimpleProfileEntity>()
-    private let applyStatusData = PublishRelay<HomeApplyStatusEntity>()
+    private let applyStatusData = PublishRelay<HomeApplyStatusEntity?>()
     private let weekendMealPeriodData = PublishRelay<WeekendMealPeriodEntity>()
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(String, MealEntityElement)]>(value: [])
@@ -127,7 +127,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 self.fetchApplyStatusUseCase.execute()
                     .catch {
                         print($0.localizedDescription)
-                        return .never()
+                        return .just(nil)
                     }
             }
             .bind(to: applyStatusData)
