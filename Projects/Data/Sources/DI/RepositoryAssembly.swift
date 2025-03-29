@@ -17,7 +17,7 @@ public final class RepositoryAssembly: Assembly {
         }
 
         container.register(HomeRepository.self) { resolver in
-            HomeRepositoryImpl(remoteDataSource: resolver.resolve(HomeDataSource.self)!)
+            HomeRepositoryImpl(homeDataSource: resolver.resolve(HomeDataSource.self)!)
         }
 
         container.register(NoticeRepository.self) { resolver in

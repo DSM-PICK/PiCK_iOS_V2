@@ -5,14 +5,13 @@ import RxSwift
 import Domain
 
 class HomeRepositoryImpl: HomeRepository {
-    let remoteDataSource: HomeDataSource
+    let homeDataSource: HomeDataSource
 
-    init(remoteDataSource: HomeDataSource) {
-        self.remoteDataSource = remoteDataSource
+    init(homeDataSource: HomeDataSource) {
+        self.homeDataSource = homeDataSource
     }
 
-    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity> {
-        return remoteDataSource.fetchApplyStatus()
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity?> {
+        return homeDataSource.fetchApplyStatus()
     }
-
 }
