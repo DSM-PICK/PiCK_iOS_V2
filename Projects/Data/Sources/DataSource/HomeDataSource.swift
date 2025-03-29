@@ -11,13 +11,20 @@ import AppNetwork
 
 protocol HomeDataSource {
     func fetchApplyStatus() -> Observable<HomeApplyStatusEntity>
+    func connectSocket()
+    var isConnected: Bool { get }
 }
 
 class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
     private let keychain: Keychain
     private var socket: WebSocket?
+    private let disposeBag = DisposeBag()
+    private var applyStatusRelay = BehaviorRelay<HomeApplyStatusEntity?>(value: nil)
+    private var connectionStatusRelay = BehaviorRelay<Bool>(value: false)
 
-    private var applyStatusRelay = PublishRelay<HomeApplyStatusEntity>()
+    var isConnected: Bool {
+        return connectionStatusRelay.value
+    }
 
     init(keychain: Keychain) {
         self.keychain = keychain
@@ -35,47 +42,55 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
     }
 
     func fetchApplyStatus() -> Observable<HomeApplyStatusEntity> {
-        return applyStatusRelay.asObservable()
+        return applyStatusRelay
+            .compactMap { $0 }
+            .asObservable()
     }
-
 }
 
 extension HomeDataSourceImpl {
-    func didReceive(
-        event: Starscream.WebSocketEvent,
-        client: any Starscream.WebSocketClient
-    ) {
+    func didReceive(event: Starscream.WebSocketEvent, client: any Starscream.WebSocketClient) {
         switch event {
-        case .connected(let headers):
-            socket?.write(string: "")
-            print("websocket is connected: \(headers)")
-
-        case .disconnected(let reason, let code):
-            print("websocket is disconnected: \(reason) with code: \(code)")
-
+        case .connected:
+            handleConnection(isConnected: true)
+        case .disconnected(_, _):
+            handleConnection(isConnected: false)
+        case .error:
+            handleConnection(isConnected: false)
         case .text(let text):
-            let homeApplyStatus = try? JSONDecoder().decode(
-                HomeApplyStatusDTO.self,
-                from: text.data(using: .utf8) ?? Data()
-            )
-
-            self.applyStatusRelay.accept(
-                homeApplyStatus?.toDomain() ?? .init(
-                    userID: nil,
-                    userName: nil,
-                    startTime: nil,
-                    endTime: nil,
-                    classroom: nil,
-                    type: nil
-                )
-            )
-
-        case .error(let error):
-            print("websocket is error = \(error!)")
-
-        default:
-            break
+            parseSocketData(text)
+        case .reconnectSuggested:
+            socket?.connect()
+        default: break
         }
     }
 
+    private func handleConnection(isConnected: Bool) {
+        connectionStatusRelay.accept(isConnected)
+        if isConnected {
+            socket?.write(string: "")
+        } else {
+            connectSocket()
+        }
+    }
+
+    private func parseSocketData(_ text: String) {
+        guard
+            let data = text.data(using: .utf8),
+            text.trimmingCharacters(in: .whitespacesAndNewlines) != "null"
+        else {
+            applyStatusRelay.accept(nil)
+            return
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        do {
+            let status = try decoder.decode(HomeApplyStatusDTO.self, from: data)
+            applyStatusRelay.accept(status.toDomain())
+        } catch {
+            applyStatusRelay.accept(nil)
+        }
+    }
 }
