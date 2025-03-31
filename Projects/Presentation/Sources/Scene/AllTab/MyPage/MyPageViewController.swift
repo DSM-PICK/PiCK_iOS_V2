@@ -12,7 +12,7 @@ import Core
 import DesignSystem
 
 public class MyPageViewController: BaseViewController<MyPageViewModel> {
-    private let setCustomProfileReslay = PublishRelay<Void>()
+    private let setCustomProfileRelay = PublishRelay<Void>()
 
     private var profileImageData = PublishRelay<Data>()
 
@@ -77,7 +77,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
             }.disposed(by: disposeBag)
     }
     public override func bindAction() {
-        setCustomProfileReslay.bind { [weak self] in
+        setCustomProfileRelay.bind { [weak self] in
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
             picker.allowsEditing = true
@@ -117,7 +117,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     private func setupProfile() {
         changeButton.menu = UIMenu(title: "프로필 이미지 설정", children: [
             UIAction(title: "사진 선택하기", handler: { _ in
-                self.setCustomProfileReslay.accept(())
+                self.setCustomProfileRelay.accept(())
             }),
             UIAction(title: "기본 이미지로 설정하기", handler: { _ in
                 self.profileImageView.image = .profile
