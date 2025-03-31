@@ -10,7 +10,7 @@ import Domain
 import AppNetwork
 
 protocol HomeDataSource {
-    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity>
+    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity?>
     func connectSocket()
     var isConnected: Bool { get }
 }
@@ -41,36 +41,36 @@ class HomeDataSourceImpl: WebSocketDelegate, HomeDataSource {
         socket?.connect()
     }
 
-    func fetchApplyStatus() -> Observable<HomeApplyStatusEntity> {
-        return applyStatusRelay
-            .compactMap { $0 }
-            .asObservable()
+    public func fetchApplyStatus() -> Observable<HomeApplyStatusEntity?> {
+        return applyStatusRelay.asObservable()
     }
 }
 
 extension HomeDataSourceImpl {
-    func didReceive(event: Starscream.WebSocketEvent, client: any Starscream.WebSocketClient) {
+    private func handleDisconnection() {
+        connectionStatusRelay.accept(false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.connectSocket()
+        }
+    }
+
+    public func didReceive(event: Starscream.WebSocketEvent, client: any Starscream.WebSocketClient) {
         switch event {
         case .connected:
-            handleConnection(isConnected: true)
-        case .disconnected(_, _):
-            handleConnection(isConnected: false)
+            connectionStatusRelay.accept(true)
+            socket?.write(string: "")
+        case .disconnected:
+            handleDisconnection()
         case .error:
-            handleConnection(isConnected: false)
+            handleDisconnection()
         case .text(let text):
             parseSocketData(text)
         case .reconnectSuggested:
             socket?.connect()
-        default: break
-        }
-    }
-
-    private func handleConnection(isConnected: Bool) {
-        connectionStatusRelay.accept(isConnected)
-        if isConnected {
-            socket?.write(string: "")
-        } else {
-            connectSocket()
+        case .cancelled:
+            handleDisconnection()
+        default:
+            break
         }
     }
 
@@ -82,11 +82,9 @@ extension HomeDataSourceImpl {
             applyStatusRelay.accept(nil)
             return
         }
-
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-
         do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             let status = try decoder.decode(HomeApplyStatusDTO.self, from: data)
             applyStatusRelay.accept(status.toDomain())
         } catch {

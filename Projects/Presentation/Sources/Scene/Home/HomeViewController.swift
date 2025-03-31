@@ -155,17 +155,25 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                let passIsHidden = data.type?.isEmpty
-                let isWait = data.userName == .none
+                print("🏠 Received apply status update: \(String(describing: data))")
 
-                owner.passHeaderView.isHidden = passIsHidden ?? true
-                owner.passHeaderView.setup(
-                    isWait: isWait,
-                    type: OutingType(rawValue: data.type ?? "") ?? .application,
-                    startTime: data.startTime,
-                    endTime: data.endTime,
-                    classRoomText: data.classroom
-                )
+                if data == nil {
+                    owner.passHeaderView.isHidden = true
+                    return
+                }
+
+                let passIsHidden = data?.type == nil || data?.type?.isEmpty == true
+                owner.passHeaderView.isHidden = passIsHidden
+
+                if !passIsHidden {
+                    owner.passHeaderView.setup(
+                        isWait: data?.userName == nil,
+                        type: OutingType(rawValue: data?.type ?? "") ?? .application,
+                        startTime: data?.startTime,
+                        endTime: data?.endTime,
+                        classRoomText: data?.classroom
+                    )
+                }
                 owner.loadViewIfNeeded()
             }.disposed(by: disposeBag)
 
