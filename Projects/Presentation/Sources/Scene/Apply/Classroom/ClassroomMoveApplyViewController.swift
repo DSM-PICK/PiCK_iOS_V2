@@ -36,7 +36,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     }
     private lazy var collectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout().then {
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        $0.minimumLineSpacing = 15
+        $0.minimumLineSpacing = 16
         $0.minimumInteritemSpacing = 16
     }
     private lazy var classroomCollectionView = UICollectionView(
