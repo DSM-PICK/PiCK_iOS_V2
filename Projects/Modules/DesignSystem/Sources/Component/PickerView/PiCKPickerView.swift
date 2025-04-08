@@ -16,7 +16,7 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     private let currentMin: Int
 
     private let periodArray = Array(1...10)
-    private let hourArray = Array(8...23)
+    private let hourArray = Array(8...20)
     private let minArray = Array(0...59)
 
     public init(type: PickerTimeType) {
