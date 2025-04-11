@@ -7,7 +7,8 @@ PiCK은 대덕소프트웨어마이스터고등학교의 온라인 출결관리 
 </a>
 
 ## 🚀 Architecture
-<img src="https://github.com/user-attachments/assets/8507d77c-5739-4642-8ee9-061b3d29ee0f" height="100%" />
+<img src="https://github.com/user-attachments/assets/32317259-f547-45a7-a818-72d85801c260" height="100%" />
+
 
 
 ## 📁 File Structrue
