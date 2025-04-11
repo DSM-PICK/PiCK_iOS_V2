@@ -45,7 +45,11 @@ public class NoticeCollectionViewCell: BaseCollectionViewCell<NoticeListEntityEl
         self.titleLabel.text = model.title
 
         let dateGap = Calendar.current.getDateGap(from: model.createAt.toDate(type: .fullDate))
-        self.daysAgoLabel.text = "\(dateGap == 0 ? "오늘" : "\(dateGap)일 전")"
+        if dateGap >= 365 {
+            self.daysAgoLabel.text = String(format: "%.0f년 전", ceil(500 / 365))
+        } else {
+            self.daysAgoLabel.text = "\(dateGap == 0 ? "오늘" : "\(dateGap)일 전")"
+        }
         self.newNoticeIcon.isHidden = dateGap != 0
     }
 
