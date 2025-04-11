@@ -4,20 +4,40 @@ import WatchConnectivity
 import Core
 
 protocol WatchDataSource {
-    func activate()
+    func sendToken()
 }
 
 class WatchDataSourceImpl: NSObject, WatchDataSource, WCSessionDelegate {
-    private var keychain = KeychainImpl()
-    private var session: WCSession!
+    private var keychain: Keychain
+    private var session = WCSession.default
 
-    override init() {
+//    override init() {
+//        self.session = .default
+//        if WCSession.isSupported() {
+//            session.delegate = self
+//            session.activate()
+//            print("init👍")
+//        }
+//    }
+    init(keychain: Keychain) {
+        self.keychain = keychain
         super.init()
-        self.session = .default
         if WCSession.isSupported() {
             session.delegate = self
             session.activate()
+            print("active👍")
         }
+    }
+
+    func sendToken() {
+        if session.isReachable {
+            // this is a meaningless message, but it's enough for our purposes
+            let message: [String: Any] = [
+                "access_token": keychain.load(type: .accessToken)
+            ]
+            session.sendMessage(message, replyHandler: nil)
+        }
+        print("👍 sendToken 실행")
     }
 
     func activate() {
@@ -32,20 +52,21 @@ class WatchDataSourceImpl: NSObject, WatchDataSource, WCSessionDelegate {
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {
-        guard activationState == .activated else {
-            print("WCSession 활성화 실패")
-            return
-        }
-
-
         let message: [String: Any] = [
             "access_token": keychain.load(type: .accessToken)
         ]
 
-        session.sendMessage(message) { _ in } errorHandler: { error in
+        sendMessage(message: message) { _ in } error: { error in
             print("WCSession 메시지 전송 실패: \(error.localizedDescription)")
         }
+        print("✉️Message: \(message)")
 
+//                let message: [String: Any] = [
+//                    "access_token": keychain.load(type: .accessToken)
+//                ]
+//                sendMessage(message: message) { _ in } error: { error in
+//                    print(error.localizedDescription)
+//                }
     }
 
     public func session(
@@ -53,7 +74,22 @@ class WatchDataSourceImpl: NSObject, WatchDataSource, WCSessionDelegate {
         didReceiveMessage message: [String: Any],
         replyHandler: @escaping ([String: Any]) -> Void
     ) {
-        let response: [String: Any] = ["access_token": keychain.load(type: .accessToken)]
-        replyHandler(response)
+        let message: [String: Any] = [
+            "access_token": keychain.load(type: .accessToken)
+        ]
+        replyHandler(message)
+        print("didReceive👍")
+        
+    }
+
+    func sendMessage(
+        message: [String: Any],
+        reply: @escaping ([String: Any]) -> Void,
+        error: ((Error) -> Void)? = nil
+    ) {
+        guard session.activationState == .activated else {
+            return
+        }
+        session.sendMessage(message, replyHandler: reply, errorHandler: error)
     }
 }

@@ -4,6 +4,7 @@ import WatchDesignSystem
 
 struct SchoolMealView: View {
     @StateObject var schoolMealViewModel: SchoolMealViewModel = SchoolMealViewModel()
+
     var body: some View {
         ScrollView {
             LazyVStack(
@@ -13,7 +14,9 @@ struct SchoolMealView: View {
                 Text("급식")
                     .font(.pickFont(.subTitle2))
                     .foregroundStyle(Color.modeWhite)
+
                 let schoolMealData = schoolMealViewModel.schoolMealDTO
+
                 if schoolMealData == nil {
                     VStack(alignment: .center) {
                         Text("아이폰에서 먼저 로그인 후\n접속해주세요")

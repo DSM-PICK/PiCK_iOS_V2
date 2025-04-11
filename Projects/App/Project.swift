@@ -48,6 +48,7 @@ let targets: [Target] = [
         infoPlist: .file(path: "WatchApp/Support/Info.plist"),
         sources: ["WatchApp/Sources/**"],
         resources: ["WatchApp/Resources/**"],
+        entitlements: "WatchApp/Support/\(env.appName)-Watch.entitlements",
         dependencies: [
             .WatchModule.watchAppNetwork,
             .WatchModule.watchDesignSystem

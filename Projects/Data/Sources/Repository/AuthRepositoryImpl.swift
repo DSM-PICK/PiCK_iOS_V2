@@ -10,7 +10,6 @@ import Domain
 
 class AuthRepositoryImpl: AuthRepository {
     private let remoteDataSource: AuthDataSource
-    private let watchDataSource: WatchDataSource = WatchDataSourceImpl()
     private var disposeBag = DisposeBag()
     private let keyChain = KeychainImpl()
 
@@ -29,8 +28,6 @@ class AuthRepositoryImpl: AuthRepository {
 
                     self.keyChain.save(type: .id, value: req.accountID)
                     self.keyChain.save(type: .password, value: req.password)
-
-                    self.watchDataSource.activate()
                     completable(.completed)
                 }, onFailure: {
                     completable(.error($0))
@@ -53,7 +50,6 @@ class AuthRepositoryImpl: AuthRepository {
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
                     self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
-                    self.watchDataSource.activate()
                     completable(.completed)
                 }, onFailure: {
                     completable(.error($0))
