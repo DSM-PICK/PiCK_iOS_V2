@@ -7,7 +7,6 @@ import WatchAppNetwork
 
 class SchoolMealViewModel: ObservableObject {
     @Published var schoolMealDTO: SchoolMealDTOElement?
-
     private let watchService = WatchService()
     private let disposeBag = DisposeBag()
 

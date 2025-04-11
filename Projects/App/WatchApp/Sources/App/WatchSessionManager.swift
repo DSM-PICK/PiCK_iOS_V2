@@ -3,16 +3,17 @@ import WatchConnectivity
 
 import WatchAppNetwork
 
-public final class WatchSessionManager: NSObject, WCSessionDelegate, ObservableObject {
+public class WatchSessionManager: NSObject, WCSessionDelegate, ObservableObject {
     static let shared = WatchSessionManager()
 
-    private let session = WCSession.default
+    private let session: WCSession
     private let keychain: Keychain
-//    var isReachable: Bool {
-//        session.activationState == .activated
-//    }
+    var isReachable: Bool {
+        session.isReachable
+    }
 
-    override init() {
+    override private init() {
+        self.session = .default
         self.keychain = KeychainImpl()
         super.init()
         if WCSession.isSupported() {
@@ -23,7 +24,6 @@ public final class WatchSessionManager: NSObject, WCSessionDelegate, ObservableO
 
     func activate() {
         session.activate()
-        self.session.activationState == .activated ? print("✅세션 연결 성공") : print("❌세션 연결 실패")
     }
 
     public func session(
@@ -31,10 +31,8 @@ public final class WatchSessionManager: NSObject, WCSessionDelegate, ObservableO
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
     ) {
-        print("ㅏㅏㅏㅏㅏㅏ🙃")
         sendMessage(message: [:]) { data in
             guard let accessToken = data["access_token"] as? String else {
-                print("🙃 ㅎㅎ")
                 return
             }
             self.keychain.save(type: .accessToken, value: accessToken)
@@ -48,14 +46,11 @@ public final class WatchSessionManager: NSObject, WCSessionDelegate, ObservableO
         didReceiveMessage message: [String: Any],
         replyHandler: @escaping ([String: Any]) -> Void
     ) {
-        print("ㅎㅎㅎㅎㅎ🙃")
         guard let accessToken = message["access_token"] as? String else {
             print("accessToken 로드 실패")
             return
         }
         self.keychain.save(type: .accessToken, value: accessToken)
-
-        print("✅accessToken 저장 성공")
     }
 
 }

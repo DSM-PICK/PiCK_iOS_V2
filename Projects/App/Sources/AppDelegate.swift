@@ -1,6 +1,5 @@
 import UIKit
 import UserNotifications
-import WatchConnectivity
 
 import Swinject
 
@@ -14,8 +13,6 @@ import Presentation
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     static var container = Container()
     var assembler: Assembler!
-    var session = WCSession.default
-    var keychain = KeychainImpl()
 
     func application(
         _ application: UIApplication,
@@ -61,50 +58,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {}
-}
-
-// MARK: WCSession
-extension AppDelegate: WCSessionDelegate {
-    public func sessionDidBecomeInactive(_ session: WCSession) { }
-    public func sessionDidDeactivate(_ session: WCSession) { }
-
-    public func session(
-        _ session: WCSession,
-        didReceiveMessage message: [String: Any],
-        replyHandler: @escaping ([String: Any]) -> Void
-    ) {
-        let message: [String: Any] = [
-            "access_token": keychain.load(type: .accessToken)
-        ]
-        replyHandler(message)
-        print("didReceive👍")
-    }
-
-    public func session(
-        _ session: WCSession,
-        activationDidCompleteWith activationState: WCSessionActivationState,
-        error: Error?
-    ) {
-        let message: [String: Any] = [
-            "access_token": keychain.load(type: .accessToken)
-        ]
-
-        sendMessage(message: message) { _ in } error: { error in
-            print(error.localizedDescription)
-        }
-        print("✉️Message: \(message)")
-    }
-
-    func sendMessage(
-        message: [String: Any],
-        reply: @escaping ([String: Any]) -> Void,
-        error: ((Error) -> Void)? = nil
-    ) {
-        guard session.activationState == .activated else {
-            return
-        }
-        session.sendMessage(message, replyHandler: reply, errorHandler: error)
-    }
 }
 
 // MARK: Firebase

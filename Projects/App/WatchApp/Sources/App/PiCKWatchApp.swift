@@ -4,7 +4,7 @@ import WatchConnectivity
 @main
 struct PiCKWatchApp: App {
     init() {
-        _ = WatchSessionManager()
+        WatchSessionManager.shared.activate()
     }
 
     var body: some Scene {
