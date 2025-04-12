@@ -12,6 +12,17 @@ public class PiCKOutingPickerContainerView: BaseView {
     public lazy var outingHourValue = hourPickerView.hourText.value
     public lazy var outingMinValue = minPickerView.minText.value
 
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        hourPickerView.pickerDelegate = self
+        minPickerView.pickerDelegate = self
+    }
+
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private let backgroudView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -107,4 +118,18 @@ public class PiCKOutingPickerContainerView: BaseView {
         minPickerView.subviews[1].backgroundColor = .clear
     }
 
+}
+extension PiCKOutingPickerContainerView: PiCKPickerViewDelegate {
+    public func pickerViewDidChangeValue(_ pickerView: PiCKPickerView, type: PickerTimeType, value: Int) {
+
+        if type == .hour && value == 20 {
+            if minPickerView.minText.value > 30 {
+                minPickerView.minText.accept(30)
+                minPickerView.selectRow(30, inComponent: 0, animated: true)
+            }
+        } else if type == .min && value > 30 && hourPickerView.hourText.value == 20 {
+            minPickerView.minText.accept(30)
+            minPickerView.selectRow(30, inComponent: 0, animated: true)
+        }
+    }
 }
