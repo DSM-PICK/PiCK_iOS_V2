@@ -11,7 +11,7 @@ PiCK은 대덕소프트웨어마이스터고등학교의 온라인 출결관리 
 
 
 
-## 📁 File Structrue
+## 📁 File Structure
 ```bash
 .
 ├── PiCK-iOS-V2
