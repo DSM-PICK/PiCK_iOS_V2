@@ -5,7 +5,12 @@ import RxCocoa
 
 import Core
 
+public protocol PiCKPickerViewDelegate: AnyObject {
+    func pickerViewDidChangeValue(_ pickerView: PiCKPickerView, type: PickerTimeType, value: Int)
+}
+
 public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
+    public weak var pickerDelegate: PiCKPickerViewDelegate?
     private var pickerTimeType: PickerTimeType = .hour
 
     public var periodText = BehaviorRelay<Int>(value: 1)
@@ -111,12 +116,15 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         switch pickerTimeType {
         case .period:
             periodText.accept(periodArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .period, value: periodArray[row])
 
         case .hour:
             hourText.accept(hourArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .hour, value: hourArray[row])
 
         case .min:
             minText.accept(minArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .min, value: minArray[row])
         }
     }
 
