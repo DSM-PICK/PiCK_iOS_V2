@@ -51,7 +51,7 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
     }
 
     private lazy var calendarView = FSCalendar().then {
-        $0.backgroundColor = .background
+        $0.backgroundColor = .clear
 
         $0.calendarHeaderView.isHidden = true
         $0.locale = Locale(identifier: "ko_KR")
