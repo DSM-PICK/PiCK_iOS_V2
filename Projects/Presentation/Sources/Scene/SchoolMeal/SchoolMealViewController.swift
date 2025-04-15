@@ -107,6 +107,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             $0.leading.trailing.equalToSuperview()
         }
         calendarShadowView.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.bottom.equalTo(dateLabel.snp.top).offset(-28)
             $0.leading.trailing.equalToSuperview()
         }
