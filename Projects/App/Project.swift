@@ -34,7 +34,6 @@ let targets: [Target] = [
         scripts: scripts,
         dependencies: [
             .Projects.flow,
-//            .PackageType.FCM,
             .target(name: "\(env.appName)-Watch")
         ],
         settings: .settings(base: env.baseSetting)
