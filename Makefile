@@ -1,5 +1,5 @@
 generate:
-	tuist fetch
+	tuist install
 	tuist generate
 clean:
 	tuist clean
@@ -14,5 +14,5 @@ regenerate:
 	rm -rf **/**/*.xcodeproj
 	rm -rf **/*.xcodeproj
 	rm -rf *.xcworkspace
-	tuist fetch
+	tuist install
 	tuist generate
