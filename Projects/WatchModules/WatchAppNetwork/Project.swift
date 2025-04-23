@@ -3,9 +3,9 @@ import ProjectDescriptionHelpers
 
 let project = Project.makeModule(
     name: "WatchAppNetwork",
-    platform: .watchOS,
+    destination: .watchOS,
     product: .staticFramework,
-    deploymentTarget: .watchOS(targetVersion: "9.0"),
+    deploymentTarget: .watchOS("9.0"),
     dependencies: [
         .WatchModule.thirdPartyLib
     ]
