@@ -95,7 +95,9 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
             explainText: "Wifi 또는 셀룰러를 활성화 해주세요.",
             type: .positive
         ) {
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
         }
 
         DispatchQueue.main.async {
