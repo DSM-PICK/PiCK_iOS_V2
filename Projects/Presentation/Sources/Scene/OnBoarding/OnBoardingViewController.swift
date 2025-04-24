@@ -64,10 +64,10 @@ public class OnboardingViewController: BaseViewController<OnboardingViewModel> {
             .bind { owner, _ in
                 let alert = PiCKAlert(
                     titleText: "현재 서버가 점검중이에요",
-                    explainText: "더욱 원활한 서비스 이용을 위해\n노력중이니 조금만 기다려주세요!",
+                    explainText: "더욱 원활한 서비스 이용을 위해\n노력중이니 조금만 기다려주세요!\n확인버튼을 누르면 앱을 종료할게요.",
                     type: .positive
                 ) {
-                    exit(1);
+                    exit(1)
                 }
                 owner.present(alert, animated: true)
             }.disposed(by: disposeBag)
