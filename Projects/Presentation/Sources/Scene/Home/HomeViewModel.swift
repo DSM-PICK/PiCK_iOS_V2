@@ -53,6 +53,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         let viewWillAppear: Observable<Void>
         let clickAlert: Observable<Void>
         let clickOutingPass: Observable<Void>
+        let outingPassType: Observable<OutingType>
         let clickViewMoreNotice: Observable<Void>
         let clickNotice: Observable<UUID>
     }
@@ -78,6 +79,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
+    private var outingPassType = BehaviorRelay<OutingType>(value: .application)
     private let noticeListData = PublishRelay<NoticeListEntity>()
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
     private let timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
@@ -188,37 +190,25 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: selfStudyData)
             .disposed(by: disposeBag)
 
-        input.clickOutingPass
-            .flatMap {
-                self.fetchOutingPassUseCase.execute()
-                    .catch {
-                        print($0.localizedDescription)
-                        return .never()
-                    }
-            }
-            .bind(to: outingPassData)
+        input.outingPassType
+            .bind(to: outingPassType)
             .disposed(by: disposeBag)
 
         input.clickOutingPass
             .flatMap {
-                self.fetchEarlyLeavePassUseCase.execute()
-                    .catch {
-                        print($0.localizedDescription)
-                        return .never()
-                    }
+                switch self.outingPassType.value {
+                case .application:
+                    return self.fetchOutingPassUseCase.execute().asObservable()
+                case .earlyReturn:
+                    return self.fetchEarlyLeavePassUseCase.execute().asObservable()
+                case .classroom:
+                    self.classroomReturnUseCase.execute()
+                        .subscribe()
+                        .disposed(by: self.disposeBag)
+                    return .empty()
+                }
             }
             .bind(to: outingPassData)
-            .disposed(by: disposeBag)
-
-        input.clickOutingPass
-            .flatMap {
-                self.classroomReturnUseCase.execute()
-                    .catch {
-                        print($0.localizedDescription)
-                        return .never()
-                    }
-            }
-            .subscribe()
             .disposed(by: disposeBag)
 
         input.clickAlert
