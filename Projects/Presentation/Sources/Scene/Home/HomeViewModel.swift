@@ -79,7 +79,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
     private let timetableData = BehaviorRelay<[TimeTableEntityElement]>(value: [])
     private let schoolMealData = BehaviorRelay<[(String, MealEntityElement)]>(value: [])
     private let outingPassData = PublishRelay<OutingPassEntity>()
-    private var outingPassType = BehaviorRelay<OutingType>(value: .application)
+    private let outingPassType = BehaviorRelay<OutingType>(value: .application)
     private let noticeListData = PublishRelay<NoticeListEntity>()
     private let selfStudyData = BehaviorRelay<SelfStudyEntity>(value: [])
     private let timeTableHeight = BehaviorRelay<CGFloat>(value: 0)
@@ -198,14 +198,14 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .flatMap {
                 switch self.outingPassType.value {
                 case .application:
-                    return self.fetchOutingPassUseCase.execute().asObservable()
+                    return self.fetchOutingPassUseCase.execute()
+                        .asObservable()
                 case .earlyReturn:
-                    return self.fetchEarlyLeavePassUseCase.execute().asObservable()
+                    return self.fetchEarlyLeavePassUseCase.execute()
+                        .asObservable()
                 case .classroom:
-                    self.classroomReturnUseCase.execute()
-                        .subscribe()
-                        .disposed(by: self.disposeBag)
-                    return .empty()
+                    return self.classroomReturnUseCase.execute()
+                        .andThen(Observable<OutingPassEntity>.empty())
                 }
             }
             .bind(to: outingPassData)
