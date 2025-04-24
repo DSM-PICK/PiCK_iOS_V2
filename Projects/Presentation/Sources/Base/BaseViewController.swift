@@ -1,4 +1,5 @@
 import UIKit
+import Network
 
 import RxSwift
 import RxCocoa
@@ -7,11 +8,12 @@ import Core
 import DesignSystem
 
 open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGestureRecognizerDelegate {
-
     public let disposeBag = DisposeBag()
     public var viewModel: ViewModel
 
     public var viewWillAppearRelay = PublishRelay<Void>()
+
+    private let networkMonitor = NWPathMonitor()
 
     public var navigationTitleText: String?
     private let navigationTitleLabel = PiCKLabel(
@@ -32,6 +34,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         attribute()
         bind()
         configureNavigationBar()
+        monitorNetworkStatus()
     }
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -83,4 +86,36 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+
+    private func monitorNetworkStatus() {
+        networkMonitor.start(queue: .global())
+
+        let alert = PiCKAlert(
+            titleText: "인터넷 연결이 원활하지 않습니다.",
+            explainText: "Wifi 또는 셀룰러를 활성화 해주세요.",
+            type: .positive
+        ) {
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
+
+        DispatchQueue.main.async {
+            if self.networkMonitor.currentPath.status == .unsatisfied {
+                self.present(alert, animated: true)
+            }
+        }
+
+        networkMonitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                if path.status == .unsatisfied {
+                    if self.presentedViewController == nil {
+                        self.present(alert, animated: true)
+                    }
+                }
+            }
+        }
+
+    }
+
 }
