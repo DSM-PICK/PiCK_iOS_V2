@@ -4,25 +4,24 @@ import DependencyPlugin
 
 let project = Project.makeModule(
     name: "ThirdPartyLib",
-    platform: .iOS,
     product: .staticFramework,
     packages: [.FCM],
     dependencies: [
-        .SPM.SnapKit,
-        .SPM.Then,
-        .SPM.RxFlow,
-        .SPM.RxSwift,
-        .SPM.RxCocoa,
-        .SPM.KeychainSwift,
-        .SPM.Kingfisher,
-        .SPM.Moya,
-        .SPM.RxMoya,
-        .SPM.RxGesture,
-        .SPM.Swinject,
-        .SPM.Lottie,
-        .SPM.FSCalendar,
-        .SPM.RxDataSources,
-        .SPM.FCM,
-        .SPM.StarScream
+        .PackageType.SnapKit,
+        .PackageType.Then,
+        .PackageType.RxFlow,
+        .PackageType.RxSwift,
+        .PackageType.RxCocoa,
+        .PackageType.KeychainSwift,
+        .PackageType.Kingfisher,
+        .PackageType.Moya,
+        .PackageType.RxMoya,
+        .PackageType.RxGesture,
+        .PackageType.Swinject,
+        .PackageType.Lottie,
+        .PackageType.FSCalendar,
+        .PackageType.RxDataSources,
+        .PackageType.FCM,
+        .PackageType.Starscream
     ]
 )

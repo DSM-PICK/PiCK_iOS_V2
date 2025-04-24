@@ -4,9 +4,9 @@ import ProjectDescriptionHelpers
 let project = Project.makeModule(
     name: "WatchDesignSystem",
     resources: ["Resources/**"],
-    platform: .watchOS,
+    destination: .watchOS,
     product: .framework,
-    deploymentTarget: .watchOS(targetVersion: "9.0"),
+    deploymentTarget: .watchOS("9.0"),
     dependencies: [
         .WatchModule.thirdPartyLib
     ]

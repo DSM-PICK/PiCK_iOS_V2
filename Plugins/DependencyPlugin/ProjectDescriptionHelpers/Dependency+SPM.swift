@@ -1,10 +1,6 @@
 import ProjectDescription
 
-public extension TargetDependency {
-    struct SPM {}
-}
-
-public extension TargetDependency.SPM {
+public extension TargetDependency.PackageType {
     static let Moya = TargetDependency.external(name: "Moya")
     static let RxSwift = TargetDependency.external(name: "RxSwift")
     static let SnapKit = TargetDependency.external(name: "SnapKit")
@@ -20,8 +16,8 @@ public extension TargetDependency.SPM {
     static let SkeletonView = TargetDependency.external(name: "SkeletonView")
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
-    static let FCM = TargetDependency.package(product: "FirebaseMessaging")
-    static let StarScream = TargetDependency.external(name: "Starscream")
+    static let FCM = TargetDependency.external(name: "FirebaseMessaging")
+    static let Starscream = TargetDependency.external(name: "Starscream")
 }
 
 public extension Package {

@@ -68,6 +68,7 @@ Derived/
 
 ### Tuist managed dependencies ###
 Tuist/Dependencies
+**/.build
 
 /XCConfig
 Projects/App/Resources/Firebase/
