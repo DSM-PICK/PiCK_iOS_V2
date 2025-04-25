@@ -59,7 +59,10 @@ let package = Package(
                 "FSCalendar",
                 "RxDataSources",
                 "Starscream",
-                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk")
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk")
             ]
         )
     ]

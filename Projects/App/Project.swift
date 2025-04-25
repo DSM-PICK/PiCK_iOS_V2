@@ -78,7 +78,7 @@ let schemes: [Scheme] = [
 let project = Project(
     name: env.targetName,
     organizationName: env.organizationName,
-    packages: [.FCM],
+    packages: [.Firebase],
     settings: settings,
     targets: targets,
     schemes: schemes

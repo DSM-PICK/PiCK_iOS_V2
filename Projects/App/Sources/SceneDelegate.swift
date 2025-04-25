@@ -1,6 +1,9 @@
 import UIKit
+import AppTrackingTransparency
 
 import RxFlow
+
+import FirebaseAnalytics
 
 import Flow
 
@@ -26,7 +29,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidDisconnect(_ scene: UIScene) {}
 
-    func sceneDidBecomeActive(_ scene: UIScene) {}
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    Analytics.setAnalyticsCollectionEnabled(true)
+                default:
+                    Analytics.setAnalyticsCollectionEnabled(false)
+                }
+            }
+        }
+    }
 
     func sceneWillResignActive(_ scene: UIScene) {}
 

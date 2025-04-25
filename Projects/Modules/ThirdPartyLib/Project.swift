@@ -5,7 +5,7 @@ import DependencyPlugin
 let project = Project.makeModule(
     name: "ThirdPartyLib",
     product: .staticFramework,
-    packages: [.FCM],
+    packages: [.Firebase],
     dependencies: [
         .PackageType.SnapKit,
         .PackageType.Then,
@@ -21,7 +21,10 @@ let project = Project.makeModule(
         .PackageType.Lottie,
         .PackageType.FSCalendar,
         .PackageType.RxDataSources,
+        .PackageType.Starscream,
         .PackageType.FCM,
-        .PackageType.Starscream
+        .PackageType.FirebaseAnalytics,
+        .PackageType.FirebaseCrashlytics,
+        .PackageType.FirebaseSupport
     ]
 )
