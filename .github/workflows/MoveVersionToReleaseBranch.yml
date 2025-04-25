@@ -22,6 +22,7 @@ jobs:
           git checkout -t origin/release
           echo $(git merge -Xtheirs origin/develop)
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${{  github.ref_name }}" Projects/App/Support/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${{  github.ref_name }}" Projects/App/WatchApp/Support/Info.plist
           git add -A
           git commit -m "🚀 :: Deploy version ${{  github.ref_name }}"
           git push
