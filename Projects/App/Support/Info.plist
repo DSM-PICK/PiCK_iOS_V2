@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>더 나은 경험 제공을 위해 사용자 피드백 수집에 동의해주세요.</string>
+	<string>더 나은 경험 제공 및 앱 안정성 향상을 위해 사용자 활동 및 오류 데이터 수집에 동의해주세요.</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>CFBundleDevelopmentRegion</key>
