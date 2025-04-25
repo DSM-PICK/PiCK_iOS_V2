@@ -4,6 +4,7 @@ import UserNotifications
 import Swinject
 
 import Firebase
+import FirebaseMessaging
 
 import Core
 import Data

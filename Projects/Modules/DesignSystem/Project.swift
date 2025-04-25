@@ -12,7 +12,6 @@ let project = Project.makeModule(
             extensions: ["json"]
         )
     ],
-    platform: .iOS,
     product: .framework,
     dependencies: [
         .Projects.core

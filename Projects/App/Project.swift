@@ -21,12 +21,12 @@ let settings: Settings = .settings(
 let scripts: [TargetScript] = isCI ? [.googleInfoPlistScripts] : [.swiftLint, .googleInfoPlistScripts]
 
 let targets: [Target] = [
-    .init(
+    .target(
         name: env.targetName,
-        platform: env.platform,
+        destinations: env.destination,
         product: .app,
         bundleId: "$(APP_BUNDLE_ID)",
-        deploymentTarget: env.deploymentTarget,
+        deploymentTargets: env.deploymentTargets,
         infoPlist: .file(path: "Support/Info.plist"),
         sources: ["Sources/**"],
         resources: ["Resources/**"],
@@ -34,17 +34,16 @@ let targets: [Target] = [
         scripts: scripts,
         dependencies: [
             .Projects.flow,
-            .SPM.FCM,
             .target(name: "\(env.appName)-Watch")
         ],
         settings: .settings(base: env.baseSetting)
     ),
-    .init(
+    .target(
         name: "\(env.targetName)-Watch",
-        platform: .watchOS,
+        destinations: env.watchDestination,
         product: .app,
         productName: "\(env.appName)-Watch",
-        bundleId: "$(APP_BUNDLE_ID).watchapp",
+        bundleId: "$(WATCH_APP_BUNDLE_ID)",
         infoPlist: .file(path: "WatchApp/Support/Info.plist"),
         sources: ["WatchApp/Sources/**"],
         resources: ["WatchApp/Resources/**"],
@@ -56,7 +55,7 @@ let targets: [Target] = [
 ]
 
 let schemes: [Scheme] = [
-    .init(
+    .scheme(
         name: "\(env.targetName)-STAGE",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.targetName)"]),
@@ -65,7 +64,7 @@ let schemes: [Scheme] = [
         profileAction: .profileAction(configuration: .stage),
         analyzeAction: .analyzeAction(configuration: .stage)
     ),
-    .init(
+    .scheme(
         name: "\(env.targetName)-PROD",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.targetName)"]),
@@ -79,7 +78,7 @@ let schemes: [Scheme] = [
 let project = Project(
     name: env.targetName,
     organizationName: env.organizationName,
-    packages: [.FCM],
+    packages: [.Firebase],
     settings: settings,
     targets: targets,
     schemes: schemes

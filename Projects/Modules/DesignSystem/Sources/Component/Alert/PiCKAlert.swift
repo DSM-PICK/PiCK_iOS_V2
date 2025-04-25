@@ -16,7 +16,7 @@ public enum PiCKAlertType {
 public class PiCKAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
-    public var clickLogout: () -> Void
+    public var clickAction: () -> Void
 
     private let backgroundView = UIView().then {
         $0.backgroundColor = .background
@@ -29,7 +29,7 @@ public class PiCKAlert: UIViewController {
     private let explainLabel = PiCKLabel(
         textColor: .gray700,
         font: .pickFont(.body1),
-        numberOfLines: 2
+        numberOfLines: 0
     )
     private let cancelButton = UIButton(type: .system).then {
         $0.setTitle("취소", for: .normal)
@@ -53,6 +53,15 @@ public class PiCKAlert: UIViewController {
         $0.spacing = 10
         $0.distribution = .fillEqually
     }
+    private lazy var backgroundStackView = UIStackView(arrangedSubviews: [
+        titleLabel,
+        explainLabel,
+        buttonStackView
+    ]).then {
+        $0.axis = .vertical
+        $0.spacing = 12
+        $0.distribution = .equalSpacing
+    }
 
     public init(
         titleText: String,
@@ -65,7 +74,7 @@ public class PiCKAlert: UIViewController {
         if type == .positive {
             cancelButton.isHidden = true
         }
-        self.clickLogout = clickLogout
+        self.clickAction = clickLogout
         super.init(nibName: nil, bundle: nil)
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
@@ -86,11 +95,6 @@ public class PiCKAlert: UIViewController {
         addView()
         setLayout()
     }
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-
-        self.dismiss(animated: true)
-    }
 
     private func bindActions() {
         cancelButton.rx.tap
@@ -101,36 +105,22 @@ public class PiCKAlert: UIViewController {
         confirmButton.rx.tap
             .bind { [weak self] in
                 self?.dismiss(animated: true) {
-                    self?.clickLogout()
+                    self?.clickAction()
                 }
             }.disposed(by: disposeBag)
     }
     private func addView() {
         view.addSubview(backgroundView)
-        [
-            titleLabel,
-            explainLabel,
-            buttonStackView
-        ].forEach { backgroundView.addSubview($0) }
+        backgroundView.addSubview(backgroundStackView)
     }
     private func setLayout() {
         backgroundView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.height.equalTo(164)
+            $0.height.equalTo(170)
         }
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(24)
-            $0.leading.equalToSuperview().inset(20)
-        }
-        explainLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(20)
-        }
-        buttonStackView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(24)
-            $0.height.equalTo(35)
+        backgroundStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(20)
         }
     }
 

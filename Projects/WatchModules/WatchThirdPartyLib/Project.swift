@@ -4,15 +4,15 @@ import DependencyPlugin
 
 let project = Project.makeModule(
     name: "WatchThirdPartyLib",
-    platform: .watchOS,
+    destination: .watchOS,
     product: .staticFramework,
-    deploymentTarget: .watchOS(targetVersion: "9.0"),
+    deploymentTarget: .watchOS("9.0"),
     dependencies: [
-        .SPM.RxSwift,
-        .SPM.RxCocoa,
-        .SPM.Kingfisher,
-        .SPM.Moya,
-        .SPM.RxMoya,
-        .SPM.KeychainSwift
+        .PackageType.RxSwift,
+        .PackageType.RxCocoa,
+        .PackageType.Kingfisher,
+        .PackageType.Moya,
+        .PackageType.RxMoya,
+        .PackageType.KeychainSwift
     ]
 )

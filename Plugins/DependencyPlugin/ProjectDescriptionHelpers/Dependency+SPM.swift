@@ -1,10 +1,6 @@
 import ProjectDescription
 
-public extension TargetDependency {
-    struct SPM {}
-}
-
-public extension TargetDependency.SPM {
+public extension TargetDependency.PackageType {
     static let Moya = TargetDependency.external(name: "Moya")
     static let RxSwift = TargetDependency.external(name: "RxSwift")
     static let SnapKit = TargetDependency.external(name: "SnapKit")
@@ -20,11 +16,14 @@ public extension TargetDependency.SPM {
     static let SkeletonView = TargetDependency.external(name: "SkeletonView")
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
-    static let FCM = TargetDependency.package(product: "FirebaseMessaging")
-    static let StarScream = TargetDependency.external(name: "Starscream")
+    static let FCM = TargetDependency.external(name: "FirebaseMessaging")
+    static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalytics")
+    static let FirebaseCrashlytics = TargetDependency.external(name: "FirebaseCrashlytics")
+    static let FirebaseSupport = TargetDependency.external(name: "FirebaseAnalyticsWithoutAdIdSupport")
+    static let Starscream = TargetDependency.external(name: "Starscream")
 }
 
 public extension Package {
-    static let FCM = Package.remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "10.0.0"))
+    static let Firebase = Package.remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "10.0.0"))
 }
 
