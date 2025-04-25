@@ -12,6 +12,8 @@ import Core
 import DesignSystem
 
 public class MyPageViewController: BaseViewController<MyPageViewModel> {
+    private let setCustomProfileRelay = PublishRelay<Void>()
+
     private var profileImageData = PublishRelay<Data>()
 
     private let profileImageView = UIImageView().then {
@@ -52,6 +54,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
 
         navigationTitleText = "마이페이지"
         setupMyPageLabel()
+        setupProfile()
     }
     public override func bind() {
         let input = MyPageViewModel.Input(
@@ -74,14 +77,13 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
             }.disposed(by: disposeBag)
     }
     public override func bindAction() {
-        changeButton.rx.tap
-            .bind { [weak self] in
-                let picker = UIImagePickerController()
-                picker.sourceType = .photoLibrary
-                picker.allowsEditing = true
-                picker.delegate = self
-                self?.present(picker, animated: true)
-            }.disposed(by: disposeBag)
+        setCustomProfileRelay.bind { [weak self] in
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self?.present(picker, animated: true)
+        }.disposed(by: disposeBag)
     }
 
     public override func addView() {
@@ -112,6 +114,19 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         }
     }
 
+    private func setupProfile() {
+        changeButton.menu = UIMenu(title: "프로필 이미지 설정", children: [
+            UIAction(title: "사진 선택하기", handler: { _ in
+                self.setCustomProfileRelay.accept(())
+            }),
+            UIAction(title: "기본 이미지로 설정하기", handler: { _ in
+                self.profileImageView.image = .profile
+                self.profileImageData.accept(UIImage.profile.jpegData(compressionQuality: 0.1) ?? Data())
+            })
+        ])
+        changeButton.showsMenuAsPrimaryAction = true
+    }
+
     private func setupMyPageLabel() {
         let titleArray = ["이름", "생년월일", "학번", "아이디"]
         for title in titleArray {
@@ -136,5 +151,4 @@ extension MyPageViewController: UIImagePickerControllerDelegate, UINavigationCon
             self?.profileImageData.accept(image?.jpegData(compressionQuality: 0.1) ?? Data())
         }
     }
-
 }

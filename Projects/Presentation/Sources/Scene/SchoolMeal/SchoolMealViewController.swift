@@ -20,6 +20,13 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             self.loadSchoolMeal(date: date)
         }
     )
+    private lazy var calendarShadowView = UIView().then {
+        $0.layer.shadowOpacity = 0.25
+        $0.layer.shadowOffset = CGSize(width: 0, height: 5)
+        $0.layer.shadowRadius = 10
+        $0.layer.cornerRadius = 20
+        $0.backgroundColor = .background
+    }
     private lazy var dateLabel = PiCKLabel(
         text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,
@@ -87,6 +94,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
 
     public override func addView() {
         [
+            calendarShadowView,
             navigationBar,
             schoolMealCalendarView,
             dateLabel,
@@ -96,6 +104,11 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     public override func setLayout() {
         navigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+        }
+        calendarShadowView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.bottom.equalTo(dateLabel.snp.top).offset(-28)
             $0.leading.trailing.equalToSuperview()
         }
         schoolMealCalendarView.snp.makeConstraints {

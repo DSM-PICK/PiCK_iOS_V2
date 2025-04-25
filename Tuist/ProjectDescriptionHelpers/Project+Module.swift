@@ -14,14 +14,14 @@ extension Project {
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
         resourceSynthesizers: [ResourceSynthesizer] = .default + [],
-        platform: Platform = env.platform,
+        destination: Destinations = env.destination,
         product: Product,
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget = env.deploymentTarget,
+        deploymentTarget: DeploymentTargets = env.deploymentTargets,
         dependencies: [TargetDependency],
         settings: SettingsDictionary = [:],
         configurations: [Configuration] = [],
-        additionalPlistRows: [String: ProjectDescription.InfoPlist.Value] = [:]
+        additionalPlistRows: [String: ProjectDescription.Plist.Value] = [:]
     ) -> Project {
 
         let scripts: [TargetScript] = isCI ? [] : [.swiftLint]
@@ -50,12 +50,12 @@ extension Project {
         )
 
         var allTargets: [Target] = [
-            Target(
+            .target(
                 name: name,
-                platform: platform,
+                destinations: destination,
                 product: product,
                 bundleId: "\(env.organizationName).\(name)",
-                deploymentTarget: deploymentTarget,
+                deploymentTargets: deploymentTarget,
                 infoPlist: .extendingDefault(with: additionalPlistRows),
                 sources: sources,
                 resources: resources,
@@ -80,7 +80,7 @@ extension Project {
 
 extension Scheme {
     static func makeScheme(target: ConfigurationName, name: String) -> Scheme {
-        return Scheme(
+        return .scheme(
             name: name,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),

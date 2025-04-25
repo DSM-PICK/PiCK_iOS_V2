@@ -12,6 +12,7 @@ import DesignSystem
 
 public class HomeViewController: BaseViewController<HomeViewModel> {
     private var homeViewType: HomeViewType = .timeTable
+    private var outingPassType = PublishRelay<OutingType>()
 
     private var clickNoticeRelay = PublishRelay<UUID>()
 
@@ -130,6 +131,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             viewWillAppear: viewWillAppearRelay.asObservable(),
             clickAlert: navigationBar.alertButtonTap.asObservable(),
             clickOutingPass: passHeaderView.buttonTap.asObservable(),
+            outingPassType: outingPassType.asObservable(),
             clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
             clickNotice: clickNoticeRelay.asObservable()
         )
@@ -157,15 +159,17 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind { owner, data in
                 let passIsHidden = data.type?.isEmpty
                 let isWait = data.userName == .none
+                let outingType = OutingType(rawValue: data.type ?? "") ?? .application
 
                 owner.passHeaderView.isHidden = passIsHidden ?? true
                 owner.passHeaderView.setup(
                     isWait: isWait,
-                    type: OutingType(rawValue: data.type ?? "") ?? .application,
+                    type: outingType,
                     startTime: data.startTime,
                     endTime: data.endTime,
                     classRoomText: data.classroom
                 )
+                owner.outingPassType.accept(outingType)
                 owner.loadViewIfNeeded()
             }.disposed(by: disposeBag)
 
@@ -244,7 +248,6 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 if height != 0 {
                     owner.timeTableHeight.accept(height)
                 }
-
                 owner.setupViewType(type: owner.homeViewType)
             }.disposed(by: disposeBag)
 
