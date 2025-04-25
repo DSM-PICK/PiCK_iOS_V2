@@ -35,8 +35,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch status {
                 case .authorized:
                     Analytics.setAnalyticsCollectionEnabled(true)
-                default:
+                case .denied, .restricted, .notDetermined:
                     Analytics.setAnalyticsCollectionEnabled(false)
+                @unknown default:
+                    fatalError("ATTrakingManager status unknown")
                 }
             }
         }
