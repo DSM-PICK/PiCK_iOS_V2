@@ -6,8 +6,6 @@ import Then
 import RxSwift
 import RxCocoa
 
-import Kingfisher
-
 import Core
 import DesignSystem
 
@@ -66,10 +64,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         output.profileData.asObservable()
             .withUnretained(self)
             .bind { owner, profileData in
-                owner.profileImageView.kf.setImage(
-                    with: URL(string: profileData.profile ?? ""),
-                    placeholder: UIImage.profile
-                )
+                owner.profileImageView.setImage(with: profileData.profile ?? "")
                 owner.userNameLabel.text = profileData.name
                 owner.userBirthDayLabel.text = "\(profileData.birthDay.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))"
                 owner.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"
