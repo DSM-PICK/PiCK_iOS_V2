@@ -24,7 +24,8 @@ let project = Project.makeModule(
         .PackageType.Starscream,
         .PackageType.FCM,
         .PackageType.FirebaseAnalytics,
+        .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
-        .PackageType.FirebaseSupport
+        .PackageType.FirebasePerformance
     ]
 )

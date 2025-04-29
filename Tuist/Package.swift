@@ -61,8 +61,9 @@ let package = Package(
                 "Starscream",
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk")
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk")
             ]
         )
     ]
