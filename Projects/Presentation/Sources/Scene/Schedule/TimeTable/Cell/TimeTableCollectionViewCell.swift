@@ -20,6 +20,11 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntity
         font: .pickFont(.label1)
     )
 
+    /// Configures the cell's UI elements with data from the provided time table model.
+    ///
+    /// Updates the period label, subject image, and subject name based on the given `TimeTableEntityElement`.
+    ///
+    /// - Parameter model: The time table entity containing period, subject image, and subject name information.
     public override func adapt(model: TimeTableEntityElement) {
         super.adapt(model: model)
 

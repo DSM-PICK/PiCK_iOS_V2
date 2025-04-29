@@ -54,6 +54,9 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         setupMyPageLabel()
         setupProfile()
     }
+    /// Binds the view model's profile data output to update the user interface with the latest profile information.
+    ///
+    /// Updates the profile image, user name, birthday, school ID, and account ID labels whenever the profile data changes.
     public override func bind() {
         let input = MyPageViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
