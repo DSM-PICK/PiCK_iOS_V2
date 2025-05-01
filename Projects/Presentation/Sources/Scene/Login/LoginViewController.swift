@@ -68,23 +68,26 @@ public class LoginViewController: BaseReactorViewController<LoginReactor> {
             .map { $0.idErrorDescription }
             .distinctUntilChanged()
             .filter { $0 != "" }
-            .bind {
-                self.idTextField.errorMessage.accept($0)
+            .withUnretained(self)
+            .bind { onwer, errorMessage in
+                onwer.idTextField.errorMessage.accept(errorMessage)
             }.disposed(by: disposeBag)
 
         reactor.state
             .map { $0.passwordErrorDescription }
             .distinctUntilChanged()
             .filter { $0 != "" }
-            .bind {
-                self.passwordTextField.errorMessage.accept($0)
+            .withUnretained(self)
+            .bind { onwer, errorMessage in
+                onwer.passwordTextField.errorMessage.accept(errorMessage)
             }.disposed(by: disposeBag)
 
         reactor.state
             .map { $0.isButtonEnabled }
             .distinctUntilChanged()
-            .bind {
-                self.loginButton.isEnabled = $0
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.loginButton.isEnabled = isEnabled
             }.disposed(by: disposeBag)
     }
     public override func addView() {
