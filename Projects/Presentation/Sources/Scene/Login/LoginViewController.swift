@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class LoginViewController: BaseViewController<LoginViewModel> {
+public class LoginViewController: BaseReactorViewController<LoginReactor> {
     private let titleLabel = PiCKLabel(
         text: "PiCK에 로그인하기",
         textColor: .modeBlack,
@@ -44,25 +44,48 @@ public class LoginViewController: BaseViewController<LoginViewModel> {
 
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
-    public override func bind() {
-        let input = LoginViewModel.Input(
-            idText: idTextField.rx.text.orEmpty.asObservable(),
-            passwordText: passwordTextField.rx.text.orEmpty.asObservable(),
-            clickLoginButton: loginButton.buttonTap.asObservable()
-        )
-        let output = viewModel.transform(input: input)
-
-        output.idErrorDescription.asObservable()
-            .bind(to: self.idTextField.errorMessage)
+    public override func bindAction() {
+        idTextField.rx.text.orEmpty.asDriver()
+            .distinctUntilChanged()
+            .map { LoginReactor.Action.updateID($0) }
+            .drive(reactor.action)
             .disposed(by: disposeBag)
 
-        output.passwordErrorDescription.asObservable()
-            .bind(to: self.passwordTextField.errorMessage)
+        passwordTextField.rx.text.orEmpty.asDriver()
+            .distinctUntilChanged()
+            .map { LoginReactor.Action.updatePassword($0) }
+            .drive(reactor.action)
             .disposed(by: disposeBag)
 
-        output.isButtonEnabled
-            .drive(loginButton.rx.isEnabled)
+        loginButton.buttonTap
+            .asDriver()
+            .map { LoginReactor.Action.loginButtonDidTap }
+            .drive(reactor.action)
             .disposed(by: disposeBag)
+    }
+    public override func bindState() {
+        reactor.state
+            .map { $0.idErrorDescription }
+            .distinctUntilChanged()
+            .filter { $0 != "" }
+            .bind {
+                self.idTextField.errorMessage.accept($0)
+            }.disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.passwordErrorDescription }
+            .distinctUntilChanged()
+            .filter { $0 != "" }
+            .bind {
+                self.passwordTextField.errorMessage.accept($0)
+            }.disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isButtonEnabled }
+            .distinctUntilChanged()
+            .bind {
+                self.loginButton.isEnabled = $0
+            }.disposed(by: disposeBag)
     }
     public override func addView() {
         [
