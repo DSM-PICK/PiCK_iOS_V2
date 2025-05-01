@@ -44,7 +44,7 @@ public final class LoginReactor: BaseReactor {
         var password: String = ""
         var idErrorDescription: String = ""
         var passwordErrorDescription: String = ""
-        var isButtonEnabled: Bool = true
+        var isButtonEnabled: Bool = false
     }
 }
 
