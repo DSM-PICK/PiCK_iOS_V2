@@ -22,7 +22,6 @@ public final class PresentationAssembly: Assembly {
 
         // MARK: Login
         container.register(LoginViewController.self) { resolver in
-//            LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
             LoginViewController(reactor: resolver.resolve(LoginReactor.self)!)
         }
         container.register(LoginReactor.self) { resolver in
