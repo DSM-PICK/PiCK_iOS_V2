@@ -12,7 +12,7 @@ public enum AuthAPI {
 }
 
 extension AuthAPI: PiCKAPI {
-    public typealias ErrorType = PiCKError
+    public typealias ErrorType = AuthError
 
     public var domain: PiCKDomain {
         return .user
@@ -54,10 +54,16 @@ extension AuthAPI: PiCKAPI {
         }
     }
 
-    public var errorMap: [Int: PiCKError]? {
-        return [
-            503: .serverError
-        ]
+    public var errorMap: [Int: ErrorType]? {
+        switch self {
+        case .login(let req):
+            return [
+                401: .passwordMismatch,
+                404: .idMismatch
+            ]
+        default:
+            return nil
+        }
     }
 
 }

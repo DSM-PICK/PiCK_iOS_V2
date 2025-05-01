@@ -64,7 +64,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         output.profileData.asObservable()
             .withUnretained(self)
             .bind { owner, profileData in
-                owner.profileImageView.setImage(with: profileData.profile ?? "")
+                owner.profileImageView.setImage(with: profileData.profile ?? "", placeholder: .profile)
                 owner.userNameLabel.text = profileData.name
                 owner.userBirthDayLabel.text = "\(profileData.birthDay.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))"
                 owner.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"

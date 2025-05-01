@@ -23,15 +23,6 @@ class BaseDataSource<API: PiCKAPI> {
     func request(_ api: API) -> Single<Response> {
         return .create { single in
             var disposables: [Disposable] = []
-            if self.isApiNeedsAccessToken(api) {
-                disposables.append(
-                    self.requestWithAccessToken(api)
-                        .subscribe(
-                            onSuccess: { single(.success($0)) },
-                            onFailure: { single(.failure($0)) }
-                        )
-                )
-            } else {
                 disposables.append(
                     self.defaultRequest(api)
                         .subscribe(
@@ -39,7 +30,6 @@ class BaseDataSource<API: PiCKAPI> {
                             onFailure: { single(.failure($0)) }
                         )
                 )
-            }
             return Disposables.create(disposables)
         }
     }
@@ -64,22 +54,6 @@ private extension BaseDataSource {
                     )
                 )
             }
-    }
-
-    func requestWithAccessToken(_ api: API) -> Single<Response> {
-        return .deferred {
-            self.defaultRequest(api)
-        }
-        .retry(when: { (errorObservable: Observable<TokenError>) in
-            return errorObservable
-                .flatMap { error -> Observable<Void> in
-                    switch error {
-                    case .expired:
-                        return self.refreshToken()
-                            .andThen(.just(()))
-                    }
-                }
-        })
     }
 
     func isApiNeedsAccessToken(_ api: API) -> Bool {

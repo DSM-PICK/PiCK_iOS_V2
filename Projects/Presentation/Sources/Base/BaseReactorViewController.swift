@@ -7,9 +7,9 @@ import RxCocoa
 import Core
 import DesignSystem
 
-open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGestureRecognizerDelegate {
+public class BaseReactorViewController<Reactor: BaseReactor>: UIViewController, UIGestureRecognizerDelegate {
     public let disposeBag = DisposeBag()
-    public var viewModel: ViewModel
+    public var reactor: Reactor
 
     public var viewWillAppearRelay = PublishRelay<Void>()
 
@@ -21,11 +21,11 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         font: .pickFont(.body1)
     )
 
-    public init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    public init(reactor: Reactor) {
+        self.reactor = reactor
         super.init(nibName: nil, bundle: nil)
     }
-    required public init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     deinit {
@@ -35,14 +35,14 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
     open override func viewDidLoad() {
         super.viewDidLoad()
         attribute()
-        bind()
+        bindAction()
+        bindState()
         configureNavigationBar()
         monitorNetworkStatus()
     }
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearRelay.accept(())
-        bindAction()
     }
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -70,21 +70,11 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
         // viewDidLayoutSubviews에서 네비게이션바 관련 코드를 호출하는 함수
         navigationController?.isNavigationBarHidden = false
     }
-    open func bindAction() {
-        // Rx 액션을 설정하는 함수
-    }
-    open func bind() {
-        // UI 바인딩을 설정하는 함수
-    }
-    open func addView() {
-        // 서브뷰를 구성하는 함수
-    }
-    open func setLayout() {
-        // 레이아웃을 설정하는 함수
-    }
-    open func setLayoutData() {
-        // 뷰 관련 데이터를 호출하는데 사용하는 함수
-    }
+    open func bindAction() {}
+    open func bindState() {}
+    open func addView() {}
+    open func setLayout() {}
+    open func setLayoutData() {}
 
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)

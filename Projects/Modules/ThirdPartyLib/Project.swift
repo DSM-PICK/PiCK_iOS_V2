@@ -21,6 +21,7 @@ let project = Project.makeModule(
         .PackageType.Lottie,
         .PackageType.FSCalendar,
         .PackageType.RxDataSources,
+        .PackageType.ReactorKit,
         .PackageType.Starscream,
         .PackageType.FCM,
         .PackageType.FirebaseAnalytics,

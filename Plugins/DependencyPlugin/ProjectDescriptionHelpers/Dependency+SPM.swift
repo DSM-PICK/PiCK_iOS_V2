@@ -16,6 +16,7 @@ public extension TargetDependency.PackageType {
     static let SkeletonView = TargetDependency.external(name: "SkeletonView")
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
+    static let ReactorKit = TargetDependency.external(name: "ReactorKit")
     static let Starscream = TargetDependency.external(name: "Starscream")
     static let FCM = TargetDependency.external(name: "FirebaseMessaging")
     static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalytics")
