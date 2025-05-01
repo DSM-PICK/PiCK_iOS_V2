@@ -23,15 +23,6 @@ class BaseDataSource<API: PiCKAPI> {
     func request(_ api: API) -> Single<Response> {
         return .create { single in
             var disposables: [Disposable] = []
-//            if self.isApiNeedsAccessToken(api) {
-//                disposables.append(
-//                    self.requestWithAccessToken(api)
-//                        .subscribe(
-//                            onSuccess: { single(.success($0)) },
-//                            onFailure: { single(.failure($0)) }
-//                        )
-//                )
-//            } else {
                 disposables.append(
                     self.defaultRequest(api)
                         .subscribe(
@@ -39,7 +30,6 @@ class BaseDataSource<API: PiCKAPI> {
                             onFailure: { single(.failure($0)) }
                         )
                 )
-//            }
             return Disposables.create(disposables)
         }
     }
