@@ -11,7 +11,7 @@ import Domain
 
 import FirebaseMessaging
 
-public final class LoginReactor: BaseReactor, Stepper {
+public final class LoginReactor: BaseReactor {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
     public let initialState: State
