@@ -40,7 +40,8 @@ let package = Package(
         .package(url: "https://github.com/WenchaoD/FSCalendar.git", from: "2.8.4"),
         .package(url: "https://github.com/RxSwiftCommunity/RxDataSources.git", from: "5.0.0"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.3.0"),
-        .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.6")
+        .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.6"),
+        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0")
     ],
     targets: [
         .target(
@@ -58,6 +59,7 @@ let package = Package(
                 "Lottie",
                 "FSCalendar",
                 "RxDataSources",
+                "ReactorKit",
                 "Starscream",
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),

@@ -1,5 +1,5 @@
 {
-  "originHash" : "b4ffc81e8679ed481e006661a872b28500d57029aed24ebc7cb67ea612114172",
+  "originHash" : "32772c11d5f4e154d39a0ea6ea90209ff80207f82b85aaf247a80da5c18579e3",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -173,6 +173,15 @@
       }
     },
     {
+      "identity" : "reactorkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactorKit/ReactorKit.git",
+      "state" : {
+        "revision" : "8fa33f09c6f6621a2aa536d739956d53b84dd139",
+        "version" : "3.2.0"
+      }
+    },
+    {
       "identity" : "rxdatasources",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxDataSources.git",
@@ -251,6 +260,15 @@
       "state" : {
         "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
         "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "weakmaptable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactorKit/WeakMapTable.git",
+      "state" : {
+        "revision" : "cb05d64cef2bbf51e85c53adee937df46540a74e",
+        "version" : "1.2.1"
       }
     }
   ],
