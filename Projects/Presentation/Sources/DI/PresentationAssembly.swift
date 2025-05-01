@@ -22,10 +22,11 @@ public final class PresentationAssembly: Assembly {
 
         // MARK: Login
         container.register(LoginViewController.self) { resolver in
-            LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
+//            LoginViewController(viewModel: resolver.resolve(LoginViewModel.self)!)
+            LoginViewController(reactor: resolver.resolve(LoginReactor.self)!)
         }
-        container.register(LoginViewModel.self) { resolver in
-            LoginViewModel(
+        container.register(LoginReactor.self) { resolver in
+            LoginReactor(
                 loginUseCase: resolver.resolve(LoginUseCase.self)!
             )
         }
