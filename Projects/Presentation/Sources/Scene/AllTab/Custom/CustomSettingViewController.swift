@@ -43,8 +43,8 @@ public class CustomSettingViewController: BaseViewController<CustomSettingViewMo
     public override func bind() {
         let input = CustomSettingViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            clickHomeSetting: homeSettingTabView.clickActionButton.asObservable(),
-            clickPickerSetting: pickerSettingTabView.clickActionButton.asObservable()
+            homeSettingButtonDidTap: homeSettingTabView.actionButtonDidTap.asObservable(),
+            pickerSettingButtonDidTap: pickerSettingTabView.actionButtonDidTap.asObservable()
         )
         let output = viewModel.transform(input: input)
 

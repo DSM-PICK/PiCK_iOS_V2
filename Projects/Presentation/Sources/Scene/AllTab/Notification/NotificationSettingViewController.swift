@@ -55,11 +55,11 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
     public override func bind() {
         let input = NotificationSettingViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            allStatus: allNotificationSwitchView.clickSwitchButton.asObservable(),
-            outingStatus: outingStatusSwitchView.clickSwitchButton.asObservable(),
-            classroomStatus: classroomStatusSwitchView.clickSwitchButton.asObservable(),
-            newNoticeStatus: noticeSwitchView.clickSwitchButton.asObservable(),
-            weekendMealStatus: weekendMealSwitchView.clickSwitchButton.asObservable()
+            allStatus: allNotificationSwitchView.switchButtonDidTap.asObservable(),
+            outingStatus: outingStatusSwitchView.switchButtonDidTap.asObservable(),
+            classroomStatus: classroomStatusSwitchView.switchButtonDidTap.asObservable(),
+            newNoticeStatus: noticeSwitchView.switchButtonDidTap.asObservable(),
+            weekendMealStatus: weekendMealSwitchView.switchButtonDidTap.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -99,7 +99,7 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
             }.disposed(by: disposeBag)
     }
     public override func bindAction() {
-        allNotificationSwitchView.clickSwitchButton
+        allNotificationSwitchView.switchButtonDidTap
             .asObservable()
             .withUnretained(self)
             .bind { owner, isOn in
@@ -108,28 +108,28 @@ public class NotificationSettingViewController: BaseViewController<NotificationS
                 }
             }.disposed(by: disposeBag)
 
-        outingStatusSwitchView.clickSwitchButton
+        outingStatusSwitchView.switchButtonDidTap
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
                 owner.toggleButton()
             }.disposed(by: disposeBag)
 
-        classroomStatusSwitchView.clickSwitchButton
+        classroomStatusSwitchView.switchButtonDidTap
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
                 owner.toggleButton()
             }.disposed(by: disposeBag)
 
-        noticeSwitchView.clickSwitchButton
+        noticeSwitchView.switchButtonDidTap
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in
                 owner.toggleButton()
             }.disposed(by: disposeBag)
 
-        weekendMealSwitchView.clickSwitchButton
+        weekendMealSwitchView.switchButtonDidTap
             .asObservable()
             .withUnretained(self)
             .bind { owner, _ in

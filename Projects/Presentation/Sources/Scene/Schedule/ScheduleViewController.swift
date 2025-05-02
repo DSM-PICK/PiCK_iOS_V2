@@ -36,13 +36,13 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
     private lazy var timeTableView = TimeTableView(frame: viewSize)
     private lazy var academicScheduleView = AcademicScheduleView(
         frame: viewSize,
-        clickYearAndMonth: { year, month in
+        yearAndMonthOnTap: { year, month in
             self.academiScheduleYearAndMonth.accept((
                 year.toString(type: .year),
                 month.toStringEng(type: .fullMonth)
             ))
         },
-        clickDate: { date in
+        dateOnTap: { date in
             self.academicScheduleDate.accept(date.toString(type: .fullDate))
         }
     )

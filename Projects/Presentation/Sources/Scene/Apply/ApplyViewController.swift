@@ -24,10 +24,10 @@ public class ApplyViewController: BaseViewController<ApplyViewModel> {
     }
     public override func bind() {
         let input = ApplyViewModel.Input(
-            clickWeekendMealButton: applyTabView.clickWeekendMealTab.asObservable(),
-            clickClassroomMoveButton: applyTabView.clickClassroomMoveTab.asObservable(),
-            clickOutingButton: applyTabView.clickOutingTab.asObservable(),
-            clickEarlyLeaveButton: applyTabView.clickEarlyLeaveTab.asObservable()
+            weekendMealApplyButtonDidTap: applyTabView.weekendMealTabDidTap.asObservable(),
+            classroomMoveApplyButtonDidTap: applyTabView.classroomMoveTabDidTap.asObservable(),
+            outingApplyButtonDidTap: applyTabView.outingTabDidTap.asObservable(),
+            earlyLeaveApplyButtonDidTap: applyTabView.earlyLeaveTabDidTap.asObservable()
         )
         _ = viewModel.transform(input: input)
     }

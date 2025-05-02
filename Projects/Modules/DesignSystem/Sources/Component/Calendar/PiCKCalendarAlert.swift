@@ -11,7 +11,7 @@ import Core
 public class PiCKCalendarAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
-    private var clickDate: (Date) -> Void
+    private var dateOnTap: (Date) -> Void
 
     private var calendarType: CalendarType
 
@@ -20,9 +20,9 @@ public class PiCKCalendarAlert: UIViewController {
     }
     private lazy var calendarView = PiCKCalendarView(
         calnedarType: calendarType,
-        clickDate: { date in
+        dateOnTap: { date in
             self.dismiss(animated: true) {
-                self.clickDate(date)
+                self.dateOnTap(date)
             }
         }
     )
@@ -36,10 +36,10 @@ public class PiCKCalendarAlert: UIViewController {
 
     public init(
         calendarType: CalendarType,
-        clickDate: @escaping (Date) -> Void
+        dateOnTap: @escaping (Date) -> Void
     ) {
         self.calendarType = calendarType
-        self.clickDate = clickDate
+        self.dateOnTap = dateOnTap
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -62,7 +62,7 @@ public class PiCKCalendarAlert: UIViewController {
     }
 
     private func bind() {
-        self.toggleButton.buttonTap
+        self.toggleButton.buttonDidTap
             .bind { [weak self] in
                 self?.dismiss(animated: true)
             }.disposed(by: disposeBag)

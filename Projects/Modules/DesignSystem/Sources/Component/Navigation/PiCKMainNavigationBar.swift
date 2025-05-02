@@ -13,10 +13,10 @@ public class PiCKMainNavigationBar: BaseView {
     private let userDefaultStorage = UserDefaultStorage.shared
 
     public var displayModeButtonTap: ControlEvent<Void> {
-        return displayModeButton.buttonTap
+        return displayModeButton.buttonDidTap
     }
     public var alertButtonTap: ControlEvent<Void> {
-        return alertButton.buttonTap
+        return alertButton.buttonDidTap
     }
 
     private let pickLogoImageView = UIImageView(image: .PiCKLogo).then {
@@ -47,7 +47,7 @@ public class PiCKMainNavigationBar: BaseView {
         self.backgroundColor = .clear
     }
     public override func bind() {
-        displayModeButton.buttonTap
+        displayModeButton.buttonDidTap
             .map {
                 let data = self.userDefaultStorage.get(forKey: .displayMode) as? Int
                 return data

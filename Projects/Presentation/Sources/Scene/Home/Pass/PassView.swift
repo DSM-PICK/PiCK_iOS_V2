@@ -22,18 +22,17 @@ public class PassView: UIViewController {
         textColor: .modeBlack,
         font: .pickFont(.subTitle1)
     )
-
     private let nameLabel = PiCKLabel(
         textColor: .modeBlack,
         font: .pickFont(.heading2)
     )
-    private let infoLabel = PiCKLabel(
+    private let gcnLabel = PiCKLabel(
         textColor: .gray700,
         font: .pickFont(.subTitle2)
     )
     private lazy var userInfoStackView = UIStackView(arrangedSubviews: [
         nameLabel,
-        infoLabel
+        gcnLabel
     ]).then {
         $0.axis = .vertical
         $0.spacing = 6
@@ -55,13 +54,13 @@ public class PassView: UIViewController {
 
     public func setup(
         name: String,
-        info: String,
+        gcn: String,
         time: String,
         reason: String,
         teacher: String
     ) {
         self.nameLabel.text = name
-        self.infoLabel.text = info
+        self.gcnLabel.text = gcn
         self.outingTimeView.setup(content: time)
         self.reasonView.setup(content: reason)
         self.aproveTeacherView.setup(content: teacher)

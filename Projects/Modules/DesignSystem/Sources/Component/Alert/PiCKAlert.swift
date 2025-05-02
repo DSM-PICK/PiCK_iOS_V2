@@ -16,7 +16,7 @@ public enum PiCKAlertType {
 public class PiCKAlert: UIViewController {
     private let disposeBag = DisposeBag()
 
-    public var clickAction: () -> Void
+    public var actionOnTap: () -> Void
 
     private let backgroundView = UIView().then {
         $0.backgroundColor = .background
@@ -67,14 +67,14 @@ public class PiCKAlert: UIViewController {
         titleText: String,
         explainText: String,
         type: PiCKAlertType,
-        clickLogout: @escaping () -> Void
+        actionOnTap: @escaping () -> Void
     ) {
         self.titleLabel.text = titleText
         self.explainLabel.text = explainText
         if type == .positive {
             cancelButton.isHidden = true
         }
-        self.clickAction = clickLogout
+        self.actionOnTap = actionOnTap
         super.init(nibName: nil, bundle: nil)
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
@@ -105,7 +105,7 @@ public class PiCKAlert: UIViewController {
         confirmButton.rx.tap
             .bind { [weak self] in
                 self?.dismiss(animated: true) {
-                    self?.clickAction()
+                    self?.actionOnTap()
                 }
             }.disposed(by: disposeBag)
     }

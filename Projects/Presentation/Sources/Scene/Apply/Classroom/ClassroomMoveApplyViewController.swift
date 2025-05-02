@@ -64,7 +64,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             classroomText: classroomText.asObservable(),
             startPeriod: startPeriod.asObservable(),
             endPeriod: endPeriod.asObservable(),
-            clickClassroomMoveApply: classroomMoveApplyRelay.asObservable()
+            classroomMoveApplyButtonDidTap: classroomMoveApplyRelay.asObservable()
         )
 
         let output = viewModel.transform(input: input)
@@ -122,7 +122,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                     self?.startPeriod.accept(startPeriod)
                     self?.endPeriod.accept(endPeriod)
                 }
-                alert.clickApplyButton = { [weak self] in
+                alert.applyButtonDidTap = { [weak self] in
                     self?.classroomMoveApplyRelay.accept(())
                 }
 

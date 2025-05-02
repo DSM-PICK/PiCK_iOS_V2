@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 
 public class PiCKImageButton: BaseButton {
-    public var buttonTap: ControlEvent<Void> {
+    public var buttonDidTap: ControlEvent<Void> {
         return self.rx.tap
     }
 

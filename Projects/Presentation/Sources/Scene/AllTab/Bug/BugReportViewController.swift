@@ -66,7 +66,7 @@ public class BugReportViewController: BaseViewController<BugReportViewModel> {
             bugTitle: bugTitleView.titleText.asObservable(),
             bugContent: bugExplainView.contentText.asObservable(),
             bugImages: bugDataArray.asObservable(),
-            clickBugReport: reportButton.buttonTap.asObservable()
+            bugReportButtonDidTap: reportButton.buttonTap.asObservable()
         )
 
         let output = viewModel.transform(input: input)

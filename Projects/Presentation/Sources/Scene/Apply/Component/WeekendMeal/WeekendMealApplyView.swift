@@ -10,7 +10,7 @@ import Core
 import DesignSystem
 
 public class WeekendMealApplyView: BaseView {
-    public var clickWeekendMealStatus: (WeekendMealType) -> Void
+    public var weekendMealStatusButtonDidTap: (WeekendMealType) -> Void
 
     public var applyState = BehaviorRelay<Bool>(value: false)
 
@@ -44,13 +44,13 @@ public class WeekendMealApplyView: BaseView {
 
         self.buttonStackView.isHidden = !isApplicable
         self.applyState.accept(status)
-        self.clickWeekendMealStatus(status ? .ok : .no)
+        self.weekendMealStatusButtonDidTap(status ? .ok : .no)
     }
 
     public init(
-        clickWeekendMealStatus: @escaping (WeekendMealType) -> Void
+        weekendMealStatusButtonDidTap: @escaping (WeekendMealType) -> Void
     ) {
-        self.clickWeekendMealStatus = clickWeekendMealStatus
+        self.weekendMealStatusButtonDidTap = weekendMealStatusButtonDidTap
         super.init(frame: .zero)
     }
     required init?(coder: NSCoder) {
@@ -73,12 +73,12 @@ public class WeekendMealApplyView: BaseView {
 
         applyButton.buttonTap
             .bind { [self] in
-                clickRadioButton(button: applyButton)
+                radioButtonDidTap(button: applyButton)
             }.disposed(by: disposeBag)
 
         notApplyButton.buttonTap
             .bind { [self] in
-                clickRadioButton(button: notApplyButton)
+                radioButtonDidTap(button: notApplyButton)
             }.disposed(by: disposeBag)
     }
     public override func layout() {
@@ -97,7 +97,7 @@ public class WeekendMealApplyView: BaseView {
         }
     }
 
-    private func clickRadioButton(button: WeekendMealApplyButton) {
+    private func radioButtonDidTap(button: WeekendMealApplyButton) {
         if button == applyButton {
             applyState.accept(true)
         } else if button == notApplyButton {
@@ -107,7 +107,7 @@ public class WeekendMealApplyView: BaseView {
         applyButton.isSelected = applyState.value
         notApplyButton.isSelected = !applyState.value
 
-        clickWeekendMealStatus(applyState.value == true ? .ok : .no)
+        weekendMealStatusButtonDidTap(applyState.value == true ? .ok : .no)
     }
 
 }
