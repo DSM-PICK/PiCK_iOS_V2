@@ -13,8 +13,8 @@ import Domain
 import DesignSystem
 
 public class AcademicScheduleCalendar: BaseView, FSCalendarDelegate, FSCalendarDataSource {
-    public var clickYearAndMonth: (Date, Date) -> Void
-    public var clickDate: (Date) -> Void
+    public var yearAndMonthOnTap: (Date, Date) -> Void
+    public var dateOnTap: (Date) -> Void
 
     private var dateSelectRelay = PublishRelay<Void>()
     private var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
@@ -74,15 +74,15 @@ public class AcademicScheduleCalendar: BaseView, FSCalendarDelegate, FSCalendarD
     }
 
     public init(
-        clickYearAndMonth: @escaping (Date, Date) -> Void,
-        clickDate: @escaping (Date) -> Void
+        yearAndMonthOnTap: @escaping (Date, Date) -> Void,
+        dateOnTap: @escaping (Date) -> Void
     ) {
-        self.clickYearAndMonth = clickYearAndMonth
-        self.clickDate = clickDate
+        self.yearAndMonthOnTap = yearAndMonthOnTap
+        self.dateOnTap = dateOnTap
         super.init(frame: .zero)
 
         let todayDate = Date()
-        clickDate(todayDate)
+        dateOnTap(todayDate)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -126,7 +126,7 @@ public class AcademicScheduleCalendar: BaseView, FSCalendarDelegate, FSCalendarD
         let calendar = Calendar.current
         if let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date)),
            let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) {
-            clickYearAndMonth(startOfMonth, endOfMonth)
+            yearAndMonthOnTap(startOfMonth, endOfMonth)
         }
     }
 
@@ -156,7 +156,7 @@ extension AcademicScheduleCalendar {
         didSelect date: Date,
         at monthPosition: FSCalendarMonthPosition
     ) {
-        self.clickDate(date)
+        self.dateOnTap(date)
     }
 
     public func calendar(

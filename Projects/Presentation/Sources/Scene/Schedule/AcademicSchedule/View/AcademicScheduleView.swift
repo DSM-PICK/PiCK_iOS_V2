@@ -11,8 +11,8 @@ import Domain
 import DesignSystem
 
 public class AcademicScheduleView: BaseView {
-    public var clickYearAndMonth: (Date, Date) -> Void
-    public var clickDate: (Date) -> Void
+    public var yearAndMonthOnTap: (Date, Date) -> Void
+    public var dateOnTap: (Date) -> Void
 
     private lazy var monthAcademicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
     private lazy var academicScheduleData = BehaviorRelay<AcademicScheduleEntity>(value: [])
@@ -20,10 +20,10 @@ public class AcademicScheduleView: BaseView {
     private let todayDate = Date()
 
     private lazy var calenderView = AcademicScheduleCalendar(
-        clickYearAndMonth: { year, month in
-            self.clickYearAndMonth(year, month)
-        }, clickDate: { date in
-            self.clickDate(date)
+        yearAndMonthOnTap: { year, month in
+            self.yearAndMonthOnTap(year, month)
+        }, dateOnTap: { date in
+            self.dateOnTap(date)
             if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
                 self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDayKor))"
                 self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
@@ -86,11 +86,11 @@ public class AcademicScheduleView: BaseView {
 
     public init(
         frame: CGRect,
-        clickYearAndMonth: @escaping (Date, Date) -> Void,
-        clickDate: @escaping (Date) -> Void
+        yearAndMonthOnTap: @escaping (Date, Date) -> Void,
+        dateOnTap: @escaping (Date) -> Void
     ) {
-        self.clickYearAndMonth = clickYearAndMonth
-        self.clickDate = clickDate
+        self.yearAndMonthOnTap = yearAndMonthOnTap
+        self.dateOnTap = dateOnTap
         super.init(frame: frame)
     }
     required init?(coder: NSCoder) {

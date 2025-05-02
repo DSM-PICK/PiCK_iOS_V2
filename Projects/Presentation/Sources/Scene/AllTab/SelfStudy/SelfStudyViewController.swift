@@ -42,7 +42,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
     )
     private lazy var calendarView = PiCKCalendarView(
         calnedarType: .selfStudyWeek,
-        clickDate: { date in
+        dateOnTap: { date in
             self.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
             if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
                 self.titleLabel.text = "\(date.toString(type: .monthAndDayKor)),\n오늘의 자습 감독 선생님입니다"
@@ -80,11 +80,11 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
                 self?.setupSelftStudyLabel(data: data)
             }).disposed(by: disposeBag)
 
-        self.calendarView.clickTopToggleButton
+        self.calendarView.topToggleButtonDidTap
             .subscribe(onNext: { [weak self] in
                 let alert = PiCKCalendarAlert(
                     calendarType: .selfStudyMonth,
-                    clickDate: { date in
+                    dateOnTap: { date in
                         self?.calendarView.setupDate(date: date)
                         self?.loadSelfStudyRelay.accept(date.toString(type: .fullDate))
 

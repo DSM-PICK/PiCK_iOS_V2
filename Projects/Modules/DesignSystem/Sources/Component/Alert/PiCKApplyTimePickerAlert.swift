@@ -13,7 +13,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
 
     private var timePickerType: PickerType = .classroom
 
-    public var clickApplyButton: (() -> Void)?
+    public var applyButtonDidTap: (() -> Void)?
     public var selectedPeriod: ((Int, Int) -> Void)?
     public var selectedTime: ((String, String) -> Void)?
 
@@ -58,7 +58,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                         self?.periodPickerView.startPeriodValue ?? 0,
                         self?.periodPickerView.endPeriodValue ?? 0
                     )
-                    self?.clickApplyButton!()
+                    self?.applyButtonDidTap!()
 
                 case .outingStart, .outingEnd, .earlyLeave:
                     let hour = self?.timePickerView.outingHourValue ?? 8

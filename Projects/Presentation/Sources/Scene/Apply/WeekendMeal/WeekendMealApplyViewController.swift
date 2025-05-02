@@ -22,7 +22,7 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
         textColor: .gray500,
         font: .pickFont(.caption2)
     )
-    private lazy var weekendMealApplyView = WeekendMealApplyView(clickWeekendMealStatus: { data in
+    private lazy var weekendMealApplyView = WeekendMealApplyView(weekendMealStatusButtonDidTap: { data in
         self.weekendMealStatusRelay.accept(data)
     })
     private let saveButton = PiCKButton(buttonText: "저장하기")
@@ -37,7 +37,7 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
         let input = WeekendMealApplyViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
             applyStatus: weekendMealStatusRelay.asObservable(),
-            clickApplyButton: saveButton.buttonTap.asObservable()
+            weekendMealApplyButtonDidTap: saveButton.buttonTap.asObservable()
         )
         let output = viewModel.transform(input: input)
 

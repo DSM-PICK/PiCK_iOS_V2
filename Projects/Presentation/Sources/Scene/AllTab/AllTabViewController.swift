@@ -45,13 +45,13 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
     public override func bind() {
         let input = AllTabViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            clickSelfStudyTab: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
-            clickNoticeTab: helpSectionView.getSelectedItem(type: .notice).asObservable(),
-            clickBugReportTab: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
-            clickCutomTab: settingSectionView.getSelectedItem(type: .custom),
-            clickNotificationSettingTab: settingSectionView.getSelectedItem(type: .notification),
-            clickMyPageTab: accountSectionView.getSelectedItem(type: .myPage),
-            clickLogOutTab: logoutRelay.asObservable()
+            selfStudyTabDidTap: helpSectionView.getSelectedItem(type: .selfStudy).asObservable(),
+            noticeTabDidTap: helpSectionView.getSelectedItem(type: .notice).asObservable(),
+            bugReportTabDidTap: helpSectionView.getSelectedItem(type: .bugReport).asObservable(),
+            customTabDidTap: settingSectionView.getSelectedItem(type: .custom),
+            notificationSettingTabDidTap: settingSectionView.getSelectedItem(type: .notification),
+            myPageTabDidTap: accountSectionView.getSelectedItem(type: .myPage),
+            logOutButtonDidTap: logoutRelay.asObservable()
         )
 
         let output = viewModel.transform(input: input)

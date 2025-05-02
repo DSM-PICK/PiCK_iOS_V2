@@ -26,7 +26,7 @@ public class BugReportViewModel: BaseViewModel, Stepper {
         let bugTitle: Observable<String?>
         let bugContent: Observable<String?>
         let bugImages: Observable<[Data]>
-        let clickBugReport: Observable<Void>
+        let bugReportButtonDidTap: Observable<Void>
     }
     public struct Output {
         let isReportButtonEnable: Signal<Bool>
@@ -43,7 +43,7 @@ public class BugReportViewModel: BaseViewModel, Stepper {
             !title!.isEmpty && !content!.isEmpty
         }
 
-        input.clickBugReport
+        input.bugReportButtonDidTap
             .withLatestFrom(info)
             .flatMap { title, content, images in
                 self.bugImageUploadUseCase.execute(images: images)

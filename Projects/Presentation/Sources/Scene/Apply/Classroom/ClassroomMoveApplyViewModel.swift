@@ -22,7 +22,7 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
         let classroomText: Observable<String>
         let startPeriod: Observable<Int>
         let endPeriod: Observable<Int>
-        let clickClassroomMoveApply: Observable<Void>
+        let classroomMoveApplyButtonDidTap: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -45,7 +45,7 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
             !classRoom.isEmpty
         }
 
-        input.clickClassroomMoveApply
+        input.classroomMoveApplyButtonDidTap
             .withLatestFrom(info)
             .flatMap { floor, classroom, startPeriod, endPeriod in
                 self.classroomMoveApplyUseCase.execute(req: .init(

@@ -13,13 +13,13 @@ import Core
 public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSource {
     private var calendarType: CalendarType = .schoolMealWeek
 
-    private var clickDate: (Date) -> Void
+    private var dateOnTap: (Date) -> Void
 
-    public var clickTopToggleButton: ControlEvent<Void> {
-        return topToggleButton.buttonTap
+    public var topToggleButtonDidTap: ControlEvent<Void> {
+        return topToggleButton.buttonDidTap
     }
-    public var clickBottomToggleButton: ControlEvent<Void> {
-        return bottomToggleButton.buttonTap
+    public var bottomToggleButtonDidTap: ControlEvent<Void> {
+        return bottomToggleButton.buttonDidTap
     }
 
     private var dateSelectRelay = PublishRelay<Void>()
@@ -88,9 +88,9 @@ public class PiCKCalendarView: BaseView, FSCalendarDelegate, FSCalendarDataSourc
 
     public init(
         calnedarType: CalendarType,
-        clickDate: @escaping (Date) -> Void
+        dateOnTap: @escaping (Date) -> Void
     ) {
-        self.clickDate = clickDate
+        self.dateOnTap = dateOnTap
         self.calendarType = calnedarType
         super.init(frame: .zero)
 
@@ -195,7 +195,7 @@ extension PiCKCalendarView {
         _ calendar: FSCalendar,
         didSelect date: Date, at monthPosition: FSCalendarMonthPosition
     ) {
-        self.clickDate(date)
+        self.dateOnTap(date)
     }
 
 }

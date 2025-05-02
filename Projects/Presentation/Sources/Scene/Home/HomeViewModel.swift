@@ -51,11 +51,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
     public struct Input {
         let todayDate: String
         let viewWillAppear: Observable<Void>
-        let clickAlert: Observable<Void>
-        let clickOutingPass: Observable<Void>
+        let alertButtonDidTap: Observable<Void>
+        let outingPassDidTap: Observable<Void>
         let outingPassType: Observable<OutingType>
-        let clickViewMoreNotice: Observable<Void>
-        let clickNotice: Observable<UUID>
+        let viewMoreNoticeButtonDidTap: Observable<Void>
+        let noticeDidSelect: Observable<UUID>
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
@@ -194,7 +194,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: outingPassType)
             .disposed(by: disposeBag)
 
-        input.clickOutingPass
+        input.outingPassDidTap
             .flatMap {
                 switch self.outingPassType.value {
                 case .application:
@@ -211,17 +211,17 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .bind(to: outingPassData)
             .disposed(by: disposeBag)
 
-        input.clickAlert
+        input.alertButtonDidTap
             .map { PiCKStep.alertIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickViewMoreNotice
+        input.viewMoreNoticeButtonDidTap
             .map { PiCKStep.noticeIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickNotice
+        input.noticeDidSelect
             .map { id in
                 PiCKStep.noticeDetailIsRequired(id: id)
             }

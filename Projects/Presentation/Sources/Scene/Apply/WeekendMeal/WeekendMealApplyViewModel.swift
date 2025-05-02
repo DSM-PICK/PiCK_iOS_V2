@@ -28,7 +28,7 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
     public struct Input {
         let viewWillAppear: Observable<Void>
         let applyStatus: Observable<WeekendMealType>
-        let clickApplyButton: Observable<Void>
+        let weekendMealApplyButtonDidTap: Observable<Void>
     }
     public struct Output {
         let weekendMealStatus: Signal<WeekendMealType>
@@ -64,7 +64,7 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .bind(to: weekendMealApplicationPeriod)
             .disposed(by: disposeBag)
 
-        input.clickApplyButton
+        input.weekendMealApplyButtonDidTap
             .withLatestFrom(input.applyStatus)
             .flatMap { status in
                 let alertType = status == .ok ? DisappearAlertType.weekendMeal : .weekendMealCancel
