@@ -20,9 +20,7 @@ extension SimpleProfileDTO {
     func toDomain() -> SimpleProfileEntity {
         return .init(
             name: name,
-            grade: grade,
-            classNum: classNum,
-            num: num,
+            gcn: "\(grade)학년 \(classNum)반 \(num)번",
             profile: profile
         )
     }

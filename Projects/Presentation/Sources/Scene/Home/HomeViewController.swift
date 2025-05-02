@@ -227,10 +227,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 owner.present(pass, animated: true)
                 pass.setup(
                     name: data.userName,
-                    info: "\(data.grade ?? 0)학년 \(data.classNum ?? 0)반 \(data.num ?? 0)번",
-                    time: "\(data.start ?? "") ~ \(data.end ?? "")",
-                    reason: data.reason,
-                    teacher: "\(data.teacherName) 선생님"
+                    gcn: data.gcn ?? "",
+                    time: data.time ?? "",
+                    reason: data.reason ?? "",
+                    teacher: data.teacherName
                 )
             }.disposed(by: disposeBag)
 

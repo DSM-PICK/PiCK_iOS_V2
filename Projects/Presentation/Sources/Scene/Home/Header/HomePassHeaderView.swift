@@ -62,36 +62,29 @@ public class HomePassHeaderView: BaseView {
         classRoomText: String? = nil
     ) {
         if isWait == true {
-//            self.waitingContentLabel.text = "상태가 바뀌면 픽에서 알림을 드릴게요!"
-            switch type {
-            case .application:
-                self.waitingTitleLabel.text = "외출 수락 대기 중입니다"
-            case .earlyReturn:
-                self.waitingTitleLabel.text = "조기귀가 수락 대기 중입니다"
-            case .classroom:
-                self.waitingTitleLabel.text = "교실 이동 수락 대기 중입니다"
-            }
+            self.waitingTitleLabel.text = type.toExplainText
         } else {
+            let timeValue: String
+            let message: String
+
             switch type {
             case .application:
-                let timeValue = "\(startTime ?? "") - \(endTime ?? "")"
+                timeValue = "\(startTime ?? "") - \(endTime ?? "")"
+                message = "\(userName)님의 외출 시간은\n\(timeValue)입니다"
 
-                self.contentLabel.text = "\(userName)님의 외출 시간은\n\(timeValue) 입니다"
-                self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
-
-                self.button.setTitle("외출증 보기", for: .normal)
             case .earlyReturn:
-                self.contentLabel.text = "\(userName)님의 귀가 시간은\n\(startTime ?? "") 입니다"
-                self.contentLabel.changePointColor(targetString: startTime ?? "", color: .main500)
-                self.button.setTitle("외출증 보기", for: .normal)
+                timeValue = startTime ?? ""
+                message = "\(userName)님의 귀가 시간은\n\(timeValue)입니다"
 
             case .classroom:
-                let timeValue = "\(startTime ?? "")교시 - \(endTime ?? "")교시"
-
-                self.contentLabel.text = "\(classRoomText ?? "정보 없음") 이동 시간은\n\(timeValue) 입니다"
-                self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
-                self.button.setTitle("돌아가기", for: .normal)
+                timeValue = "\(startTime ?? "")교시 - \(endTime ?? "")교시"
+                let classroom = classRoomText ?? "정보 없음"
+                message = "\(classroom) 이동 시간은\n\(timeValue)입니다"
             }
+
+            self.contentLabel.text = message
+            self.contentLabel.changePointColor(targetString: timeValue, color: .main500)
+            self.button.setTitle(type.toPassText, for: .normal)
         }
         self.setupType(isWait: isWait)
     }
@@ -120,7 +113,6 @@ public class HomePassHeaderView: BaseView {
             $0.width.equalTo(120)
             $0.height.equalTo(40)
         }
-
         waitingStackView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }

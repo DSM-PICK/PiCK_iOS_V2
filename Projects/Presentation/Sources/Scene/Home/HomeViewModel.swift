@@ -117,8 +117,8 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     }
             }
             .subscribe(onNext: { data in
-                let infoValue = "\(data.grade)학년 \(data.classNum)반 \(data.num)번 \(data.name)"
-
+                let infoValue = "\(data.gcn) \(data.name)"
+                
                 self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
                 self.profileData.accept(data)

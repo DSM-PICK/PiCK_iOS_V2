@@ -8,8 +8,7 @@ public struct OutingPassDTO: Decodable {
     let teacherName: String
     let start: String?
     let end: String?
-    let reason: String
-    let schoolNum: Int?
+    let reason: String?
     let grade: Int?
     let classNum: Int?
     let num: Int?
@@ -19,7 +18,6 @@ public struct OutingPassDTO: Decodable {
         case start, end, reason, type, grade, num
         case userName = "user_name"
         case teacherName = "teacher_name"
-        case schoolNum = "school_num"
         case classNum = "class_num"
     }
 }
@@ -28,14 +26,10 @@ extension OutingPassDTO {
     func toDomain() -> OutingPassEntity {
         return .init(
             userName: userName,
-            teacherName: teacherName,
-            start: start,
-            end: end,
-            reason: reason,
-            schoolNum: schoolNum,
-            grade: grade,
-            classNum: classNum,
-            num: num,
+            teacherName: "\(teacherName) 선생님",
+            time: "\(start ?? "") ~ \(end ?? "")",
+            reason: reason ?? "",
+            gcn: "\(grade ?? 0)학년 \(classNum ?? 0)반 \(num ?? 0)번",
             type: type
         )
     }
