@@ -9,7 +9,7 @@ import Domain
 import AppNetwork
 
 protocol AuthDataSource {
-    func login(req: LoginRequestParams) -> Single<TokenDTO>
+    func login(req: SigninRequestParams) -> Single<TokenDTO>
     func logout()
     func refreshToken() -> Single<TokenDTO>
 }
@@ -23,7 +23,7 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
         super.init(keychain: keychain)
     }
 
-    func login(req: LoginRequestParams) -> Single<TokenDTO> {
+    func login(req: SigninRequestParams) -> Single<TokenDTO> {
         return request(.login(req: req))
             .filterSuccessfulStatusCodes()
             .map(TokenDTO.self)

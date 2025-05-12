@@ -16,19 +16,29 @@ public final class PresentationAssembly: Assembly {
         container.register(OnboardingViewModel.self) { resolver in
             OnboardingViewModel(
                 refreshTokenUseCase: resolver.resolve(RefreshTokenUseCase.self)!,
-                loginUseCase: resolver.resolve(LoginUseCase.self)!
+                signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
         }
 
         // MARK: Login
         container.register(LoginViewController.self) { resolver in
-            LoginViewController(reactor: resolver.resolve(LoginReactor.self)!)
+            LoginViewController(reactor: resolver.resolve(SigninReactor.self)!)
         }
-        container.register(LoginReactor.self) { resolver in
-            LoginReactor(
-                loginUseCase: resolver.resolve(LoginUseCase.self)!
+        container.register(SigninReactor.self) { resolver in
+            SigninReactor(
+                signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
         }
+
+        // MARK: SignUp
+//        container.register(SignUpViewController.self) { resolver in
+//            SignUpViewController(reactor: resolver.resolve(SignUpReactor.self)!)
+//        }
+//        container.register(SignUpReactor.self) { resolver in
+//            SignUpReactor(
+//                SignUpUseCase: resolver.resolve(SignUpUseCase.self)!
+//            )
+//        }
 
         // MARK: Home
         container.register(HomeViewController.self) { resolver in

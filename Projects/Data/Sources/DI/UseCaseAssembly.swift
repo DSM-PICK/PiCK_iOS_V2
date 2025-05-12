@@ -9,8 +9,8 @@ public final class UseCaseAssembly: Assembly {
 
     public func assemble(container: Container) {
         // MARK: Auth
-        container.register(LoginUseCase.self) { resolver in
-            LoginUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        container.register(SigninUseCase.self) { resolver in
+            SigninUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
         container.register(LogoutUseCase.self) { resolver in
             LogoutUseCase(repository: resolver.resolve(AuthRepository.self)!)

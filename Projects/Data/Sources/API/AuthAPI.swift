@@ -7,7 +7,7 @@ import Domain
 import AppNetwork
 
 public enum AuthAPI {
-    case login(req: LoginRequestParams)
+    case login(req: SigninRequestParams)
     case refreshToken
 }
 

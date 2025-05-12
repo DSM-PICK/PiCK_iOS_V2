@@ -11,16 +11,16 @@ import Domain
 
 import FirebaseMessaging
 
-public final class LoginReactor: BaseReactor {
+public final class SigninReactor: BaseReactor {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
     public let initialState: State
 
-    private let loginUseCase: LoginUseCase
+    private let signinUseCase: SigninUseCase
 
-    init(loginUseCase: LoginUseCase) {
+    init(signinUseCase: SigninUseCase) {
         self.initialState = .init()
-        self.loginUseCase = loginUseCase
+        self.signinUseCase = signinUseCase
     }
 
     public enum Action {
@@ -48,7 +48,7 @@ public final class LoginReactor: BaseReactor {
     }
 }
 
-extension LoginReactor {
+extension SigninReactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loginButtonDidTap:
@@ -97,7 +97,7 @@ extension LoginReactor {
     }
 
     private func loginButtonDidTap(id: String, password: String) -> Observable<Mutation> {
-        return self.loginUseCase.execute(req: .init(
+        return self.signinUseCase.execute(req: .init(
             accountID: id,
             password: password,
             deviceToken: Messaging.messaging().fcmToken ?? ""

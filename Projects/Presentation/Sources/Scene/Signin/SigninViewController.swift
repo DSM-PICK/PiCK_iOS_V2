@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class LoginViewController: BaseReactorViewController<LoginReactor> {
+public class LoginViewController: BaseReactorViewController<SigninReactor> {
     private let titleLabel = PiCKLabel(
         text: "PiCK에 로그인하기",
         textColor: .modeBlack,
@@ -47,19 +47,19 @@ public class LoginViewController: BaseReactorViewController<LoginReactor> {
     public override func bindAction() {
         idTextField.rx.text.orEmpty.asDriver()
             .distinctUntilChanged()
-            .map { LoginReactor.Action.updateID($0) }
+            .map { SigninReactor.Action.updateID($0) }
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
         passwordTextField.rx.text.orEmpty.asDriver()
             .distinctUntilChanged()
-            .map { LoginReactor.Action.updatePassword($0) }
+            .map { SigninReactor.Action.updatePassword($0) }
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
         loginButton.buttonTap
             .asDriver()
-            .map { LoginReactor.Action.loginButtonDidTap }
+            .map { SigninReactor.Action.loginButtonDidTap }
             .drive(reactor.action)
             .disposed(by: disposeBag)
     }
