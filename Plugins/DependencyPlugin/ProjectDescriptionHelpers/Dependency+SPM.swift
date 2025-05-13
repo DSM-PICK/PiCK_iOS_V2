@@ -18,6 +18,7 @@ public extension TargetDependency.PackageType {
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
     static let ReactorKit = TargetDependency.external(name: "ReactorKit")
     static let Starscream = TargetDependency.external(name: "Starscream")
+    static let GoogleSignIn = TargetDependency.external(name: "GoogleSignIn")
     static let FCM = TargetDependency.external(name: "FirebaseMessaging")
     static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalytics")
     static let FirebaseSupport = TargetDependency.external(name: "FirebaseAnalyticsWithoutAdIdSupport")
