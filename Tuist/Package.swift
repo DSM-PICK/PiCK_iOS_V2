@@ -41,7 +41,8 @@ let package = Package(
         .package(url: "https://github.com/RxSwiftCommunity/RxDataSources.git", from: "5.0.0"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.3.0"),
         .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.6"),
-        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0")
+        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0"),
+        .package(url: "https://github.com/Juanpe/SkeletonView.git", from: "1.7.0")
     ],
     targets: [
         .target(
