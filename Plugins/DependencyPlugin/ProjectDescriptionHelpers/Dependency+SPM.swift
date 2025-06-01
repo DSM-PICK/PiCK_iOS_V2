@@ -18,7 +18,12 @@ public extension TargetDependency.PackageType {
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
     static let ReactorKit = TargetDependency.external(name: "ReactorKit")
     static let Starscream = TargetDependency.external(name: "Starscream")
-    static let FCM = TargetDependency.external(name: "FirebaseMessaging")
+//    static let FirebaseMessaging = TargetDependency.package(product: "FirebaseMessaging")
+//    static let FirebaseAnalytics = TargetDependency.package(product: "FirebaseAnalytics")
+//    static let FirebaseSupport = TargetDependency.package(product: "FirebaseAnalyticsWithoutAdIdSupport")
+//    static let FirebaseCrashlytics = TargetDependency.package(product: "FirebaseCrashlytics")
+//    static let FirebasePerformance = TargetDependency.package(product: "FirebasePerformance")
+    static let FirebaseMessaging = TargetDependency.external(name: "FirebaseMessaging")
     static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalytics")
     static let FirebaseSupport = TargetDependency.external(name: "FirebaseAnalyticsWithoutAdIdSupport")
     static let FirebaseCrashlytics = TargetDependency.external(name: "FirebaseCrashlytics")
@@ -26,6 +31,6 @@ public extension TargetDependency.PackageType {
 }
 
 public extension Package {
-    static let Firebase = Package.remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "10.0.0"))
+    static let Firebase = Package.remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "11.8.0"))
 }
 

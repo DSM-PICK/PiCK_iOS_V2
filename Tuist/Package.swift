@@ -1,4 +1,4 @@
-// swift-tools-version:6.1
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -39,13 +39,13 @@ let package = Package(
         .package(url: "https://github.com/airbnb/lottie-ios", from: "4.3.3"),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git", from: "2.8.4"),
         .package(url: "https://github.com/RxSwiftCommunity/RxDataSources.git", from: "5.0.0"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.3.0"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.8.0"),
         .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.6"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0")
     ],
     targets: [
         .target(
-            name: "App",
+            name: "PiCKPackage",
             dependencies: [
                 "RxSwift",
                 .product(name: "RxCocoa", package: "RxSwift"),

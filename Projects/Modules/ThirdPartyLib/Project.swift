@@ -23,7 +23,7 @@ let project = Project.makeModule(
         .PackageType.RxDataSources,
         .PackageType.ReactorKit,
         .PackageType.Starscream,
-        .PackageType.FCM,
+        .PackageType.FirebaseMessaging,
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
