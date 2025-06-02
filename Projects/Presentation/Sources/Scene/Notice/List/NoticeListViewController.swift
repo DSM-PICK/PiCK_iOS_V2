@@ -11,7 +11,7 @@ import Domain
 import DesignSystem
 
 public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
-    private let clickNoticeCellRelay = PublishRelay<UUID>()
+    private let noticeDidSelectRelay = PublishRelay<UUID>()
 
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
@@ -36,7 +36,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
     public override func bind() {
         let input = NoticeListViewModel.Input(
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            clickNoticeCell: clickNoticeCellRelay.asObservable()
+            noticeDidSelect: noticeDidSelectRelay.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -52,7 +52,7 @@ public class NoticeListViewController: BaseViewController<NoticeListViewModel> {
             .modelSelected(NoticeListEntityElement.self)
             .withUnretained(self)
             .bind { owner, data in
-                owner.clickNoticeCellRelay.accept(data.id)
+                owner.noticeDidSelectRelay.accept(data.id)
             }.disposed(by: disposeBag)
     }
 

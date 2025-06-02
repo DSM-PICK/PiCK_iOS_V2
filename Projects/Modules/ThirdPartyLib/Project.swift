@@ -21,10 +21,12 @@ let project = Project.makeModule(
         .PackageType.Lottie,
         .PackageType.FSCalendar,
         .PackageType.RxDataSources,
+        .PackageType.ReactorKit,
         .PackageType.Starscream,
-        .PackageType.FCM,
+        .PackageType.FirebaseMessaging,
         .PackageType.FirebaseAnalytics,
+        .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
-        .PackageType.FirebaseSupport
+        .PackageType.FirebasePerformance
     ]
 )

@@ -14,30 +14,30 @@ public class ApplyViewModel: BaseViewModel, Stepper {
     public init() {}
 
     public struct Input {
-        let clickWeekendMealButton: Observable<Void>
-        let clickClassroomMoveButton: Observable<Void>
-        let clickOutingButton: Observable<Void>
-        let clickEarlyLeaveButton: Observable<Void>
+        let weekendMealApplyButtonDidTap: Observable<Void>
+        let classroomMoveApplyButtonDidTap: Observable<Void>
+        let outingApplyButtonDidTap: Observable<Void>
+        let earlyLeaveApplyButtonDidTap: Observable<Void>
     }
     public struct Output {}
 
     public func transform(input: Input) -> Output {
-        input.clickWeekendMealButton
+        input.weekendMealApplyButtonDidTap
             .map { PiCKStep.weekendMealApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickClassroomMoveButton
+        input.classroomMoveApplyButtonDidTap
             .map { PiCKStep.classroomMoveApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickOutingButton
+        input.outingApplyButtonDidTap
             .map { PiCKStep.outingApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickEarlyLeaveButton
+        input.earlyLeaveApplyButtonDidTap
             .map { PiCKStep.earlyLeaveApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)

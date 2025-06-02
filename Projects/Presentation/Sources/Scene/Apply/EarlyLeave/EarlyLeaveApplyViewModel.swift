@@ -19,9 +19,9 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let startTime: Observable<String>
-        let clickStartTime: Observable<Void>
+        let selectStartTimeButtonDidTap: Observable<Void>
         let reasonText: Observable<String?>
-        let clickEarlyLeaveApply: Observable<Void>
+        let earlyLeaveApplyButtonDidTap: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -36,7 +36,7 @@ public class EarlyLeaveApplyViewModel: BaseViewModel, Stepper {
         let isApplyButtonEnable = info.map { reason, startTime -> Bool in !reason!.isEmpty && !startTime.isEmpty
         }
 
-        input.clickEarlyLeaveApply
+        input.earlyLeaveApplyButtonDidTap
             .withLatestFrom(info)
             .flatMap { reason, startTime in
                 self.earlyLeaveApplyUseCase.execute(req: .init(

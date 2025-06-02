@@ -3,8 +3,6 @@ import UIKit
 import SnapKit
 import Then
 
-import Kingfisher
-
 import Core
 import Domain
 import DesignSystem
@@ -27,10 +25,7 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntity
 
         self.periodLabel.text = "\(model.period)교시"
         self.periodLabel.changePointColor(targetString: "\(model.period)", color: .main500)
-        self.subjectImageView.kf.setImage(
-            with: URL(string: model.subjectImage)!,
-            placeholder: UIImage.defaultTimeTableIcon
-        )
+        self.subjectImageView.setImage(with: model.subjectImage)
         self.subjectLabel.text = model.subjectName
     }
 

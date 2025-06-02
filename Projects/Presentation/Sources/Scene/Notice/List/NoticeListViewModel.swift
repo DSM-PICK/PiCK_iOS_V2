@@ -20,7 +20,7 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let viewWillAppear: Observable<Void>
-        let clickNoticeCell: Observable<UUID>
+        let noticeDidSelect: Observable<UUID>
     }
     public struct Output {
         let noticeListData: Driver<NoticeListEntity>
@@ -40,7 +40,7 @@ public class NoticeListViewModel: BaseViewModel, Stepper {
             .bind(to: noticeListData)
             .disposed(by: disposeBag)
 
-        input.clickNoticeCell
+        input.noticeDidSelect
             .map { id in
                 PiCKStep.noticeDetailIsRequired(id: id)
             }

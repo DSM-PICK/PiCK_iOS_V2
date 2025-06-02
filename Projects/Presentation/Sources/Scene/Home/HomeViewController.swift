@@ -14,7 +14,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private var homeViewType: HomeViewType = .timeTable
     private var outingPassType = PublishRelay<OutingType>()
 
-    private var clickNoticeRelay = PublishRelay<UUID>()
+    private var noticeButtonDidTapRelay = PublishRelay<UUID>()
 
     private let todayDate = Date()
 
@@ -129,11 +129,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         let input = HomeViewModel.Input(
             todayDate: todayDate.toString(type: .fullDate),
             viewWillAppear: viewWillAppearRelay.asObservable(),
-            clickAlert: navigationBar.alertButtonTap.asObservable(),
-            clickOutingPass: passHeaderView.buttonTap.asObservable(),
+            alertButtonDidTap: navigationBar.alertButtonTap.asObservable(),
+            outingPassDidTap: passHeaderView.buttonTap.asObservable(),
             outingPassType: outingPassType.asObservable(),
-            clickViewMoreNotice: viewMoreButton.rx.tap.asObservable(),
-            clickNotice: clickNoticeRelay.asObservable()
+            viewMoreNoticeButtonDidTap: viewMoreButton.rx.tap.asObservable(),
+            noticeDidSelect: noticeButtonDidTapRelay.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -215,7 +215,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .modelSelected(NoticeListEntityElement.self)
             .withUnretained(self)
             .bind { owner, data in
-                owner.clickNoticeRelay.accept(data.id)
+                owner.noticeButtonDidTapRelay.accept(data.id)
             }.disposed(by: disposeBag)
 
         output.outingPassData.asObservable()
@@ -227,10 +227,10 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
                 owner.present(pass, animated: true)
                 pass.setup(
                     name: data.userName,
-                    info: "\(data.grade ?? 0)학년 \(data.classNum ?? 0)반 \(data.num ?? 0)번",
-                    time: "\(data.start ?? "") ~ \(data.end ?? "")",
-                    reason: data.reason,
-                    teacher: "\(data.teacherName) 선생님"
+                    gcn: data.gcn ?? "",
+                    time: data.time ?? "",
+                    reason: data.reason ?? "",
+                    teacher: data.teacherName
                 )
             }.disposed(by: disposeBag)
 

@@ -77,12 +77,12 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
     public override func bind() {
         let input = OutingApplyViewModel.Input(
             startTime: startTimeRelay.asObservable(),
-            clickStartTimeButton: startTimeSelectButton.buttonTap.asObservable(),
+            selectStartTimeButtonDidTap: startTimeSelectButton.buttonTap.asObservable(),
             endTime: endTimeRelay.asObservable(),
-            clickEndTimeButton: endTimeSelectButton.buttonTap.asObservable(),
+            selectEndTimeButtonDidTap: endTimeSelectButton.buttonTap.asObservable(),
             reasonText: outingReasonTextView.textViewText.asObservable(),
             applicationType: applicationType.asObservable(),
-            clickOutingApply: applyButton.buttonTap.asObservable()
+            outingApplyButtonDidTap: applyButton.buttonTap.asObservable()
         )
 
         let output =  viewModel.transform(input: input)
@@ -139,7 +139,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
 
                     self?.applicationType.accept(.period)
                 }
-                alert.clickApplyButton = {
+                alert.applyButtonDidTap = {
                     print("success")
                 }
 

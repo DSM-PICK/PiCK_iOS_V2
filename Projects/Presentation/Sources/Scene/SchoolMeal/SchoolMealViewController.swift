@@ -16,7 +16,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
     private lazy var schoolMealCalendarView = PiCKCalendarView(
         calnedarType: .schoolMealWeek,
-        clickDate: { date in
+        dateOnTap: { date in
             self.loadSchoolMeal(date: date)
         }
     )
@@ -78,11 +78,11 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
                 )
             }.disposed(by: disposeBag)
 
-        schoolMealCalendarView.clickBottomToggleButton
+        schoolMealCalendarView.bottomToggleButtonDidTap
             .bind { [weak self] in
                 let alert = PiCKCalendarAlert(
                     calendarType: .schoolMealMonth,
-                    clickDate: { date in
+                    dateOnTap: { date in
                         self?.loadSchoolMeal(date: date)
                     }
                 )

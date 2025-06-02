@@ -35,11 +35,11 @@ public class LoginFlow: Flow {
     }
 
     private func navigateToLogin() -> FlowContributors {
-        let vc = LoginViewController(viewModel: container.resolve(LoginViewModel.self)!)
+        let vc = LoginViewController(reactor: container.resolve(LoginReactor.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextStepper: vc.reactor
         ))
     }
 
