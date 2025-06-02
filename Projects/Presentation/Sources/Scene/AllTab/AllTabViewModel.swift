@@ -24,13 +24,13 @@ public class AllTabViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let viewWillAppear: Observable<Void>
-        let clickSelfStudyTab: Observable<IndexPath>
-        let clickNoticeTab: Observable<IndexPath>
-        let clickBugReportTab: Observable<IndexPath>
-        let clickCutomTab: Observable<IndexPath>
-        let clickNotificationSettingTab: Observable<IndexPath>
-        let clickMyPageTab: Observable<IndexPath>
-        let clickLogOutTab: Observable<Void>
+        let selfStudyTabDidTap: Observable<IndexPath>
+        let noticeTabDidTap: Observable<IndexPath>
+        let bugReportTabDidTap: Observable<IndexPath>
+        let customTabDidTap: Observable<IndexPath>
+        let notificationSettingTabDidTap: Observable<IndexPath>
+        let myPageTabDidTap: Observable<IndexPath>
+        let logOutButtonDidTap: Observable<Void>
     }
     public struct Output {
         let profileData: Signal<SimpleProfileEntity>
@@ -50,37 +50,37 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .bind(to: profileData)
             .disposed(by: disposeBag)
 
-        input.clickSelfStudyTab
+        input.selfStudyTabDidTap
             .map { _ in PiCKStep.selfStudyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickNoticeTab
+        input.noticeTabDidTap
             .map { _ in PiCKStep.noticeIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickBugReportTab
+        input.bugReportTabDidTap
             .map { _ in PiCKStep.bugReportIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickCutomTab
+        input.customTabDidTap
             .map { _ in PiCKStep.customIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickNotificationSettingTab
+        input.notificationSettingTabDidTap
             .map { _ in PiCKStep.notificationSettingIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickMyPageTab
+        input.myPageTabDidTap
             .map { _ in PiCKStep.myPageIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
-        input.clickLogOutTab
+        input.logOutButtonDidTap
             .do(onNext: { _ in
                 self.logoutUseCase.execute()
             })

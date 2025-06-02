@@ -10,7 +10,7 @@ import RxGesture
 import Core
 
 public class PiCKTabView: BaseView {
-    public var clickActionButton: ControlEvent<Void> {
+    public var actionButtonDidTap: ControlEvent<Void> {
         return actionButton.buttonTap
     }
 

@@ -29,26 +29,34 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         textColor: .gray600,
         font: .pickFont(.body2)
     )
-    private let floorSegmentedControl = ClassroomSegmentedControl(items: [
-        "1층", "2층", "3층", "4층", "5층"
-    ]).then {
+    private let floorSegmentedControl = ClassroomSegmentedControl(items:
+        ClassroomData.shared.allFloors.enumerated().map { index, _ in
+            "\(index + 1)층"
+        }
+    ).then {
         $0.selectedSegmentIndex = 0
     }
-    private lazy var collectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout().then {
-        $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        $0.minimumLineSpacing = 15
-        $0.minimumInteritemSpacing = 16
+    private lazy var backgroundcollectionViewFlowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.itemSize = .init(
+            width: self.view.frame.width - 48,
+            height: self.view.frame.height * 0.7
+        )
+        $0.minimumLineSpacing = 0
+        $0.minimumInteritemSpacing = 0
     }
-    private lazy var classroomCollectionView = UICollectionView(
+    private lazy var backgroundCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: collectionViewFlowLayout
+        collectionViewLayout: backgroundcollectionViewFlowLayout
     ).then {
         $0.backgroundColor = .background
         $0.register(
-            ClassroomCollectionViewCell.self,
-            forCellWithReuseIdentifier: ClassroomCollectionViewCell.identifier
+            ClassroomBackgroundCell.self,
+            forCellWithReuseIdentifier: ClassroomBackgroundCell.identifier
         )
-        $0.contentInsetAdjustmentBehavior = .always
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.isPagingEnabled = true
         $0.bounces = false
     }
     private let nextButton = PiCKButton(buttonText: "다음")
@@ -64,7 +72,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             classroomText: classroomText.asObservable(),
             startPeriod: startPeriod.asObservable(),
             endPeriod: endPeriod.asObservable(),
-            clickClassroomMoveApply: classroomMoveApplyRelay.asObservable()
+            classroomMoveApplyButtonDidTap: classroomMoveApplyRelay.asObservable()
         )
 
         let output = viewModel.transform(input: input)
@@ -77,42 +85,66 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             }.disposed(by: disposeBag)
 
         floorSegmentedControl.rx.selectedSegmentIndex
-            .map { [weak self] index -> [String] in
-                self?.selectedSegemetedControlIndex.accept(index + 1)
-                self?.classroomText.accept("")
+            .withUnretained(self)
+            .map { owner, index -> [String] in
+                owner.selectedSegemetedControlIndex.accept(index + 1)
+                owner.classroomText.accept("")
+                let itemCount = owner.backgroundCollectionView.numberOfItems(inSection: 0)
+
+                guard itemCount > 0, index < itemCount else {
+                    return owner.classroomData.firstFloor
+                }
+
+                owner.backgroundCollectionView.scrollToItem(
+                    at: IndexPath(item: index, section: 0),
+                    at: .centeredHorizontally,
+                    animated: false
+                )
+
                 switch index {
                 case 0:
-                    return self?.classroomData.firstFloor ?? []
+                    return owner.classroomData.firstFloor
                 case 1:
-                    return self?.classroomData.secondFloor ?? []
+                    return owner.classroomData.secondFloor
                 case 2:
-                    return self?.classroomData.thirdFloor ?? []
+                    return owner.classroomData.thirdFloor
                 case 3:
-                    return self?.classroomData.fourthFloor ?? []
+                    return owner.classroomData.fourthFloor
                 case 4:
-                    return self?.classroomData.fifthFloor ?? []
+                    return owner.classroomData.fifthFloor
                 default:
-                    return self?.classroomData.firstFloor ?? []
+                    return owner.classroomData.firstFloor
                 }
             }
             .bind(to: currentFloorClassroomArray)
             .disposed(by: disposeBag)
 
-        currentFloorClassroomArray
-            .bind(to: classroomCollectionView.rx.items(
-                cellIdentifier: ClassroomCollectionViewCell.identifier,
-                cellType: ClassroomCollectionViewCell.self
+        Observable.just(classroomData.allFloors)
+            .bind(to: backgroundCollectionView.rx.items(
+                cellIdentifier: ClassroomBackgroundCell.identifier,
+                cellType: ClassroomBackgroundCell.self
             )) { _, item, cell in
-                cell.setup(classroom: item)
+                cell.setup(data: item)
+                cell.didSelectClassroom = { [weak self] classroom in
+                    self?.classroomText.accept(classroom)
+                }
             }.disposed(by: disposeBag)
 
-        classroomCollectionView.rx.itemSelected
+        backgroundCollectionView.rx.didScroll
             .withUnretained(self)
-            .bind { owner, index in
-                owner.classroomText.accept(
-                    owner.currentFloorClassroomArray.value[index.row]
-                )
-            }.disposed(by: disposeBag)
+            .bind { owner, _ in
+                guard let layout = owner.backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+
+                let cellWidth = layout.itemSize.width
+                let spacing = layout.minimumLineSpacing
+                let totalCellWidth = cellWidth + spacing
+
+                let offset = owner.backgroundCollectionView.contentOffset.x + owner.backgroundCollectionView.contentInset.left
+                let index = Int(round(offset / totalCellWidth))
+
+                owner.floorSegmentedControl.selectedSegmentIndex = index
+            }
+            .disposed(by: disposeBag)
 
         nextButton.buttonTap
             .bind { [weak self] in
@@ -122,7 +154,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                     self?.startPeriod.accept(startPeriod)
                     self?.endPeriod.accept(endPeriod)
                 }
-                alert.clickApplyButton = { [weak self] in
+                alert.applyButtonDidTap = { [weak self] in
                     self?.classroomMoveApplyRelay.accept(())
                 }
 
@@ -135,7 +167,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             titleLabel,
             explainLabel,
             floorSegmentedControl,
-            classroomCollectionView,
+            backgroundCollectionView,
             nextButton
         ].forEach { view.addSubview($0) }
     }
@@ -153,7 +185,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(25)
         }
-        classroomCollectionView.snp.makeConstraints {
+        backgroundCollectionView.snp.makeConstraints {
             $0.top.equalTo(floorSegmentedControl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()

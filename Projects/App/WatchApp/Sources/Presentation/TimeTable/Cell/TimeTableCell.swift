@@ -25,6 +25,8 @@ struct TimeTableCell: View {
                 .font(.pickFont(.label2))
                 .foregroundStyle(Color.modeWhite)
             KFImage(URL(string: subjectImage))
+                .cacheMemoryOnly()
+                .fade(duration: 0.1)
                 .resizable()
                 .frame(width: 12, height: 12)
                 .foregroundStyle(Color.main700)
@@ -32,7 +34,7 @@ struct TimeTableCell: View {
                 .font(.pickFont(.label2))
                 .foregroundStyle(Color.modeWhite)
         }
-        .background(Color.modeBlack)
+        .background(Color.black)
     }
 
 }

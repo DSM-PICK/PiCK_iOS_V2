@@ -3,6 +3,7 @@ generate:
 	tuist generate
 clean:
 	tuist clean
+	rm -rf .build
 	rm -rf **/*.xcodeproj
 	rm -rf *.xcworkspace
 

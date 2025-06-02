@@ -14,7 +14,7 @@ public class NotificationSwitchView: BaseView {
     public var switchIsOn: Bool {
         return switchButton.isOn
     }
-    public var clickSwitchButton: ControlProperty<Bool> {
+    public var switchButtonDidTap: ControlProperty<Bool> {
         return switchButton.rx.isOn
     }
 

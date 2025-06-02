@@ -19,12 +19,12 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let startTime: Observable<String>
-        let clickStartTimeButton: Observable<Void>
+        let selectStartTimeButtonDidTap: Observable<Void>
         let endTime: Observable<String>
-        let clickEndTimeButton: Observable<Void>
+        let selectEndTimeButtonDidTap: Observable<Void>
         let reasonText: Observable<String?>
         let applicationType: Observable<PickerTimeSelectType>
-        let clickOutingApply: Observable<Void>
+        let outingApplyButtonDidTap: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -49,7 +49,7 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             return startTime <= endTime
         }
 
-        input.clickOutingApply
+        input.outingApplyButtonDidTap
             .withLatestFrom(info)
             .flatMap { reason, startTime, endTime, applicationType in
                 self.outingApplyUseCase.execute(req: .init(

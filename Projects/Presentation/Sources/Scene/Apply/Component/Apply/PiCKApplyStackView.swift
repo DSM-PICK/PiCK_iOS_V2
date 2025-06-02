@@ -11,17 +11,17 @@ import Core
 import DesignSystem
 
 public class PiCKApplyStackView: BaseView {
-    public var clickWeekendMealTab: ControlEvent<Void> {
-        return weekendMealApplyTab.clickActionButton
+    public var weekendMealTabDidTap: ControlEvent<Void> {
+        return weekendMealApplyTab.actionButtonDidTap
     }
-    public var clickClassroomMoveTab: ControlEvent<Void> {
-        return classroomMoveApplyTab.clickActionButton
+    public var classroomMoveTabDidTap: ControlEvent<Void> {
+        return classroomMoveApplyTab.actionButtonDidTap
     }
-    public var clickOutingTab: ControlEvent<Void> {
-        return outingApplyTab.clickActionButton
+    public var outingTabDidTap: ControlEvent<Void> {
+        return outingApplyTab.actionButtonDidTap
     }
-    public var clickEarlyLeaveTab: ControlEvent<Void> {
-        return earlyLeaveApplyTab.clickActionButton
+    public var earlyLeaveTabDidTap: ControlEvent<Void> {
+        return earlyLeaveApplyTab.actionButtonDidTap
     }
 
     private let weekendMealApplyTab = PiCKTabView(

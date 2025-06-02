@@ -40,9 +40,9 @@ public class EarlyLeaveApplyViewController: BaseViewController<EarlyLeaveApplyVi
     public override func bind() {
         let input = EarlyLeaveApplyViewModel.Input(
             startTime: startTime.asObservable(),
-            clickStartTime: startTimeSelectButton.buttonTap.asObservable(),
+            selectStartTimeButtonDidTap: startTimeSelectButton.buttonTap.asObservable(),
             reasonText: outingReasonTextView.textViewText.asObservable(),
-            clickEarlyLeaveApply: applyButton.buttonTap.asObservable()
+            earlyLeaveApplyButtonDidTap: applyButton.buttonTap.asObservable()
         )
         let output =  viewModel.transform(input: input)
 

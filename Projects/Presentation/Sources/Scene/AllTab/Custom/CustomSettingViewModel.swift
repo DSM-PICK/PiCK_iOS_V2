@@ -49,8 +49,8 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let viewWillAppear: Observable<Void>
-        let clickHomeSetting: Observable<Void>
-        let clickPickerSetting: Observable<Void>
+        let homeSettingButtonDidTap: Observable<Void>
+        let pickerSettingButtonDidTap: Observable<Void>
     }
     public struct Output {
         let homeSettingTabViewText: Driver<(String, String)>
@@ -67,7 +67,7 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
                 _ = self.pickerTimeType
             }).disposed(by: disposeBag)
 
-        input.clickHomeSetting
+        input.homeSettingButtonDidTap
             .subscribe(onNext: {
                 self.steps.accept(
                     PiCKStep.applyAlertIsRequired(
@@ -88,7 +88,7 @@ public class CustomSettingViewModel: BaseViewModel, Stepper {
                 )
             }).disposed(by: disposeBag)
 
-        input.clickPickerSetting
+        input.pickerSettingButtonDidTap
             .subscribe(onNext: {
                 self.steps.accept(
                     PiCKStep.applyAlertIsRequired(
