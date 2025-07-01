@@ -31,8 +31,8 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
     ).then {
         $0.isSecurity = true
     }
-    private let loginButton = PiCKButton(
-        buttonText: "로그인하기",
+    private let nextButton = PiCKButton(
+        buttonText: "다음",
         isHidden: false
     )
 
@@ -48,7 +48,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
         explainLabel,
         emailTextField,
         certificationField,
-        loginButton
+        nextButton
         ].forEach(view.addSubview)
     }
     public override func setLayout() {
@@ -70,7 +70,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
         }
-        loginButton.snp.makeConstraints {
+        nextButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
