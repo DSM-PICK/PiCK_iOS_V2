@@ -18,7 +18,7 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
         $0.changePointColor(targetString: "PiCK", color: .main500)
     }
     private let explainLabel = PiCKLabel(
-        text: "스퀘어 계정으로 로그인 해주세요.",
+        text: "PiCK 계정으로 로그인 해주세요.",
         textColor: .gray600,
         font: .pickFont(.body1)
     )
@@ -34,9 +34,17 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
     ).then {
         $0.isSecurity = true
     }
+    private let forgotPasswordButton = PiCKUnderlineButton(
+        buttonText: "비밀번호 변경"
+    )
+    private let forgotPasswordLabel = PiCKLabel(
+        text: "비밀번호를 잊어버리셨나요?",
+        textColor: .gray900,
+        font: .pickFont(.subTitle3)
+    )
     private let loginButton = PiCKButton(
         buttonText: "로그인하기",
-        isHidden: false
+        isHidden: false,
     )
 
     public override func attribute() {
@@ -96,6 +104,8 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             explainLabel,
             idTextField,
             passwordTextField,
+            forgotPasswordButton,
+            forgotPasswordLabel,
             loginButton
         ].forEach { view.addSubview($0) }
     }
@@ -118,6 +128,14 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             $0.top.equalTo(idTextField.snp.bottom).offset(71)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
+        }
+        forgotPasswordButton.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(24)
+        }
+        forgotPasswordLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(12)
+            $0.trailing.equalTo(forgotPasswordButton.snp.leading).offset(-4)
         }
         loginButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
