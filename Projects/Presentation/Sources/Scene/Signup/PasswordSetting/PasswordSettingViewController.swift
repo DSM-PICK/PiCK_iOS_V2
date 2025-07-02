@@ -23,7 +23,9 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
         titleText: "비밀번호",
         placeholder: "비밀번호를 입력하세요",
         buttonIsHidden: true
-    )
+    ).then {
+        $0.isSecurity = true
+    }
     private let certificationField = PiCKTextField(
         titleText: "비밀번호 확인",
         placeholder: "비밀 번호를 입력하세요",
@@ -35,7 +37,4 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
         buttonText: "다음",
         isHidden: false
     )
-    
-    
-
 }
