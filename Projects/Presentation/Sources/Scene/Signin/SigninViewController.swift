@@ -40,7 +40,15 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
     private let forgotPasswordLabel = PiCKLabel(
         text: "비밀번호를 잊어버리셨나요?",
         textColor: .gray900,
-        font: .pickFont(.subTitle3)
+        font: .pickFont(.body1)
+    )
+    private let nonAccountLabel = PiCKLabel(
+        text: "PiCK 계정이 없으신가요?",
+        textColor: .gray900,
+        font: .pickFont(.body1)
+    )
+    private let nonAccountButton = PiCKUnderlineButton(
+        buttonText: "회원가입"
     )
     private let loginButton = PiCKButton(
         buttonText: "로그인하기",
@@ -106,6 +114,8 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             passwordTextField,
             forgotPasswordButton,
             forgotPasswordLabel,
+            nonAccountLabel,
+            nonAccountButton,
             loginButton
         ].forEach { view.addSubview($0) }
     }
@@ -136,6 +146,14 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
         forgotPasswordLabel.snp.makeConstraints {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(12)
             $0.trailing.equalTo(forgotPasswordButton.snp.leading).offset(-4)
+        }
+        nonAccountLabel.snp.makeConstraints {
+            $0.bottom.equalTo(loginButton.snp.top).offset(-12)
+            $0.leading.equalToSuperview().inset(24)
+        }
+        nonAccountButton.snp.makeConstraints {
+            $0.bottom.equalTo(loginButton.snp.top).offset(-12)
+            $0.leading.equalTo(nonAccountLabel.snp.trailing).offset(4)
         }
         loginButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
