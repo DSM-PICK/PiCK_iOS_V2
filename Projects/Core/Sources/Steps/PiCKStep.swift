@@ -12,6 +12,10 @@ public enum PiCKStep: Step {
     case tabIsRequired
     case popIsRequired
 
+    // MARK: Login
+    case changePasswordIsRequired
+    case signUpIsRequired
+
     // MARK: home
     case homeIsRequired
     case alertIsRequired
