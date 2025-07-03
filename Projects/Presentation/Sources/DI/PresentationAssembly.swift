@@ -37,6 +37,18 @@ public final class PresentationAssembly: Assembly {
         container.register(VerifyEmailViewController.self) { resolver in
             VerifyEmailViewController(viewModel: resolver.resolve(VerifyEmailViewModel.self)!)
         }
+        container.register(PasswordSettingViewModel.self) { resolver in
+            PasswordSettingViewModel()
+        }
+        container.register(PasswordSettingViewController.self) { resolver in
+            PasswordSettingViewController(viewModel: resolver.resolve(PasswordSettingViewModel.self)!)
+        }
+        container.register(InfoSettingViewModel.self) { resolver in
+            InfoSettingViewModel()
+        }
+        container.register(InfoSettingViewController.self) { resolver in
+            InfoSettingViewController(viewModel: resolver.resolve(InfoSettingViewModel.self)!)
+        }
 
         // MARK: Home
         container.register(HomeViewController.self) { resolver in
