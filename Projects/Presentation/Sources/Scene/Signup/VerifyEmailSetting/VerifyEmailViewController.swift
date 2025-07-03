@@ -40,6 +40,20 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 
+    public override func bind() {
+        let input = VerifyEmailViewModel.Input(
+            nextButtonTap: nextButton.rx.tap.asObservable(),
+            emailText: emailTextField.rx.text.orEmpty.asObservable(),
+            certificationText: certificationField.rx.text.orEmpty.asObservable()
+        )
+
+        let output = viewModel.transform(input: input)
+
+        output.isNextButtonEnabled
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+    }
+
     public override func addView() {
         [
         titleLabel,
