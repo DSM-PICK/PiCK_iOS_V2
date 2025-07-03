@@ -16,6 +16,10 @@ public enum PiCKStep: Step {
     case changePasswordIsRequired
     case signUpIsRequired
 
+    // MARK: SignUp
+    case verifyEmailIsRequired
+    case passwordSettingIsRequired
+
     // MARK: home
     case homeIsRequired
     case alertIsRequired

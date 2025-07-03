@@ -1,17 +1,17 @@
 import UIKit
 import RxFlow
 import Swinject
-
 import Core
 import Presentation
 
-public class LoginFlow: Flow {
+public class SignUpFlow: Flow {
     public let container: Container
     private var rootViewController = BaseNavigationController()
+
     public var root: Presentable {
         return rootViewController
     }
-
+    
     public init(container: Container) {
         self.container = container
     }
@@ -20,43 +20,17 @@ public class LoginFlow: Flow {
         guard let step = step as? PiCKStep else { return .none }
 
         switch step {
-        case .loginIsRequired:
-            return navigateToLogin()
-        case .signUpIsRequired:
-            return navigateToSignUp()
-
-        // SignUp Step
         case .verifyEmailIsRequired:
             return navigateToVerifyEmail()
         case .passwordSettingIsRequired:
             return navigateToPasswordSetting()
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
-        case .testIsRequired:
-            return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
-        case .logoutIsRequired:
-            return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
+        case .loginIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.loginIsRequired)
         default:
             return .none
         }
-    }
-
-    private func navigateToLogin() -> FlowContributors {
-        let vc = LoginViewController(reactor: container.resolve(SigninReactor.self)!)
-        self.rootViewController.pushViewController(vc, animated: true)
-        return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.reactor
-        ))
-    }
-
-    private func navigateToSignUp() -> FlowContributors {
-        let vc = VerifyEmailViewController(viewModel: container.resolve(VerifyEmailViewModel.self)!)
-        self.rootViewController.pushViewController(vc, animated: true)
-        return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
-        ))
     }
 
     private func navigateToVerifyEmail() -> FlowContributors {
