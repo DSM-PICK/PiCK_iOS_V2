@@ -31,14 +31,12 @@ public final class PresentationAssembly: Assembly {
         }
 
         // MARK: SignUp
-//        container.register(SignUpViewController.self) { resolver in
-//            SignUpViewController(reactor: resolver.resolve(SignUpReactor.self)!)
-//        }
-//        container.register(SignUpReactor.self) { resolver in
-//            SignUpReactor(
-//                SignUpUseCase: resolver.resolve(SignUpUseCase.self)!
-//            )
-//        }
+        container.register(VerifyEmailViewModel.self) { resolver in
+            VerifyEmailViewModel()
+        }
+        container.register(VerifyEmailViewController.self) { resolver in
+            VerifyEmailViewController(viewModel: resolver.resolve(VerifyEmailViewModel.self)!)
+        }
 
         // MARK: Home
         container.register(HomeViewController.self) { resolver in

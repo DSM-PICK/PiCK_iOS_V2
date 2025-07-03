@@ -78,6 +78,12 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             .map { SigninReactor.Action.loginButtonDidTap }
             .drive(reactor.action)
             .disposed(by: disposeBag)
+
+        nonAccountButton.buttonTap
+            .asDriver()
+            .map { SigninReactor.Action.signUpButtonDidTap }
+            .drive(reactor.action)
+            .disposed(by: disposeBag)
     }
     public override func bindState() {
         reactor.state
@@ -160,5 +166,4 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
     }
-
 }

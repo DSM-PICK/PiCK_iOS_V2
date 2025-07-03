@@ -27,10 +27,8 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
     private let certificationField = PiCKTextField(
         titleText: "인증 코드",
         placeholder: "인증 코드를 입력해주세요",
-        buttonIsHidden: false
-    ).then {
-        $0.isSecurity = true
-    }
+        buttonIsHidden: true
+    )
     private let nextButton = PiCKButton(
         buttonText: "다음",
         isHidden: false

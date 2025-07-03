@@ -1,5 +1,4 @@
 import UIKit
-
 import RxFlow
 import Swinject
 
@@ -23,6 +22,8 @@ public class LoginFlow: Flow {
         switch step {
         case .loginIsRequired:
             return navigateToLogin()
+        case .signUpIsRequired:
+            return navigateToSignUp()
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:
@@ -43,4 +44,12 @@ public class LoginFlow: Flow {
         ))
     }
 
+    private func navigateToSignUp() -> FlowContributors {
+        let vc = VerifyEmailViewController(viewModel: container.resolve(VerifyEmailViewModel.self)!)
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
 }
