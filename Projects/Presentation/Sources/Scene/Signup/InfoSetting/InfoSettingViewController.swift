@@ -53,6 +53,11 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         $0.axis = .horizontal
         $0.spacing = 8
     }
+    private let nameTextField = PiCKTextField(
+        titleText: "이름",
+        placeholder: "이름을 입력해주세요",
+        buttonIsHidden: true
+    )
     private let nextButton = PiCKButton(
         buttonText: "다음",
         isHidden: false
@@ -69,6 +74,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             explainLabel,
             numberTitleLabel,
             studentNumberStackView,
+            nameTextField,
             nextButton
         ].forEach { view.addSubview($0) }
     }
@@ -90,6 +96,12 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             $0.top.equalTo(numberTitleLabel.snp.bottom).offset(12)
             $0.leading.equalToSuperview().inset(24)
             $0.height.equalTo(43)
+        }
+        nameTextField.snp.makeConstraints {
+            $0.top.equalTo(studentNumberStackView.snp.bottom).offset(70)
+            $0.leading.equalToSuperview().inset(24)
+            $0.width.equalTo(342)
+            $0.height.equalTo(40)
         }
         nextButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)

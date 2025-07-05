@@ -28,7 +28,7 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
     }
     private let confirmPasswordField = PiCKTextField(
         titleText: "비밀번호 확인",
-        placeholder: "비밀 번호를 입력하세요",
+        placeholder: "비밀번호를 입력하세요",
         buttonIsHidden: false
     ).then {
         $0.isSecurity = true
