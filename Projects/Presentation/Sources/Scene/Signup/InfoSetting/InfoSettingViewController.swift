@@ -19,28 +19,39 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         textColor: .gray600,
         font: .pickFont(.body1)
     )
-    private let startTimeSelectButton = TimeSelectButton(type: .system)
-    private let sinceLabel = PiCKLabel(
-        text: "부터",
+    private let numberTitleLabel = PiCKLabel(
+        text: "학번",
+        textColor: .black,
+        font: .pickFont(.label1)
+    )
+    private let selectButton = SchoolNumberSelectButton(type: .system)
+    private let gradeLabel = PiCKLabel(
+        text: "학년",
         textColor: .modeBlack,
         font: .pickFont(.label1)
     )
-    private let endTimeSelectButton = TimeSelectButton(type: .system)
-    private let untilLabel = PiCKLabel(
-        text: "까지",
+    private let classSelectButton = SchoolNumberSelectButton(type: .system)
+    private let classNumberLabel = PiCKLabel(
+        text: "반",
         textColor: .modeBlack,
         font: .pickFont(.label1)
     )
-    private let periodSelectButton = TimeSelectButton(type: .system)
-    private lazy var outingTimeStackView = UIStackView(arrangedSubviews: [
-        startTimeSelectButton,
-        sinceLabel,
-        endTimeSelectButton,
-        untilLabel,
-        periodSelectButton
+    private let numberSelectButton = SchoolNumberSelectButton(type: .system)
+    private let schoolNumberLabel = PiCKLabel(
+        text: "번",
+        textColor: .modeBlack,
+        font: .pickFont(.label1)
+    )
+    private lazy var studentNumberStackView = UIStackView(arrangedSubviews: [
+        selectButton,
+        gradeLabel,
+        classSelectButton,
+        classNumberLabel,
+        numberSelectButton,
+        schoolNumberLabel
     ]).then {
         $0.axis = .horizontal
-        $0.spacing = 12
+        $0.spacing = 8
     }
     private let nextButton = PiCKButton(
         buttonText: "다음",
@@ -51,22 +62,27 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         [
             titleLabel,
             explainLabel,
-            outingTimeStackView,
+            numberTitleLabel,
+            studentNumberStackView,
             nextButton
         ].forEach { view.addSubview($0) }
     }
 
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(32)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(80)
             $0.leading.equalToSuperview().inset(24)
         }
         explainLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.equalToSuperview().inset(24)
         }
-        outingTimeStackView.snp.makeConstraints {
-            $0.top.equalTo(explainLabel.snp.bottom).offset(12)
+        numberTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(explainLabel.snp.bottom).offset(46.5)
+            $0.leading.equalToSuperview().inset(24)
+        }
+        studentNumberStackView.snp.makeConstraints {
+            $0.top.equalTo(numberTitleLabel.snp.bottom).offset(12)
             $0.leading.equalToSuperview().inset(24)
             $0.height.equalTo(43)
         }
