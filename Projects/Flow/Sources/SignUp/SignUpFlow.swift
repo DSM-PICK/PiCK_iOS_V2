@@ -11,7 +11,7 @@ public class SignUpFlow: Flow {
     public var root: Presentable {
         return rootViewController
     }
-    
+
     public init(container: Container) {
         self.container = container
     }
@@ -24,6 +24,8 @@ public class SignUpFlow: Flow {
             return navigateToVerifyEmail()
         case .passwordSettingIsRequired:
             return navigateToPasswordSetting()
+        case .infoSettingIsRequired:
+            return navigateToInfoSetting()
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .loginIsRequired:
@@ -31,6 +33,15 @@ public class SignUpFlow: Flow {
         default:
             return .none
         }
+    }
+
+    private func navigateToInfoSetting() -> FlowContributors {
+        let vc = InfoSettingViewController(viewModel: container.resolve(InfoSettingViewModel.self)!)
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
     }
 
     private func navigateToVerifyEmail() -> FlowContributors {

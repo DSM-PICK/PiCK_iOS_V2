@@ -30,6 +30,8 @@ public class LoginFlow: Flow {
             return navigateToVerifyEmail()
         case .passwordSettingIsRequired:
             return navigateToPasswordSetting()
+        case .infoSettingIsRequired:
+            return navigateToInfoSetting()
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:
@@ -70,6 +72,15 @@ public class LoginFlow: Flow {
 
     private func navigateToPasswordSetting() -> FlowContributors {
         let vc = PasswordSettingViewController(viewModel: container.resolve(PasswordSettingViewModel.self)!)
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToInfoSetting() -> FlowContributors {
+        let vc = InfoSettingViewController(viewModel: container.resolve(InfoSettingViewModel.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

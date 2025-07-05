@@ -19,7 +19,6 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         textColor: .gray600,
         font: .pickFont(.body1)
     )
-    
     private let startTimeSelectButton = TimeSelectButton(type: .system)
     private let sinceLabel = PiCKLabel(
         text: "부터",
@@ -47,7 +46,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         buttonText: "다음",
         isHidden: false
     )
-    
+
     public override func addView() {
         [
             titleLabel,
@@ -56,7 +55,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             nextButton
         ].forEach { view.addSubview($0) }
     }
-    
+
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(32)
@@ -76,6 +75,5 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
     }
-    
-    
+
 }
