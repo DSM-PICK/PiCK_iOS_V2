@@ -24,7 +24,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
         placeholder: "학교 이메일을 입력해주세요",
         buttonIsHidden: true
     )
-    private let certificationField = PiCKTextField(
+    private let certificationTextField = PiCKTextField(
         titleText: "인증 코드",
         placeholder: "인증 코드를 입력해주세요",
         buttonIsHidden: true
@@ -44,7 +44,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
         let input = VerifyEmailViewModel.Input(
             nextButtonTap: nextButton.rx.tap.asObservable(),
             emailText: emailTextField.rx.text.orEmpty.asObservable(),
-            certificationText: certificationField.rx.text.orEmpty.asObservable()
+            certificationText: certificationTextField.rx.text.orEmpty.asObservable()
         )
 
         let output = viewModel.transform(input: input)
@@ -59,7 +59,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
         titleLabel,
         explainLabel,
         emailTextField,
-        certificationField,
+        certificationTextField,
         nextButton
         ].forEach(view.addSubview)
     }
@@ -77,7 +77,7 @@ final public class VerifyEmailViewController: BaseViewController<VerifyEmailView
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
         }
-        certificationField.snp.makeConstraints {
+        certificationTextField.snp.makeConstraints {
             $0.top.equalTo(emailTextField.snp.bottom).offset(71)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
