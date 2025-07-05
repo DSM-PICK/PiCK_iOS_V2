@@ -58,6 +58,11 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         isHidden: false
     )
 
+    public override func attribute() {
+        super.attribute()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+
     public override func addView() {
         [
             titleLabel,
