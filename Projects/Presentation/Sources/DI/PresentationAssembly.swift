@@ -198,6 +198,13 @@ public final class PresentationAssembly: Assembly {
                 notificationSubscribeUseCase: resolver.resolve(NotificationSubscribeUseCase.self)!
             )
         }
+        // ChangePassword
+        container.register(ChangePasswordViewModel.self) { resolver in
+            ChangePasswordViewModel()
+        }
+        container.register(ChangePasswordViewController.self) { resolver in
+            ChangePasswordViewController(viewModel: resolver.resolve(ChangePasswordViewModel.self)!)
+        }
         // MyPage
         container.register(MyPageViewController.self) { resolver in
             MyPageViewController(viewModel: resolver.resolve(MyPageViewModel.self)!)
