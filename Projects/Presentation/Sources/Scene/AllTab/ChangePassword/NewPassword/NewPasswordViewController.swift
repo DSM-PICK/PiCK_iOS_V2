@@ -23,12 +23,16 @@ public class NewPasswordViewController: BaseViewController<NewPasswordViewModel>
         titleText: "새로운 비밀번호",
         placeholder: "비밀번호를 입력해주세요",
         buttonIsHidden: true
-    )
+    ).then {
+        $0.isSecurity = true
+    }
     private let newPWCheckTextField = PiCKTextField(
         titleText: "새로운 비밀번호 확인",
         placeholder: "비밀번호를 입력해주세요",
         buttonIsHidden: true
-    )
+    ).then {
+        $0.isSecurity = true
+    }
     private let changeButton = PiCKButton(
         buttonText: "변경",
         isHidden: false
