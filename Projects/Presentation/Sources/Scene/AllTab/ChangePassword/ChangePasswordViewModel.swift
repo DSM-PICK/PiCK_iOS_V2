@@ -8,10 +8,24 @@ import Core
 import Domain
 
 public class ChangePasswordViewModel: BaseViewModel, Stepper {
-    public typealias Input = <#type#>
-    
-    public typealias Output = <#type#>
-    
+    public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
-    public var steps = PublishRelay<Step>()
+    
+    init(
+        
+    ) {
+        
+    }
+    
+    public struct Input {
+        
+    }
+    
+    public struct Output {
+        
+    }
+    
+    public func transform(input: Input) -> Output {
+        return Output()
+    }
 }
