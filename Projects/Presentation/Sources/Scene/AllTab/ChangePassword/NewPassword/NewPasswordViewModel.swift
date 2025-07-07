@@ -12,7 +12,7 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
     public init() {
 
     }
-    
+
     public struct Input {
         let nextButtonTap: Observable<Void>
         let emailText: Observable<String>

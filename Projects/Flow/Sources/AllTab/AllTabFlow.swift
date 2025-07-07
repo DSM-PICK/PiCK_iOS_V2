@@ -130,6 +130,8 @@ public class AllTabFlow: Flow {
 
     private func navigateToChangePassword() -> FlowContributors {
         let vc = ChangePasswordViewController(viewModel: container.resolve(ChangePasswordViewModel.self)!)
+
+        vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -139,6 +141,8 @@ public class AllTabFlow: Flow {
 
     private func navigateToNewPassword() -> FlowContributors {
         let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
+
+        vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
