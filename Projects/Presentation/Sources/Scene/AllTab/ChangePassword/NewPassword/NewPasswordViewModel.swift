@@ -32,7 +32,7 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
         input.nextButtonTap
             .withLatestFrom(isFormValid)
             .filter { $0 }
-            .map { _ in PiCKStep.passwordSettingIsRequired }
+            .map { _ in PiCKStep.logoutIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

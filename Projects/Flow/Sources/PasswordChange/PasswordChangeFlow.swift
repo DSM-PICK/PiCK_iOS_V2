@@ -28,9 +28,6 @@ public class PasswordChangeFlow: Flow {
             return navigateToNewPassword()
         case .loginIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.loginIsRequired)
-        case .dismissNewPassword:
-            rootViewController.popViewController(animated: true)
-            return .none
         default:
             return .none
         }
