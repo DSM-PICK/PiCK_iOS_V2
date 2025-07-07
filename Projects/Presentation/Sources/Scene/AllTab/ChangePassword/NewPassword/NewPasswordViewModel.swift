@@ -5,7 +5,7 @@ import RxSwift
 import RxCocoa
 import Domain
 
-public class VerifyEmailViewModel: BaseViewModel, Stepper {
+public class NewPasswordViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
 

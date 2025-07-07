@@ -6,9 +6,9 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel> {
+public class ChangePasswordViewController: BaseViewController<ChangePasswordViewModel> {
     private let titleLabel = PiCKLabel(
-        text: "PiCK에 회원가입하기",
+        text: "PiCK에 인증하기",
         textColor: .modeBlack,
         font: .pickFont(.heading2)
     ).then {
@@ -41,7 +41,7 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
     }
 
     public override func bind() {
-        let input = VerifyEmailViewModel.Input(
+        let input = ChangePasswordViewModel.Input(
             nextButtonTap: nextButton.rx.tap.asObservable(),
             emailText: emailTextField.rx.text.orEmpty.asObservable(),
             certificationText: certificationTextField.rx.text.orEmpty.asObservable()
@@ -56,11 +56,11 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
 
     public override func addView() {
         [
-        titleLabel,
-        explainLabel,
-        emailTextField,
-        certificationTextField,
-        nextButton
+            titleLabel,
+            explainLabel,
+            emailTextField,
+            certificationTextField,
+            nextButton
         ].forEach(view.addSubview)
     }
     public override func setLayout() {
