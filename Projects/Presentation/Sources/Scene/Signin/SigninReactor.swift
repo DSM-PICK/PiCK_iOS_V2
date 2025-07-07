@@ -28,6 +28,7 @@ public final class SigninReactor: BaseReactor {
         case updatePassword(String)
         case loginButtonDidTap
         case signUpButtonDidTap
+        case forgotPasswordButtonDidTap
     }
 
     public enum Mutation {
@@ -39,6 +40,7 @@ public final class SigninReactor: BaseReactor {
         case isButtonEnabled(Bool)
         case loginSuccess
         case navigateToSignUp
+        case navigateToChangePassword
     }
 
     public struct State {
@@ -75,6 +77,8 @@ extension SigninReactor {
             ])
         case .signUpButtonDidTap:
             return .just(.navigateToSignUp)
+        case .forgotPasswordButtonDidTap:
+            return .just(.navigateToChangePassword)
         }
     }
 
@@ -98,6 +102,8 @@ extension SigninReactor {
             steps.accept(PiCKStep.tabIsRequired)
         case .navigateToSignUp:
             steps.accept(PiCKStep.signUpIsRequired)
+        case .navigateToChangePassword:
+            steps.accept(PiCKStep.changePasswordIsRequired)
         }
         return newState
     }

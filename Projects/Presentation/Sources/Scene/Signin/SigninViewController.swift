@@ -84,6 +84,12 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             .map { SigninReactor.Action.signUpButtonDidTap }
             .drive(reactor.action)
             .disposed(by: disposeBag)
+
+        forgotPasswordButton.buttonTap
+            .asDriver()
+            .map { SigninReactor.Action.forgotPasswordButtonDidTap }
+            .drive(reactor.action)
+            .disposed(by: disposeBag)
     }
     public override func bindState() {
         reactor.state
