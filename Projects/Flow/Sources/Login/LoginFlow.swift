@@ -27,7 +27,7 @@ public class LoginFlow: Flow {
         case .changePasswordIsRequired:
             return navigateToPasswordChange()
         case .newPasswordIsRequired:
-            return .none
+            return navigateToNewPassword()
         // SignUp Step
         case .verifyEmailIsRequired:
             return navigateToVerifyEmail()
@@ -66,6 +66,15 @@ public class LoginFlow: Flow {
 
     private func navigateToPasswordChange() -> FlowContributors {
         let vc = ChangePasswordViewController(viewModel: container.resolve(ChangePasswordViewModel.self)!)
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToNewPassword() -> FlowContributors {
+        let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
