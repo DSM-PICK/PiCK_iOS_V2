@@ -51,7 +51,8 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             customTabDidTap: settingSectionView.getSelectedItem(type: .custom),
             notificationSettingTabDidTap: settingSectionView.getSelectedItem(type: .notification),
             myPageTabDidTap: accountSectionView.getSelectedItem(type: .myPage),
-            logOutButtonDidTap: logoutRelay.asObservable()
+            logOutButtonDidTap: logoutRelay.asObservable(),
+            changePasswordDidTap: accountSectionView.getSelectedItem(type: .changePassword).asObservable()
         )
 
         let output = viewModel.transform(input: input)

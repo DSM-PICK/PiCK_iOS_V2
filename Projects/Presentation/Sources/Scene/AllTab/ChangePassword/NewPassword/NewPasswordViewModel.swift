@@ -6,11 +6,13 @@ import RxCocoa
 import Domain
 
 public class NewPasswordViewModel: BaseViewModel, Stepper {
-    public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
+    public var steps = PublishRelay<Step>()
 
-    init() {}
+    public init() {
 
+    }
+    
     public struct Input {
         let nextButtonTap: Observable<Void>
         let emailText: Observable<String>
@@ -28,14 +30,19 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
         ) { email, certification in
             return !email.isEmpty && !certification.isEmpty
         }
+        .distinctUntilChanged()
 
         input.nextButtonTap
-            .withLatestFrom(isFormValid)
-            .filter { $0 }
-            .map { _ in PiCKStep.logoutIsRequired }
+            .withLatestFrom(Observable.combineLatest(
+                input.emailText,
+                input.certificationText
+            ))
+            .do(onNext: { email, certification in
+            })
+            .map { _ in PiCKStep.newPasswordIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
-
+        
         return Output(
             isNextButtonEnabled: isFormValid
         )
