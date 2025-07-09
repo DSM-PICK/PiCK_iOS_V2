@@ -14,10 +14,24 @@ public class PiCKTextField: BaseTextField {
     public var isSecurity: Bool = false {
         didSet {
             textHideButton.isHidden = !isSecurity
-            self.isSecureTextEntry = true
-            self.addLeftAndRightView()
+            emailLabel.isHidden = isSecurity
+            self.isSecureTextEntry = isSecurity
+
+            if isSecurity {
+                self.addLeftAndRightView()
+            } else {
+                self.addLeftView()
+                self.addRightView()
+            }
         }
     }
+
+    public var showEmail: Bool = false {
+        didSet {
+            emailLabel.isHidden = !showEmail || isSecurity
+        }
+    }
+
     private var borderColor: UIColor {
         isEditing ? .main500 : .clear
     }
@@ -32,6 +46,14 @@ public class PiCKTextField: BaseTextField {
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
     }
+    private let emailLabel = PiCKLabel(
+        text: "@dsm.hs.kr",
+        textColor: .gray500,
+        font: .pickFont(.caption2)
+    ).then {
+        $0.isHidden = true
+    }
+
     private let errorLabel = PiCKLabel(
         textColor: .error,
         font: .pickFont(.caption2)
@@ -40,13 +62,15 @@ public class PiCKTextField: BaseTextField {
     public init(
         titleText: String? = nil,
         placeholder: String? = nil,
-        buttonIsHidden: Bool? = nil
+        buttonIsHidden: Bool? = nil,
+        showEmailSuffix: Bool = false
     ) {
         super.init(frame: .zero)
         self.titleLabel.text = titleText
         self.placeholder = placeholder
         self.textHideButton.isHidden = buttonIsHidden ?? true
-
+        self.showEmail = showEmailSuffix
+        self.emailLabel.isHidden = !showEmailSuffix
         setPlaceholder()
     }
     required init?(coder: NSCoder) {
@@ -74,6 +98,7 @@ public class PiCKTextField: BaseTextField {
         [
             titleLabel,
             textHideButton,
+            emailLabel,
             errorLabel
         ].forEach { self.addSubview($0) }
 
@@ -82,6 +107,10 @@ public class PiCKTextField: BaseTextField {
             $0.leading.equalToSuperview()
         }
         textHideButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        emailLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16)
         }
