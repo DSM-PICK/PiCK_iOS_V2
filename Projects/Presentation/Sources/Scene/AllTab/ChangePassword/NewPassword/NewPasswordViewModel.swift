@@ -39,10 +39,10 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
             ))
             .do(onNext: { email, certification in
             })
-            .map { _ in PiCKStep.newPasswordIsRequired }
+            .map { _ in PiCKStep.logoutIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
-        
+
         return Output(
             isNextButtonEnabled: isFormValid
         )
