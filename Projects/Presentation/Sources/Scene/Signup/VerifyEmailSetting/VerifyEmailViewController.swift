@@ -22,7 +22,8 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
     private let emailTextField = PiCKTextField(
         titleText: "이메일",
         placeholder: "학교 이메일을 입력해주세요",
-        buttonIsHidden: true
+        buttonIsHidden: true,
+        showEmailWithVerificationButton: true
     )
     private let certificationTextField = PiCKTextField(
         titleText: "인증 코드",
