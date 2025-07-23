@@ -97,11 +97,7 @@ open class BaseViewController<ViewModel: BaseViewModel>: UIViewController, UIGes
             titleText: "인터넷 연결이 원활하지 않습니다.",
             explainText: "Wifi 또는 셀룰러를 활성화 해주세요.",
             type: .positive
-        ) {
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
-        }
+        ) {}
 
         DispatchQueue.main.async {
             if self.networkMonitor.currentPath.status == .unsatisfied {

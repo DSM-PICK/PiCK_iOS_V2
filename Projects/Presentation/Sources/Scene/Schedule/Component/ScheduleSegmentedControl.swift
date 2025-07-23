@@ -27,14 +27,6 @@ public class ScheduleSegmentedControl: UISegmentedControl {
         layout()
     }
 
-    private func removeBackgroundAndDivider() {
-        let image = UIImage()
-        self.setBackgroundImage(image, for: .normal, barMetrics: .default)
-        self.setBackgroundImage(image, for: .selected, barMetrics: .default)
-        self.setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-        self.setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
-    }
-
     private func setup() {
         self.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.gray600,
@@ -56,7 +48,7 @@ public class ScheduleSegmentedControl: UISegmentedControl {
             selectedImageView.layer.masksToBounds = true
             selectedImageView.layer.cornerRadius = self.radius - (segmentInset / 2)
 
-            selectedImageView.layer.removeAnimation(forKey: "SelectionBounds")
+//            selectedImageView.layer.removeAnimation(forKey: "SelectionBounds")
         }
     }
 
