@@ -26,6 +26,7 @@ let project = Project.makeModule(
         .PackageType.GoogleSignIn,
         .PackageType.FCM,
         .PackageType.Quick,
+        .PackageType.Nimble,
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
