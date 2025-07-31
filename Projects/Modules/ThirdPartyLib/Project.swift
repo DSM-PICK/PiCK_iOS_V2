@@ -25,6 +25,7 @@ let project = Project.makeModule(
         .PackageType.Starscream,
         .PackageType.GoogleSignIn,
         .PackageType.FCM,
+        .PackageType.Quick,
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
