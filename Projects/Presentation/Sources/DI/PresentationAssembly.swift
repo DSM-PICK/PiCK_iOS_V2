@@ -31,11 +31,13 @@ public final class PresentationAssembly: Assembly {
         }
 
         // MARK: SignUp
-        container.register(VerifyEmailViewModel.self) { resolver in
-            VerifyEmailViewModel()
-        }
         container.register(VerifyEmailViewController.self) { resolver in
             VerifyEmailViewController(viewModel: resolver.resolve(VerifyEmailViewModel.self)!)
+        }
+        container.register(VerifyEmailViewModel.self) { resolver in
+            VerifyEmailViewModel(
+                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!
+            )
         }
         container.register(PasswordSettingViewModel.self) { resolver in
             PasswordSettingViewModel()

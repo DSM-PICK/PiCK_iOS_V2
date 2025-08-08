@@ -18,6 +18,9 @@ public final class UseCaseAssembly: Assembly {
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
+        container.register(VerifyEmailCodeUseCase.self) { resolver in
+            VerifyEmailCodeUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }
         // MARK: Home
         container.register(FetchApplyStatusUsecase.self) { resolver in
             FetchApplyStatusUsecase(repository: resolver.resolve(HomeRepository.self)!)
