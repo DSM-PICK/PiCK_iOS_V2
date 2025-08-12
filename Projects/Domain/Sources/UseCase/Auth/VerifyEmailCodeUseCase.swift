@@ -2,10 +2,10 @@ import Foundation
 
 import RxSwift
 
-public struct VerifyEmailCodeUseCase {
-    let repository: AuthRepository
+public class VerifyEmailCodeUseCase {
+    let repository: MailRepository
 
-    public init(repository: AuthRepository) {
+    public init(repository: MailRepository) {
         self.repository = repository
     }
 

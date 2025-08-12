@@ -12,7 +12,6 @@ protocol AuthDataSource {
     func login(req: SigninRequestParams) -> Single<TokenDTO>
     func logout()
     func refreshToken() -> Single<TokenDTO>
-    func verifyEmailCode(req: VerifyEmailCodeRequestParams) -> Completable
 }
 
 class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
@@ -43,11 +42,5 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
             .filterSuccessfulStatusCodes()
             .map(TokenDTO.self)
     }
-
-    func verifyEmailCode(req: VerifyEmailCodeRequestParams) -> Completable {
-           return request(.verifyEmailCode(req: req))
-               .filterSuccessfulStatusCodes()
-               .asCompletable()
-       }
 
 }

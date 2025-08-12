@@ -66,8 +66,4 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
 
-    func verifyEmailCode(req: VerifyEmailCodeRequestParams) -> Completable {
-          return remoteDataSource.verifyEmailCode(req: req)
-      }
-
 }
