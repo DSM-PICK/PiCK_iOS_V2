@@ -42,12 +42,16 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
     }
 
     public override func bind() {
+        emailTextField.verificationButtonTapped
+            .subscribe(onNext: { print("🟡 TextField에서 버튼 탭 감지됨") })
+            .disposed(by: disposeBag)
+
         let input = VerifyEmailViewModel.Input(
             nextButtonTap: nextButton.rx.tap.asObservable(),
             emailText: emailTextField.rx.text.orEmpty.asObservable(),
-            certificationText: certificationTextField.rx.text.orEmpty.asObservable()
+            certificationText: certificationTextField.rx.text.orEmpty.asObservable(),
+            verificationButtonTap: emailTextField.verificationButtonTapped.asObservable()
         )
-
         let output = viewModel.transform(input: input)
 
         output.isNextButtonEnabled
@@ -57,13 +61,14 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
 
     public override func addView() {
         [
-        titleLabel,
-        explainLabel,
-        emailTextField,
-        certificationTextField,
-        nextButton
+            titleLabel,
+            explainLabel,
+            emailTextField,
+            certificationTextField,
+            nextButton
         ].forEach(view.addSubview)
     }
+
     public override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(80)
