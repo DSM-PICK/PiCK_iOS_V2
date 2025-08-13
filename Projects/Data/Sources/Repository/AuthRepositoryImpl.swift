@@ -43,6 +43,10 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
 
+    func signUp(req: SignUpRequestParams) -> Completable {
+        return remoteDataSource.signUp(req: req)
+    }
+
     func logout() {
         return remoteDataSource.logout()
     }

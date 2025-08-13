@@ -9,6 +9,7 @@ import AppNetwork
 public enum AuthAPI {
     case login(req: SigninRequestParams)
     case refreshToken
+    case signUp(req: SignUpRequestParams)
 }
 
 extension AuthAPI: PiCKAPI {
@@ -22,6 +23,8 @@ extension AuthAPI: PiCKAPI {
         switch self {
         case .login:
             return "/login"
+        case .signUp:
+            return "/signup"
         case .refreshToken:
             return "/refresh"
         }
@@ -29,7 +32,7 @@ extension AuthAPI: PiCKAPI {
 
     public var method: Moya.Method {
         switch self {
-        case .login:
+        case .login, .signUp:
             return .post
         case .refreshToken:
             return .put
@@ -39,6 +42,8 @@ extension AuthAPI: PiCKAPI {
     public var task: Moya.Task {
         switch self {
         case let .login(req):
+            return .requestJSONEncodable(req)
+        case let .signUp(req):
             return .requestJSONEncodable(req)
         default:
             return .requestPlain
