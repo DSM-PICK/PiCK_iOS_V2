@@ -21,9 +21,6 @@ public final class UseCaseAssembly: Assembly {
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
-        container.register(VerifyEmailCodeUseCase.self) { resolver in
-            VerifyEmailCodeUseCase(repository: resolver.resolve(MailRepository.self)!)
-        }
         // MARK: Home
         container.register(FetchApplyStatusUsecase.self) { resolver in
             FetchApplyStatusUsecase(repository: resolver.resolve(HomeRepository.self)!)
@@ -31,6 +28,14 @@ public final class UseCaseAssembly: Assembly {
         // MARK: SchoolMeal
         container.register(FetchSchoolMealUseCase.self) { resolver in
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
+        }
+
+        // MARK: Mail
+        container.register(VerifyEmailCodeUseCase.self) { resolver in
+            VerifyEmailCodeUseCase(repository: resolver.resolve(MailRepository.self)!)
+        }
+        container.register(MailCodeCheckUseCase.self) { resolver in
+            MailCodeCheckUseCase(repository: resolver.resolve(MailRepository.self)!)
         }
 
         // MARK: Schedule

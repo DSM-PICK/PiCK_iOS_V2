@@ -8,7 +8,7 @@ import AppNetwork
 
 public enum MailAPI {
     case verifyEmailCode(req: VerifyEmailCodeRequestParams)
-    case mailCodeCheck(req: )
+    case mailCodeCheck(req: MailCodeCheckRequestParams)
 }
 
 extension MailAPI: PiCKAPI {
@@ -22,12 +22,14 @@ extension MailAPI: PiCKAPI {
         switch self {
         case .verifyEmailCode:
             return "/send"
+        case .mailCodeCheck:
+            return "/check"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .verifyEmailCode:
+        case .verifyEmailCode, .mailCodeCheck:
             return .post
         }
     }
@@ -36,8 +38,8 @@ extension MailAPI: PiCKAPI {
         switch self {
         case let .verifyEmailCode(req):
             return .requestJSONEncodable(req)
-        default:
-            return .requestPlain
+        case let .mailCodeCheck(req):
+            return .requestJSONEncodable(req)
         }
     }
 
