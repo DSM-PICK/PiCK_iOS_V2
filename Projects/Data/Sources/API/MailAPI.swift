@@ -8,6 +8,7 @@ import AppNetwork
 
 public enum MailAPI {
     case verifyEmailCode(req: VerifyEmailCodeRequestParams)
+    case mailCodeCheck(req: )
 }
 
 extension MailAPI: PiCKAPI {

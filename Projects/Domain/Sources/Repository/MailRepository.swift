@@ -4,4 +4,5 @@ import RxSwift
 
 public protocol MailRepository {
     func verifyEmailCode(req: VerifyEmailCodeRequestParams) -> Completable
+    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Completable
 }
