@@ -36,7 +36,8 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(VerifyEmailViewModel.self) { resolver in
             VerifyEmailViewModel(
-                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!
+                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!,
+                mailCodeCheckUseCase: resolver.resolve(MailCodeCheckUseCase.self)!
             )
         }
         container.register(PasswordSettingViewModel.self) { resolver in
