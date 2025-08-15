@@ -45,11 +45,11 @@ public class SignUpFlow: Flow {
     }
 
     private func navigateToVerifyEmail() -> FlowContributors {
-        let vc = VerifyEmailViewController(viewModel: container.resolve(VerifyEmailViewModel.self)!)
+        let vc = VerifyEmailViewController(reactor: container.resolve(VerifyEmailReactor.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
-            withNextStepper: vc.viewModel
+            withNextStepper: vc.reactor
         ))
     }
 

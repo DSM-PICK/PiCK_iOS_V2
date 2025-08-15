@@ -32,10 +32,10 @@ public final class PresentationAssembly: Assembly {
 
         // MARK: SignUp
         container.register(VerifyEmailViewController.self) { resolver in
-            VerifyEmailViewController(viewModel: resolver.resolve(VerifyEmailViewModel.self)!)
+            VerifyEmailViewController(reactor: resolver.resolve(VerifyEmailReactor.self)!)
         }
-        container.register(VerifyEmailViewModel.self) { resolver in
-            VerifyEmailViewModel(
+        container.register(VerifyEmailReactor.self) { resolver in
+            VerifyEmailReactor(
                 verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!,
                 mailCodeCheckUseCase: resolver.resolve(MailCodeCheckUseCase.self)!
             )
