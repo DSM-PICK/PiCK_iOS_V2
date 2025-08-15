@@ -6,7 +6,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel> {
+public class VerifyEmailViewController: BaseReactorViewController<VerifyEmailReactor> {
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
         textColor: .modeBlack,
@@ -37,27 +37,71 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
 
     public override func attribute() {
         super.attribute()
-
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 
-    public override func bind() {
-        let input = VerifyEmailViewModel.Input(
-            nextButtonTap: nextButton.rx.tap.asObservable(),
-            emailText: emailTextField.rx.text.orEmpty.asObservable(),
-            certificationText: certificationTextField.rx.text.orEmpty.asObservable(),
-            verificationButtonTap: emailTextField.verificationButtonTapped.asObservable()
-        )
-        let output = viewModel.transform(input: input)
-
-        output.isNextButtonEnabled
-            .bind(to: nextButton.rx.isEnabled)
+    public override func bindAction() {
+        emailTextField.rx.text.orEmpty.asDriver()
+            .distinctUntilChanged()
+            .map { VerifyEmailReactor.Action.updateEmail($0) }
+            .drive(reactor.action)
             .disposed(by: disposeBag)
 
-        output.verificationButtonText
-            .subscribe(onNext: { [weak self] text in
-                self?.emailTextField.updateVerificationButtonText(text)
-            })
+        certificationTextField.rx.text.orEmpty.asDriver()
+            .distinctUntilChanged()
+            .map { VerifyEmailReactor.Action.updateCertification($0) }
+            .drive(reactor.action)
+            .disposed(by: disposeBag)
+
+        emailTextField.verificationButtonTapped.asDriver(onErrorJustReturn: ())
+            .map { VerifyEmailReactor.Action.verificationButtonDidTap }
+            .drive(reactor.action)
+            .disposed(by: disposeBag)
+
+        nextButton.buttonTap
+            .asDriver()
+            .map { VerifyEmailReactor.Action.nextButtonDidTap }
+            .drive(reactor.action)
+            .disposed(by: disposeBag)
+    }
+
+    public override func bindState() {
+        reactor.state
+            .map { $0.isNextButtonEnabled }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.verificationButtonText }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .bind { owner, buttonText in
+                owner.emailTextField.updateVerificationButtonText(buttonText)
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.emailErrorDescription }
+            .distinctUntilChanged()
+            .filter { $0 != "" }
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.emailTextField.errorMessage.accept(errorMessage)
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.certificationErrorDescription }
+            .distinctUntilChanged()
+            .filter { $0 != "" }
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.certificationTextField.errorMessage.accept(errorMessage)
+            }
             .disposed(by: disposeBag)
     }
 
@@ -68,7 +112,7 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
             emailTextField,
             certificationTextField,
             nextButton
-        ].forEach(view.addSubview)
+        ].forEach { view.addSubview($0) }
     }
 
     public override func setLayout() {
