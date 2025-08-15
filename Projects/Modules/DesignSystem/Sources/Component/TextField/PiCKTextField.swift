@@ -110,6 +110,10 @@ public class PiCKTextField: BaseTextField {
         fatalError("init(coder:) has not been implemented")
     }
 
+    public func updateVerificationButtonText(_ text: String) {
+        verificationButton.setTitle(text, for: .normal)
+    }
+
     public override func layoutSubviews() {
         super.layoutSubviews()
         setPlaceholder()

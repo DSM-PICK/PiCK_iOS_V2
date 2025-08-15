@@ -9,6 +9,8 @@ public class VerifyEmailViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
     private let verifyEmailCodeUseCase: VerifyEmailCodeUseCase
+    private let verificationButtonTextRelay = BehaviorRelay<String>(value: "인증코드")
+
     public init(verifyEmailCodeUseCase: VerifyEmailCodeUseCase) {
         self.verifyEmailCodeUseCase = verifyEmailCodeUseCase
     }
@@ -22,6 +24,7 @@ public class VerifyEmailViewModel: BaseViewModel, Stepper {
 
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
+        let verificationButtonText: Observable<String>
     }
 
     public func transform(input: Input) -> Output {
@@ -33,29 +36,24 @@ public class VerifyEmailViewModel: BaseViewModel, Stepper {
         }
 
         input.verificationButtonTap
-            .do(onNext: { print("🔵 인증 버튼 탭됨") })
             .withLatestFrom(input.emailText)
-            .do(onNext: { email in print("🔵 현재 이메일: \(email)") })
             .filter { !$0.isEmpty }
-            .do(onNext: { email in print("🔵 이메일 필터 통과: \(email)") })
-            .flatMap { email in
-                print("🔵 API 요청 시작")
-                return self.verifyEmailCodeUseCase.execute(
+            .flatMap { [weak self] email in
+                return self?.verifyEmailCodeUseCase.execute(
                     req: VerifyEmailCodeRequestParams(
                         mail: "\(email)",
                         message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
                         title: "회원가입 제목 테스트"
                     )
                 )
-                .do(onCompleted: { print("🔵 API 요청 완료") })
+                .do(onCompleted: {
+                    self?.verificationButtonTextRelay.accept("재발송")
+                })
                 .catch { error in
-                    print("🔴 인증코드 전송 실패: \(error.localizedDescription)")
                     return .never()
-                }
+                } ?? .never()
             }
-            .subscribe(onCompleted: {
-                print("🎉 인증코드 전송 성공")
-            })
+            .subscribe()
             .disposed(by: disposeBag)
 
         input.nextButtonTap
@@ -66,7 +64,8 @@ public class VerifyEmailViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         return Output(
-            isNextButtonEnabled: isFormValid
+            isNextButtonEnabled: isFormValid,
+            verificationButtonText: verificationButtonTextRelay.asObservable()
         )
     }
 }

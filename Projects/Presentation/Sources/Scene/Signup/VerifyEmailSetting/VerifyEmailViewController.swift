@@ -42,10 +42,6 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
     }
 
     public override func bind() {
-        emailTextField.verificationButtonTapped
-            .subscribe(onNext: { print("🟡 TextField에서 버튼 탭 감지됨") })
-            .disposed(by: disposeBag)
-
         let input = VerifyEmailViewModel.Input(
             nextButtonTap: nextButton.rx.tap.asObservable(),
             emailText: emailTextField.rx.text.orEmpty.asObservable(),
@@ -56,6 +52,12 @@ public class VerifyEmailViewController: BaseViewController<VerifyEmailViewModel>
 
         output.isNextButtonEnabled
             .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+
+        output.verificationButtonText
+            .subscribe(onNext: { [weak self] text in
+                self?.emailTextField.updateVerificationButtonText(text)
+            })
             .disposed(by: disposeBag)
     }
 
