@@ -41,7 +41,7 @@ extension MailAPI: PiCKAPI {
     }
 
     public var pickHeader: TokenType {
-        return .accessToken
+        return .tokenIsEmpty
     }
 
     public var errorMap: [Int: PiCKError]? {

@@ -42,7 +42,7 @@ public class VerifyEmailViewModel: BaseViewModel, Stepper {
                 print("🔵 API 요청 시작")
                 return self.verifyEmailCodeUseCase.execute(
                     req: VerifyEmailCodeRequestParams(
-                        mail: "\(email)@dsm.hs.kr",
+                        mail: "\(email)",
                         message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
                         title: "회원가입 제목 테스트"
                     )
