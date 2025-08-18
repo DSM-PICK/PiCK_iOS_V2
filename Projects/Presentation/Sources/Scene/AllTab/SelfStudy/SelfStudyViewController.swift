@@ -40,6 +40,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         font: .pickFont(.body1),
         isHidden: true
     )
+    private lazy var calendarShadowView = PiCKCalendarShadowView()
     private lazy var calendarView = PiCKCalendarView(
         calnedarType: .selfStudyWeek,
         dateOnTap: { date in
@@ -102,6 +103,7 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
             floorStackView,
             teacherStackView,
             emptySelfStudyLabel,
+            calendarShadowView,
             calendarView
         ].forEach { view.addSubview($0) }
 
@@ -119,6 +121,11 @@ public class SelfStudyViewController: BaseViewController<SelfStudyViewModel> {
         }
         emptySelfStudyLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        calendarShadowView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(170)
+            $0.height.equalTo(350)
         }
         calendarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
