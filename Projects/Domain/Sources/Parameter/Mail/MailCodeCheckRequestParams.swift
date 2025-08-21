@@ -1,19 +1,19 @@
 import Foundation
 
 public struct MailCodeCheckRequestParams: Encodable {
-    public let mail: String
+    public let email: String
     public let code: String
 
     public init(
-        mail: String,
+        email: String,
         code: String
     ) {
-        self.mail = mail
+        self.email = email
         self.code = code
     }
 
     enum CodingKeys: String, CodingKey {
-        case mail
+        case email
         case code
     }
 

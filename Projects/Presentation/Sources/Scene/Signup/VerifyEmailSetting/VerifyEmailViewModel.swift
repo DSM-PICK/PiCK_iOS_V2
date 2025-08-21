@@ -138,7 +138,7 @@ extension VerifyEmailReactor {
 
         return self.mailCodeCheckUseCase.execute(
             req: MailCodeCheckRequestParams(
-                mail: email,
+                email: email,
                 code: code
             )
         )
