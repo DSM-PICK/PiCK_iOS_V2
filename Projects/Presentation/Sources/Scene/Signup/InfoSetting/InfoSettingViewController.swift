@@ -7,6 +7,10 @@ import Core
 import DesignSystem
 
 final public class InfoSettingViewController: BaseViewController<InfoSettingViewModel> {
+    private var gradeRelay = BehaviorRelay<String>(value: "")
+    private var classRelay = BehaviorRelay<String>(value: "")
+    private var numberRelay = BehaviorRelay<String>(value: "")
+
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
         textColor: .modeBlack,
@@ -68,6 +72,81 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 
+    public override func bind() {
+        let input = InfoSettingViewModel.Input(
+            grade: gradeRelay.asObservable(),
+            selectGradeButtonDidTap: selectButton.buttonTap.asObservable(),
+            classNumber: classRelay.asObservable(),
+            selectClassButtonDidTap: classSelectButton.buttonTap.asObservable(),
+            number: numberRelay.asObservable(),
+            selectNumberButtonDidTap: numberSelectButton.buttonTap.asObservable(),
+            name: nameTextField.rx.text.orEmpty.asObservable(),
+            nextButtonDidTap: nextButton.buttonTap.asObservable()
+        )
+
+        let output = viewModel.transform(input: input)
+
+        output.isNextButtonEnabled
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.nextButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
+    }
+
+    public override func bindAction() {
+        selectButton.buttonTap
+            .bind { [weak self] in
+                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
+
+                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
+                    self?.gradeRelay.accept("\(grade)")
+                    self?.classRelay.accept("\(classNum)")
+                    self?.numberRelay.accept("\(number)")
+
+                    self?.selectButton.setup(text: "\(grade)")
+                    self?.classSelectButton.setup(text: "\(classNum)")
+                    self?.numberSelectButton.setup(text: "\(number)")
+                }
+
+                self?.presentAsCustomDents(view: alert, height: 406)
+            }.disposed(by: disposeBag)
+
+        classSelectButton.buttonTap
+            .bind { [weak self] in
+                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
+
+                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
+                    self?.gradeRelay.accept("\(grade)")
+                    self?.classRelay.accept("\(classNum)")
+                    self?.numberRelay.accept("\(number)")
+
+                    self?.selectButton.setup(text: "\(grade)")
+                    self?.classSelectButton.setup(text: "\(classNum)")
+                    self?.numberSelectButton.setup(text: "\(number)")
+                }
+
+                self?.presentAsCustomDents(view: alert, height: 406)
+            }.disposed(by: disposeBag)
+
+        numberSelectButton.buttonTap
+            .bind { [weak self] in
+                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
+
+                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
+                    self?.gradeRelay.accept("\(grade)")
+                    self?.classRelay.accept("\(classNum)")
+                    self?.numberRelay.accept("\(number)")
+
+                    self?.selectButton.setup(text: "\(grade)")
+                    self?.classSelectButton.setup(text: "\(classNum)")
+                    self?.numberSelectButton.setup(text: "\(number)")
+                }
+
+                self?.presentAsCustomDents(view: alert, height: 406)
+            }.disposed(by: disposeBag)
+    }
+
     public override func addView() {
         [
             titleLabel,
@@ -108,5 +187,4 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
     }
-
 }
