@@ -9,13 +9,12 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    // UseCase 추가 (필요시)
-    // private let userInfoUseCase: UserInfoUseCase
+    private let signUpUseCase: SignUpUseCase
 
     public init(
-        // userInfoUseCase: UserInfoUseCase
+        signUpUseCase: SignUpUseCase
     ) {
-        // self.userInfoUseCase = userInfoUseCase
+        self.signUpUseCase = signUpUseCase
     }
 
     public struct Input {
