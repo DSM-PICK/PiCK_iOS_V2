@@ -16,6 +16,9 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     public var periodText = BehaviorRelay<Int>(value: 1)
     public var hourText = BehaviorRelay<Int>(value: 8)
     public var minText = BehaviorRelay<Int>(value: 0)
+    public var gradeText = BehaviorRelay<Int>(value: 1)
+    public var classText = BehaviorRelay<Int>(value: 1)
+    public var numberText = BehaviorRelay<Int>(value: 1)
 
     private let currentHour: Int
     private let currentMin: Int
@@ -23,6 +26,9 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
     private let periodArray = Array(1...10)
     private let hourArray = Array(8...20)
     private let minArray = Array(0...59)
+    private let gradeArray = Array(1...3)
+    private let classArray = Array(1...4)
+    private let numberArray = Array(1...17)
 
     public init(type: PickerTimeType) {
         self.pickerTimeType = type
@@ -59,6 +65,12 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
             }
         case .min:
             self.selectRow(currentMin, inComponent: 0, animated: false)
+        case .grade:
+            self.selectRow(0, inComponent: 0, animated: false)
+        case .class:
+            self.selectRow(0, inComponent: 0, animated: false)
+        case .number:
+            self.selectRow(0, inComponent: 0, animated: false)
         }
     }
 
@@ -74,6 +86,12 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
             return hourArray.count
         case .min:
             return minArray.count
+        case .grade:
+            return gradeArray.count
+        case .class:
+            return classArray.count
+        case .number:
+            return numberArray.count
         }
     }
 
@@ -107,6 +125,12 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
             label.text = "\(hourArray[row])"
         case .min:
             label.text = "\(minArray[row])"
+        case .grade:
+            label.text = "\(gradeArray[row])"
+        case .class:
+            label.text = "\(classArray[row])"
+        case .number:
+            label.text = "\(numberArray[row])"
         }
 
         return view
@@ -125,6 +149,18 @@ public class PiCKPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
         case .min:
             minText.accept(minArray[row])
             pickerDelegate?.pickerViewDidChangeValue(self, type: .min, value: minArray[row])
+
+        case .grade:
+            gradeText.accept(gradeArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .grade, value: gradeArray[row])
+
+        case .class:
+            classText.accept(classArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .class, value: classArray[row])
+
+        case .number:
+            numberText.accept(numberArray[row])
+            pickerDelegate?.pickerViewDidChangeValue(self, type: .number, value: numberArray[row])
         }
     }
 

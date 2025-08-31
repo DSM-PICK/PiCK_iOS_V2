@@ -16,18 +16,41 @@ public final class PresentationAssembly: Assembly {
         container.register(OnboardingViewModel.self) { resolver in
             OnboardingViewModel(
                 refreshTokenUseCase: resolver.resolve(RefreshTokenUseCase.self)!,
-                loginUseCase: resolver.resolve(LoginUseCase.self)!
+                signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
         }
 
         // MARK: Login
         container.register(LoginViewController.self) { resolver in
-            LoginViewController(reactor: resolver.resolve(LoginReactor.self)!)
+            LoginViewController(reactor: resolver.resolve(SigninReactor.self)!)
         }
-        container.register(LoginReactor.self) { resolver in
-            LoginReactor(
-                loginUseCase: resolver.resolve(LoginUseCase.self)!
+        container.register(SigninReactor.self) { resolver in
+            SigninReactor(
+                signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
+        }
+
+        // MARK: SignUp
+        container.register(VerifyEmailViewController.self) { resolver in
+            VerifyEmailViewController(reactor: resolver.resolve(VerifyEmailReactor.self)!)
+        }
+        container.register(VerifyEmailReactor.self) { resolver in
+            VerifyEmailReactor(
+                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!,
+                mailCodeCheckUseCase: resolver.resolve(MailCodeCheckUseCase.self)!
+            )
+        }
+        container.register(PasswordSettingViewModel.self) { resolver in
+            PasswordSettingViewModel()
+        }
+        container.register(PasswordSettingViewController.self) { resolver in
+            PasswordSettingViewController(viewModel: resolver.resolve(PasswordSettingViewModel.self)!)
+        }
+        container.register(InfoSettingViewModel.self) { resolver in
+            InfoSettingViewModel(signUpUseCase: resolver.resolve(SignUpUseCase.self)!)
+        }
+        container.register(InfoSettingViewController.self) { resolver in
+            InfoSettingViewController(viewModel: resolver.resolve(InfoSettingViewModel.self)!)
         }
 
         // MARK: Home
@@ -177,6 +200,19 @@ public final class PresentationAssembly: Assembly {
                 fetchNotificationStatusUseCase: resolver.resolve(FetchNotificationStatus.self)!,
                 notificationSubscribeUseCase: resolver.resolve(NotificationSubscribeUseCase.self)!
             )
+        }
+        // ChangePassword
+        container.register(ChangePasswordViewModel.self) { resolver in
+            ChangePasswordViewModel()
+        }
+        container.register(ChangePasswordViewController.self) { resolver in
+            ChangePasswordViewController(viewModel: resolver.resolve(ChangePasswordViewModel.self)!)
+        }
+        container.register(NewPasswordViewModel.self) { resolver in
+            NewPasswordViewModel()
+        }
+        container.register(NewPasswordViewController.self) { resolver in
+            NewPasswordViewController(viewModel: resolver.resolve(NewPasswordViewModel.self)!)
         }
         // MyPage
         container.register(MyPageViewController.self) { resolver in

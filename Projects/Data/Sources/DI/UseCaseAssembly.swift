@@ -9,8 +9,11 @@ public final class UseCaseAssembly: Assembly {
 
     public func assemble(container: Container) {
         // MARK: Auth
-        container.register(LoginUseCase.self) { resolver in
-            LoginUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        container.register(SigninUseCase.self) { resolver in
+            SigninUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }
+        container.register(SignUpUseCase.self) { resolver in
+            SignUpUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
         container.register(LogoutUseCase.self) { resolver in
             LogoutUseCase(repository: resolver.resolve(AuthRepository.self)!)
@@ -25,6 +28,14 @@ public final class UseCaseAssembly: Assembly {
         // MARK: SchoolMeal
         container.register(FetchSchoolMealUseCase.self) { resolver in
             FetchSchoolMealUseCase(repository: resolver.resolve(SchoolMealRepository.self)!)
+        }
+
+        // MARK: Mail
+        container.register(VerifyEmailCodeUseCase.self) { resolver in
+            VerifyEmailCodeUseCase(repository: resolver.resolve(MailRepository.self)!)
+        }
+        container.register(MailCodeCheckUseCase.self) { resolver in
+            MailCodeCheckUseCase(repository: resolver.resolve(MailRepository.self)!)
         }
 
         // MARK: Schedule

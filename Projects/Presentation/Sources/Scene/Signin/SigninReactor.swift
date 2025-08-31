@@ -11,22 +11,24 @@ import Domain
 
 import FirebaseMessaging
 
-public final class LoginReactor: BaseReactor {
+public final class SigninReactor: BaseReactor {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
     public let initialState: State
 
-    private let loginUseCase: LoginUseCase
+    private let signinUseCase: SigninUseCase
 
-    init(loginUseCase: LoginUseCase) {
+    init(signinUseCase: SigninUseCase) {
         self.initialState = .init()
-        self.loginUseCase = loginUseCase
+        self.signinUseCase = signinUseCase
     }
 
     public enum Action {
         case updateID(String)
         case updatePassword(String)
         case loginButtonDidTap
+        case signUpButtonDidTap
+        case forgotPasswordButtonDidTap
     }
 
     public enum Mutation {
@@ -37,6 +39,8 @@ public final class LoginReactor: BaseReactor {
         case errorReset
         case isButtonEnabled(Bool)
         case loginSuccess
+        case navigateToSignUp
+        case navigateToChangePassword
     }
 
     public struct State {
@@ -48,7 +52,7 @@ public final class LoginReactor: BaseReactor {
     }
 }
 
-extension LoginReactor {
+extension SigninReactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loginButtonDidTap:
@@ -71,6 +75,10 @@ extension LoginReactor {
                 .just(.isButtonEnabled(enabled)),
                 .just(.updatePassword(password))
             ])
+        case .signUpButtonDidTap:
+            return .just(.navigateToSignUp)
+        case .forgotPasswordButtonDidTap:
+            return .just(.navigateToChangePassword)
         }
     }
 
@@ -92,12 +100,16 @@ extension LoginReactor {
             newState.isButtonEnabled = enabled
         case .loginSuccess:
             steps.accept(PiCKStep.tabIsRequired)
+        case .navigateToSignUp:
+            steps.accept(PiCKStep.signUpIsRequired)
+        case .navigateToChangePassword:
+            steps.accept(PiCKStep.changePasswordIsRequired)
         }
         return newState
     }
 
     private func loginButtonDidTap(id: String, password: String) -> Observable<Mutation> {
-        return self.loginUseCase.execute(req: .init(
+        return self.signinUseCase.execute(req: .init(
             accountID: id,
             password: password,
             deviceToken: Messaging.messaging().fcmToken ?? ""
@@ -115,5 +127,4 @@ extension LoginReactor {
             }
         }
     }
-
 }
