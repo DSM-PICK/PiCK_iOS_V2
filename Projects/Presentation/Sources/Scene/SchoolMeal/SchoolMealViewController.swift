@@ -20,13 +20,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
             self.loadSchoolMeal(date: date)
         }
     )
-    private lazy var calendarShadowView = UIView().then {
-        $0.layer.shadowOpacity = 0.25
-        $0.layer.shadowOffset = CGSize(width: 0, height: 5)
-        $0.layer.shadowRadius = 10
-        $0.layer.cornerRadius = 20
-        $0.backgroundColor = .background
-    }
+    private lazy var calendarShadowView = PiCKCalendarShadowView()
     private lazy var dateLabel = PiCKLabel(
         text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,

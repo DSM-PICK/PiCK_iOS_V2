@@ -12,7 +12,7 @@ public extension TargetDependency.Projects {
     static let domain = project(name: "Domain")
     static let flow = project(name: "Flow")
     static let presentation = project(name: "Presentation")
-    
+
     static func project(name: String) -> TargetDependency {
         return .project(
             target: name,
@@ -37,7 +37,7 @@ public extension TargetDependency.Module {
 public extension TargetDependency.WatchModule {
     static let watchAppNetwork = module(name: "WatchAppNetwork")
     static let watchDesignSystem = module(name: "WatchDesignSystem")
-    static let thirdPartyLib = module(name: "WatchThirdPartyLib")
+    static let WatchThirdPartyLib = module(name: "WatchThirdPartyLib")
 
     static func module(name: String) -> TargetDependency {
         return .project(
