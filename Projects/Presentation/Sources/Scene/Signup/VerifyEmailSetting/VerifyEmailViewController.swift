@@ -7,6 +7,9 @@ import Core
 import DesignSystem
 
 public class VerifyEmailViewController: BaseReactorViewController<VerifyEmailReactor> {
+    public func getCurrentEmailData() -> (email: String, verificationCode: String) {
+        return (reactor.currentState.email, reactor.currentState.certification)
+    }
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
         textColor: .modeBlack,

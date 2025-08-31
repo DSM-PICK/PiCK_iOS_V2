@@ -7,6 +7,10 @@ import Core
 import DesignSystem
 
 final public class PasswordSettingViewController: BaseViewController<PasswordSettingViewModel> {
+    // 이전 단계에서 전달받을 데이터
+    public var email: String = ""
+    public var verificationCode: String = ""
+    
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
         textColor: .modeBlack,
@@ -37,6 +41,7 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
         buttonText: "다음",
         isHidden: false
     )
+
     public override func attribute() {
         super.attribute()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -44,6 +49,8 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
 
     public override func bind() {
         let input = PasswordSettingViewModel.Input(
+            email: email,
+            verificationCode: verificationCode,
             nextButtonTap: nextButton.rx.tap.asObservable(),
             passwordText: passwordTextField.rx.text.orEmpty.asObservable(),
             confirmPasswordText: confirmPasswordField.rx.text.orEmpty.asObservable()
@@ -58,11 +65,11 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
 
     public override func addView() {
         [
-        titleLabel,
-        explainLabel,
-        passwordTextField,
-        confirmPasswordField,
-        nextButton
+            titleLabel,
+            explainLabel,
+            passwordTextField,
+            confirmPasswordField,
+            nextButton
         ].forEach(view.addSubview)
     }
 

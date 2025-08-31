@@ -9,10 +9,11 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
 
-    init() {
-    }
+    init() {}
 
     public struct Input {
+        let email: String
+        let verificationCode: String
         let nextButtonTap: Observable<Void>
         let passwordText: Observable<String>
         let confirmPasswordText: Observable<String>
@@ -31,9 +32,19 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
         }
 
         input.nextButtonTap
-            .withLatestFrom(isPasswordValid)
-            .filter { $0 }
-            .map { _ in PiCKStep.infoSettingIsRequired }
+            .withLatestFrom(Observable.combineLatest(
+                input.passwordText,
+                isPasswordValid
+            ))
+            .filter { _, isValid in isValid }
+            .map { password, _ in
+                // input에서 받은 실제 값들을 사용
+                PiCKStep.infoSettingIsRequired(
+                    email: input.email,
+                    password: password,
+                    verificationCode: input.verificationCode
+                )
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
