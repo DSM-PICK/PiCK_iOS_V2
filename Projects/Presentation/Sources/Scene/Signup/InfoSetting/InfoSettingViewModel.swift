@@ -1,4 +1,5 @@
 import Core
+import FirebaseMessaging
 import DesignSystem
 import RxFlow
 import RxSwift
@@ -10,11 +11,14 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
     public var steps = PublishRelay<Step>()
 
     private let signUpUseCase: SignUpUseCase
+    private let signInUseCase: SigninUseCase
 
     public init(
-        signUpUseCase: SignUpUseCase
+        signUpUseCase: SignUpUseCase,
+        signinUseCase: SigninUseCase
     ) {
         self.signUpUseCase = signUpUseCase
+        self.signInUseCase = signinUseCase
     }
 
     public struct Input {
@@ -75,13 +79,22 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                 )
 
                 return self.signUpUseCase.execute(req: signUpParams)
+                    .andThen(
+                        self.signInUseCase.execute(
+                            req: SigninRequestParams(
+                                accountID: input.email,
+                                password: input.password,
+                                deviceToken: Messaging.messaging().fcmToken ?? ""
+                            )
+                        )
+                    )
                     .andThen(Observable.just(()))
                     .do(onNext: { _ in
                         signUpResult.onNext(true)
                         self.steps.accept(PiCKStep.signUpComplete)
                     })
                     .catch { _ in
-                        errorMessage.onNext("회원가입에 실패했습니다. 다시 시도해주세요.")
+                        errorMessage.onNext("회원가입 또는 로그인에 실패했습니다. 다시 시도해주세요.")
                         signUpResult.onNext(false)
                         return Observable.just(())
                     }
