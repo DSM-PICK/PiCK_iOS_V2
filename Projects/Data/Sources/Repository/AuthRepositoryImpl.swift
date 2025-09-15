@@ -17,8 +17,8 @@ class AuthRepositoryImpl: AuthRepository {
     init(remoteDataSource: AuthDataSource) {
         self.remoteDataSource = remoteDataSource
     }
-//    func signUp(req: SignUpRequestParams) -> Completable {
-//        
+//    func signup(req: SignupRequestParams) -> Completable {
+//
 //    }
     func signin(req: SigninRequestParams) -> Completable {
         return Completable.create { [weak self] completable in
@@ -43,8 +43,8 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
 
-    func signUp(req: SignUpRequestParams) -> Completable {
-        return remoteDataSource.signUp(req: req)
+    func signup(req: SignupRequestParams) -> Completable {
+        return remoteDataSource.signup(req: req)
     }
 
     func logout() {

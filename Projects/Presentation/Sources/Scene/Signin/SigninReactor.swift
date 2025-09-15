@@ -27,7 +27,7 @@ public final class SigninReactor: BaseReactor {
         case updateID(String)
         case updatePassword(String)
         case loginButtonDidTap
-        case signUpButtonDidTap
+        case signupButtonDidTap
         case forgotPasswordButtonDidTap
     }
 
@@ -39,7 +39,7 @@ public final class SigninReactor: BaseReactor {
         case errorReset
         case isButtonEnabled(Bool)
         case loginSuccess
-        case navigateToSignUp
+        case navigateToSignup
         case navigateToChangePassword
     }
 
@@ -75,8 +75,8 @@ extension SigninReactor {
                 .just(.isButtonEnabled(enabled)),
                 .just(.updatePassword(password))
             ])
-        case .signUpButtonDidTap:
-            return .just(.navigateToSignUp)
+        case .signupButtonDidTap:
+            return .just(.navigateToSignup)
         case .forgotPasswordButtonDidTap:
             return .just(.navigateToChangePassword)
         }
@@ -100,7 +100,7 @@ extension SigninReactor {
             newState.isButtonEnabled = enabled
         case .loginSuccess:
             steps.accept(PiCKStep.tabIsRequired)
-        case .navigateToSignUp:
+        case .navigateToSignup:
             steps.accept(PiCKStep.verifyEmailIsRequired)
         case .navigateToChangePassword:
             steps.accept(PiCKStep.changePasswordIsRequired)

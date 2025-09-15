@@ -101,7 +101,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             }
             .disposed(by: disposeBag)
 
-        output.signUpResult
+        output.signupResult
             .asObservable()
             .withUnretained(self)
             .bind { _, isSuccess in

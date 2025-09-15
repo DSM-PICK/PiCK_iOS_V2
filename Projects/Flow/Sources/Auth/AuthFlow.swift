@@ -38,7 +38,7 @@ public class AuthFlow: Flow {
             return navigateToPasswordSetting(email: email, verificationCode: verificationCode)
         case let .infoSettingIsRequired(email, password, verificationCode):
             return navigateToInfoSetting(email: email, password: password, verificationCode: verificationCode)
-        case .signUpComplete:
+        case .signupComplete:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         default:
             return .none

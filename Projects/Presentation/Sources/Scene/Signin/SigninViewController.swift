@@ -82,7 +82,7 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
 
         nonAccountButton.buttonTap
             .asDriver()
-            .map { SigninReactor.Action.signUpButtonDidTap }
+            .map { SigninReactor.Action.signupButtonDidTap }
             .drive(reactor.action)
             .disposed(by: disposeBag)
 

@@ -30,7 +30,7 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        // MARK: SignUp
+        // MARK: Signup
         container.register(VerifyEmailViewController.self) { resolver in
             VerifyEmailViewController(reactor: resolver.resolve(VerifyEmailReactor.self)!)
         }
@@ -48,7 +48,7 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(InfoSettingViewModel.self) { resolver in
             InfoSettingViewModel(
-                signUpUseCase: resolver.resolve(SignUpUseCase.self)!,
+                signupUseCase: resolver.resolve(SignupUseCase.self)!,
                 signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
         }

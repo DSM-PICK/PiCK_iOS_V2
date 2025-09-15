@@ -10,15 +10,15 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
     private let disposeBag = DisposeBag()
     public var steps = PublishRelay<Step>()
 
-    private let signUpUseCase: SignUpUseCase
-    private let signInUseCase: SigninUseCase
+    private let signupUseCase: SignupUseCase
+    private let signinUseCase: SigninUseCase
 
     public init(
-        signUpUseCase: SignUpUseCase,
+        signupUseCase: SignupUseCase,
         signinUseCase: SigninUseCase
     ) {
-        self.signUpUseCase = signUpUseCase
-        self.signInUseCase = signinUseCase
+        self.signupUseCase = signupUseCase
+        self.signinUseCase = signinUseCase
     }
 
     public struct Input {
@@ -37,7 +37,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
 
     public struct Output {
         let isNextButtonEnabled: Signal<Bool>
-        let signUpResult: Signal<Bool>
+        let signupResult: Signal<Bool>
         let errorMessage: Signal<String>
     }
 
@@ -53,7 +53,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
             return !grade.isEmpty && !classNum.isEmpty && !number.isEmpty && !name.isEmpty
         }
 
-        let signUpResult = PublishSubject<Bool>()
+        let signupResult = PublishSubject<Bool>()
         let errorMessage = PublishSubject<String>()
 
         input.nextButtonDidTap
@@ -68,7 +68,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     return .empty()
                 }
 
-                let signUpParams = SignUpRequestParams(
+                let signupParams = SignupRequestParams(
                     accountID: input.email,
                     password: input.password,
                     name: name,
@@ -78,9 +78,9 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     code: input.verificationCode
                 )
 
-                return self.signUpUseCase.execute(req: signUpParams)
+                return self.signupUseCase.execute(req: signupParams)
                     .andThen(
-                        self.signInUseCase.execute(
+                        self.signinUseCase.execute(
                             req: SigninRequestParams(
                                 accountID: input.email,
                                 password: input.password,
@@ -90,12 +90,12 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     )
                     .andThen(Observable.just(()))
                     .do(onNext: { _ in
-                        signUpResult.onNext(true)
-                        self.steps.accept(PiCKStep.signUpComplete)
+                        signupResult.onNext(true)
+                        self.steps.accept(PiCKStep.signupComplete)
                     })
                     .catch { _ in
                         errorMessage.onNext("회원가입 또는 로그인에 실패했습니다. 다시 시도해주세요.")
-                        signUpResult.onNext(false)
+                        signupResult.onNext(false)
                         return Observable.just(())
                     }
             }
@@ -104,7 +104,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
 
         return Output(
             isNextButtonEnabled: isNextButtonEnabled.asSignal(onErrorJustReturn: false),
-            signUpResult: signUpResult.asSignal(onErrorJustReturn: false),
+            signupResult: signupResult.asSignal(onErrorJustReturn: false),
             errorMessage: errorMessage.asSignal(onErrorJustReturn: "")
         )
     }
