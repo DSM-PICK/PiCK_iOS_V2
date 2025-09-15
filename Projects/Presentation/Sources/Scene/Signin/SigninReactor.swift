@@ -101,7 +101,7 @@ extension SigninReactor {
         case .loginSuccess:
             steps.accept(PiCKStep.tabIsRequired)
         case .navigateToSignUp:
-            steps.accept(PiCKStep.signUpIsRequired)
+            steps.accept(PiCKStep.verifyEmailIsRequired)
         case .navigateToChangePassword:
             steps.accept(PiCKStep.changePasswordIsRequired)
         }

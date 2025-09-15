@@ -104,7 +104,10 @@ extension VerifyEmailReactor {
         case .verificationSuccess:
             break
         case .navigateToPasswordSetting:
-            steps.accept(PiCKStep.passwordSettingIsRequired)
+            steps.accept(PiCKStep.passwordSettingIsRequired(
+                email: newState.email,
+                verificationCode: newState.certification
+            ))
         }
         return newState
     }
