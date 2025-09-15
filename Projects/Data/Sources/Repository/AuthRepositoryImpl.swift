@@ -24,7 +24,7 @@ class AuthRepositoryImpl: AuthRepository {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create {} }
 
-            self.remoteDataSource.login(req: req)
+            self.remoteDataSource.signin(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
                     self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)

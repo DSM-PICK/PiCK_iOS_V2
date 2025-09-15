@@ -26,7 +26,7 @@ public final class SigninReactor: BaseReactor {
     public enum Action {
         case updateID(String)
         case updatePassword(String)
-        case loginButtonDidTap
+        case signinButtonDidTap
         case signupButtonDidTap
         case forgotPasswordButtonDidTap
     }
@@ -38,7 +38,7 @@ public final class SigninReactor: BaseReactor {
         case passwordError(String)
         case errorReset
         case isButtonEnabled(Bool)
-        case loginSuccess
+        case signinSuccess
         case navigateToSignup
         case navigateToChangePassword
     }
@@ -55,9 +55,9 @@ public final class SigninReactor: BaseReactor {
 extension SigninReactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .loginButtonDidTap:
+        case .signinButtonDidTap:
             return .concat([
-                loginButtonDidTap(
+                signinButtonDidTap(
                     id: self.currentState.id,
                     password: self.currentState.password
                 ),
@@ -98,7 +98,7 @@ extension SigninReactor {
             newState.passwordErrorDescription = ""
         case .isButtonEnabled(let enabled):
             newState.isButtonEnabled = enabled
-        case .loginSuccess:
+        case .signinSuccess:
             steps.accept(PiCKStep.tabIsRequired)
         case .navigateToSignup:
             steps.accept(PiCKStep.verifyEmailIsRequired)
@@ -108,13 +108,13 @@ extension SigninReactor {
         return newState
     }
 
-    private func loginButtonDidTap(id: String, password: String) -> Observable<Mutation> {
+    private func signinButtonDidTap(id: String, password: String) -> Observable<Mutation> {
         return self.signinUseCase.execute(req: .init(
             accountID: id,
             password: password,
             deviceToken: Messaging.messaging().fcmToken ?? ""
         ))
-        .andThen(Observable.just(Mutation.loginSuccess))
+        .andThen(Observable.just(Mutation.signinSuccess))
         .catch { error in
             guard let error = error as? AuthError,
                     let description = error.errorDescription

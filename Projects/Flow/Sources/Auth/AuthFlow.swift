@@ -20,8 +20,8 @@ public class AuthFlow: Flow {
         guard let step = step as? PiCKStep else { return .none }
 
         switch step {
-        case .loginIsRequired:
-            return navigateToLogin()
+        case .signinIsRequired:
+            return navigateToSignin()
         case .changePasswordIsRequired:
             return navigateToPasswordChange()
         case .newPasswordIsRequired:
@@ -45,8 +45,8 @@ public class AuthFlow: Flow {
         }
     }
 
-    private func navigateToLogin() -> FlowContributors {
-        let vc = LoginViewController(reactor: container.resolve(SigninReactor.self)!)
+    private func navigateToSignin() -> FlowContributors {
+        let vc = SigninViewController(reactor: container.resolve(SigninReactor.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

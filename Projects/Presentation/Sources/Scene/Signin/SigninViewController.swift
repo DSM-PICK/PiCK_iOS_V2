@@ -9,7 +9,7 @@ import RxCocoa
 import Core
 import DesignSystem
 
-public class LoginViewController: BaseReactorViewController<SigninReactor> {
+public class SigninViewController: BaseReactorViewController<SigninReactor> {
     private let titleLabel = PiCKLabel(
         text: "PiCK에 로그인하기",
         textColor: .modeBlack,
@@ -51,7 +51,7 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
     private let nonAccountButton = PiCKUnderlineButton(
         buttonText: "회원가입"
     )
-    private let loginButton = PiCKButton(
+    private let signinButton = PiCKButton(
         buttonText: "로그인하기",
         isHidden: false,
     )
@@ -74,9 +74,9 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
-        loginButton.buttonTap
+        signinButton.buttonTap
             .asDriver()
-            .map { SigninReactor.Action.loginButtonDidTap }
+            .map { SigninReactor.Action.signinButtonDidTap }
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
@@ -116,7 +116,7 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind { owner, isEnabled in
-                owner.loginButton.isEnabled = isEnabled
+                owner.signinButton.isEnabled = isEnabled
             }.disposed(by: disposeBag)
     }
     public override func addView() {
@@ -129,7 +129,7 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             forgotPasswordLabel,
             nonAccountLabel,
             nonAccountButton,
-            loginButton
+            signinButton
         ].forEach { view.addSubview($0) }
     }
 
@@ -161,14 +161,14 @@ public class LoginViewController: BaseReactorViewController<SigninReactor> {
             $0.trailing.equalTo(forgotPasswordButton.snp.leading).offset(-4)
         }
         nonAccountLabel.snp.makeConstraints {
-            $0.bottom.equalTo(loginButton.snp.top).offset(-12)
+            $0.bottom.equalTo(signinButton.snp.top).offset(-12)
             $0.leading.equalToSuperview().inset(24)
         }
         nonAccountButton.snp.makeConstraints {
-            $0.bottom.equalTo(loginButton.snp.top).offset(-12)
+            $0.bottom.equalTo(signinButton.snp.top).offset(-12)
             $0.leading.equalTo(nonAccountLabel.snp.trailing).offset(4)
         }
-        loginButton.snp.makeConstraints {
+        signinButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }

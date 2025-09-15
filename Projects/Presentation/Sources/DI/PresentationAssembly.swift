@@ -20,9 +20,9 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        // MARK: Login
-        container.register(LoginViewController.self) { resolver in
-            LoginViewController(reactor: resolver.resolve(SigninReactor.self)!)
+        // MARK: Signin
+        container.register(SigninViewController.self) { resolver in
+            SigninViewController(reactor: resolver.resolve(SigninReactor.self)!)
         }
         container.register(SigninReactor.self) { resolver in
             SigninReactor(
