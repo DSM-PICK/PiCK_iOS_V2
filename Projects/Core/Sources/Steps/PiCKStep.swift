@@ -12,12 +12,9 @@ public enum PiCKStep: Step {
     case tabIsRequired
     case popIsRequired
 
-    // MARK: Login
-    case signUpIsRequired
-
     // MARK: SignUp
     case verifyEmailIsRequired
-    case passwordSettingIsRequired
+    case passwordSettingIsRequired(email: String, verificationCode: String)
     case infoSettingIsRequired(email: String, password: String, verificationCode: String)
     case signUpComplete
 
