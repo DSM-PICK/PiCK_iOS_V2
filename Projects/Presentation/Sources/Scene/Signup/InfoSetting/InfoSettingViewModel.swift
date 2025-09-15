@@ -57,7 +57,6 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
             .flatMapLatest { [weak self] grade, classNum, number, name -> Observable<Void> in
                 guard let self = self else { return .empty() }
                 
-                // Int로 변환
                 guard let gradeInt = Int(grade),
                       let classNumInt = Int(classNum),
                       let numberInt = Int(number) else {
@@ -65,15 +64,14 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     return .empty()
                 }
                 
-                // 이제 input에서 받은 실제 값들을 사용
                 let signUpParams = SignUpRequestParams(
-                    accountID: input.email,  // 빈 문자열이 아닌 실제 이메일 사용
-                    password: input.password, // 빈 문자열이 아닌 실제 패스워드 사용
+                    accountID: input.email,
+                    password: input.password,
                     name: name,
                     grade: gradeInt,
                     classNum: classNumInt,
                     num: numberInt,
-                    code: input.verificationCode // 빈 문자열이 아닌 실제 인증코드 사용
+                    code: input.verificationCode
                 )
                 
                 print("회원가입 요청 파라미터: \(signUpParams)")

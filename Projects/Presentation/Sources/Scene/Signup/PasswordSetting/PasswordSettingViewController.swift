@@ -7,7 +7,6 @@ import Core
 import DesignSystem
 
 final public class PasswordSettingViewController: BaseViewController<PasswordSettingViewModel> {
-    // 이전 단계에서 전달받을 데이터
     public var email: String = ""
     public var verificationCode: String = ""
     

@@ -38,7 +38,6 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
             ))
             .filter { _, isValid in isValid }
             .map { password, _ in
-                // input에서 받은 실제 값들을 사용
                 PiCKStep.infoSettingIsRequired(
                     email: input.email,
                     password: password,

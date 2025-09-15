@@ -7,7 +7,6 @@ import Core
 import DesignSystem
 
 final public class InfoSettingViewController: BaseViewController<InfoSettingViewModel> {
-    // 이전 단계들에서 전달받을 데이터
     public var email: String = ""
     public var password: String = ""
     public var verificationCode: String = ""
@@ -79,9 +78,9 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
 
     public override func bind() {
         let input = InfoSettingViewModel.Input(
-            email: email, // 프로퍼티 값이 그대로 전달됨
-            password: password, // 프로퍼티 값이 그대로 전달됨
-            verificationCode: verificationCode, // 프로퍼티 값이 그대로 전달됨
+            email: email,
+            password: password,
+            verificationCode: verificationCode,
             grade: gradeRelay.asObservable(),
             selectGradeButtonDidTap: selectButton.buttonTap.asObservable(),
             classNumber: classRelay.asObservable(),
@@ -101,7 +100,6 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
                 owner.nextButton.isEnabled = isEnabled
             }.disposed(by: disposeBag)
         
-        // 회원가입 결과 처리
         output.signUpResult
             .asObservable()
             .withUnretained(self)
