@@ -88,7 +88,7 @@ public class PiCKInfoContainerView: BaseView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(200)
         }
-        
+
         componentBackgroundView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview()

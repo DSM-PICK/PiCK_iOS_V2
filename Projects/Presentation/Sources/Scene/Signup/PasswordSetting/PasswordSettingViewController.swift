@@ -9,7 +9,7 @@ import DesignSystem
 final public class PasswordSettingViewController: BaseViewController<PasswordSettingViewModel> {
     public var email: String = ""
     public var verificationCode: String = ""
-    
+
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
         textColor: .modeBlack,

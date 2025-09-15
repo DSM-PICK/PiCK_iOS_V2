@@ -90,7 +90,7 @@ public class AuthFlow: Flow {
     private func navigateToVerifyEmail() -> FlowContributors {
         let reactor = container.resolve(VerifyEmailReactor.self)!
         let vc = VerifyEmailViewController(reactor: reactor)
-            
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

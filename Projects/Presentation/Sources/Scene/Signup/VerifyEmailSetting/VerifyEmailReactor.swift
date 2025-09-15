@@ -125,7 +125,7 @@ extension VerifyEmailReactor {
             )
         )
         .andThen(Observable.just(Mutation.verificationCodeSent))
-        .catch { error in
+        .catch { _ in
             return .just(.emailError("이메일 인증코드 발송에 실패했습니다"))
         }
     }
@@ -146,7 +146,7 @@ extension VerifyEmailReactor {
             )
         )
         .andThen(Observable.just(Mutation.navigateToPasswordSetting))
-        .catch { error in
+        .catch { _ in
             return .just(.certificationError("인증코드가 올바르지 않습니다"))
         }
     }

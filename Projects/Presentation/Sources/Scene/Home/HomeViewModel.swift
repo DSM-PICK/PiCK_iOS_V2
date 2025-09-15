@@ -118,7 +118,6 @@ public class HomeViewModel: BaseViewModel, Stepper {
             }
             .subscribe(onNext: { data in
                 let infoValue = "\(data.gcn) \(data.name)"
-                
                 self.userDefaultStorage.set(to: infoValue, forKey: .userInfoData)
                 self.userDefaultStorage.set(to: data.name, forKey: .userNameData)
                 self.profileData.accept(data)

@@ -56,14 +56,14 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
             .withLatestFrom(info)
             .flatMapLatest { [weak self] grade, classNum, number, name -> Observable<Void> in
                 guard let self = self else { return .empty() }
-                
+
                 guard let gradeInt = Int(grade),
                       let classNumInt = Int(classNum),
                       let numberInt = Int(number) else {
                     errorMessage.onNext("학번 정보가 올바르지 않습니다.")
                     return .empty()
                 }
-                
+
                 let signUpParams = SignUpRequestParams(
                     accountID: input.email,
                     password: input.password,
@@ -73,17 +73,14 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     num: numberInt,
                     code: input.verificationCode
                 )
-                
-                print("회원가입 요청 파라미터: \(signUpParams)")
-                
+
                 return self.signUpUseCase.execute(req: signUpParams)
                     .andThen(Observable.just(()))
                     .do(onNext: { _ in
                         signUpResult.onNext(true)
                         self.steps.accept(PiCKStep.signUpComplete)
                     })
-                    .catch { error in
-                        print("회원가입 에러: \(error)")
+                    .catch { _ in
                         errorMessage.onNext("회원가입에 실패했습니다. 다시 시도해주세요.")
                         signUpResult.onNext(false)
                         return Observable.just(())

@@ -37,7 +37,6 @@ class WatchDataSourceImpl: NSObject, WatchDataSource, WCSessionDelegate {
             return
         }
 
-
         let message: [String: Any] = [
             "access_token": keychain.load(type: .accessToken)
         ]

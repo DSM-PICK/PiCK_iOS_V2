@@ -10,7 +10,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
     public var email: String = ""
     public var password: String = ""
     public var verificationCode: String = ""
-    
+
     private var gradeRelay = BehaviorRelay<String>(value: "")
     private var classRelay = BehaviorRelay<String>(value: "")
     private var numberRelay = BehaviorRelay<String>(value: "")
@@ -98,25 +98,29 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             .withUnretained(self)
             .bind { owner, isEnabled in
                 owner.nextButton.isEnabled = isEnabled
-            }.disposed(by: disposeBag)
-        
+            }
+            .disposed(by: disposeBag)
+
         output.signUpResult
             .asObservable()
             .withUnretained(self)
-            .bind { owner, isSuccess in
+            .bind { _, isSuccess in
                 if isSuccess {
                     print("회원가입 성공!")
                 } else {
                     print("회원가입 실패")
                 }
-            }.disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
+
         output.errorMessage
             .asObservable()
             .filter { !$0.isEmpty }
             .withUnretained(self)
             .bind { owner, errorMessage in
                 owner.showErrorAlert(message: errorMessage)
-            }.disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
     }
 
     public override func bindAction() {
@@ -171,7 +175,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
                 self?.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
     }
-    
+
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
