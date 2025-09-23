@@ -22,7 +22,7 @@ extension AuthAPI: PiCKAPI {
     public var urlPath: String {
         switch self {
         case .signin:
-            return "/signin"
+            return "/login"
         case .signup:
             return "/signup"
         case .refreshToken:
