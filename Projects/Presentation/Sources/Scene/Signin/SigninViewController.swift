@@ -94,29 +94,20 @@ public class SigninViewController: BaseReactorViewController<SigninReactor> {
     }
     public override func bindState() {
         reactor.state
-            .map { $0.idErrorDescription }
-            .distinctUntilChanged()
-            .filter { $0 != "" }
-            .withUnretained(self)
-            .bind { onwer, errorMessage in
-                onwer.idTextField.errorMessage.accept(errorMessage)
-            }.disposed(by: disposeBag)
-
-        reactor.state
-            .map { $0.passwordErrorDescription }
-            .distinctUntilChanged()
-            .filter { $0 != "" }
-            .withUnretained(self)
-            .bind { onwer, errorMessage in
-                onwer.passwordTextField.errorMessage.accept(errorMessage)
-            }.disposed(by: disposeBag)
-
-        reactor.state
             .map { $0.isButtonEnabled }
             .distinctUntilChanged()
             .withUnretained(self)
             .bind { owner, isEnabled in
                 owner.signinButton.isEnabled = isEnabled
+            }.disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.errorToastMessage }
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.presentErrorToast(message: errorMessage)
             }.disposed(by: disposeBag)
     }
     public override func addView() {
