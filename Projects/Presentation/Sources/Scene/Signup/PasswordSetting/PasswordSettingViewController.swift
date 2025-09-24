@@ -60,6 +60,16 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
         output.isNextButtonEnabled
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
+
+        output.showPasswordMismatchToast
+            .bind { [weak self] in
+                self?.showToast(message: "비밀번호가 일치하지 않습니다")
+            }
+            .disposed(by: disposeBag)
+    }
+
+    private func showToast(message: String) {
+        presentErrorToast(message: message)
     }
 
     public override func addView() {
