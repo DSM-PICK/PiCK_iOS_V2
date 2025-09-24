@@ -15,7 +15,7 @@ class MailRepositoryImpl: MailRepository {
           return remoteDataSource.verifyEmailCode(req: req)
       }
 
-    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Completable {
+    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Single<Bool> {
         return remoteDataSource.mailCodeCheck(req: req)
     }
 

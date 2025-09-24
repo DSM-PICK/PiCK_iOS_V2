@@ -10,7 +10,7 @@ import AppNetwork
 
 protocol MailDataSource {
     func verifyEmailCode(req: VerifyEmailCodeRequestParams) -> Completable
-    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Completable
+    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Single<Bool>
 }
 
 class MailSourceImpl: BaseDataSource<MailAPI>, MailDataSource {
@@ -20,9 +20,9 @@ class MailSourceImpl: BaseDataSource<MailAPI>, MailDataSource {
                .asCompletable()
        }
 
-    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Completable {
+    func mailCodeCheck(req: MailCodeCheckRequestParams) -> Single<Bool> {
         return request(.mailCodeCheck(req: req))
             .filterSuccessfulStatusCodes()
-            .asCompletable()
+            .map(Bool.self)
     }
 }

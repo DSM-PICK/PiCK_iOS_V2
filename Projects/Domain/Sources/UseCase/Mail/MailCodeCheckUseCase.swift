@@ -9,7 +9,7 @@ public class MailCodeCheckUseCase {
         self.repository = repository
     }
 
-    public func execute(req: MailCodeCheckRequestParams) -> Completable {
+    public func execute(req: MailCodeCheckRequestParams) -> Single<Bool> {
         return repository.mailCodeCheck(req: req)
     }
 }
