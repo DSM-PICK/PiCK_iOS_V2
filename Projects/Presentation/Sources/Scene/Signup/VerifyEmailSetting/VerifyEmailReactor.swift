@@ -116,6 +116,10 @@ extension VerifyEmailReactor {
     }
 
     private func sendVerificationCode(email: String) -> Observable<Mutation> {
+        guard !email.isEmpty else {
+            return .just(.showErrorToast("이메일을 입력해주세요"))
+        }
+
         return self.verifyEmailCodeUseCase.execute(
             req: VerifyEmailCodeRequestParams(
                 mail: email,
