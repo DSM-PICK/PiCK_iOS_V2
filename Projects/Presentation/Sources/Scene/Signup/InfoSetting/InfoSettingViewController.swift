@@ -14,6 +14,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
     private var gradeRelay = BehaviorRelay<String>(value: "")
     private var classRelay = BehaviorRelay<String>(value: "")
     private var numberRelay = BehaviorRelay<String>(value: "")
+    private let actualNextButtonTap = PublishSubject<Void>()
 
     private let titleLabel = PiCKLabel(
         text: "PiCK에 회원가입하기",
@@ -88,7 +89,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             number: numberRelay.asObservable(),
             selectNumberButtonDidTap: numberSelectButton.buttonTap.asObservable(),
             name: nameTextField.rx.text.orEmpty.asObservable(),
-            nextButtonDidTap: nextButton.buttonTap.asObservable()
+            nextButtonDidTap: actualNextButtonTap.asObservable()
         )
 
         let output = viewModel.transform(input: input)
@@ -174,6 +175,31 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
 
                 self?.presentAsCustomDents(view: alert, height: 406)
             }.disposed(by: disposeBag)
+
+        nextButton.buttonTap
+            .withLatestFrom(Observable.combineLatest(
+                gradeRelay.asObservable(),
+                classRelay.asObservable(),
+                numberRelay.asObservable(),
+                nameTextField.rx.text.orEmpty.asObservable()
+            ))
+            .bind { [weak self] grade, classNumber, number, name in
+                guard let self = self else { return }
+                guard !grade.isEmpty && !classNumber.isEmpty && !number.isEmpty && !name.isEmpty else { return }
+                
+                let infoCheckView = InfoCheckView(
+                    grade: grade,
+                    classNumber: classNumber,
+                    number: number,
+                    name: name
+                ) {
+                    // 정보 확인 후 실제 회원가입 진행
+                    self.actualNextButtonTap.onNext(())
+                }
+                
+                self.present(infoCheckView, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func showErrorAlert(message: String) {
