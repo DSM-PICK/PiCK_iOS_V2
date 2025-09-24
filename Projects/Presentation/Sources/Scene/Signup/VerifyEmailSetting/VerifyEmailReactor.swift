@@ -41,6 +41,7 @@ public final class VerifyEmailReactor: BaseReactor {
         case verificationCodeSent
         case verificationSuccess
         case navigateToPasswordSetting
+        case showErrorToast(String)
     }
 
     public struct State {
@@ -50,6 +51,7 @@ public final class VerifyEmailReactor: BaseReactor {
         var certificationErrorDescription: String = ""
         var isNextButtonEnabled: Bool = false
         var verificationButtonText: String = "인증코드"
+        var errorToastMessage: String = ""
     }
 }
 
@@ -93,8 +95,7 @@ extension VerifyEmailReactor {
         case .certificationError(let error):
             newState.certificationErrorDescription = error
         case .errorReset:
-            newState.emailErrorDescription = ""
-            newState.certificationErrorDescription = ""
+            newState.errorToastMessage = ""
         case .isNextButtonEnabled(let enabled):
             newState.isNextButtonEnabled = enabled
         case .updateVerificationButtonText(let text):
@@ -108,15 +109,13 @@ extension VerifyEmailReactor {
                 email: newState.email,
                 verificationCode: newState.certification
             ))
+        case .showErrorToast(let message):
+            newState.errorToastMessage = message
         }
         return newState
     }
 
     private func sendVerificationCode(email: String) -> Observable<Mutation> {
-        guard !email.isEmpty else {
-            return .just(.emailError("이메일을 입력해주세요"))
-        }
-
         return self.verifyEmailCodeUseCase.execute(
             req: VerifyEmailCodeRequestParams(
                 mail: email,
@@ -126,28 +125,27 @@ extension VerifyEmailReactor {
         )
         .andThen(Observable.just(Mutation.verificationCodeSent))
         .catch { _ in
-            return .just(.emailError("이메일 인증코드 발송에 실패했습니다"))
+            return .just(.showErrorToast("이메일 인증코드 발송에 실패했습니다"))
         }
     }
 
     private func verifyCode(email: String, code: String) -> Observable<Mutation> {
-        guard !email.isEmpty else {
-            return .just(.emailError("이메일을 입력해주세요"))
-        }
-
-        guard !code.isEmpty else {
-            return .just(.certificationError("인증코드를 입력해주세요"))
-        }
-
         return self.mailCodeCheckUseCase.execute(
             req: MailCodeCheckRequestParams(
                 email: email,
                 code: code
             )
         )
-        .andThen(Observable.just(Mutation.navigateToPasswordSetting))
+        .asObservable()
+        .flatMap { isValid -> Observable<Mutation> in
+            if isValid {
+                return .just(.navigateToPasswordSetting)
+            } else {
+                return .just(.showErrorToast("인증코드가 올바르지 않습니다"))
+            }
+        }
         .catch { _ in
-            return .just(.certificationError("인증코드가 올바르지 않습니다"))
+            return .just(.showErrorToast("인증코드 확인 중 오류가 발생했습니다"))
         }
     }
 }
