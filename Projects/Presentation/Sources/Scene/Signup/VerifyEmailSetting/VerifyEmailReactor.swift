@@ -124,7 +124,7 @@ extension VerifyEmailReactor {
             req: VerifyEmailCodeRequestParams(
                 mail: email,
                 message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
-                title: "회원가입 제목 테스트"
+                title: "회원가입 인증"
             )
         )
         .andThen(Observable.just(Mutation.verificationCodeSent))
