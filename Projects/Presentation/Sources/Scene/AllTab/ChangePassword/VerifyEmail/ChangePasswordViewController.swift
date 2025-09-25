@@ -22,7 +22,8 @@ public class ChangePasswordViewController: BaseViewController<ChangePasswordView
     private let emailTextField = PiCKTextField(
         titleText: "이메일",
         placeholder: "학교 이메일을 입력해주세요",
-        buttonIsHidden: true
+        buttonIsHidden: true,
+        showEmailWithVerificationButton: true
     )
     private let certificationTextField = PiCKTextField(
         titleText: "인증 코드",
@@ -37,12 +38,14 @@ public class ChangePasswordViewController: BaseViewController<ChangePasswordView
     public override func attribute() {
         super.attribute()
 
+        navigationTitleText = "비밀번호 변경"
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 
     public override func bind() {
         let input = ChangePasswordViewModel.Input(
             nextButtonTap: nextButton.rx.tap.asObservable(),
+            verificationButtonTap: emailTextField.verificationButtonTapped.asObservable(),
             emailText: emailTextField.rx.text.orEmpty.asObservable(),
             certificationText: certificationTextField.rx.text.orEmpty.asObservable()
         )
@@ -51,6 +54,22 @@ public class ChangePasswordViewController: BaseViewController<ChangePasswordView
 
         output.isNextButtonEnabled
             .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+
+        output.verificationButtonText
+            .withUnretained(self)
+            .bind { owner, text in
+                owner.emailTextField.updateVerificationButtonText(text)
+            }
+            .disposed(by: disposeBag)
+
+        output.errorToastMessage
+            .filter { !$0.isEmpty }
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.presentErrorToast(message: errorMessage)
+            }
             .disposed(by: disposeBag)
     }
 

@@ -7,6 +7,7 @@ import Core
 import DesignSystem
 
 public class NewPasswordViewController: BaseViewController<NewPasswordViewModel> {
+    public var verificationCode: String = ""
     private let titleLabel = PiCKLabel(
         text: "PiCK 비밀번호 변경하기",
         textColor: .modeBlack,

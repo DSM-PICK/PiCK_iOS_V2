@@ -206,7 +206,10 @@ public final class PresentationAssembly: Assembly {
         }
         // ChangePassword
         container.register(ChangePasswordViewModel.self) { resolver in
-            ChangePasswordViewModel()
+            ChangePasswordViewModel(
+                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!,
+                mailCodeCheckUseCase: resolver.resolve(MailCodeCheckUseCase.self)!
+            )
         }
         container.register(ChangePasswordViewController.self) { resolver in
             ChangePasswordViewController(viewModel: resolver.resolve(ChangePasswordViewModel.self)!)

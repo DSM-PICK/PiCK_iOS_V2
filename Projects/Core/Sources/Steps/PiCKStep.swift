@@ -53,7 +53,7 @@ public enum PiCKStep: Step {
 
     // MARK: ChangePassword
     case changePasswordIsRequired
-    case newPasswordIsRequired
+    case newPasswordIsRequired(verificationCode: String)
 
     // MARK: test
     case testIsRequired

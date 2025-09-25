@@ -9,19 +9,34 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
 
-    init() {}
+    private let verifyEmailCodeUseCase: VerifyEmailCodeUseCase
+    private let mailCodeCheckUseCase: MailCodeCheckUseCase
+
+    init(
+        verifyEmailCodeUseCase: VerifyEmailCodeUseCase,
+        mailCodeCheckUseCase: MailCodeCheckUseCase
+    ) {
+        self.verifyEmailCodeUseCase = verifyEmailCodeUseCase
+        self.mailCodeCheckUseCase = mailCodeCheckUseCase
+    }
 
     public struct Input {
         let nextButtonTap: Observable<Void>
+        let verificationButtonTap: Observable<Void>
         let emailText: Observable<String>
         let certificationText: Observable<String>
     }
 
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
+        let verificationButtonText: Observable<String>
+        let errorToastMessage: Observable<String>
     }
 
     public func transform(input: Input) -> Output {
+        let verificationButtonTextRelay = BehaviorRelay<String>(value: "인증코드")
+        let errorToastRelay = PublishRelay<String>()
+
         let isFormValid = Observable.combineLatest(
             input.emailText,
             input.certificationText
@@ -30,24 +45,79 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         }
         .distinctUntilChanged()
 
+        input.verificationButtonTap
+            .withLatestFrom(input.emailText)
+            .flatMapLatest { [weak self] email -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.sendVerificationCode(email: email, errorRelay: errorToastRelay)
+            }
+            .subscribe(onNext: {
+                verificationButtonTextRelay.accept("재발송")
+            })
+            .disposed(by: disposeBag)
+
         input.nextButtonTap
             .withLatestFrom(Observable.combineLatest(
                 input.emailText,
                 input.certificationText
             ))
-            .subscribe(onNext: { [weak self] email, certification in
-                print("다음 버튼 탭됨 - 이메일: \(email), 인증코드: \(certification)")
-                self?.handleNextButtonTap(email: email, certification: certification)
+            .flatMapLatest { [weak self] email, certification -> Observable<String> in
+                guard let self = self else { return .empty() }
+                return self.verifyCode(email: email, code: certification, errorRelay: errorToastRelay)
+                    .map { certification }
+            }
+            .subscribe(onNext: { [weak self] certification in
+                self?.steps.accept(PiCKStep.newPasswordIsRequired(verificationCode: certification))
             })
             .disposed(by: disposeBag)
 
         return Output(
-            isNextButtonEnabled: isFormValid
+            isNextButtonEnabled: isFormValid,
+            verificationButtonText: verificationButtonTextRelay.asObservable(),
+            errorToastMessage: errorToastRelay.asObservable()
         )
     }
 
-    private func handleNextButtonTap(email: String, certification: String) {
-        print("이메일 인증 처리 완료 - newPasswordIsRequired Step 발생")
-        steps.accept(PiCKStep.newPasswordIsRequired)
+    private func sendVerificationCode(email: String, errorRelay: PublishRelay<String>) -> Observable<Void> {
+        guard !email.isEmpty else {
+            errorRelay.accept("이메일을 입력해주세요")
+            return .empty()
+        }
+
+        return self.verifyEmailCodeUseCase.execute(
+            req: VerifyEmailCodeRequestParams(
+                mail: email,
+                message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
+                title: "비밀번호 변경 인증"
+            )
+        )
+        .asObservable()
+        .map { _ in }
+        .catch { _ in
+            errorRelay.accept("이메일 인증코드 발송에 실패했습니다")
+            return .empty()
+        }
+    }
+
+    private func verifyCode(email: String, code: String, errorRelay: PublishRelay<String>) -> Observable<Void> {
+        return self.mailCodeCheckUseCase.execute(
+            req: MailCodeCheckRequestParams(
+                email: email,
+                code: code
+            )
+        )
+        .asObservable()
+        .flatMap { isValid -> Observable<Void> in
+            if isValid {
+                return .just(())
+            } else {
+                errorRelay.accept("인증코드가 올바르지 않습니다")
+                return .empty()
+            }
+        }
+        .catch { _ in
+            errorRelay.accept("인증코드 확인 중 오류가 발생했습니다")
+            return .empty()
+        }
     }
 }
