@@ -8,6 +8,7 @@ import DesignSystem
 
 public class NewPasswordViewController: BaseViewController<NewPasswordViewModel> {
     public var verificationCode: String = ""
+
     private let titleLabel = PiCKLabel(
         text: "PiCK 비밀번호 변경하기",
         textColor: .modeBlack,
@@ -42,14 +43,15 @@ public class NewPasswordViewController: BaseViewController<NewPasswordViewModel>
     public override func attribute() {
         super.attribute()
 
+        navigationTitleText = "비밀번호 변경"
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 
     public override func bind() {
         let input = NewPasswordViewModel.Input(
             nextButtonTap: changeButton.rx.tap.asObservable(),
-            emailText: newPasswordTextField.rx.text.orEmpty.asObservable(),
-            certificationText: newPWCheckTextField.rx.text.orEmpty.asObservable()
+            newPasswordText: newPasswordTextField.rx.text.orEmpty.asObservable(),
+            certificationText: Observable.just(verificationCode)
         )
 
         let output = viewModel.transform(input: input)

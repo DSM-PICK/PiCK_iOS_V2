@@ -11,6 +11,7 @@ import AppNetwork
 protocol AuthDataSource {
     func signin(req: SigninRequestParams) -> Single<TokenDTO>
     func signup(req: SignupRequestParams) -> Completable
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func refreshToken() -> Single<TokenDTO>
 }
@@ -32,6 +33,12 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
 
     func signup(req: SignupRequestParams) -> Completable {
         return request(.signup(req: req))
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
+    }
+
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable {
+        return request(.passwordChange(req: req))
             .filterSuccessfulStatusCodes()
             .asCompletable()
     }

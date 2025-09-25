@@ -10,6 +10,7 @@ public enum AuthAPI {
     case signin(req: SigninRequestParams)
     case refreshToken
     case signup(req: SignupRequestParams)
+    case passwordChange(req: PasswordChangeRequestParams)
 }
 
 extension AuthAPI: PiCKAPI {
@@ -27,12 +28,14 @@ extension AuthAPI: PiCKAPI {
             return "/signup"
         case .refreshToken:
             return "/refresh"
+        case .passwordChange:
+            return "/password"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .signin, .signup:
+        case .signin, .signup, .passwordChange:
             return .post
         case .refreshToken:
             return .put
@@ -44,6 +47,8 @@ extension AuthAPI: PiCKAPI {
         case let .signin(req):
             return .requestJSONEncodable(req)
         case let .signup(req):
+            return .requestJSONEncodable(req)
+        case let .passwordChange(req):
             return .requestJSONEncodable(req)
         default:
             return .requestPlain

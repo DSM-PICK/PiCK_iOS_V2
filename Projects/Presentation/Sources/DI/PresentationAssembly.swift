@@ -215,7 +215,9 @@ public final class PresentationAssembly: Assembly {
             ChangePasswordViewController(viewModel: resolver.resolve(ChangePasswordViewModel.self)!)
         }
         container.register(NewPasswordViewModel.self) { resolver in
-            NewPasswordViewModel()
+            NewPasswordViewModel(
+                passwordChangeUseCase: resolver.resolve(PasswordChangeUseCase.self)!
+            )
         }
         container.register(NewPasswordViewController.self) { resolver in
             NewPasswordViewController(viewModel: resolver.resolve(NewPasswordViewModel.self)!)
