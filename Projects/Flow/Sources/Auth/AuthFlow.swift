@@ -5,7 +5,7 @@ import Swinject
 import Core
 import Presentation
 
-public class LoginFlow: Flow {
+public class AuthFlow: Flow {
     public let container: Container
     private var rootViewController = BaseNavigationController()
     public var root: Presentable {
@@ -20,43 +20,33 @@ public class LoginFlow: Flow {
         guard let step = step as? PiCKStep else { return .none }
 
         switch step {
-        case .loginIsRequired:
-            return navigateToLogin()
-        case .signUpIsRequired:
-            return navigateToSignUp()
+        case .signinIsRequired:
+            return navigateToSignin()
         case .changePasswordIsRequired:
             return navigateToPasswordChange()
-        case .newPasswordIsRequired:
-            return navigateToNewPassword()
-        // SignUp Step
-        case .verifyEmailIsRequired:
-            return navigateToVerifyEmail()
-        case .passwordSettingIsRequired:
-            return navigateToPasswordSetting()
-        case .infoSettingIsRequired:
-            return navigateToInfoSetting()
+        case let .newPasswordIsRequired(verificationCode):
+            return navigateToNewPassword(verificationCode: verificationCode)
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.testIsRequired)
         case .logoutIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
+        case .verifyEmailIsRequired:
+            return navigateToVerifyEmail()
+        case let .passwordSettingIsRequired(email, verificationCode):
+            return navigateToPasswordSetting(email: email, verificationCode: verificationCode)
+        case let .infoSettingIsRequired(email, password, verificationCode):
+            return navigateToInfoSetting(email: email, password: password, verificationCode: verificationCode)
+        case .signupComplete:
+            return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         default:
             return .none
         }
     }
 
-    private func navigateToLogin() -> FlowContributors {
-        let vc = LoginViewController(reactor: container.resolve(SigninReactor.self)!)
-        self.rootViewController.pushViewController(vc, animated: true)
-        return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.reactor
-        ))
-    }
-
-    private func navigateToSignUp() -> FlowContributors {
-        let vc = VerifyEmailViewController(reactor: container.resolve(VerifyEmailReactor.self)!)
+    private func navigateToSignin() -> FlowContributors {
+        let vc = SigninViewController(reactor: container.resolve(SigninReactor.self)!)
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -73,8 +63,11 @@ public class LoginFlow: Flow {
         ))
     }
 
-    private func navigateToNewPassword() -> FlowContributors {
+    private func navigateToNewPassword(verificationCode: String) -> FlowContributors {
         let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
+
+        vc.verificationCode = verificationCode
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -82,8 +75,25 @@ public class LoginFlow: Flow {
         ))
     }
 
+    private func navigateToInfoSetting(email: String, password: String, verificationCode: String) -> FlowContributors {
+        let infoVM = container.resolve(InfoSettingViewModel.self)!
+        let infoVC = InfoSettingViewController(viewModel: infoVM)
+
+        infoVC.email = email
+        infoVC.password = password
+        infoVC.verificationCode = verificationCode
+
+        self.rootViewController.pushViewController(infoVC, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: infoVC,
+            withNextStepper: infoVC.viewModel
+        ))
+    }
+
     private func navigateToVerifyEmail() -> FlowContributors {
-        let vc = VerifyEmailViewController(reactor: container.resolve(VerifyEmailReactor.self)!)
+        let reactor = container.resolve(VerifyEmailReactor.self)!
+        let vc = VerifyEmailViewController(reactor: reactor)
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,
@@ -91,17 +101,13 @@ public class LoginFlow: Flow {
         ))
     }
 
-    private func navigateToPasswordSetting() -> FlowContributors {
-        let vc = PasswordSettingViewController(viewModel: container.resolve(PasswordSettingViewModel.self)!)
-        self.rootViewController.pushViewController(vc, animated: true)
-        return .one(flowContributor: .contribute(
-            withNextPresentable: vc,
-            withNextStepper: vc.viewModel
-        ))
-    }
+    private func navigateToPasswordSetting(email: String, verificationCode: String) -> FlowContributors {
+        let vm = container.resolve(PasswordSettingViewModel.self)!
+        let vc = PasswordSettingViewController(viewModel: vm)
 
-    private func navigateToInfoSetting() -> FlowContributors {
-        let vc = InfoSettingViewController(viewModel: container.resolve(InfoSettingViewModel.self)!)
+        vc.email = email
+        vc.verificationCode = verificationCode
+
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

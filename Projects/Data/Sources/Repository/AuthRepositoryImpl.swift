@@ -17,14 +17,12 @@ class AuthRepositoryImpl: AuthRepository {
     init(remoteDataSource: AuthDataSource) {
         self.remoteDataSource = remoteDataSource
     }
-//    func signUp(req: SignUpRequestParams) -> Completable {
-//        
-//    }
+
     func signin(req: SigninRequestParams) -> Completable {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create {} }
 
-            self.remoteDataSource.login(req: req)
+            self.remoteDataSource.signin(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
                     self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
@@ -43,8 +41,12 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
 
-    func signUp(req: SignUpRequestParams) -> Completable {
-        return remoteDataSource.signUp(req: req)
+    func signup(req: SignupRequestParams) -> Completable {
+        return remoteDataSource.signup(req: req)
+    }
+
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable {
+        return remoteDataSource.passwordChange(req: req)
     }
 
     func logout() {

@@ -20,9 +20,9 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        // MARK: Login
-        container.register(LoginViewController.self) { resolver in
-            LoginViewController(reactor: resolver.resolve(SigninReactor.self)!)
+        // MARK: Signin
+        container.register(SigninViewController.self) { resolver in
+            SigninViewController(reactor: resolver.resolve(SigninReactor.self)!)
         }
         container.register(SigninReactor.self) { resolver in
             SigninReactor(
@@ -30,7 +30,7 @@ public final class PresentationAssembly: Assembly {
             )
         }
 
-        // MARK: SignUp
+        // MARK: Signup
         container.register(VerifyEmailViewController.self) { resolver in
             VerifyEmailViewController(reactor: resolver.resolve(VerifyEmailReactor.self)!)
         }
@@ -47,7 +47,10 @@ public final class PresentationAssembly: Assembly {
             PasswordSettingViewController(viewModel: resolver.resolve(PasswordSettingViewModel.self)!)
         }
         container.register(InfoSettingViewModel.self) { resolver in
-            InfoSettingViewModel(signUpUseCase: resolver.resolve(SignUpUseCase.self)!)
+            InfoSettingViewModel(
+                signupUseCase: resolver.resolve(SignupUseCase.self)!,
+                signinUseCase: resolver.resolve(SigninUseCase.self)!
+            )
         }
         container.register(InfoSettingViewController.self) { resolver in
             InfoSettingViewController(viewModel: resolver.resolve(InfoSettingViewModel.self)!)
@@ -203,13 +206,18 @@ public final class PresentationAssembly: Assembly {
         }
         // ChangePassword
         container.register(ChangePasswordViewModel.self) { resolver in
-            ChangePasswordViewModel()
+            ChangePasswordViewModel(
+                verifyEmailCodeUseCase: resolver.resolve(VerifyEmailCodeUseCase.self)!,
+                mailCodeCheckUseCase: resolver.resolve(MailCodeCheckUseCase.self)!
+            )
         }
         container.register(ChangePasswordViewController.self) { resolver in
             ChangePasswordViewController(viewModel: resolver.resolve(ChangePasswordViewModel.self)!)
         }
         container.register(NewPasswordViewModel.self) { resolver in
-            NewPasswordViewModel()
+            NewPasswordViewModel(
+                passwordChangeUseCase: resolver.resolve(PasswordChangeUseCase.self)!
+            )
         }
         container.register(NewPasswordViewController.self) { resolver in
             NewPasswordViewController(viewModel: resolver.resolve(NewPasswordViewModel.self)!)

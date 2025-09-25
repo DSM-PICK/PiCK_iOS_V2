@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SignUpRequestParams: Encodable {
+public struct SignupRequestParams: Encodable {
     public let accountID: String
     public let password: String
     public let name: String

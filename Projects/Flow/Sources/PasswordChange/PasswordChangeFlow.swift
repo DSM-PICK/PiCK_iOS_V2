@@ -26,8 +26,8 @@ public class PasswordChangeFlow: Flow {
             return navigateToChangePassword()
         case .newPasswordIsRequired:
             return navigateToNewPassword()
-        case .loginIsRequired:
-            return .end(forwardToParentFlowWithStep: PiCKStep.loginIsRequired)
+        case .signinIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.signinIsRequired)
         default:
             return .none
         }

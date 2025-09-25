@@ -2,15 +2,15 @@ import Foundation
 
 import RxSwift
 
-public class SignupUseCase {
+public class PasswordChangeUseCase {
     let repository: AuthRepository
 
     public init(repository: AuthRepository) {
         self.repository = repository
     }
 
-    public func execute(req: SignupRequestParams) -> Completable {
-        return repository.signup(req: req)
+    public func execute(req: PasswordChangeRequestParams) -> Completable {
+        return repository.passwordChange(req: req)
     }
 
 }

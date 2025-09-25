@@ -23,8 +23,8 @@ public class OnboardingFlow: Flow {
         switch step {
         case .onboardingIsRequired:
             return navigateToOnboarding()
-        case .loginIsRequired:
-            return .end(forwardToParentFlowWithStep: PiCKStep.loginIsRequired)
+        case .signinIsRequired:
+            return .end(forwardToParentFlowWithStep: PiCKStep.signinIsRequired)
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:

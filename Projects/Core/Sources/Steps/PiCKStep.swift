@@ -6,20 +6,17 @@ public enum PiCKStep: Step {
     // start
     case appIsRequired
     case onboardingIsRequired
-    case loginIsRequired
+    case signinIsRequired
 
     // tab
     case tabIsRequired
     case popIsRequired
 
-    // MARK: Login
-    case signUpIsRequired
-
-    // MARK: SignUp
+    // MARK: Signup
     case verifyEmailIsRequired
-    case passwordSettingIsRequired
+    case passwordSettingIsRequired(email: String, verificationCode: String)
     case infoSettingIsRequired(email: String, password: String, verificationCode: String)
-    case signUpComplete
+    case signupComplete
 
     // MARK: home
     case homeIsRequired
@@ -56,7 +53,7 @@ public enum PiCKStep: Step {
 
     // MARK: ChangePassword
     case changePasswordIsRequired
-    case newPasswordIsRequired
+    case newPasswordIsRequired(verificationCode: String)
 
     // MARK: test
     case testIsRequired

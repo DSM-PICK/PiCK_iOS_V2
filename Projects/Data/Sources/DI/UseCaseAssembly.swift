@@ -12,14 +12,17 @@ public final class UseCaseAssembly: Assembly {
         container.register(SigninUseCase.self) { resolver in
             SigninUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
-        container.register(SignUpUseCase.self) { resolver in
-            SignUpUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        container.register(SignupUseCase.self) { resolver in
+            SignupUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
         container.register(LogoutUseCase.self) { resolver in
             LogoutUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
         container.register(RefreshTokenUseCase.self) { resolver in
             RefreshTokenUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }
+        container.register(PasswordChangeUseCase.self) { resolver in
+            PasswordChangeUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }
         // MARK: Home
         container.register(FetchApplyStatusUsecase.self) { resolver in

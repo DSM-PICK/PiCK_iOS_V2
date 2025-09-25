@@ -106,6 +106,15 @@ public class VerifyEmailViewController: BaseReactorViewController<VerifyEmailRea
                 owner.certificationTextField.errorMessage.accept(errorMessage)
             }
             .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.errorToastMessage }
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.presentErrorToast(message: errorMessage)
+            }.disposed(by: disposeBag)
     }
 
     public override func addView() {
