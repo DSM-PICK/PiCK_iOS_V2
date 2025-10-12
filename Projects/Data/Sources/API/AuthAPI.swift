@@ -7,8 +7,10 @@ import Domain
 import AppNetwork
 
 public enum AuthAPI {
-    case login(req: LoginRequestParams)
+    case signin(req: SigninRequestParams)
     case refreshToken
+    case signup(req: SignupRequestParams)
+    case passwordChange(req: PasswordChangeRequestParams)
 }
 
 extension AuthAPI: PiCKAPI {
@@ -20,16 +22,20 @@ extension AuthAPI: PiCKAPI {
 
     public var urlPath: String {
         switch self {
-        case .login:
+        case .signin:
             return "/login"
+        case .signup:
+            return "/signup"
         case .refreshToken:
             return "/refresh"
+        case .passwordChange:
+            return "/password"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .login:
+        case .signin, .signup, .passwordChange:
             return .post
         case .refreshToken:
             return .put
@@ -38,7 +44,11 @@ extension AuthAPI: PiCKAPI {
 
     public var task: Moya.Task {
         switch self {
-        case let .login(req):
+        case let .signin(req):
+            return .requestJSONEncodable(req)
+        case let .signup(req):
+            return .requestJSONEncodable(req)
+        case let .passwordChange(req):
             return .requestJSONEncodable(req)
         default:
             return .requestPlain
@@ -56,7 +66,7 @@ extension AuthAPI: PiCKAPI {
 
     public var errorMap: [Int: ErrorType]? {
         switch self {
-        case .login(let req):
+        case .signin(let req):
             return [
                 401: .passwordMismatch,
                 404: .idMismatch

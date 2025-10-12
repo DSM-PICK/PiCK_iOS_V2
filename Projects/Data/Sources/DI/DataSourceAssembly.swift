@@ -69,6 +69,10 @@ public final class DataSourceAssembly: Assembly {
             NotificationDataSourceImpl(keychain: self.keychain(resolver))
         }
 
+        container.register(MailDataSource.self) { resolver in
+            MailSourceImpl(keychain: self.keychain(resolver))
+        }
+
     }
 
 }

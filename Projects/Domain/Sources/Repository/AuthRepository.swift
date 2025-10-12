@@ -3,7 +3,9 @@ import Foundation
 import RxSwift
 
 public protocol AuthRepository {
-    func login(req: LoginRequestParams) -> Completable
+    func signin(req: SigninRequestParams) -> Completable
+    func signup(req: SignupRequestParams) -> Completable
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func refreshToken() -> Completable
 }

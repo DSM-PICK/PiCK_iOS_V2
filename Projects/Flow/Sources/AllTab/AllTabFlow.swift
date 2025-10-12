@@ -40,6 +40,10 @@ public class AllTabFlow: Flow {
             return .end(forwardToParentFlowWithStep: PiCKStep.appIsRequired)
         case let .applyAlertIsRequired(successType, alertType):
             return presentApplyAlert(successType: successType, alertType: alertType)
+        case .changePasswordIsRequired:
+            return navigateToChangePassword()
+        case .newPasswordIsRequired:
+            return navigateToNewPassword()
         default:
             return .none
         }
@@ -115,6 +119,28 @@ public class AllTabFlow: Flow {
 
     private func navigateToMyPage() -> FlowContributors {
         let vc = container.resolve(MyPageViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToChangePassword() -> FlowContributors {
+        let vc = ChangePasswordViewController(viewModel: container.resolve(ChangePasswordViewModel.self)!)
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func navigateToNewPassword() -> FlowContributors {
+        let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)

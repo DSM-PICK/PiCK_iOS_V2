@@ -31,6 +31,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let notificationSettingTabDidTap: Observable<IndexPath>
         let myPageTabDidTap: Observable<IndexPath>
         let logOutButtonDidTap: Observable<Void>
+        let changePasswordDidTap: Observable<IndexPath>
     }
     public struct Output {
         let profileData: Signal<SimpleProfileEntity>
@@ -85,6 +86,11 @@ public class AllTabViewModel: BaseViewModel, Stepper {
                 self.logoutUseCase.execute()
             })
             .map { PiCKStep.tabIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.changePasswordDidTap
+            .map { _ in PiCKStep.changePasswordIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
