@@ -10,14 +10,49 @@ import Core
 
 public class PiCKTextField: BaseTextField {
     public var errorMessage = PublishRelay<String?>()
+    public var verificationButtonTapped = PublishRelay<Void>()
 
     public var isSecurity: Bool = false {
         didSet {
             textHideButton.isHidden = !isSecurity
-            self.isSecureTextEntry = true
-            self.addLeftAndRightView()
+            emailLabel.isHidden = isSecurity
+            verificationButton.isHidden = isSecurity
+            self.isSecureTextEntry = isSecurity
+
+            if isSecurity {
+                self.addLeftAndRightView()
+            } else {
+                self.addLeftView()
+                self.addRightView()
+            }
         }
     }
+
+    public var showEmail: Bool = false {
+        didSet {
+            emailLabel.isHidden = !showEmail || isSecurity || showVerification
+        }
+    }
+
+    public var showVerification: Bool = false {
+        didSet {
+            verificationButton.isHidden = !showVerification || isSecurity
+            emailLabel.isHidden = showVerification || !showEmail || isSecurity
+            updateEmailLabelConstraints()
+        }
+    }
+
+    private func updateEmailLabelConstraints() {
+        emailLabel.snp.remakeConstraints {
+            $0.centerY.equalToSuperview()
+            if !verificationButton.isHidden {
+                $0.trailing.equalTo(verificationButton.snp.leading).offset(-8)
+            } else {
+                $0.trailing.equalToSuperview().inset(16)
+            }
+        }
+    }
+
     private var borderColor: UIColor {
         isEditing ? .main500 : .clear
     }
@@ -32,6 +67,23 @@ public class PiCKTextField: BaseTextField {
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
     }
+    private let emailLabel = PiCKLabel(
+        text: "@dsm.hs.kr",
+        textColor: .gray500,
+        font: .pickFont(.caption2)
+    ).then {
+        $0.isHidden = true
+    }
+
+    private let verificationButton = UIButton(type: .system).then {
+        $0.setTitle("인증코드", for: .normal)
+        $0.setTitleColor(.main900, for: .normal)
+        $0.titleLabel?.font = .pickFont(.button2)
+        $0.backgroundColor = .main50
+        $0.layer.cornerRadius = 5
+        $0.isHidden = true
+    }
+
     private let errorLabel = PiCKLabel(
         textColor: .error,
         font: .pickFont(.caption2)
@@ -40,17 +92,26 @@ public class PiCKTextField: BaseTextField {
     public init(
         titleText: String? = nil,
         placeholder: String? = nil,
-        buttonIsHidden: Bool? = nil
+        buttonIsHidden: Bool? = nil,
+        showEmailSuffix: Bool = false,
+        showEmailWithVerificationButton: Bool = false
     ) {
         super.init(frame: .zero)
         self.titleLabel.text = titleText
         self.placeholder = placeholder
         self.textHideButton.isHidden = buttonIsHidden ?? true
-
+        self.showEmail = showEmailSuffix
+        self.showVerification = showEmailWithVerificationButton
+        self.emailLabel.isHidden = !showEmailSuffix && !showEmailWithVerificationButton
+        self.verificationButton.isHidden = !showEmailWithVerificationButton
         setPlaceholder()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public func updateVerificationButtonText(_ text: String) {
+        verificationButton.setTitle(text, for: .normal)
     }
 
     public override func layoutSubviews() {
@@ -74,6 +135,8 @@ public class PiCKTextField: BaseTextField {
         [
             titleLabel,
             textHideButton,
+            emailLabel,
+            verificationButton,
             errorLabel
         ].forEach { self.addSubview($0) }
 
@@ -85,10 +148,17 @@ public class PiCKTextField: BaseTextField {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16)
         }
+        verificationButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
+            $0.width.equalTo(56)
+            $0.height.equalTo(24)
+        }
         errorLabel.snp.makeConstraints {
             $0.top.equalTo(self.snp.bottom).offset(12)
             $0.trailing.equalToSuperview()
         }
+        updateEmailLabelConstraints()
     }
 
     private func setPlaceholder() {
@@ -130,6 +200,9 @@ public class PiCKTextField: BaseTextField {
                 self?.layer.borderColor = UIColor.error.cgColor
                 self?.errorLabel.text = "\(content)"
             }.disposed(by: disposeBag)
-    }
 
+        verificationButton.rx.tap
+            .bind(to: verificationButtonTapped)
+            .disposed(by: disposeBag)
+    }
 }

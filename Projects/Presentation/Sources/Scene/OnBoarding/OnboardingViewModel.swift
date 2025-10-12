@@ -16,14 +16,14 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
     private let keychain = KeychainImpl()
 
     private let refreshTokenUseCase: RefreshTokenUseCase
-    private let loginUseCase: LoginUseCase
+    private let signinUseCase: SigninUseCase
 
     public init(
         refreshTokenUseCase: RefreshTokenUseCase,
-        loginUseCase: LoginUseCase
+        signinUseCase: SigninUseCase
     ) {
         self.refreshTokenUseCase = refreshTokenUseCase
-        self.loginUseCase = loginUseCase
+        self.signinUseCase = signinUseCase
     }
 
     public struct Input {
@@ -46,7 +46,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
             .flatMap {
                 self.refreshTokenUseCase.execute()
                     .catch { _ in
-                        return self.loginUseCase.execute(req: .init(
+                        return self.signinUseCase.execute(req: .init(
                             accountID: self.keychain.load(type: .id),
                             password: self.keychain.load(type: .password),
                             deviceToken: Messaging.messaging().fcmToken ?? ""
@@ -81,7 +81,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         input.onboardingButtonDidTap
-            .map { PiCKStep.loginIsRequired }
+            .map { PiCKStep.signinIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

@@ -9,7 +9,9 @@ import Domain
 import AppNetwork
 
 protocol AuthDataSource {
-    func login(req: LoginRequestParams) -> Single<TokenDTO>
+    func signin(req: SigninRequestParams) -> Single<TokenDTO>
+    func signup(req: SignupRequestParams) -> Completable
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func refreshToken() -> Single<TokenDTO>
 }
@@ -23,10 +25,22 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
         super.init(keychain: keychain)
     }
 
-    func login(req: LoginRequestParams) -> Single<TokenDTO> {
-        return request(.login(req: req))
+    func signin(req: SigninRequestParams) -> Single<TokenDTO> {
+        return request(.signin(req: req))
             .filterSuccessfulStatusCodes()
             .map(TokenDTO.self)
+    }
+
+    func signup(req: SignupRequestParams) -> Completable {
+        return request(.signup(req: req))
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
+    }
+
+    func passwordChange(req: PasswordChangeRequestParams) -> Completable {
+        return request(.passwordChange(req: req))
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
     }
 
     func logout() {

@@ -6,7 +6,7 @@ public class ClassroomData {
 
     let firstFloor = [
         "산학협력부", "새롬홀", "무한 상상실",
-        "청죽관", "AI 연구실", "탁구실", "운동장", "밴드부실"
+        "청죽관", "탁구실", "운동장", "밴드부실", "이음실"
     ]
 
     let secondFloor = [

@@ -99,5 +99,4 @@ public class TabsFlow: Flow {
 
         return .end(forwardToParentFlowWithStep: PiCKStep.onboardingIsRequired)
     }
-
 }

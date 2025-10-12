@@ -66,5 +66,8 @@ public final class RepositoryAssembly: Assembly {
             NotificationRepositoryImpl(remoteDataSource: resolver.resolve(NotificationDataSource.self)!)
         }
 
+        container.register(MailRepository.self) { resolver in
+            MailRepositoryImpl(remoteDataSource: resolver.resolve(MailDataSource.self)!)
+        }
     }
 }
