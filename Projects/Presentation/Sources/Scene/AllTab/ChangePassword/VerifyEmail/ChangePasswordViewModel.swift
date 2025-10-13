@@ -61,13 +61,13 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
                 input.emailText,
                 input.certificationText
             ))
-            .flatMapLatest { [weak self] email, certification -> Observable<String> in
+            .flatMapLatest { [weak self] email, certification -> Observable<(String, String)> in
                 guard let self = self else { return .empty() }
                 return self.verifyCode(email: email, code: certification, errorRelay: errorToastRelay)
-                    .map { certification }
+                    .map { _ in (email, certification) }
             }
-            .subscribe(onNext: { [weak self] certification in
-                self?.steps.accept(PiCKStep.newPasswordIsRequired(verificationCode: certification))
+            .subscribe(onNext: { [weak self] email, certification in
+                self?.steps.accept(PiCKStep.newPasswordIsRequired(acountId: email, verificationCode: certification))
             })
             .disposed(by: disposeBag)
 
@@ -99,7 +99,7 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         }
     }
 
-    private func verifyCode(email: String, code: String, errorRelay: PublishRelay<String>) -> Observable<Void> {
+    private func verifyCode(email: String, code: String, errorRelay: PublishRelay<String>) -> Observable<String> {
         return self.mailCodeCheckUseCase.execute(
             req: MailCodeCheckRequestParams(
                 email: email,
@@ -107,11 +107,18 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
             )
         )
         .asObservable()
-        .flatMap { isValid -> Observable<Void> in
-            if isValid {
-                return .just(())
+        .flatMap { acountIdOrValid -> Observable<String> in
+            if let isValid = acountIdOrValid as? Bool {
+                if isValid {
+                    return .just(email)
+                } else {
+                    errorRelay.accept("인증코드가 올바르지 않습니다")
+                    return .empty()
+                }
+            } else if let acountId = acountIdOrValid as? String {
+                return .just(acountId)
             } else {
-                errorRelay.accept("인증코드가 올바르지 않습니다")
+                errorRelay.accept("인증코드 확인 중 오류가 발생했습니다")
                 return .empty()
             }
         }

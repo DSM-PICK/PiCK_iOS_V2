@@ -20,6 +20,7 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
     public struct Input {
         let nextButtonTap: Observable<Void>
         let newPasswordText: Observable<String>
+        let acountIdText: Observable<String>
         let certificationText: Observable<String>
     }
 
@@ -30,21 +31,24 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         let isFormValid = Observable.combineLatest(
             input.newPasswordText,
+            input.acountIdText,
             input.certificationText
-        ) { password, certification in
-            return !password.isEmpty && !certification.isEmpty
+        ) { password, acountId, certification in
+            return !password.isEmpty && !acountId.isEmpty && !certification.isEmpty
         }
         .distinctUntilChanged()
 
         input.nextButtonTap
             .withLatestFrom(Observable.combineLatest(
                 input.newPasswordText,
+                input.acountIdText,
                 input.certificationText
             ))
-            .flatMapLatest { [weak self] password, certification -> Observable<Step> in
+            .flatMapLatest { [weak self] password, acountId, certification -> Observable<Step> in
                 guard let self = self else { return Observable<Step>.empty() }
                 let params = PasswordChangeRequestParams(
                     password: password,
+                    acountId: acountId,
                     code: certification
                 )
                 return self.passwordChangeUseCase.execute(req: params)

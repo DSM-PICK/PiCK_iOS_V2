@@ -8,6 +8,7 @@ import DesignSystem
 
 public class NewPasswordViewController: BaseViewController<NewPasswordViewModel> {
     public var verificationCode: String = ""
+    public var acountId: String = ""
 
     private let titleLabel = PiCKLabel(
         text: "PiCK 비밀번호 변경하기",
@@ -51,6 +52,7 @@ public class NewPasswordViewController: BaseViewController<NewPasswordViewModel>
         let input = NewPasswordViewModel.Input(
             nextButtonTap: changeButton.rx.tap.asObservable(),
             newPasswordText: newPasswordTextField.rx.text.orEmpty.asObservable(),
+            acountIdText: Observable.just(acountId),
             certificationText: Observable.just(verificationCode)
         )
 
