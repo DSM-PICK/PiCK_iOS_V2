@@ -24,8 +24,8 @@ public class AuthFlow: Flow {
             return navigateToSignin()
         case .changePasswordIsRequired:
             return navigateToPasswordChange()
-        case let .newPasswordIsRequired(verificationCode):
-            return navigateToNewPassword(verificationCode: verificationCode)
+        case let .newPasswordIsRequired(acountId, verificationCode):
+            return navigateToNewPassword(acountId: acountId, verificationCode: verificationCode)
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:
@@ -63,9 +63,10 @@ public class AuthFlow: Flow {
         ))
     }
 
-    private func navigateToNewPassword(verificationCode: String) -> FlowContributors {
+    private func navigateToNewPassword(acountId: String, verificationCode: String) -> FlowContributors {
         let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
 
+        vc.acountId = acountId
         vc.verificationCode = verificationCode
 
         self.rootViewController.pushViewController(vc, animated: true)
