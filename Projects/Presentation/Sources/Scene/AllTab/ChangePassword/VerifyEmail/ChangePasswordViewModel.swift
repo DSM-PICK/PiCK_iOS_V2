@@ -67,7 +67,7 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
                     .map { _ in (email, certification) }
             }
             .subscribe(onNext: { [weak self] email, certification in
-                self?.steps.accept(PiCKStep.newPasswordIsRequired(acountId: email, verificationCode: certification))
+                self?.steps.accept(PiCKStep.newPasswordIsRequired(accountId: email, code: certification))
             })
             .disposed(by: disposeBag)
 
