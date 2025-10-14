@@ -42,8 +42,8 @@ public class AllTabFlow: Flow {
             return presentApplyAlert(successType: successType, alertType: alertType)
         case .changePasswordIsRequired:
             return navigateToChangePassword()
-        case .newPasswordIsRequired:
-            return navigateToNewPassword()
+        case let .newPasswordIsRequired(accountId, code):
+            return navigateToNewPassword(accountId: accountId, code: code)
         default:
             return .none
         }
@@ -139,8 +139,10 @@ public class AllTabFlow: Flow {
         ))
     }
 
-    private func navigateToNewPassword() -> FlowContributors {
+    private func navigateToNewPassword(accountId: String, code: String) -> FlowContributors {
         let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
+        vc.accountId = accountId
+        vc.code = code
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
