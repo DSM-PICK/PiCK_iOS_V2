@@ -2,16 +2,16 @@ import Foundation
 
 public struct PasswordChangeRequestParams: Encodable {
     public let password: String
-    public let acountId: String
+    public let accountId: String
     public let code: String
 
     public init(
         password: String,
-        acountId: String,
+        accountId: String,
         code: String
     ) {
         self.password = password
-        self.acountId = acountId
+        self.accountId = accountId
         self.code = code
     }
 }
