@@ -1,4 +1,5 @@
 import Core
+import Foundation
 import DesignSystem
 import RxFlow
 import RxSwift
@@ -33,6 +34,8 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         let errorToastRelay = PublishRelay<String>()
 
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&()])[A-Za-z\\d!@#$%^&()]{8,30}$"
+
         let isFormValid = Observable.combineLatest(
             input.newPasswordText,
             input.newPasswordCheckText
@@ -49,6 +52,11 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
             ))
             .flatMapLatest { [weak self] password, accountId, code -> Observable<Step> in
                 guard let self = self else { return .empty() }
+                let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+                guard passwordTest.evaluate(with: password) else {
+                    errorToastRelay.accept("8~30자 영문자, 숫자, 특수문자 포함하세요")
+                    return .empty()
+                }
                 let params = PasswordChangeRequestParams(
                     password: password,
                     accountId: accountId,
