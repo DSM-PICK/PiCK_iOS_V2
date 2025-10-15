@@ -63,10 +63,19 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
                     code: code
                 )
                 return self.passwordChangeUseCase.execute(req: params)
-                    .andThen(Observable.just(PiCKStep.signinIsRequired))
+                    .andThen(
+                        Single.just(
+                            PiCKStep.applyAlertIsRequired(
+                                successType: .success,
+                                alertType: .passwordChange
+                            )
+                        )
+                    )
+                    .map { step -> Step in step }
+                    .asObservable()
                     .catch { error in
                         errorToastRelay.accept(error.localizedDescription)
-                        return .empty()
+                        return Observable<Step>.empty()
                     }
             }
             .bind(to: steps)
