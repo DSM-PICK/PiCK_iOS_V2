@@ -45,7 +45,6 @@ public class NewPasswordViewController: BaseViewController<NewPasswordViewModel>
         super.attribute()
 
         navigationTitleText = "비밀번호 변경"
-        navigationItem.hidesBackButton = true
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
 

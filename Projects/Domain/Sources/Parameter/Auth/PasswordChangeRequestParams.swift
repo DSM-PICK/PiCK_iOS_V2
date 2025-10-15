@@ -14,4 +14,10 @@ public struct PasswordChangeRequestParams: Encodable {
         self.accountId = accountId
         self.code = code
     }
+
+    enum CodingKeys: String, CodingKey {
+        case password
+        case accountId = "account_id"
+        case code
+    }
 }

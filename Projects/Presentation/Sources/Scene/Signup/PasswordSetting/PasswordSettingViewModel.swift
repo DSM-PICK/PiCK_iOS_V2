@@ -1,4 +1,5 @@
 import Core
+import Foundation
 import DesignSystem
 import RxFlow
 import RxSwift
@@ -25,6 +26,9 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
     }
 
     public func transform(input: Input) -> Output {
+        let errorToastRelay = PublishRelay<String>()
+
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&()])[A-Za-z\\d!@#$%^&()]{8,30}$"
 
         let bothFieldsFilled = Observable.combineLatest(
             input.passwordText,
@@ -62,12 +66,20 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
                 return bothFilled && isMatching
             }
             .map { password, _, _ in
-                PiCKStep.infoSettingIsRequired(
-                    email: input.email,
-                    password: password,
-                    verificationCode: input.verificationCode
+                let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+                guard passwordTest.evaluate(with: password) else {
+                    errorToastRelay.accept("8~30자 영문자, 숫자, 특수문자 포함하세요")
+                    return Observable<Step>.empty()
+                }
+                return Observable.just(
+                    PiCKStep.infoSettingIsRequired(
+                        email: input.email,
+                        password: password,
+                        verificationCode: input.verificationCode
+                    )
                 )
             }
+            .flatMapLatest { $0 }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

@@ -133,6 +133,8 @@ public class PiCKDisappearAlert: UIViewController {
             action = .create("조기 귀가 신청", hasFinalConsonant: true)
         case .bug:
             action = .create("버그 제보", hasFinalConsonant: false)
+        case .passwordChange:
+            action = .create("비밀번호 변경", hasFinalConsonant: true)
         }
 
         switch successType {
