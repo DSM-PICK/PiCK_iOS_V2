@@ -82,7 +82,7 @@ public class OutingApplyViewController: BaseViewController<OutingApplyViewModel>
             selectEndTimeButtonDidTap: endTimeSelectButton.buttonTap.asObservable(),
             reasonText: outingReasonTextView.textViewText.asObservable(),
             applicationType: applicationType.asObservable(),
-            outingApplyButtonDidTap: applyButton.buttonTap.asObservable()
+            outingApplyButtonDidTap: applyButton.buttonTap.asDriver()
         )
 
         let output =  viewModel.transform(input: input)

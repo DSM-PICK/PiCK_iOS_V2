@@ -17,6 +17,18 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
         self.outingApplyUseCase = outingApplyUseCase
     }
 
+    private func isApplyButtonEnable(reason: String?, startTime: String, endTime: String, outingType: PickerTimeSelectType) -> Bool {
+        guard let reason = reason, !reason.isEmpty, !startTime.isEmpty, !endTime.isEmpty else {
+            return false
+        }
+        if outingType == .period {
+            let startPeriod = Int(startTime) ?? 0
+            let endPeriod = Int(endTime) ?? 0
+            return startPeriod <= endPeriod
+        }
+        return startTime <= endTime
+    }
+
     public struct Input {
         let startTime: Observable<String>
         let selectStartTimeButtonDidTap: Observable<Void>
@@ -24,7 +36,7 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
         let selectEndTimeButtonDidTap: Observable<Void>
         let reasonText: Observable<String?>
         let applicationType: Observable<PickerTimeSelectType>
-        let outingApplyButtonDidTap: Observable<Void>
+        let outingApplyButtonDidTap: Driver<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
@@ -37,16 +49,8 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             input.endTime,
             input.applicationType
         )
-        let isApplyButtonEnable = info.map { reason, startTime, endTime, outingType -> Bool in
-            if reason!.isEmpty || startTime.isEmpty || endTime.isEmpty {
-                return false
-            }
-            if outingType == .period {
-                let startPeriod = Int(startTime) ?? 0
-                let endPeriod = Int(endTime) ?? 0
-                return startPeriod <= endPeriod
-            }
-            return startTime <= endTime
+        let isApplyButtonEnable = info.map { [weak self] reason, startTime, endTime, outingType in
+            self?.isApplyButtonEnable(reason: reason, startTime: startTime, endTime: endTime, outingType: outingType) ?? false
         }
 
         input.outingApplyButtonDidTap
