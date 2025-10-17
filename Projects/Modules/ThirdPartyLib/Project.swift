@@ -14,6 +14,7 @@ let project = Project.makeModule(
         .PackageType.RxCocoa,
         .PackageType.KeychainSwift,
         .PackageType.Kingfisher,
+        .PackageType.Nuke,
         .PackageType.Moya,
         .PackageType.RxMoya,
         .PackageType.RxGesture,

@@ -10,6 +10,7 @@ public extension TargetDependency.PackageType {
     static let KeychainSwift = TargetDependency.external(name: "KeychainSwift")
     static let RxFlow = TargetDependency.external(name: "RxFlow")
     static let Kingfisher = TargetDependency.external(name: "Kingfisher")
+    static let Nuke = TargetDependency.external(name: "Nuke")
     static let RxGesture = TargetDependency.external(name: "RxGesture")
     static let Swinject = TargetDependency.external(name: "Swinject")
     static let Lottie = TargetDependency.external(name: "Lottie")
