@@ -5,6 +5,8 @@ let workspace = Workspace(
     name: env.appName,
     projects: [
         "Projects/App",
-        "Projects/WatchApp"
+        "Projects/MenuBarModules/MenuBarNetwork",
+        "Projects/MenuBarModules/MenuBarDesignSystem",
+        "Projects/MenuBarModules/MenuBarThirdPartyLib"
     ]
 )
