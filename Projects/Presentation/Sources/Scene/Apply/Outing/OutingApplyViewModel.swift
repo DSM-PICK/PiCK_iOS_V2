@@ -36,7 +36,7 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
         let selectEndTimeButtonDidTap: Observable<Void>
         let reasonText: Observable<String?>
         let applicationType: Observable<PickerTimeSelectType>
-        let outingApplyButtonDidTap: Driver<Void>
+        let outingApplyButtonDidTap: Observable<Void>
     }
     public struct Output {
         let isApplyButtonEnable: Signal<Bool>
