@@ -12,6 +12,7 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
     public var steps = PublishRelay<Step>()
 
     private let outingApplyUseCase: OutingApplyUseCase
+    private let isApplying = BehaviorRelay<Bool>(value: false)
 
     public init(outingApplyUseCase: OutingApplyUseCase) {
         self.outingApplyUseCase = outingApplyUseCase
@@ -49,12 +50,25 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
             input.endTime,
             input.applicationType
         )
-        let isApplyButtonEnable = info.map { [weak self] reason, startTime, endTime, outingType in
-            self?.isApplyButtonEnable(reason: reason, startTime: startTime, endTime: endTime, outingType: outingType) ?? false
+
+        let isApplyButtonEnable = Observable.combineLatest(
+            info,
+            isApplying
+        ) { info, isApplying in
+            let (reason, startTime, endTime, outingType) = info
+            return (self.isApplyButtonEnable(
+                reason: reason,
+                startTime: startTime,
+                endTime: endTime,
+                outingType: outingType
+            ) && !isApplying)
         }
 
         input.outingApplyButtonDidTap
             .withLatestFrom(info)
+            .do(onNext: { [weak self] _ in
+                self?.isApplying.accept(true)
+            })
             .flatMap { reason, startTime, endTime, applicationType in
                 self.outingApplyUseCase.execute(req: .init(
                     reason: reason ?? "",
@@ -64,6 +78,11 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
                     "\(endTime)교시" : endTime,
                     applicationType: applicationType.rawValue
                 ))
+                .do(onError: { [weak self] _ in
+                    self?.isApplying.accept(false)
+                }, onCompleted: { [weak self] in
+                    self?.isApplying.accept(false)
+                })
                 .catch {
                     self.steps.accept(
                         PiCKStep.applyAlertIsRequired(
