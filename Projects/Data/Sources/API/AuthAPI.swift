@@ -66,10 +66,12 @@ extension AuthAPI: PiCKAPI {
 
     public var errorMap: [Int: ErrorType]? {
         switch self {
-        case .signin(let req):
+        case .signin:
             return [
                 401: .passwordMismatch,
-                404: .idMismatch
+                404: .idMismatch,
+                500: .serverError,
+                503: .deploymentPipelineError
             ]
         default:
             return nil

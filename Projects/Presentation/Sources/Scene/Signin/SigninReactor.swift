@@ -114,11 +114,7 @@ extension SigninReactor {
             guard let error = error as? AuthError else {
                 return .just(.showErrorToast("네트워크 오류가 발생했습니다"))
             }
-
-            switch error {
-            case .idMismatch, .passwordMismatch:
-                return .just(.showErrorToast("이메일과 비밀번호를 확인해주세요"))
-            }
+            return .just(.showErrorToast(error.localizedDescription))
         }
     }
 }
