@@ -38,10 +38,6 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     }
     private lazy var backgroundcollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.itemSize = .init(
-            width: self.view.frame.width - 48,
-            height: self.view.frame.height * 0.7
-        )
         $0.minimumLineSpacing = 0
         $0.minimumInteritemSpacing = 0
     }
@@ -63,8 +59,8 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
 
     public override func attribute() {
         super.attribute()
-
         navigationTitleText = "교실 이동 신청"
+        backgroundCollectionView.contentInsetAdjustmentBehavior = .never
     }
     public override func bind() {
         let input = ClassroomMoveApplyViewModel.Input(
@@ -186,13 +182,41 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             $0.height.equalTo(25)
         }
         backgroundCollectionView.snp.makeConstraints {
-            $0.top.equalTo(floorSegmentedControl.snp.bottom).offset(24)
+            $0.top.equalTo(floorSegmentedControl.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
         }
         nextButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview().inset(60)
+        }
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let safeHeight = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+
+        if let layout = backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let newSize = CGSize(
+                width: view.frame.width - 48,
+                height: safeHeight * 0.7
+            )
+
+            if layout.itemSize != newSize {
+                layout.itemSize = newSize
+                layout.invalidateLayout()
+            }
+        }
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self,
+                  let layout = self.backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+            layout.invalidateLayout()
         }
     }
 
