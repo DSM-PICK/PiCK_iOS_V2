@@ -193,8 +193,6 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     }
 
     public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
         let safeHeight = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
 
         if let layout = backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
