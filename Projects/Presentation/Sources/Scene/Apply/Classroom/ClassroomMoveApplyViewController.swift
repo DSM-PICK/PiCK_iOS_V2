@@ -59,8 +59,9 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
 
     public override func attribute() {
         super.attribute()
+
         navigationTitleText = "교실 이동 신청"
-        backgroundCollectionView.contentInsetAdjustmentBehavior = .never
+        navigationItem.hidesBackButton = false
     }
     public override func bind() {
         let input = ClassroomMoveApplyViewModel.Input(
@@ -182,7 +183,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             $0.height.equalTo(25)
         }
         backgroundCollectionView.snp.makeConstraints {
-            $0.top.equalTo(floorSegmentedControl.snp.bottom)
+            $0.top.equalTo(floorSegmentedControl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview()
         }
@@ -192,8 +193,13 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         }
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+
     public override func viewDidLayoutSubviews() {
-        let safeHeight = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+        let safeHeight = view.frame.height - view.safeAreaInsets.top
 
         if let layout = backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             let newSize = CGSize(
@@ -206,16 +212,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
                 layout.invalidateLayout()
             }
         }
+
+        super.viewDidLayoutSubviews()
     }
-
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self,
-                  let layout = self.backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-            layout.invalidateLayout()
-        }
-    }
-
 }
