@@ -111,14 +111,16 @@ extension SigninReactor {
         ))
         .andThen(Observable.just(Mutation.signinSuccess))
         .catch { error in
-            guard let error = error as? AuthError else {
-                return .just(.showErrorToast("네트워크 오류가 발생했습니다"))
+            if let nsError = error as NSError? {
+                if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
+                if let message = nsError.userInfo["message"] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
             }
 
-            switch error {
-            case .idMismatch, .passwordMismatch:
-                return .just(.showErrorToast("이메일과 비밀번호를 확인해주세요"))
-            }
+            return .just(.showErrorToast(error.localizedDescription))
         }
     }
 }

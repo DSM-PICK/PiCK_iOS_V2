@@ -38,10 +38,6 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
     }
     private lazy var backgroundcollectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.itemSize = .init(
-            width: self.view.frame.width - 48,
-            height: self.view.frame.height * 0.7
-        )
         $0.minimumLineSpacing = 0
         $0.minimumInteritemSpacing = 0
     }
@@ -65,6 +61,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         super.attribute()
 
         navigationTitleText = "교실 이동 신청"
+        navigationItem.hidesBackButton = false
     }
     public override func bind() {
         let input = ClassroomMoveApplyViewModel.Input(
@@ -196,4 +193,26 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         }
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+
+    public override func viewDidLayoutSubviews() {
+        let safeHeight = view.frame.height - view.safeAreaInsets.top
+
+        if let layout = backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let newSize = CGSize(
+                width: view.frame.width - 48,
+                height: safeHeight * 0.7
+            )
+
+            if layout.itemSize != newSize {
+                layout.itemSize = newSize
+                layout.invalidateLayout()
+            }
+        }
+
+        super.viewDidLayoutSubviews()
+    }
 }

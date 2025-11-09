@@ -5,10 +5,10 @@ import DesignSystem
 
 public class ClassroomSegmentedControl: UISegmentedControl {
     private lazy var underlineView: UIView = {
-        let width = self.bounds.size.width / CGFloat(self.numberOfSegments)
-        let height = 1.0
-        let xPosition = CGFloat(self.selectedSegmentIndex * Int(width))
-        let yPosition = self.bounds.size.height - 1.0
+        let width = self.bounds.size.width / 5
+        let height = 2.0
+        let xPosition = CGFloat(self.selectedSegmentIndex) * width
+        let yPosition = self.bounds.size.height - height
         let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
         let view = UIView(frame: frame)
         view.backgroundColor = .main400
@@ -19,11 +19,15 @@ public class ClassroomSegmentedControl: UISegmentedControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.removeBackgroundAndDivider()
+        self.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
     }
+
     override init(items: [Any]?) {
         super.init(items: items)
         self.removeBackgroundAndDivider()
+        self.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
     }
+
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -39,21 +43,45 @@ public class ClassroomSegmentedControl: UISegmentedControl {
 
     public override func layoutSubviews() {
         super.layoutSubviews()
-
         setuptTextAttributes()
-        setupAction()
+
+        let underlineHeight: CGFloat = 2.0
+        let underlineWidth = self.bounds.width / 5
+
+        underlineView.frame.size.width = underlineWidth
+        underlineView.frame.size.height = underlineHeight
+        underlineView.frame.origin.y = self.bounds.height - underlineHeight
+
+        updateUnderlinePosition(animated: false)
     }
 
-    private func setupAction() {
-        let underlineFinalXPosition = (self.bounds.width / CGFloat(self.numberOfSegments)) * CGFloat(self.selectedSegmentIndex)
-        UIView.animate(
-            withDuration: 0.25,
-            animations: {
+    @objc private func segmentChanged() {
+        updateUnderlinePosition(animated: true)
+    }
+
+    public override var selectedSegmentIndex: Int {
+        didSet {
+            if oldValue != selectedSegmentIndex {
+                updateUnderlinePosition(animated: true)
+            }
+        }
+    }
+
+    private func updateUnderlinePosition(animated: Bool) {
+        guard self.numberOfSegments > 0 else { return }
+
+        let underlineWidth = self.bounds.width / CGFloat(self.numberOfSegments)
+        let underlineFinalXPosition = underlineWidth * CGFloat(self.selectedSegmentIndex)
+
+        if animated {
+            UIView.animate(withDuration: 0.25) {
                 self.underlineView.frame.origin.x = underlineFinalXPosition
             }
-        )
-
+        } else {
+            self.underlineView.frame.origin.x = underlineFinalXPosition
+        }
     }
+
     private func setuptTextAttributes() {
         self.setTitleTextAttributes(
             [
@@ -69,5 +97,4 @@ public class ClassroomSegmentedControl: UISegmentedControl {
             for: .selected
           )
     }
-
 }
