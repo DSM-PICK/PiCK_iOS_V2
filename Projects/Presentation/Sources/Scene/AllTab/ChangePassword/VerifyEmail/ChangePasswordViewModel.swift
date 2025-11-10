@@ -48,13 +48,14 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
         input.verificationButtonTap
             .withLatestFrom(input.emailText)
+            .do(onNext: { _ in
+                verificationButtonTextRelay.accept("재발송")
+            })
             .flatMapLatest { [weak self] email -> Observable<Void> in
                 guard let self = self else { return .empty() }
                 return self.sendVerificationCode(email: email, errorRelay: errorToastRelay)
             }
-            .subscribe(onNext: {
-                verificationButtonTextRelay.accept("재발송")
-            })
+            .subscribe()
             .disposed(by: disposeBag)
 
         input.nextButtonTap

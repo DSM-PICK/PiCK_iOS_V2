@@ -71,7 +71,10 @@ extension VerifyEmailReactor {
                 .just(.updateCertification(certification))
             ])
         case .verificationButtonDidTap:
-            return sendVerificationCode(email: self.currentState.email)
+            return .concat([
+                .just(.updateVerificationButtonText("재발송")),
+                sendVerificationCode(email: self.currentState.email)
+            ])
         case .nextButtonDidTap:
             return .concat([
                 verifyCode(
