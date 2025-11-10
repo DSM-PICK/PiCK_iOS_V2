@@ -40,21 +40,26 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
             input.newPasswordText,
             input.newPasswordCheckText
         ) { newPassword, newPasswordCheck in
-            return !newPassword.isEmpty && !newPasswordCheck.isEmpty && newPassword == newPasswordCheck
+            return !newPassword.isEmpty && !newPasswordCheck.isEmpty
         }
         .distinctUntilChanged()
 
         input.nextButtonTap
             .withLatestFrom(Observable.combineLatest(
                 input.newPasswordText,
+                input.newPasswordCheckText,
                 input.accountIdText,
                 input.codeText
             ))
-            .flatMapLatest { [weak self] password, accountId, code -> Observable<Step> in
+            .flatMapLatest { [weak self] password, passwordCheck, accountId, code -> Observable<Step> in
                 guard let self = self else { return .empty() }
+                if password != passwordCheck {
+                    errorToastRelay.accept("비밀번호가 일치하지 않습니다")
+                    return .empty()
+                }
                 let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
                 guard passwordTest.evaluate(with: password) else {
-                    errorToastRelay.accept("8~30자 영문자, 숫자, 특수문자 포함하세요")
+                    errorToastRelay.accept("8~30자 영문자, 숫자, 특수문자를 포함하세요")
                     return .empty()
                 }
                 let params = PasswordChangeRequestParams(
@@ -74,7 +79,11 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
                     .map { step -> Step in step }
                     .asObservable()
                     .catch { error in
-                        errorToastRelay.accept(error.localizedDescription)
+                        let nsError = error as NSError
+                        let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String
+                            ?? nsError.userInfo["message"] as? String
+                            ?? error.localizedDescription
+                        errorToastRelay.accept(message)
                         return Observable<Step>.empty()
                     }
             }
