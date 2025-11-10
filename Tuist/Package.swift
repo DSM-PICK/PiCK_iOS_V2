@@ -66,6 +66,7 @@ let package = Package(
                 "ReactorKit",
                 "Starscream",
                 "GoogleSignIn",
+                .product(name: "Realm", package: "realm-swift"),
                 .product(name: "RealmSwift", package: "realm-swift"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
