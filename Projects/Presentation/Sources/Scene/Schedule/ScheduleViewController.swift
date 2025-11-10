@@ -30,9 +30,7 @@ public class ScheduleViewController: BaseViewController<ScheduleViewModel> {
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let segmentedControl = ScheduleSegmentedControl(
-        items: ["시간표", "학사일정"]
-    )
+    private let segmentedControl = ScheduleSegmentedControl(items: ["시간표", "학사일정"])
     private lazy var timeTableView = TimeTableView(frame: viewSize)
     private lazy var academicScheduleView = AcademicScheduleView(
         frame: viewSize,
