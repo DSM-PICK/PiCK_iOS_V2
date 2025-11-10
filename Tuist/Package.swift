@@ -42,7 +42,8 @@ let package = Package(
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.8.0"),
         .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.6"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0"),
-        .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0")
+        .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0"),
+        .package(url: "https://github.com/realm/realm-swift.git", from: "10.54.0")
 //        .package(url: "https://github.com/Quick/Quick.git", from: "7.0.0"),
 //        .package(url: "https://github.com/Quick/Nimble.git", from: "12.0.0")
     ],
@@ -65,6 +66,7 @@ let package = Package(
                 "ReactorKit",
                 "Starscream",
                 "GoogleSignIn",
+                .product(name: "RealmSwift", package: "realm-swift"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
