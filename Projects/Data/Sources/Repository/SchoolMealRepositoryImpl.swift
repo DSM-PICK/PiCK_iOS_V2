@@ -26,7 +26,7 @@ class SchoolMealRepositoryImpl: SchoolMealRepository {
                     return .error(NSError(domain: "SchoolMealRepository", code: -1))
                 }
 
-                if let cachedMeal = cachedMeal, !self.localDataSource.isCacheExpired() {
+                if let cachedMeal = cachedMeal, !self.localDataSource.isCacheExpired(date: date) {
                     return .just(cachedMeal)
                 }
 

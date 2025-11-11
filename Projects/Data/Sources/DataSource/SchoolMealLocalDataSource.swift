@@ -6,17 +6,19 @@ import Domain
 protocol SchoolMealLocalDataSource {
     func fetchSchoolMeal(date: String) -> Single<SchoolMealEntity?>
     func saveSchoolMeal(date: String, meal: SchoolMealRealmObject) -> Completable
-    func isCacheExpired() -> Bool
-    func getLastUpdatedDate() -> Date?
+    func isCacheExpired(date: String) -> Bool
+    func getLastUpdatedDate(date: String) -> Date?
 }
 
 class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
-    private let realm: Realm
+    private let configuration: Realm.Configuration
 
     init() {
+        self.configuration = Realm.Configuration.defaultConfiguration
+
         do {
-            self.realm = try Realm()
-            if let realmURL = self.realm.configuration.fileURL {
+            let realm = try Realm(configuration: self.configuration)
+            if let realmURL = realm.configuration.fileURL {
                 print("📦 [Realm] Database location:")
                 print("   \(realmURL.path)")
                 print("📦 [Realm] Open in Realm Studio with:")
@@ -34,12 +36,17 @@ class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
                 return Disposables.create()
             }
 
-            let realmObject = self.realm.object(ofType: SchoolMealRealmObject.self, forPrimaryKey: date)
+            do {
+                let realm = try Realm(configuration: self.configuration)
+                let realmObject = realm.object(ofType: SchoolMealRealmObject.self, forPrimaryKey: date)
 
-            if let realmObject = realmObject {
-                single(.success(realmObject.toDomain()))
-            } else {
-                single(.success(nil))
+                if let realmObject = realmObject {
+                    single(.success(realmObject.toDomain()))
+                } else {
+                    single(.success(nil))
+                }
+            } catch {
+                single(.failure(error))
             }
 
             return Disposables.create()
@@ -54,8 +61,9 @@ class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
             }
 
             do {
-                try self.realm.write {
-                    self.realm.add(meal, update: .modified)
+                let realm = try Realm(configuration: self.configuration)
+                try realm.write {
+                    realm.add(meal, update: .modified)
                 }
                 completable(.completed)
             } catch {
@@ -66,8 +74,8 @@ class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
         }
     }
 
-    func isCacheExpired() -> Bool {
-        guard let lastUpdated = getLastUpdatedDate() else {
+    func isCacheExpired(date: String) -> Bool {
+        guard let lastUpdated = getLastUpdatedDate(date: date) else {
             return true
         }
 
@@ -77,10 +85,14 @@ class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
         return currentDate.timeIntervalSince(lastUpdated) > twoWeeksInSeconds
     }
 
-    func getLastUpdatedDate() -> Date? {
-        let allMeals = realm.objects(SchoolMealRealmObject.self)
-            .sorted(byKeyPath: "lastUpdatedAt", ascending: false)
-
-        return allMeals.first?.lastUpdatedAt
+    func getLastUpdatedDate(date: String) -> Date? {
+        do {
+            let realm = try Realm(configuration: self.configuration)
+            let meal = realm.object(ofType: SchoolMealRealmObject.self, forPrimaryKey: date)
+            return meal?.lastUpdatedAt
+        } catch {
+            print("⚠️ [Realm] Failed to get last updated date: \(error.localizedDescription)")
+            return nil
+        }
     }
 }
