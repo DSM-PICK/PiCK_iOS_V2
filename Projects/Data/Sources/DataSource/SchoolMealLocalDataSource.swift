@@ -25,7 +25,8 @@ class SchoolMealLocalDataSourceImpl: SchoolMealLocalDataSource {
                 print("   \(realmURL.absoluteString)")
             }
         } catch {
-            fatalError("Failed to initialize Realm: \(error.localizedDescription)")
+            print("⚠️ [Realm] Warning during initialization: \(error.localizedDescription)")
+            print("⚠️ [Realm] Operations will handle errors individually if they occur")
         }
     }
 
