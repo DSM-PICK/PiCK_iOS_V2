@@ -63,7 +63,7 @@ public class ChangePasswordViewController: BaseViewController<ChangePasswordView
             }
             .disposed(by: disposeBag)
 
-        output.errorToastMessage
+        output.showErrorToast
             .filter { !$0.isEmpty }
             .observe(on: MainScheduler.instance)
             .withUnretained(self)

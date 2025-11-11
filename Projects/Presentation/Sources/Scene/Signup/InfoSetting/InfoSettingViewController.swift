@@ -114,12 +114,12 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             }
             .disposed(by: disposeBag)
 
-        output.errorMessage
+        output.errorToastMessage
             .asObservable()
             .filter { !$0.isEmpty }
             .withUnretained(self)
-            .bind { owner, errorMessage in
-                owner.showErrorAlert(message: errorMessage)
+            .bind { owner, message in
+                owner.presentErrorToast(message: message)
             }
             .disposed(by: disposeBag)
     }
@@ -186,26 +186,19 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             .bind { [weak self] grade, classNumber, number, name in
                 guard let self = self else { return }
                 guard !grade.isEmpty && !classNumber.isEmpty && !number.isEmpty && !name.isEmpty else { return }
-                
+
                 let infoCheckView = InfoCheckView(
                     grade: grade,
                     classNumber: classNumber,
                     number: number,
                     name: name
                 ) {
-                    // 정보 확인 후 실제 회원가입 진행
                     self.actualNextButtonTap.onNext(())
                 }
-                
+
                 self.present(infoCheckView, animated: true)
             }
             .disposed(by: disposeBag)
-    }
-
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
     }
 
     public override func addView() {

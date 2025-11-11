@@ -23,6 +23,7 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
         let showPasswordMismatchToast: Observable<Void>
+        let showErrorToast: Observable<String>
     }
 
     public func transform(input: Input) -> Output {
@@ -85,7 +86,8 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
 
         return Output(
             isNextButtonEnabled: isNextButtonEnabled,
-            showPasswordMismatchToast: showPasswordMismatchToast
+            showPasswordMismatchToast: showPasswordMismatchToast,
+            showErrorToast: errorToastRelay.asObservable()
         )
     }
 }

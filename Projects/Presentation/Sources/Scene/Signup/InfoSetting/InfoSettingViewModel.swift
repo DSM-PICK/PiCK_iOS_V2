@@ -38,7 +38,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
     public struct Output {
         let isNextButtonEnabled: Signal<Bool>
         let signupResult: Signal<Bool>
-        let errorMessage: Signal<String>
+        let errorToastMessage: Signal<String>
     }
 
     public func transform(input: Input) -> Output {
@@ -54,7 +54,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
         }
 
         let signupResult = PublishSubject<Bool>()
-        let errorMessage = PublishSubject<String>()
+        let errorToastMessage = PublishSubject<String>()
 
         input.nextButtonDidTap
             .withLatestFrom(info)
@@ -64,7 +64,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                 guard let gradeInt = Int(grade),
                       let classNumInt = Int(classNum),
                       let numberInt = Int(number) else {
-                    errorMessage.onNext("학번 정보가 올바르지 않습니다.")
+                    errorToastMessage.onNext("학번 정보가 올바르지 않습니다.")
                     return .empty()
                 }
 
@@ -93,8 +93,22 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                         signupResult.onNext(true)
                         self.steps.accept(PiCKStep.signupComplete)
                     })
-                    .catch { _ in
-                        errorMessage.onNext("회원가입 또는 로그인에 실패했습니다. 다시 시도해주세요.")
+                    .catch { error in
+                        var message = "회원가입에 실패했습니다. 다시 시도해주세요."
+
+                        if let nsError = error as NSError? {
+                            if let msg = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !msg.isEmpty {
+                                message = msg
+                            } else if let msg = nsError.userInfo["message"] as? String, !msg.isEmpty {
+                                message = msg
+                            } else {
+                                message = nsError.localizedDescription
+                            }
+                        } else {
+                            message = error.localizedDescription
+                        }
+
+                        errorToastMessage.onNext(message)
                         signupResult.onNext(false)
                         return Observable.just(())
                     }
@@ -105,7 +119,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
         return Output(
             isNextButtonEnabled: isNextButtonEnabled.asSignal(onErrorJustReturn: false),
             signupResult: signupResult.asSignal(onErrorJustReturn: false),
-            errorMessage: errorMessage.asSignal(onErrorJustReturn: "")
+            errorToastMessage: errorToastMessage.asSignal(onErrorJustReturn: "")
         )
     }
 }
