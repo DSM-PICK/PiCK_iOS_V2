@@ -60,6 +60,7 @@ public class SigninViewController: BaseReactorViewController<SigninReactor> {
         super.attribute()
 
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        navigationItem.hidesBackButton = true
     }
     public override func bindAction() {
         idTextField.rx.text.orEmpty.asDriver()

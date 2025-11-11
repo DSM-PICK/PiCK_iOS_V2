@@ -66,6 +66,12 @@ final public class PasswordSettingViewController: BaseViewController<PasswordSet
                 self?.showToast(message: "비밀번호가 일치하지 않습니다")
             }
             .disposed(by: disposeBag)
+
+        output.showErrorToast
+            .bind { [weak self] message in
+                self?.showToast(message: message)
+            }
+            .disposed(by: disposeBag)
     }
 
     private func showToast(message: String) {

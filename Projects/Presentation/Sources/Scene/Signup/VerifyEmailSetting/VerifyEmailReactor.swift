@@ -71,7 +71,10 @@ extension VerifyEmailReactor {
                 .just(.updateCertification(certification))
             ])
         case .verificationButtonDidTap:
-            return sendVerificationCode(email: self.currentState.email)
+            return .concat([
+                .just(.updateVerificationButtonText("재발송")),
+                sendVerificationCode(email: self.currentState.email)
+            ])
         case .nextButtonDidTap:
             return .concat([
                 verifyCode(
@@ -116,20 +119,25 @@ extension VerifyEmailReactor {
     }
 
     private func sendVerificationCode(email: String) -> Observable<Mutation> {
-        guard !email.isEmpty else {
-            return .just(.showErrorToast("이메일을 입력해주세요"))
-        }
-
         return self.verifyEmailCodeUseCase.execute(
             req: VerifyEmailCodeRequestParams(
                 mail: email,
-                message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
+                message: "회원가입 인증",
                 title: "회원가입 인증"
             )
         )
-        .andThen(Observable.just(Mutation.verificationCodeSent))
-        .catch { _ in
-            return .just(.showErrorToast("이메일 인증코드 발송에 실패했습니다"))
+        .andThen(.just(.verificationCodeSent))
+        .catch { error in
+            if let nsError = error as NSError? {
+                if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
+                if let message = nsError.userInfo["message"] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
+            }
+
+            return .just(.showErrorToast(error.localizedDescription))
         }
     }
 
@@ -145,11 +153,20 @@ extension VerifyEmailReactor {
             if isValid {
                 return .just(.navigateToPasswordSetting)
             } else {
-                return .just(.showErrorToast("인증코드가 올바르지 않습니다"))
+                return .just(.showErrorToast("인증코드가 올바르지 않습니다."))
             }
         }
-        .catch { _ in
-            return .just(.showErrorToast("인증코드 확인 중 오류가 발생했습니다"))
+        .catch { error in
+            if let nsError = error as NSError? {
+                if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
+                if let message = nsError.userInfo["message"] as? String, !message.isEmpty {
+                    return .just(.showErrorToast(message))
+                }
+            }
+            return .just(.showErrorToast(error.localizedDescription))
         }
     }
+
 }
