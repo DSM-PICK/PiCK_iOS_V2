@@ -1,4 +1,5 @@
 import Core
+import Foundation
 import DesignSystem
 import RxFlow
 import RxSwift
@@ -30,7 +31,7 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
         let verificationButtonText: Observable<String>
-        let errorToastMessage: Observable<String>
+        let showErrorToast: Observable<String>
     }
 
     public func transform(input: Input) -> Output {
@@ -47,13 +48,14 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
         input.verificationButtonTap
             .withLatestFrom(input.emailText)
+            .do(onNext: { _ in
+                verificationButtonTextRelay.accept("재발송")
+            })
             .flatMapLatest { [weak self] email -> Observable<Void> in
                 guard let self = self else { return .empty() }
                 return self.sendVerificationCode(email: email, errorRelay: errorToastRelay)
             }
-            .subscribe(onNext: {
-                verificationButtonTextRelay.accept("재발송")
-            })
+            .subscribe()
             .disposed(by: disposeBag)
 
         input.nextButtonTap
@@ -61,20 +63,20 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
                 input.emailText,
                 input.certificationText
             ))
-            .flatMapLatest { [weak self] email, certification -> Observable<String> in
+            .flatMapLatest { [weak self] email, certification -> Observable<(String, String)> in
                 guard let self = self else { return .empty() }
                 return self.verifyCode(email: email, code: certification, errorRelay: errorToastRelay)
-                    .map { certification }
+                    .map { _ in (email, certification) }
             }
-            .subscribe(onNext: { [weak self] certification in
-                self?.steps.accept(PiCKStep.newPasswordIsRequired(verificationCode: certification))
+            .subscribe(onNext: { [weak self] email, certification in
+                self?.steps.accept(PiCKStep.newPasswordIsRequired(accountId: email, code: certification))
             })
             .disposed(by: disposeBag)
 
         return Output(
             isNextButtonEnabled: isFormValid,
             verificationButtonText: verificationButtonTextRelay.asObservable(),
-            errorToastMessage: errorToastRelay.asObservable()
+            showErrorToast: errorToastRelay.asObservable()
         )
     }
 
@@ -87,19 +89,29 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         return self.verifyEmailCodeUseCase.execute(
             req: VerifyEmailCodeRequestParams(
                 mail: email,
-                message: "아래 인증번호를 진행 인증 화면에 입력해주세요",
+                message: "비밀번호 변경 인증",
                 title: "비밀번호 변경 인증"
             )
         )
         .asObservable()
         .map { _ in }
-        .catch { _ in
-            errorRelay.accept("이메일 인증코드 발송에 실패했습니다")
+        .catch { error in
+            if let nsError = error as NSError? {
+                if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {
+                    errorRelay.accept(message)
+                    return .empty()
+                }
+                if let message = nsError.userInfo["message"] as? String, !message.isEmpty {
+                    errorRelay.accept(message)
+                    return .empty()
+                }
+            }
+            errorRelay.accept(error.localizedDescription)
             return .empty()
         }
     }
 
-    private func verifyCode(email: String, code: String, errorRelay: PublishRelay<String>) -> Observable<Void> {
+    private func verifyCode(email: String, code: String, errorRelay: PublishRelay<String>) -> Observable<String> {
         return self.mailCodeCheckUseCase.execute(
             req: MailCodeCheckRequestParams(
                 email: email,
@@ -107,16 +119,33 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
             )
         )
         .asObservable()
-        .flatMap { isValid -> Observable<Void> in
-            if isValid {
-                return .just(())
+        .flatMap { acountIdOrValid -> Observable<String> in
+            if let isValid = acountIdOrValid as? Bool {
+                if isValid {
+                    return .just(email)
+                } else {
+                    errorRelay.accept("인증코드가 올바르지 않습니다")
+                    return .empty()
+                }
+            } else if let acountId = acountIdOrValid as? String {
+                return .just(acountId)
             } else {
-                errorRelay.accept("인증코드가 올바르지 않습니다")
+                errorRelay.accept("인증코드 확인 중 오류가 발생했습니다")
                 return .empty()
             }
         }
-        .catch { _ in
-            errorRelay.accept("인증코드 확인 중 오류가 발생했습니다")
+        .catch { error in
+            if let nsError = error as NSError? {
+                if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {
+                    errorRelay.accept(message)
+                    return .empty()
+                }
+                if let message = nsError.userInfo["message"] as? String, !message.isEmpty {
+                    errorRelay.accept(message)
+                    return .empty()
+                }
+            }
+            errorRelay.accept(error.localizedDescription)
             return .empty()
         }
     }

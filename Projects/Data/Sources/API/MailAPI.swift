@@ -47,8 +47,11 @@ extension MailAPI: PiCKAPI {
         return .tokenIsEmpty
     }
 
-    public var errorMap: [Int: PiCKError]? {
-        return nil
+    public var errorMap: [Int: ErrorType]? {
+        return [
+            500: .serverError,
+            503: .deploymentPipelineError
+        ]
     }
 
 }

@@ -7,7 +7,8 @@ import Core
 import DesignSystem
 
 public class NewPasswordViewController: BaseViewController<NewPasswordViewModel> {
-    public var verificationCode: String = ""
+    public var code: String = ""
+    public var accountId: String = ""
 
     private let titleLabel = PiCKLabel(
         text: "PiCK 비밀번호 변경하기",
@@ -51,13 +52,24 @@ public class NewPasswordViewController: BaseViewController<NewPasswordViewModel>
         let input = NewPasswordViewModel.Input(
             nextButtonTap: changeButton.rx.tap.asObservable(),
             newPasswordText: newPasswordTextField.rx.text.orEmpty.asObservable(),
-            certificationText: Observable.just(verificationCode)
+            newPasswordCheckText: newPWCheckTextField.rx.text.orEmpty.asObservable(),
+            accountIdText: Observable.just(self.accountId),
+            codeText: Observable.just(self.code)
         )
 
         let output = viewModel.transform(input: input)
 
         output.isNextButtonEnabled
             .bind(to: changeButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+
+        output.errorToastMessage
+            .filter { !$0.isEmpty }
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, errorMessage in
+                owner.presentErrorToast(message: errorMessage)
+            }
             .disposed(by: disposeBag)
     }
 

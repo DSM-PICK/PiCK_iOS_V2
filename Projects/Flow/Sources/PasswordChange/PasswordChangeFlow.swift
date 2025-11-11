@@ -24,8 +24,8 @@ public class PasswordChangeFlow: Flow {
         switch step {
         case .changePasswordIsRequired:
             return navigateToChangePassword()
-        case .newPasswordIsRequired:
-            return navigateToNewPassword()
+        case .newPasswordIsRequired(let accountId, let code):
+            return navigateToNewPassword(accountId: accountId, code: code)
         case .signinIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.signinIsRequired)
         default:
@@ -42,8 +42,10 @@ public class PasswordChangeFlow: Flow {
         ))
     }
 
-    private func navigateToNewPassword() -> FlowContributors {
+    private func navigateToNewPassword(accountId: String, code: String) -> FlowContributors {
         let vc = NewPasswordViewController(viewModel: container.resolve(NewPasswordViewModel.self)!)
+        vc.accountId = accountId
+        vc.code = code
         self.rootViewController.pushViewController(vc, animated: true)
         return .one(flowContributor: .contribute(
             withNextPresentable: vc,

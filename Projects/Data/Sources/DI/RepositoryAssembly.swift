@@ -51,7 +51,10 @@ public final class RepositoryAssembly: Assembly {
         }
 
         container.register(SchoolMealRepository.self) { resolver in
-            SchoolMealRepositoryImpl(remoteDataSource: resolver.resolve(SchoolMealDataSource.self)!)
+            SchoolMealRepositoryImpl(
+                remoteDataSource: resolver.resolve(SchoolMealDataSource.self)!,
+                localDataSource: resolver.resolve(SchoolMealLocalDataSource.self)!
+            )
         }
 
         container.register(SelfStudyRepository.self) { resolver in

@@ -1,4 +1,5 @@
 import Core
+import Foundation
 import DesignSystem
 import RxFlow
 import RxSwift
@@ -20,41 +21,78 @@ public class NewPasswordViewModel: BaseViewModel, Stepper {
     public struct Input {
         let nextButtonTap: Observable<Void>
         let newPasswordText: Observable<String>
-        let certificationText: Observable<String>
+        let newPasswordCheckText: Observable<String>
+        let accountIdText: Observable<String>
+        let codeText: Observable<String>
     }
 
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
+        let errorToastMessage: Observable<String>
     }
 
     public func transform(input: Input) -> Output {
+        let errorToastRelay = PublishRelay<String>()
+
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&()])[A-Za-z\\d!@#$%^&()]{8,30}$"
+
         let isFormValid = Observable.combineLatest(
             input.newPasswordText,
-            input.certificationText
-        ) { password, certification in
-            return !password.isEmpty && !certification.isEmpty
+            input.newPasswordCheckText
+        ) { newPassword, newPasswordCheck in
+            return !newPassword.isEmpty && !newPasswordCheck.isEmpty
         }
         .distinctUntilChanged()
 
         input.nextButtonTap
             .withLatestFrom(Observable.combineLatest(
                 input.newPasswordText,
-                input.certificationText
+                input.newPasswordCheckText,
+                input.accountIdText,
+                input.codeText
             ))
-            .flatMapLatest { [weak self] password, certification -> Observable<Step> in
-                guard let self = self else { return Observable<Step>.empty() }
+            .flatMapLatest { [weak self] password, passwordCheck, accountId, code -> Observable<Step> in
+                guard let self = self else { return .empty() }
+                if password != passwordCheck {
+                    errorToastRelay.accept("비밀번호가 일치하지 않습니다")
+                    return .empty()
+                }
+                let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+                guard passwordTest.evaluate(with: password) else {
+                    errorToastRelay.accept("8~30자 영문자, 숫자, 특수문자를 포함하세요")
+                    return .empty()
+                }
                 let params = PasswordChangeRequestParams(
                     password: password,
-                    code: certification
+                    accountId: accountId,
+                    code: code
                 )
                 return self.passwordChangeUseCase.execute(req: params)
-                    .andThen(Observable.just(PiCKStep.signinIsRequired))
+                    .andThen(
+                        Single.just(
+                            PiCKStep.applyAlertIsRequired(
+                                successType: .success,
+                                alertType: .passwordChange
+                            )
+                        )
+                    )
+                    .map { step -> Step in step }
+                    .asObservable()
+                    .catch { error in
+                        let nsError = error as NSError
+                        let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String
+                            ?? nsError.userInfo["message"] as? String
+                            ?? error.localizedDescription
+                        errorToastRelay.accept(message)
+                        return Observable<Step>.empty()
+                    }
             }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
         return Output(
-            isNextButtonEnabled: isFormValid
+            isNextButtonEnabled: isFormValid,
+            errorToastMessage: errorToastRelay.asObservable()
         )
     }
 }

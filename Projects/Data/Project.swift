@@ -7,6 +7,8 @@ let project = Project.makeModule(
     product: .staticFramework,
     dependencies: [
         .Projects.domain,
-        .Module.appNetwork
+        .Module.appNetwork,
+        .PackageType.Realm,
+        .PackageType.RealmSwift
     ]
 )
