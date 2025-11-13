@@ -11,14 +11,9 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
     public var steps = PublishRelay<Step>()
 
     private let signupUseCase: SignupUseCase
-    private let signinUseCase: SigninUseCase
 
-    public init(
-        signupUseCase: SignupUseCase,
-        signinUseCase: SigninUseCase
-    ) {
+    public init(signupUseCase: SignupUseCase) {
         self.signupUseCase = signupUseCase
-        self.signinUseCase = signinUseCase
     }
 
     public struct Input {
@@ -75,23 +70,15 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     grade: gradeInt,
                     classNum: classNumInt,
                     num: numberInt,
-                    code: input.verificationCode
+                    code: input.verificationCode,
+                    deviceToken: Messaging.messaging().fcmToken ?? ""
                 )
 
                 return self.signupUseCase.execute(req: signupParams)
-                    .andThen(
-                        self.signinUseCase.execute(
-                            req: SigninRequestParams(
-                                accountID: input.email,
-                                password: input.password,
-                                deviceToken: Messaging.messaging().fcmToken ?? ""
-                            )
-                        )
-                    )
                     .andThen(Observable.just(()))
                     .do(onNext: { _ in
                         signupResult.onNext(true)
-                        self.steps.accept(PiCKStep.signupComplete)
+                        self.steps.accept(PiCKStep.tabIsRequired)
                     })
                     .catch { error in
                         var message = "회원가입에 실패했습니다. 다시 시도해주세요."

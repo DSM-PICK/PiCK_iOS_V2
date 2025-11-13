@@ -48,8 +48,7 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(InfoSettingViewModel.self) { resolver in
             InfoSettingViewModel(
-                signupUseCase: resolver.resolve(SignupUseCase.self)!,
-                signinUseCase: resolver.resolve(SigninUseCase.self)!
+                signupUseCase: resolver.resolve(SignupUseCase.self)!
             )
         }
         container.register(InfoSettingViewController.self) { resolver in
