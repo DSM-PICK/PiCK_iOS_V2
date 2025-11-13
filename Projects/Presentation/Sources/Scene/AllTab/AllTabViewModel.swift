@@ -31,6 +31,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let notificationSettingTabDidTap: Observable<IndexPath>
         let myPageTabDidTap: Observable<IndexPath>
         let logOutButtonDidTap: Observable<Void>
+        let resignButtonDidTap: Observable<Void>
         let changePasswordDidTap: Observable<IndexPath>
     }
     public struct Output {
@@ -82,6 +83,14 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         input.logOutButtonDidTap
+            .do(onNext: { _ in
+                self.logoutUseCase.execute()
+            })
+            .map { PiCKStep.tabIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.resignButtonDidTap
             .do(onNext: { _ in
                 self.logoutUseCase.execute()
             })

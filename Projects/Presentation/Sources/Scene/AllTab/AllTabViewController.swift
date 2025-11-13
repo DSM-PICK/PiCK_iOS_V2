@@ -52,6 +52,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             notificationSettingTabDidTap: settingSectionView.getSelectedItem(type: .notification),
             myPageTabDidTap: accountSectionView.getSelectedItem(type: .myPage),
             logOutButtonDidTap: logoutRelay.asObservable(),
+            resignButtonDidTap: logoutRelay.asObservable(),
             changePasswordDidTap: accountSectionView.getSelectedItem(type: .changePassword).asObservable()
         )
 
@@ -76,6 +77,21 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
                 let alert = PiCKAlert(
                     titleText: "정말 로그아웃 하시겠습니까?",
                     explainText: "기기내 계정에서 로그아웃 할 수 있어요\n다음 이용 시에는 다시 로그인 해야합니다.",
+                    type: .negative
+                ) {
+                    owner.logoutRelay.accept(())
+                }
+                owner.present(alert, animated: true)
+            }.disposed(by: disposeBag)
+
+        accountSectionView
+            .getSelectedItem(type: .resign)
+            .asObservable()
+            .withUnretained(self)
+            .bind { owner, _ in
+                let alert = PiCKAlert(
+                    titleText: "정말 회원탈퇴 하시겠습니까?",
+                    explainText: "계정을 삭제하면 모든 이용 기록이 사라집니다.\n탈퇴 후에는 복구가 불가능하니 신중히 진행해주세요.",
                     type: .negative
                 ) {
                     owner.logoutRelay.accept(())
