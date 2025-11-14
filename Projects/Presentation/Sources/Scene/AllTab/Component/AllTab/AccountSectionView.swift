@@ -12,16 +12,18 @@ import DesignSystem
 class AccountSectionView: BaseView {
     enum AccountSectionType: Int {
         case myPage
-        case logOut
         case changePassword
+        case logOut
+        case resign
     }
 
     private let accountSectionView = PiCKSectionView(
         menuText: "계정",
         items: [
             ("마이페이지", .myPage, .main700),
+            ("비밀번호 변경", .changePassword, .main700),
             ("로그아웃", .logout, .error),
-            ("비밀번호 변경", .changePassword, .main700)
+            ("회원탈퇴", .resign, .error)
         ]
     )
 

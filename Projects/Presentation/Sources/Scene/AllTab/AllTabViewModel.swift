@@ -13,13 +13,16 @@ public class AllTabViewModel: BaseViewModel, Stepper {
 
     private let fetchProfileUsecase: FetchSimpleProfileUseCase
     private let logoutUseCase: LogoutUseCase
+    private let resignUseCase: ResignUseCase
 
     public init(
         fetchProfileUsecase: FetchSimpleProfileUseCase,
-        logoutUseCase: LogoutUseCase
+        logoutUseCase: LogoutUseCase,
+        resignUseCase: ResignUseCase
     ) {
         self.fetchProfileUsecase = fetchProfileUsecase
         self.logoutUseCase = logoutUseCase
+        self.resignUseCase = resignUseCase
     }
 
     public struct Input {
@@ -31,6 +34,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
         let notificationSettingTabDidTap: Observable<IndexPath>
         let myPageTabDidTap: Observable<IndexPath>
         let logOutButtonDidTap: Observable<Void>
+        let resignButtonDidTap: Observable<Void>
         let changePasswordDidTap: Observable<IndexPath>
     }
     public struct Output {
@@ -86,6 +90,18 @@ public class AllTabViewModel: BaseViewModel, Stepper {
                 self.logoutUseCase.execute()
             })
             .map { PiCKStep.tabIsRequired }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.resignButtonDidTap
+            .flatMap { _ in
+                self.resignUseCase.execute()
+                    .andThen(Observable.just(PiCKStep.tabIsRequired))
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .just(PiCKStep.tabIsRequired)
+                    }
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
