@@ -48,8 +48,7 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(InfoSettingViewModel.self) { resolver in
             InfoSettingViewModel(
-                signupUseCase: resolver.resolve(SignupUseCase.self)!,
-                signinUseCase: resolver.resolve(SigninUseCase.self)!
+                signupUseCase: resolver.resolve(SignupUseCase.self)!
             )
         }
         container.register(InfoSettingViewController.self) { resolver in
@@ -152,7 +151,8 @@ public final class PresentationAssembly: Assembly {
         container.register(AllTabViewModel.self) { resolver in
             AllTabViewModel(
                 fetchProfileUsecase: resolver.resolve(FetchSimpleProfileUseCase.self)!,
-                logoutUseCase: resolver.resolve(LogoutUseCase.self)!
+                logoutUseCase: resolver.resolve(LogoutUseCase.self)!,
+                resignUseCase: resolver.resolve(ResignUseCase.self)!
             )
         }
         // Notice
