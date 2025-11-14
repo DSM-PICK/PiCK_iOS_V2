@@ -12,8 +12,8 @@ import DesignSystem
 class AccountSectionView: BaseView {
     enum AccountSectionType: Int {
         case myPage
-        case logOut
         case changePassword
+        case logOut
         case resign
     }
 
