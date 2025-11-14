@@ -49,7 +49,7 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
                         return self.signinUseCase.execute(req: .init(
                             accountID: self.keychain.load(type: .id),
                             password: self.keychain.load(type: .password),
-                            deviceToken: Messaging.messaging().fcmToken ?? ""
+                            deviceToken: Messaging.messaging().fcmToken ?? nil
                         ))
                         .catch { error in
                             guard let error = error as? PiCKError

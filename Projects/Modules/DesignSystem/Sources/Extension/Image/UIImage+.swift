@@ -41,4 +41,5 @@ public extension UIImage {
     static let applyIcon = DesignSystemAsset.Image.applyIcon.image
     static let scheduleIcon = DesignSystemAsset.Image.scheduleIcon.image
     static let allTabIcon = DesignSystemAsset.Image.allTabIcon.image
+    static let resign = DesignSystemAsset.Image.resign.image
 }

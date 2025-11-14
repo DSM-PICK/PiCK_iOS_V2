@@ -10,9 +10,10 @@ import AppNetwork
 
 protocol AuthDataSource {
     func signin(req: SigninRequestParams) -> Single<TokenDTO>
-    func signup(req: SignupRequestParams) -> Completable
+    func signup(req: SignupRequestParams) -> Single<TokenDTO>
     func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
+    func resign() -> Completable
     func refreshToken() -> Single<TokenDTO>
 }
 
@@ -31,10 +32,10 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
             .map(TokenDTO.self)
     }
 
-    func signup(req: SignupRequestParams) -> Completable {
+    func signup(req: SignupRequestParams) -> Single<TokenDTO> {
         return request(.signup(req: req))
             .filterSuccessfulStatusCodes()
-            .asCompletable()
+            .map(TokenDTO.self)
     }
 
     func passwordChange(req: PasswordChangeRequestParams) -> Completable {
@@ -49,6 +50,20 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
         keychain.delete(type: .id)
         keychain.delete(type: .password)
         UserDefaultStorage.shared.remove(forKey: .userInfoData)
+    }
+
+    func resign() -> Completable {
+        return request(.resign)
+            .filterSuccessfulStatusCodes()
+            .asCompletable()
+            .do(onCompleted: { [weak self] in
+                guard let self else { return }
+                self.keychain.delete(type: .accessToken)
+                self.keychain.delete(type: .refreshToken)
+                self.keychain.delete(type: .id)
+                self.keychain.delete(type: .password)
+                UserDefaultStorage.shared.remove(forKey: .userInfoData)
+            })
     }
 
     func refreshToken() -> Single<TokenDTO> {
