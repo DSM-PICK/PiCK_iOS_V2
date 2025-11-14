@@ -9,7 +9,7 @@ public struct ResignUseCase {
         self.repository = repository
     }
 
-    public func execute() {
+    public func execute() -> Completable {
         repository.resign()
     }
 }

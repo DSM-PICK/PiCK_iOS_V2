@@ -11,6 +11,7 @@ import DesignSystem
 
 public class AllTabViewController: BaseViewController<AllTabViewModel> {
     private let logoutRelay = PublishRelay<Void>()
+    private let resignRelay = PublishRelay<Void>()
 
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -52,7 +53,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
             notificationSettingTabDidTap: settingSectionView.getSelectedItem(type: .notification),
             myPageTabDidTap: accountSectionView.getSelectedItem(type: .myPage),
             logOutButtonDidTap: logoutRelay.asObservable(),
-            resignButtonDidTap: logoutRelay.asObservable(),
+            resignButtonDidTap: resignRelay.asObservable(),
             changePasswordDidTap: accountSectionView.getSelectedItem(type: .changePassword).asObservable()
         )
 
@@ -94,7 +95,7 @@ public class AllTabViewController: BaseViewController<AllTabViewModel> {
                     explainText: "계정을 삭제하면 모든 이용 기록이 사라집니다.\n탈퇴 후에는 복구가 불가능하니 신중히 진행해주세요.",
                     type: .negative
                 ) {
-                    owner.logoutRelay.accept(())
+                    owner.resignRelay.accept(())
                 }
                 owner.present(alert, animated: true)
             }.disposed(by: disposeBag)

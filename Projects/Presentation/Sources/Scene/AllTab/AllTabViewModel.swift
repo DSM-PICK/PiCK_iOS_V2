@@ -94,10 +94,14 @@ public class AllTabViewModel: BaseViewModel, Stepper {
             .disposed(by: disposeBag)
 
         input.resignButtonDidTap
-            .do(onNext: { _ in
+            .flatMap { _ in
                 self.resignUseCase.execute()
-            })
-            .map { PiCKStep.tabIsRequired }
+                    .andThen(Observable.just(PiCKStep.tabIsRequired))
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .just(PiCKStep.tabIsRequired)
+                    }
+            }
             .bind(to: steps)
             .disposed(by: disposeBag)
 
