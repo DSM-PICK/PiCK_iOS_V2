@@ -71,7 +71,7 @@ public final class InfoSettingViewModel: BaseViewModel, Stepper {
                     classNum: classNumInt,
                     num: numberInt,
                     code: input.verificationCode,
-                    deviceToken: Messaging.messaging().fcmToken ?? ""
+                    deviceToken: Messaging.messaging().fcmToken ?? nil
                 )
 
                 return self.signupUseCase.execute(req: signupParams)

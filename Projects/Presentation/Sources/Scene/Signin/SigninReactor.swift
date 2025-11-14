@@ -107,7 +107,7 @@ extension SigninReactor {
         return self.signinUseCase.execute(req: .init(
             accountID: id,
             password: password,
-            deviceToken: Messaging.messaging().fcmToken ?? ""
+            deviceToken: Messaging.messaging().fcmToken ?? nil
         ))
         .andThen(Observable.just(Mutation.signinSuccess))
         .catch { error in
