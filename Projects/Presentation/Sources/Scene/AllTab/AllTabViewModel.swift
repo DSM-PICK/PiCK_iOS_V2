@@ -13,13 +13,16 @@ public class AllTabViewModel: BaseViewModel, Stepper {
 
     private let fetchProfileUsecase: FetchSimpleProfileUseCase
     private let logoutUseCase: LogoutUseCase
+    private let resignUseCase: ResignUseCase
 
     public init(
         fetchProfileUsecase: FetchSimpleProfileUseCase,
-        logoutUseCase: LogoutUseCase
+        logoutUseCase: LogoutUseCase,
+        resignUseCase: ResignUseCase
     ) {
         self.fetchProfileUsecase = fetchProfileUsecase
         self.logoutUseCase = logoutUseCase
+        self.resignUseCase = resignUseCase
     }
 
     public struct Input {
@@ -92,7 +95,7 @@ public class AllTabViewModel: BaseViewModel, Stepper {
 
         input.resignButtonDidTap
             .do(onNext: { _ in
-                self.logoutUseCase.execute()
+                self.resignUseCase.execute()
             })
             .map { PiCKStep.tabIsRequired }
             .bind(to: steps)

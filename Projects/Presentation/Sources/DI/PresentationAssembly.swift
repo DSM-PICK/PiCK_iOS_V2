@@ -151,7 +151,8 @@ public final class PresentationAssembly: Assembly {
         container.register(AllTabViewModel.self) { resolver in
             AllTabViewModel(
                 fetchProfileUsecase: resolver.resolve(FetchSimpleProfileUseCase.self)!,
-                logoutUseCase: resolver.resolve(LogoutUseCase.self)!
+                logoutUseCase: resolver.resolve(LogoutUseCase.self)!,
+                resignUseCase: resolver.resolve(ResignUseCase.self)!
             )
         }
         // Notice
