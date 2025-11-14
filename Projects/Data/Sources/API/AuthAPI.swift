@@ -11,6 +11,7 @@ public enum AuthAPI {
     case refreshToken
     case signup(req: SignupRequestParams)
     case passwordChange(req: PasswordChangeRequestParams)
+    case resign
 }
 
 extension AuthAPI: PiCKAPI {
@@ -30,6 +31,8 @@ extension AuthAPI: PiCKAPI {
             return "/refresh"
         case .passwordChange:
             return "/password"
+        case .resign:
+            return ""
         }
     }
 
@@ -39,6 +42,8 @@ extension AuthAPI: PiCKAPI {
             return .post
         case .refreshToken:
             return .put
+        case .resign:
+            return .delete
         }
     }
 
@@ -59,6 +64,8 @@ extension AuthAPI: PiCKAPI {
         switch self {
         case .refreshToken:
             return .refreshToken
+        case .resign:
+            return .accessToken
         default:
             return .tokenIsEmpty
         }

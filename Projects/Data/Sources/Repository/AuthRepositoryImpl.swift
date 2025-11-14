@@ -53,6 +53,10 @@ class AuthRepositoryImpl: AuthRepository {
         return remoteDataSource.logout()
     }
 
+    func resign() -> Completable {
+        return remoteDataSource.resign()
+    }
+
     func refreshToken() -> Completable {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create {} }
