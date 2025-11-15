@@ -129,7 +129,6 @@ public class PiCKTextField: BaseTextField {
         self.addRightView()
         self.autocapitalizationType = .none
         self.autocorrectionType = .no
-        self.keyboardType = .alphabet
     }
     public override func layout() {
         [
