@@ -8,5 +8,8 @@ let project = Project.makeModule(
     destination: .macOS,
     product: .staticFramework,
     deploymentTarget: .macOS("13.0"),
-    dependencies: []
+    dependencies: [
+        .PackageType.SnapKit,
+        .PackageType.Then
+    ]
 )
