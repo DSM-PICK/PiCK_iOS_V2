@@ -4,6 +4,7 @@ import Swinject
 
 import Core
 import Presentation
+import DesignSystem
 
 public class AuthFlow: Flow {
     public let container: Container
@@ -26,6 +27,8 @@ public class AuthFlow: Flow {
             return navigateToPasswordChange()
         case let .newPasswordIsRequired(accountId, code):
             return navigateToNewPassword(accountId: accountId, code: code)
+        case let .applyAlertIsRequired(successType, alertType):
+            return presentApplyAlert(successType: successType, alertType: alertType)
         case .tabIsRequired:
             return .end(forwardToParentFlowWithStep: PiCKStep.tabIsRequired)
         case .testIsRequired:
@@ -114,5 +117,18 @@ public class AuthFlow: Flow {
             withNextPresentable: vc,
             withNextStepper: vc.viewModel
         ))
+    }
+
+    private func presentApplyAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+        let alert = PiCKDisappearAlert(
+            successType: successType,
+            alertType: alertType
+        )
+        alert.modalPresentationStyle = .overFullScreen
+        alert.modalTransitionStyle = .crossDissolve
+
+        self.rootViewController.popToRootViewController(animated: true)
+        self.rootViewController.present(alert, animated: true)
+        return .none
     }
 }
