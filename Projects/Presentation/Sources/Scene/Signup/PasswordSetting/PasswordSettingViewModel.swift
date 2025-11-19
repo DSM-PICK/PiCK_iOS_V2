@@ -29,7 +29,7 @@ public final class PasswordSettingViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         let errorToastRelay = PublishRelay<String>()
 
-        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&()])[A-Za-z\\d!@#$%^&*()]{8,30}$"
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])[A-Za-z\\d!@#$%^&*()]{8,30}$"
 
         let bothFieldsFilled = Observable.combineLatest(
             input.passwordText,
