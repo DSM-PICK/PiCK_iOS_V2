@@ -56,8 +56,12 @@ public class VerifyEmailViewController: BaseReactorViewController<VerifyEmailRea
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
-        emailTextField.verificationButtonTapped.asDriver(onErrorJustReturn: ())
+        emailTextField.verificationButtonTapped
+            .do(onNext: { [weak self] in
+                self?.emailTextField.startTimer()
+            })
             .map { VerifyEmailReactor.Action.verificationButtonDidTap }
+            .asDriver(onErrorDriveWith: .empty())
             .drive(reactor.action)
             .disposed(by: disposeBag)
 
@@ -75,15 +79,6 @@ public class VerifyEmailViewController: BaseReactorViewController<VerifyEmailRea
             .withUnretained(self)
             .bind { owner, isEnabled in
                 owner.nextButton.isEnabled = isEnabled
-            }
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map { $0.verificationButtonText }
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .bind { owner, buttonText in
-                owner.emailTextField.updateVerificationButtonText(buttonText)
             }
             .disposed(by: disposeBag)
 
