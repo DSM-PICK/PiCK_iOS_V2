@@ -5,6 +5,7 @@ import DependencyPlugin
 
 let project = Project.makeModule(
     name: "MenuBarDesignSystem",
+    resources: ["Resources/**"],
     destination: .macOS,
     product: .framework,
     deploymentTarget: .macOS("13.0"),
