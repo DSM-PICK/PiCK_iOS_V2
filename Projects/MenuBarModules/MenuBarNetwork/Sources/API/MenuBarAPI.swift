@@ -7,11 +7,7 @@ public enum MenuBarAPI {
 
 extension MenuBarAPI: TargetType {
     public var baseURL: URL {
-        URL(
-            string: Bundle.main.object(
-                forInfoDictionaryKey: "API_BASE_URL"
-            ) as? String ?? ""
-        ) ?? URL(string: "")!
+        URLUtil.baseURL
     }
 
     public var path: String {
