@@ -11,6 +11,7 @@ let project = Project.makeModule(
     dependencies: [
         .PackageType.SnapKit,
         .PackageType.Then,
-        .PackageType.Moya
+        .PackageType.Moya,
+        .PackageType.KeychainSwift
     ]
 )
