@@ -32,6 +32,6 @@ extension MenuBarAPI: TargetType {
     }
 
     public var headers: [String: String]? {
-        return ["Content-Type": "application/json"]
+        return JwtStore.shared.toHeader(.accessToken)
     }
 }
