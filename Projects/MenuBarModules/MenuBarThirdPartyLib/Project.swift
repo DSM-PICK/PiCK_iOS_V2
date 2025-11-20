@@ -10,6 +10,7 @@ let project = Project.makeModule(
     deploymentTarget: .macOS("13.0"),
     dependencies: [
         .PackageType.SnapKit,
-        .PackageType.Then
+        .PackageType.Then,
+        .PackageType.Moya
     ]
 )
