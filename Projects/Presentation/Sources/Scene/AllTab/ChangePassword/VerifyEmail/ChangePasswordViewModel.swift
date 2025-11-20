@@ -9,6 +9,10 @@ import Domain
 public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
+    
+    // 🔥 수정: 타이머 시작 신호를 네트워크 성공과 분리
+    private let startTimerRelay = PublishRelay<Void>()
+    private let verificationSuccessRelay = PublishRelay<Void>()
 
     private let verifyEmailCodeUseCase: VerifyEmailCodeUseCase
     private let mailCodeCheckUseCase: MailCodeCheckUseCase
@@ -30,12 +34,11 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
-        let verificationButtonText: Observable<String>
         let showErrorToast: Observable<String>
+        let startTimer: Observable<Void>  // 🔥 추가: 타이머 시작 신호
     }
 
     public func transform(input: Input) -> Output {
-        let verificationButtonTextRelay = BehaviorRelay<String>(value: "인증코드")
         let errorToastRelay = PublishRelay<String>()
 
         let isFormValid = Observable.combineLatest(
@@ -46,10 +49,12 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         }
         .distinctUntilChanged()
 
+        // 🔥 수정: 버튼 탭 시 즉시 타이머 시작 신호 발생
         input.verificationButtonTap
             .withLatestFrom(input.emailText)
-            .do(onNext: { _ in
-                verificationButtonTextRelay.accept("재발송")
+            .filter { !$0.isEmpty }  // 이메일이 비어있지 않을 때만
+            .do(onNext: { [weak self] _ in
+                self?.startTimerRelay.accept(())  // 즉시 타이머 시작 신호
             })
             .flatMapLatest { [weak self] email -> Observable<Void> in
                 guard let self = self else { return .empty() }
@@ -75,8 +80,8 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
         return Output(
             isNextButtonEnabled: isFormValid,
-            verificationButtonText: verificationButtonTextRelay.asObservable(),
-            showErrorToast: errorToastRelay.asObservable()
+            showErrorToast: errorToastRelay.asObservable(),
+            startTimer: startTimerRelay.asObservable()  // 🔥 추가
         )
     }
 
