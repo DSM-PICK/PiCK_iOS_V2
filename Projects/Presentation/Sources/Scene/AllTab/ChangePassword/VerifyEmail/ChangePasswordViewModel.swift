@@ -9,8 +9,7 @@ import Domain
 public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
-    
-    // 🔥 수정: 타이머 시작 신호를 네트워크 성공과 분리
+
     private let startTimerRelay = PublishRelay<Void>()
     private let verificationSuccessRelay = PublishRelay<Void>()
 
@@ -35,7 +34,7 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
         let showErrorToast: Observable<String>
-        let startTimer: Observable<Void>  // 🔥 추가: 타이머 시작 신호
+        let startTimer: Observable<Void>
     }
 
     public func transform(input: Input) -> Output {
@@ -49,12 +48,11 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         }
         .distinctUntilChanged()
 
-        // 🔥 수정: 버튼 탭 시 즉시 타이머 시작 신호 발생
         input.verificationButtonTap
             .withLatestFrom(input.emailText)
-            .filter { !$0.isEmpty }  // 이메일이 비어있지 않을 때만
+            .filter { !$0.isEmpty }
             .do(onNext: { [weak self] _ in
-                self?.startTimerRelay.accept(())  // 즉시 타이머 시작 신호
+                self?.startTimerRelay.accept(())
             })
             .flatMapLatest { [weak self] email -> Observable<Void> in
                 guard let self = self else { return .empty() }
@@ -81,7 +79,7 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
         return Output(
             isNextButtonEnabled: isFormValid,
             showErrorToast: errorToastRelay.asObservable(),
-            startTimer: startTimerRelay.asObservable()  // 🔥 추가
+            startTimer: startTimerRelay.asObservable()
         )
     }
 

@@ -82,7 +82,7 @@ public class PiCKTextField: BaseTextField {
     }
 
     private let verificationButton = UIButton(type: .system).then {
-        $0.setTitle("인증코드", for: .normal)
+        $0.setTitle("코드 발송", for: .normal)
         $0.setTitleColor(.main900, for: .normal)
         $0.titleLabel?.font = .pickFont(.button2)
         $0.backgroundColor = .main50
@@ -172,6 +172,7 @@ public class PiCKTextField: BaseTextField {
         self.addRightView()
         self.autocapitalizationType = .none
         self.autocorrectionType = .no
+        verificationButton.isEnabled = false
     }
     public override func layout() {
         [
@@ -222,6 +223,11 @@ public class PiCKTextField: BaseTextField {
                 self?.layer.border(color: self?.borderColor, width: 1)
                 self?.errorMessage.accept(nil)
             }.disposed(by: disposeBag)
+
+        self.rx.text.orEmpty
+            .map { !$0.isEmpty }
+            .bind(to: verificationButton.rx.isEnabled)
+            .disposed(by: disposeBag)
 
         self.textHideButton.rx.tap
             .bind { [weak self] in
