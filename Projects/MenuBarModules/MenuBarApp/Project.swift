@@ -21,7 +21,7 @@ let targets: [Target] = [
         name: "MenuBarApp",
         destinations: .macOS,
         product: .app,
-        bundleId: "com.pick.MenuBarApp",
+        bundleId: "com.pick.MenuBarApp2",
         deploymentTargets: .macOS("13.0"),
         infoPlist: .file(path: "Support/Info.plist"),
         sources: ["Sources/**"],
