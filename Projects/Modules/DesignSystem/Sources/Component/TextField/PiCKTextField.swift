@@ -14,6 +14,9 @@ public class PiCKTextField: BaseTextField {
 
     private var timer: Timer?
     private var remainingSeconds = 60
+
+    private let isTimerRunningRelay = BehaviorRelay<Bool>(value: false)
+
     public var isTimerRunning: Bool {
         return timer?.isValid ?? false
     }
@@ -129,6 +132,7 @@ public class PiCKTextField: BaseTextField {
         stopTimer()
         remainingSeconds = 60
         verificationButton.isEnabled = false
+        isTimerRunningRelay.accept(true)
 
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
@@ -151,6 +155,7 @@ public class PiCKTextField: BaseTextField {
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
+        isTimerRunningRelay.accept(false)
     }
     private func resetToResend() {
         verificationButton.isEnabled = true
@@ -224,10 +229,15 @@ public class PiCKTextField: BaseTextField {
                 self?.errorMessage.accept(nil)
             }.disposed(by: disposeBag)
 
-        self.rx.text.orEmpty
-            .map { !$0.isEmpty }
-            .bind(to: verificationButton.rx.isEnabled)
-            .disposed(by: disposeBag)
+        Observable.combineLatest(
+            self.rx.text.orEmpty.map { !$0.isEmpty },
+            isTimerRunningRelay.asObservable()
+        )
+        .map { hasText, isTimerRunning in
+            return hasText && !isTimerRunning
+        }
+        .bind(to: verificationButton.rx.isEnabled)
+        .disposed(by: disposeBag)
 
         self.textHideButton.rx.tap
             .bind { [weak self] in
