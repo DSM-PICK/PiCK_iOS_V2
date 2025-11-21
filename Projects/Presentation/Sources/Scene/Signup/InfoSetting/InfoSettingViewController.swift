@@ -232,8 +232,7 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
         }
         nameTextField.snp.makeConstraints {
             $0.top.equalTo(studentNumberStackView.snp.bottom).offset(70)
-            $0.leading.equalToSuperview().inset(24)
-            $0.width.equalTo(342)
+            $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(40)
         }
         nextButton.snp.makeConstraints {
