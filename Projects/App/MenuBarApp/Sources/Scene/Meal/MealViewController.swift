@@ -16,6 +16,8 @@ class MealViewController: BaseNSViewController {
     private let lunchSection = MealSectionView(mealType: "중식")
     private let dinnerSection = MealSectionView(mealType: "석식")
 
+    private let loadingIndicator = NSProgressIndicator()
+
     private let viewModel = MealViewModel()
     private var cancellables = Set<AnyCancellable>()
 
@@ -40,8 +42,13 @@ class MealViewController: BaseNSViewController {
         case .idle:
             break
         case .loading:
-            break
+            loadingIndicator.isHidden = false
+            loadingIndicator.startAnimation(nil)
+            scrollView.isHidden = true
         case .loaded(let mealData):
+            loadingIndicator.stopAnimation(nil)
+            loadingIndicator.isHidden = true
+            scrollView.isHidden = false
             breakfastSection.configure(
                 menu: mealData.meals.breakfast.menu,
                 kcal: mealData.meals.breakfast.cal
@@ -55,7 +62,9 @@ class MealViewController: BaseNSViewController {
                 kcal: mealData.meals.dinner.cal
             )
         case .error:
-            break
+            loadingIndicator.stopAnimation(nil)
+            loadingIndicator.isHidden = true
+            scrollView.isHidden = false
         }
     }
 
@@ -103,10 +112,17 @@ class MealViewController: BaseNSViewController {
             $0.drawsBackground = false
         }
 
+        loadingIndicator.do {
+            $0.style = .spinning
+            $0.controlSize = .regular
+            $0.isHidden = true
+        }
+
         headerView.addSubview(titleLabel)
         headerView.addSubview(dateLabel)
         view.addSubview(headerView)
         view.addSubview(scrollView)
+        view.addSubview(loadingIndicator)
     }
 
     override func setupConstraints() {
@@ -132,6 +148,10 @@ class MealViewController: BaseNSViewController {
 
         stackView.snp.makeConstraints {
             $0.width.equalTo(scrollView)
+        }
+
+        loadingIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
 

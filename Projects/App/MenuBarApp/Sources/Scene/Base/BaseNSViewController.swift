@@ -13,11 +13,6 @@ class BaseNSViewController: NSViewController {
         setupConstraints()
     }
 
-    func setupUI() {
-
-    }
-
-    func setupConstraints() {
-
-    }
+    func setupUI() {}
+    func setupConstraints() {}
 }
