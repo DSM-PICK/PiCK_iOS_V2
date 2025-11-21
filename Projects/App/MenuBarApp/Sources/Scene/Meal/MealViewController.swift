@@ -6,7 +6,6 @@ import MenuBarDesignSystem
 import MenuBarNetwork
 
 class MealViewController: BaseNSViewController {
-    private let scrollView = NSScrollView()
     private let stackView = NSStackView()
     private let headerView = NSView()
     private let titleLabel = NSTextField(labelWithString: "오늘의 급식")
@@ -44,11 +43,11 @@ class MealViewController: BaseNSViewController {
         case .loading:
             loadingIndicator.isHidden = false
             loadingIndicator.startAnimation(nil)
-            scrollView.isHidden = true
+            stackView.isHidden = true
         case .loaded(let mealData):
             loadingIndicator.stopAnimation(nil)
             loadingIndicator.isHidden = true
-            scrollView.isHidden = false
+            stackView.isHidden = false
             breakfastSection.configure(
                 menu: mealData.meals.breakfast.menu,
                 kcal: mealData.meals.breakfast.cal
@@ -64,7 +63,7 @@ class MealViewController: BaseNSViewController {
         case .error:
             loadingIndicator.stopAnimation(nil)
             loadingIndicator.isHidden = true
-            scrollView.isHidden = false
+            stackView.isHidden = false
         }
     }
 
@@ -103,15 +102,6 @@ class MealViewController: BaseNSViewController {
             $0.addArrangedSubview(dinnerSection)
         }
 
-        scrollView.do {
-            $0.documentView = stackView
-            $0.hasVerticalScroller = true
-            $0.autohidesScrollers = true
-            $0.borderType = .noBorder
-            $0.backgroundColor = .clear
-            $0.drawsBackground = false
-        }
-
         loadingIndicator.do {
             $0.style = .spinning
             $0.controlSize = .regular
@@ -121,7 +111,7 @@ class MealViewController: BaseNSViewController {
         headerView.addSubview(titleLabel)
         headerView.addSubview(dateLabel)
         view.addSubview(headerView)
-        view.addSubview(scrollView)
+        view.addSubview(stackView)
         view.addSubview(loadingIndicator)
     }
 
@@ -141,13 +131,9 @@ class MealViewController: BaseNSViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
         }
 
-        scrollView.snp.makeConstraints {
+        stackView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom).offset(8)
             $0.leading.trailing.bottom.equalToSuperview()
-        }
-
-        stackView.snp.makeConstraints {
-            $0.width.equalTo(scrollView)
         }
 
         loadingIndicator.snp.makeConstraints {
