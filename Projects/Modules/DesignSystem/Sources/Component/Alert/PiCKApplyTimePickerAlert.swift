@@ -25,13 +25,17 @@ public class PiCKApplyTimePickerAlert: UIViewController {
     private let periodPickerView = PiCKClassroomPickerContainerView()
     private let timePickerView = PiCKOutingPickerContainerView()
     private let infoPickerView = PiCKInfoContainerView()
-    private let applyButton = PiCKButton(buttonText: "신청하기")
+    private var applyButton = PiCKButton(buttonText: "신청하기")
 
     public init(type: PickerType) {
         self.timePickerType = type
+        if type == .studentInfo {
+            self.applyButton = PiCKButton(buttonText: "선택하기")
+        }
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
+        self.applyButton = PiCKButton(buttonText: "")
         fatalError("init(coder:) has not been implemented")
     }
     public override func viewDidLoad() {
