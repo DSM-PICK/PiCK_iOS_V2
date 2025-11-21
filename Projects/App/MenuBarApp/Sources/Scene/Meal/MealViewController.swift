@@ -55,7 +55,7 @@ class MealViewController: BaseNSViewController {
                 kcal: mealData.meals.dinner.cal
             )
         case .error:
-            loadTestData()
+            break
         }
     }
 
@@ -142,32 +142,6 @@ class MealViewController: BaseNSViewController {
         dateLabel.stringValue = formatter.string(from: Date())
     }
 
-    private func loadTestData() {
-        let testBreakfast = [
-            "밥",
-            "된장찌개",
-            "김치",
-            "계란후라이"
-        ]
-
-        let testLunch = [
-            "카레라이스",
-            "돈까스",
-            "단무지",
-            "요구르트"
-        ]
-
-        let testDinner = [
-            "비빔밥",
-            "미역국",
-            "불고기",
-            "배추김치"
-        ]
-
-        breakfastSection.configure(menu: testBreakfast, kcal: "650 kcal")
-        lunchSection.configure(menu: testLunch, kcal: "850 kcal")
-        dinnerSection.configure(menu: testDinner, kcal: "720 kcal")
-    }
 }
 
 class MealSectionView: NSView {
