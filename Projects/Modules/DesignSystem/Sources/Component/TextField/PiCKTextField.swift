@@ -12,13 +12,13 @@ public class PiCKTextField: BaseTextField {
     public var errorMessage = PublishRelay<String?>()
     public var verificationButtonTapped = PublishRelay<Void>()
 
-    private var timer: Timer?
+    private var timer: DispatchSourceTimer?
     private var remainingSeconds = 60
 
     private let isTimerRunningRelay = BehaviorRelay<Bool>(value: false)
 
     public var isTimerRunning: Bool {
-        return timer?.isValid ?? false
+        return timer != nil
     }
 
     public var isSecurity: Bool = false {
@@ -114,6 +114,7 @@ public class PiCKTextField: BaseTextField {
         self.emailLabel.isHidden = !showEmailSuffix && !showEmailWithVerificationButton
         self.verificationButton.isHidden = !showEmailWithVerificationButton
         setPlaceholder()
+        setupNotifications()
     }
 
     required init?(coder: NSCoder) {
@@ -122,6 +123,22 @@ public class PiCKTextField: BaseTextField {
 
     deinit {
         stopTimer()
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(willEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    @objc private func willEnterForeground() {
+        if timer != nil {
+            updateTimerDisplay()
+        }
     }
 
     public func updateVerificationButtonText(_ text: String) {
@@ -134,29 +151,42 @@ public class PiCKTextField: BaseTextField {
         verificationButton.isEnabled = false
         isTimerRunningRelay.accept(true)
 
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        timer.schedule(deadline: .now(), repeating: 1.0)
+        timer.setEventHandler { [weak self] in
             guard let self = self else { return }
             self.remainingSeconds -= 1
 
             if self.remainingSeconds <= 0 {
-                self.stopTimer()
-                self.resetToResend()
+                DispatchQueue.main.async {
+                    self.stopTimer()
+                    self.resetToResend()
+                }
             } else {
-                let minutes = self.remainingSeconds / 60
-                let seconds = self.remainingSeconds % 60
-                UIView.performWithoutAnimation {
-                    self.verificationButton.setTitle(String(format: "%02d:%02d", minutes, seconds), for: .normal)
-                    self.verificationButton.layoutIfNeeded()
+                DispatchQueue.main.async {
+                    self.updateTimerDisplay()
                 }
             }
+        }
+        timer.resume()
+        self.timer = timer
+    }
+
+    private func updateTimerDisplay() {
+        let minutes = remainingSeconds / 60
+        let seconds = remainingSeconds % 60
+        UIView.performWithoutAnimation {
+            verificationButton.setTitle(String(format: "%02d:%02d", minutes, seconds), for: .normal)
+            verificationButton.layoutIfNeeded()
         }
     }
 
     private func stopTimer() {
-        timer?.invalidate()
+        timer?.cancel()
         timer = nil
         isTimerRunningRelay.accept(false)
     }
+    
     private func resetToResend() {
         verificationButton.isEnabled = true
         updateVerificationButtonText("재발송")
