@@ -1,7 +1,9 @@
 import Cocoa
 import SnapKit
 import Then
+import Combine
 import MenuBarDesignSystem
+import MenuBarNetwork
 
 class MealViewController: BaseNSViewController {
     private let scrollView = NSScrollView()
@@ -14,10 +16,47 @@ class MealViewController: BaseNSViewController {
     private let lunchSection = MealSectionView(mealType: "중식")
     private let dinnerSection = MealSectionView(mealType: "석식")
 
+    private let viewModel = MealViewModel()
+    private var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadTestData()
         updateDate()
+        bindViewModel()
+        viewModel.fetchMeal()
+    }
+
+    private func bindViewModel() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                self?.handleState(state)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func handleState(_ state: MealViewModel.State) {
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            break
+        case .loaded(let mealData):
+            breakfastSection.configure(
+                menu: mealData.meals.breakfast.menu,
+                kcal: mealData.meals.breakfast.cal
+            )
+            lunchSection.configure(
+                menu: mealData.meals.lunch.menu,
+                kcal: mealData.meals.lunch.cal
+            )
+            dinnerSection.configure(
+                menu: mealData.meals.dinner.menu,
+                kcal: mealData.meals.dinner.cal
+            )
+        case .error:
+            loadTestData()
+        }
     }
 
     override func setupUI() {

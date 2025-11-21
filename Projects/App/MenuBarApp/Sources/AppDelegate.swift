@@ -1,8 +1,10 @@
 import Cocoa
+import MenuBarNetwork
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
     var mealViewController: MealViewController!
+    var loginViewController: LoginViewController!
     var popover: NSPopover!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -25,11 +27,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.action = #selector(togglePopover)
 
         popover = NSPopover()
-        popover.contentSize = NSSize(width: 400, height: 500)
         popover.behavior = .transient
 
-        mealViewController = MealViewController()
-        popover.contentViewController = mealViewController
+        updateContentViewController()
+    }
+
+    private func updateContentViewController() {
+        if isLoggedIn() {
+            mealViewController = MealViewController()
+            popover.contentSize = NSSize(width: 400, height: 500)
+            popover.contentViewController = mealViewController
+        } else {
+            loginViewController = LoginViewController()
+            loginViewController.onLoginSuccess = { [weak self] in
+                self?.updateContentViewController()
+            }
+            popover.contentSize = NSSize(width: 300, height: 200)
+            popover.contentViewController = loginViewController
+        }
+    }
+
+    private func isLoggedIn() -> Bool {
+        let token = JwtStore.shared.accessToken ?? ""
+        return !token.isEmpty && token != "Failed To Load Keychain Value"
     }
 
     @objc func togglePopover() {
