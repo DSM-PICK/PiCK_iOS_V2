@@ -127,53 +127,17 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
     public override func bindAction() {
         selectButton.buttonTap
             .bind { [weak self] in
-                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
-
-                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
-                    self?.gradeRelay.accept("\(grade)")
-                    self?.classRelay.accept("\(classNum)")
-                    self?.numberRelay.accept("\(number)")
-
-                    self?.selectButton.setup(text: "\(grade)")
-                    self?.classSelectButton.setup(text: "\(classNum)")
-                    self?.numberSelectButton.setup(text: "\(number)")
-                }
-
-                self?.presentAsCustomDents(view: alert, height: 406)
+                self?.presentStudentInfoAlert()
             }.disposed(by: disposeBag)
 
         classSelectButton.buttonTap
             .bind { [weak self] in
-                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
-
-                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
-                    self?.gradeRelay.accept("\(grade)")
-                    self?.classRelay.accept("\(classNum)")
-                    self?.numberRelay.accept("\(number)")
-
-                    self?.selectButton.setup(text: "\(grade)")
-                    self?.classSelectButton.setup(text: "\(classNum)")
-                    self?.numberSelectButton.setup(text: "\(number)")
-                }
-
-                self?.presentAsCustomDents(view: alert, height: 406)
+                self?.presentStudentInfoAlert()
             }.disposed(by: disposeBag)
 
         numberSelectButton.buttonTap
             .bind { [weak self] in
-                let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
-
-                alert.selectedStudentInfo = { [weak self] grade, classNum, number in
-                    self?.gradeRelay.accept("\(grade)")
-                    self?.classRelay.accept("\(classNum)")
-                    self?.numberRelay.accept("\(number)")
-
-                    self?.selectButton.setup(text: "\(grade)")
-                    self?.classSelectButton.setup(text: "\(classNum)")
-                    self?.numberSelectButton.setup(text: "\(number)")
-                }
-
-                self?.presentAsCustomDents(view: alert, height: 406)
+                self?.presentStudentInfoAlert()
             }.disposed(by: disposeBag)
 
         nextButton.buttonTap
@@ -239,5 +203,21 @@ final public class InfoSettingViewController: BaseViewController<InfoSettingView
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
+    }
+}
+
+extension InfoSettingViewController {
+    private func presentStudentInfoAlert() {
+        let alert = PiCKApplyTimePickerAlert(type: .studentInfo)
+        alert.selectedStudentInfo = { [weak self] grade, classNum, number in
+            self?.gradeRelay.accept("\(grade)")
+            self?.classRelay.accept("\(classNum)")
+            self?.numberRelay.accept("\(number)")
+
+            self?.selectButton.setup(text: "\(grade)")
+            self?.classSelectButton.setup(text: "\(classNum)")
+            self?.numberSelectButton.setup(text: "\(number)")
+        }
+        self.presentAsCustomDents(view: alert, height: 406)
     }
 }
