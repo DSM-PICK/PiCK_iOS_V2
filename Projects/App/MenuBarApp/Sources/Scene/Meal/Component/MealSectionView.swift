@@ -103,7 +103,7 @@ class MealSectionView: NSView {
         }
 
         menuLabel.snp.makeConstraints {
-            $0.top.bottom.equalTo(containerBox).inset(16)
+            $0.centerY.equalTo(containerBox)
             $0.leading.equalTo(containerBox).offset(170)
             $0.trailing.equalTo(containerBox).inset(16)
         }
