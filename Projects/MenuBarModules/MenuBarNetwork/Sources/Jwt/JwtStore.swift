@@ -26,19 +26,19 @@ public class JwtStore {
     }
 
     public func toHeader(_ type: KeychainType) -> [String: String] {
-        guard let accessToken = self.accessToken,
-              let refreshToken = self.refreshToken
-        else {
-            return ["content-type": "application/json"]
-        }
-
         switch type {
         case .accessToken:
+            guard let accessToken = self.accessToken, !accessToken.isEmpty else {
+                return ["content-type": "application/json"]
+            }
             return [
                 "content-type": "application/json",
                 "Authorization": accessToken
             ]
         case .refreshToken:
+            guard let refreshToken = self.refreshToken, !refreshToken.isEmpty else {
+                return ["content-type": "application/json"]
+            }
             return [
                 "content-type": "application/json",
                 "X-Refresh-Token": refreshToken

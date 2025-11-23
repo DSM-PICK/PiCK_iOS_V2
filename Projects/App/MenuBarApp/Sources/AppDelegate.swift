@@ -48,8 +48,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func isLoggedIn() -> Bool {
-        let token = JwtStore.shared.accessToken ?? ""
-        return !token.isEmpty && token != "Failed To Load Keychain Value"
+        guard let token = JwtStore.shared.accessToken else {
+            return false
+        }
+        return !token.isEmpty
     }
 
     @objc func togglePopover() {

@@ -1,12 +1,10 @@
 import Foundation
 import Moya
-import Combine
 
 public final class MenuBarService {
     public static let shared = MenuBarService()
 
     private let provider: MoyaProvider<MenuBarAPI>
-    private var cancellables = Set<AnyCancellable>()
 
     private init() {
         let loggingPlugin = MoyaLoggingPlugin()

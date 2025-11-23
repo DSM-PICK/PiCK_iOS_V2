@@ -16,9 +16,13 @@ public final class MoyaLoggingPlugin: PluginType {
     if let headers = httpRequest.allHTTPHeaderFields, !headers.isEmpty {
       log.append("header: \(headers)\n")
     }
+    #if DEBUG
     if let body = httpRequest.httpBody, let bodyString = String(bytes: body, encoding: String.Encoding.utf8) {
       log.append("\(bodyString)\n")
     }
+    #else
+    log.append("Request body: [REDACTED in production]\n")
+    #endif
     log.append("------------------- END \(method) --------------------------")
     print(log)
   }
@@ -42,9 +46,13 @@ public final class MoyaLoggingPlugin: PluginType {
     response.response?.allHeaderFields.forEach {
       log.append("\($0): \($1)\n")
     }
+    #if DEBUG
     if let reString = String(bytes: response.data, encoding: String.Encoding.utf8) {
       log.append("\(reString)\n")
     }
+    #else
+    log.append("Response body: [REDACTED in production]\n")
+    #endif
     log.append("------------------- END HTTP (\(response.data.count)-byte body) -------------------")
     print(log)
   }
