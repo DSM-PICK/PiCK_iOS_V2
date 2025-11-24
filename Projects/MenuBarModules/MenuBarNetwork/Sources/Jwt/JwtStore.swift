@@ -9,7 +9,11 @@ public class JwtStore {
 
     public var accessToken: String? {
         set {
-            keyChain.save(type: .accessToken, value: newValue ?? "")
+            if let newValue = newValue {
+                keyChain.save(type: .accessToken, value: newValue)
+            } else {
+                keyChain.delete(type: .accessToken)
+            }
         }
         get {
             keyChain.load(type: KeychainType.accessToken)
@@ -18,7 +22,11 @@ public class JwtStore {
 
     public var refreshToken: String? {
         set {
-            keyChain.save(type: .refreshToken, value: newValue ?? "")
+            if let newValue = newValue {
+                keyChain.save(type: .refreshToken, value: newValue)
+            } else {
+                keyChain.delete(type: .refreshToken)
+            }
         }
         get {
             keyChain.load(type: KeychainType.refreshToken)
@@ -49,7 +57,7 @@ public class JwtStore {
     }
 
     public func removeToken() {
-        self.accessToken = nil
-        self.refreshToken = nil
+        keyChain.delete(type: .accessToken)
+        keyChain.delete(type: .refreshToken)
     }
 }
