@@ -12,6 +12,15 @@ public class PiCKTextField: BaseTextField {
     public var errorMessage = PublishRelay<String?>()
     public var verificationButtonTapped = PublishRelay<Void>()
 
+    private var timer: DispatchSourceTimer?
+    private var remainingSeconds = 60
+
+    private let isTimerRunningRelay = BehaviorRelay<Bool>(value: false)
+
+    public var isTimerRunning: Bool {
+        return timer != nil
+    }
+
     public var isSecurity: Bool = false {
         didSet {
             textHideButton.isHidden = !isSecurity
@@ -76,7 +85,7 @@ public class PiCKTextField: BaseTextField {
     }
 
     private let verificationButton = UIButton(type: .system).then {
-        $0.setTitle("인증코드", for: .normal)
+        $0.setTitle("코드 발송", for: .normal)
         $0.setTitleColor(.main900, for: .normal)
         $0.titleLabel?.font = .pickFont(.button2)
         $0.backgroundColor = .main50
@@ -105,13 +114,82 @@ public class PiCKTextField: BaseTextField {
         self.emailLabel.isHidden = !showEmailSuffix && !showEmailWithVerificationButton
         self.verificationButton.isHidden = !showEmailWithVerificationButton
         setPlaceholder()
+        setupNotifications()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        stopTimer()
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(willEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    @objc private func willEnterForeground() {
+        if timer != nil {
+            updateTimerDisplay()
+        }
+    }
+
     public func updateVerificationButtonText(_ text: String) {
         verificationButton.setTitle(text, for: .normal)
+    }
+
+    public func startTimer() {
+        stopTimer()
+        remainingSeconds = 60
+        verificationButton.isEnabled = false
+        isTimerRunningRelay.accept(true)
+
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        timer.schedule(deadline: .now(), repeating: 1.0)
+        timer.setEventHandler { [weak self] in
+            guard let self = self else { return }
+            self.remainingSeconds -= 1
+
+            if self.remainingSeconds <= 0 {
+                DispatchQueue.main.async {
+                    self.stopTimer()
+                    self.resetToResend()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.updateTimerDisplay()
+                }
+            }
+        }
+        timer.resume()
+        self.timer = timer
+    }
+
+    private func updateTimerDisplay() {
+        let minutes = remainingSeconds / 60
+        let seconds = remainingSeconds % 60
+        UIView.performWithoutAnimation {
+            verificationButton.setTitle(String(format: "%02d:%02d", minutes, seconds), for: .normal)
+            verificationButton.layoutIfNeeded()
+        }
+    }
+
+    private func stopTimer() {
+        timer?.cancel()
+        timer = nil
+        isTimerRunningRelay.accept(false)
+    }
+    
+    private func resetToResend() {
+        verificationButton.isEnabled = true
+        updateVerificationButtonText("재발송")
     }
 
     public override func layoutSubviews() {
@@ -129,6 +207,7 @@ public class PiCKTextField: BaseTextField {
         self.addRightView()
         self.autocapitalizationType = .none
         self.autocorrectionType = .no
+        verificationButton.isEnabled = false
     }
     public override func layout() {
         [
@@ -179,6 +258,16 @@ public class PiCKTextField: BaseTextField {
                 self?.layer.border(color: self?.borderColor, width: 1)
                 self?.errorMessage.accept(nil)
             }.disposed(by: disposeBag)
+
+        Observable.combineLatest(
+            self.rx.text.orEmpty.map { !$0.isEmpty },
+            isTimerRunningRelay.asObservable()
+        )
+        .map { hasText, isTimerRunning in
+            return hasText && !isTimerRunning
+        }
+        .bind(to: verificationButton.rx.isEnabled)
+        .disposed(by: disposeBag)
 
         self.textHideButton.rx.tap
             .bind { [weak self] in

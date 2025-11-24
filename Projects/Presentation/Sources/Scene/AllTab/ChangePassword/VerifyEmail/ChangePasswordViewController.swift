@@ -56,19 +56,19 @@ public class ChangePasswordViewController: BaseViewController<ChangePasswordView
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        output.verificationButtonText
-            .withUnretained(self)
-            .bind { owner, text in
-                owner.emailTextField.updateVerificationButtonText(text)
-            }
-            .disposed(by: disposeBag)
-
         output.showErrorToast
             .filter { !$0.isEmpty }
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { owner, errorMessage in
                 owner.presentErrorToast(message: errorMessage)
+            }
+            .disposed(by: disposeBag)
+
+        output.startTimer
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] in
+                self?.emailTextField.startTimer()
             }
             .disposed(by: disposeBag)
     }

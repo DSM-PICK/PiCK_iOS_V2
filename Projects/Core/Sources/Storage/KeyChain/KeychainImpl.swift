@@ -1,9 +1,13 @@
 import KeychainSwift
 
 public struct KeychainImpl: Keychain {
-    private let keychain = KeychainSwift()
+    private let keychain: KeychainSwift
 
-    public init() {}
+    public init() {
+        let keychain = KeychainSwift()
+        keychain.accessGroup = "group.com.pick.shared"
+        self.keychain = keychain
+    }
 
     public func save(type: KeychainType, value: String) {
         keychain.set(value, forKey: type.rawValue)
