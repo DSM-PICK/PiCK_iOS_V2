@@ -4,6 +4,7 @@ public extension TargetDependency {
     struct Projects {}
     struct Module {}
     struct WatchModule {}
+    struct MenuBarModule {}
 }
 
 public extension TargetDependency.Projects {
@@ -43,6 +44,19 @@ public extension TargetDependency.WatchModule {
         return .project(
             target: name,
             path: .relativeToRoot("Projects/WatchModules/\(name)")
+        )
+    }
+}
+
+public extension TargetDependency.MenuBarModule {
+    static let menuBarNetwork = module(name: "MenuBarNetwork")
+    static let menuBarDesignSystem = module(name: "MenuBarDesignSystem")
+    static let menuBarThirdPartyLib = module(name: "MenuBarThirdPartyLib")
+
+    static func module(name: String) -> TargetDependency {
+        return .project(
+            target: name,
+            path: .relativeToRoot("Projects/MenuBarModules/\(name)")
         )
     }
 }

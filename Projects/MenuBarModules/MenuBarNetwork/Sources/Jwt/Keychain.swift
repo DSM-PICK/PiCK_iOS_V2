@@ -1,5 +1,4 @@
 import Foundation
-
 import KeychainSwift
 
 public enum KeychainType: String {
@@ -10,7 +9,7 @@ public enum KeychainType: String {
 
 public protocol Keychain {
     func save(type: KeychainType, value: String)
-    func load(type: KeychainType) -> String
+    func load(type: KeychainType) -> String?
     func delete(type: KeychainType)
 }
 
@@ -27,12 +26,11 @@ public struct KeychainImpl: Keychain {
         keychain.set(value, forKey: type.rawValue)
     }
 
-    public func load(type: KeychainType) -> String {
-        return keychain.get(type.rawValue) ?? "Failed To Load Keychain Value"
+    public func load(type: KeychainType) -> String? {
+        return keychain.get(type.rawValue)
     }
 
     public func delete(type: KeychainType) {
         keychain.delete(type.rawValue)
     }
-
 }
