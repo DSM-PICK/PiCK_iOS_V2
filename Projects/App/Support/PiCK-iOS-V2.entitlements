@@ -4,9 +4,13 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.pick.shared</string>
+	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)$(APP_BUNDLE_ID)</string>
+		<string>$(AppIdentifierPrefix)group.com.pick.shared</string>
 	</array>
 </dict>
 </plist>

@@ -52,6 +52,23 @@ let targets: [Target] = [
             .WatchModule.watchAppNetwork,
             .WatchModule.watchDesignSystem
         ]
+    ),
+    .target(
+        name: "MenuBarApp",
+        destinations: .macOS,
+        product: .app,
+        bundleId: "com.pick.PiCKMenuBar",
+        deploymentTargets: .macOS("13.0"),
+        infoPlist: .file(path: "MenuBarApp/Support/Info.plist"),
+        sources: ["MenuBarApp/Sources/**"],
+        resources: nil,
+        entitlements: "MenuBarApp/Support/MenuBarApp.entitlements",
+        dependencies: [
+            .MenuBarModule.menuBarDesignSystem,
+            .MenuBarModule.menuBarNetwork,
+            .MenuBarModule.menuBarThirdPartyLib
+        ],
+        settings: .settings(base: env.baseSetting)
     )
 ]
 
@@ -69,6 +86,24 @@ let schemes: [Scheme] = [
         name: "\(env.targetName)-PROD",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.targetName)"]),
+        runAction: .runAction(configuration: .prod),
+        archiveAction: .archiveAction(configuration: .prod),
+        profileAction: .profileAction(configuration: .prod),
+        analyzeAction: .analyzeAction(configuration: .prod)
+    ),
+    .scheme(
+        name: "MenuBarApp-STAGE",
+        shared: true,
+        buildAction: .buildAction(targets: ["MenuBarApp"]),
+        runAction: .runAction(configuration: .stage),
+        archiveAction: .archiveAction(configuration: .stage),
+        profileAction: .profileAction(configuration: .stage),
+        analyzeAction: .analyzeAction(configuration: .stage)
+    ),
+    .scheme(
+        name: "MenuBarApp-PROD",
+        shared: true,
+        buildAction: .buildAction(targets: ["MenuBarApp"]),
         runAction: .runAction(configuration: .prod),
         archiveAction: .archiveAction(configuration: .prod),
         profileAction: .profileAction(configuration: .prod),

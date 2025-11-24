@@ -37,8 +37,6 @@ public final class VerifyEmailReactor: BaseReactor {
         case certificationError(String)
         case errorReset
         case isNextButtonEnabled(Bool)
-        case updateVerificationButtonText(String)
-        case verificationCodeSent
         case verificationSuccess
         case navigateToPasswordSetting
         case showErrorToast(String)
@@ -50,7 +48,6 @@ public final class VerifyEmailReactor: BaseReactor {
         var emailErrorDescription: String = ""
         var certificationErrorDescription: String = ""
         var isNextButtonEnabled: Bool = false
-        var verificationButtonText: String = "인증코드"
         var errorToastMessage: String = ""
     }
 }
@@ -72,7 +69,6 @@ extension VerifyEmailReactor {
             ])
         case .verificationButtonDidTap:
             return .concat([
-                .just(.updateVerificationButtonText("재발송")),
                 sendVerificationCode(email: self.currentState.email)
             ])
         case .nextButtonDidTap:
@@ -101,10 +97,6 @@ extension VerifyEmailReactor {
             newState.errorToastMessage = ""
         case .isNextButtonEnabled(let enabled):
             newState.isNextButtonEnabled = enabled
-        case .updateVerificationButtonText(let text):
-            newState.verificationButtonText = text
-        case .verificationCodeSent:
-            newState.verificationButtonText = "재발송"
         case .verificationSuccess:
             break
         case .navigateToPasswordSetting:
@@ -126,7 +118,7 @@ extension VerifyEmailReactor {
                 title: "회원가입 인증"
             )
         )
-        .andThen(.just(.verificationCodeSent))
+        .andThen(.just(.verificationSuccess))
         .catch { error in
             if let nsError = error as NSError? {
                 if let message = nsError.userInfo[NSLocalizedDescriptionKey] as? String, !message.isEmpty {

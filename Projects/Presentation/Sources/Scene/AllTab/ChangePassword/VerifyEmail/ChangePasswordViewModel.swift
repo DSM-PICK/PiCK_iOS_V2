@@ -10,6 +10,9 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
     public let steps = PublishRelay<Step>()
     private let disposeBag = DisposeBag()
 
+    private let startTimerRelay = PublishRelay<Void>()
+    private let verificationSuccessRelay = PublishRelay<Void>()
+
     private let verifyEmailCodeUseCase: VerifyEmailCodeUseCase
     private let mailCodeCheckUseCase: MailCodeCheckUseCase
 
@@ -30,12 +33,11 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
     public struct Output {
         let isNextButtonEnabled: Observable<Bool>
-        let verificationButtonText: Observable<String>
         let showErrorToast: Observable<String>
+        let startTimer: Observable<Void>
     }
 
     public func transform(input: Input) -> Output {
-        let verificationButtonTextRelay = BehaviorRelay<String>(value: "인증코드")
         let errorToastRelay = PublishRelay<String>()
 
         let isFormValid = Observable.combineLatest(
@@ -48,8 +50,9 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
         input.verificationButtonTap
             .withLatestFrom(input.emailText)
-            .do(onNext: { _ in
-                verificationButtonTextRelay.accept("재발송")
+            .filter { !$0.isEmpty }
+            .do(onNext: { [weak self] _ in
+                self?.startTimerRelay.accept(())
             })
             .flatMapLatest { [weak self] email -> Observable<Void> in
                 guard let self = self else { return .empty() }
@@ -75,8 +78,8 @@ public class ChangePasswordViewModel: BaseViewModel, Stepper {
 
         return Output(
             isNextButtonEnabled: isFormValid,
-            verificationButtonText: verificationButtonTextRelay.asObservable(),
-            showErrorToast: errorToastRelay.asObservable()
+            showErrorToast: errorToastRelay.asObservable(),
+            startTimer: startTimerRelay.asObservable()
         )
     }
 

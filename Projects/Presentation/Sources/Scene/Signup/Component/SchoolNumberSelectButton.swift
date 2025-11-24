@@ -47,7 +47,7 @@ public class SchoolNumberSelectButton: BaseButton {
         self.addSubview(textLabel)
 
         self.snp.makeConstraints {
-            $0.width.equalTo(80)
+            $0.width.equalTo(72)
             $0.height.equalTo(43)
         }
         textLabel.snp.makeConstraints {
