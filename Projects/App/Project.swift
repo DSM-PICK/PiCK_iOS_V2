@@ -34,7 +34,10 @@ let targets: [Target] = [
         scripts: scripts,
         dependencies: [
             .Projects.flow,
-            .target(name: "\(env.appName)-Watch")
+            .target(name: "\(env.appName)-Watch"),
+            .MenuBarModule.menuBarNetwork,
+            .MenuBarModule.menuBarDesignSystem,
+            .MenuBarModule.menuBarThirdPartyLib
         ],
         settings: .settings(base: env.baseSetting)
     ),

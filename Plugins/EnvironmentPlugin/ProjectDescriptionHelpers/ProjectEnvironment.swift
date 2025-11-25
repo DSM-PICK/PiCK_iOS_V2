@@ -15,7 +15,7 @@ public let env = ProjectEnvironment(
     targetName: "PiCK-iOS-V2",
     organizationName: "com.pick.app",
     deploymentTargets: .iOS("16.0"),
-    destination: .iOS,
+    destination: [.iOS, .macCatalyst],
     watchDestination: .watchOS,
     baseSetting: ["OTHER_LDFLAGS": ["$(inherited) -Objc"]]
 )

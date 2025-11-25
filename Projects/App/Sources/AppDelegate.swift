@@ -10,6 +10,10 @@ import Core
 import Data
 import Presentation
 
+#if targetEnvironment(macCatalyst)
+import AppKit
+#endif
+
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     static var container = Container()
@@ -44,8 +48,64 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // 파이어베이스 Meesaging 설정
         Messaging.messaging().delegate = self
 
+        // Mac Catalyst에서 MenuBarApp 실행
+        #if targetEnvironment(macCatalyst)
+        launchMenuBarApp()
+        #endif
+
         return true
     }
+
+    #if targetEnvironment(macCatalyst)
+    private func launchMenuBarApp() {
+        let menuBarAppBundleID = "com.pick.PiCKMenuBar"
+
+        // 이미 실행 중인지 확인
+        let runningApps = NSWorkspace.shared.runningApplications
+        let isRunning = runningApps.contains { $0.bundleIdentifier == menuBarAppBundleID }
+
+        if !isRunning {
+            // 번들 ID로 앱 실행 시도
+            let configuration = NSWorkspace.OpenConfiguration()
+            configuration.activates = false // 백그라운드에서 실행
+
+            NSWorkspace.shared.openApplication(
+                at: URL(fileURLWithPath: "/Applications/MenuBarApp.app"),
+                configuration: configuration
+            ) { app, error in
+                if let error = error {
+                    print("MenuBarApp 실행 실패: \(error.localizedDescription)")
+                    // 다른 경로에서 시도
+                    self.tryLaunchMenuBarAppFromBundle()
+                } else {
+                    print("MenuBarApp 실행 성공")
+                }
+            }
+        }
+    }
+
+    private func tryLaunchMenuBarAppFromBundle() {
+        // 메인 앱 번들 내부에서 MenuBarApp 찾기
+        guard let bundlePath = Bundle.main.bundlePath as NSString? else { return }
+        let menuBarAppPath = bundlePath.appendingPathComponent("Contents/Resources/MenuBarApp.app")
+
+        if FileManager.default.fileExists(atPath: menuBarAppPath) {
+            let configuration = NSWorkspace.OpenConfiguration()
+            configuration.activates = false
+
+            NSWorkspace.shared.openApplication(
+                at: URL(fileURLWithPath: menuBarAppPath),
+                configuration: configuration
+            ) { app, error in
+                if let error = error {
+                    print("번들 내 MenuBarApp 실행 실패: \(error.localizedDescription)")
+                } else {
+                    print("번들 내 MenuBarApp 실행 성공")
+                }
+            }
+        }
+    }
+    #endif
 
     func application(
         _ application: UIApplication,
