@@ -6,6 +6,8 @@ PiCK은 대덕소프트웨어마이스터고등학교의 온라인 출결관리 
   <img alt='Available on the App Store' src="https://github.com/user-attachments/assets/3f1ad016-a1a0-4dc1-98f0-3c629e9ee8e1" height="60px" />
 </a>
 
+![PiCK](readmeImage.png)
+
 ## 🚀 Architecture
 <img src="https://github.com/user-attachments/assets/32317259-f547-45a7-a818-72d85801c260" height="100%" />
 
