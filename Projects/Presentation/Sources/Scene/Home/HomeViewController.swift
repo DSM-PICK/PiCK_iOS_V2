@@ -46,7 +46,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView()
+    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView().then {
+        $0.isHidden = true
+    }
     private lazy var profileView = PiCKProfileView()
     private let passHeaderView = HomePassHeaderView().then {
         $0.isHidden = true
