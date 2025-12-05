@@ -27,6 +27,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         font: .pickFont(.heading4)
     ).then {
         $0.changePointColor(targetString: "오늘", color: .main500)
+        $0.adjustsFontSizeToFitWidth = true
     }
     private lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         $0.itemSize = .init(
