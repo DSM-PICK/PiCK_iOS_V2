@@ -22,7 +22,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
     )
     private lazy var calendarShadowView = PiCKCalendarShadowView()
     private lazy var dateLabel = PiCKLabel(
-        text: "오늘 \(todayDate.toString(type: .monthAndDayKor))",
+        text: "오늘 \(todayDate.mealDate.toString(type: .monthAndDayKor))",
         textColor: .modeBlack,
         font: .pickFont(.heading4)
     ).then {
@@ -51,7 +51,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
         navigationController?.isNavigationBarHidden = true
     }
     public override func bindAction() {
-        loadSchoolMeal(date: todayDate)
+        loadSchoolMeal(date: todayDate.mealDate)
     }
     public override func bind() {
         let input = SchoolMealViewModel.Input(
@@ -126,7 +126,7 @@ public class SchoolMealViewController: BaseViewController<SchoolMealViewModel> {
 
         self.schoolMealCalendarView.setupDate(date: date)
 
-        if date.toString(type: .fullDate) == self.todayDate.toString(type: .fullDate) {
+        if date.toString(type: .fullDate) == self.todayDate.mealDate.toString(type: .fullDate) {
             self.dateLabel.text = "오늘 \(date.toString(type: .monthAndDayKor))"
             self.dateLabel.changePointColor(targetString: "오늘", color: .main500)
         } else {
