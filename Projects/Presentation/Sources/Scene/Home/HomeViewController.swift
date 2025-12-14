@@ -129,7 +129,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     public override func bind() {
         let input = HomeViewModel.Input(
-            todayDate: todayDate.toString(type: .fullDate),
+            todayDate: todayDate.mealDate.toString(type: .fullDate),
             viewWillAppear: viewWillAppearRelay.asObservable(),
             alertButtonDidTap: navigationBar.alertButtonTap.asObservable(),
             outingPassDidTap: passHeaderView.buttonTap.asObservable(),
