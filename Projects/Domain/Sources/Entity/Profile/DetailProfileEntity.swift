@@ -2,7 +2,7 @@ import Foundation
 
 public struct DetailProfileEntity {
     public let name: String
-    public let birthDay: String
+    public let birthDay: String?
     public let grade: Int
     public let classNum: Int
     public let num: Int
@@ -11,7 +11,7 @@ public struct DetailProfileEntity {
 
     public init(
         name: String,
-        birthDay: String,
+        birthDay: String?,
         grade: Int,
         classNum: Int,
         num: Int,

@@ -66,7 +66,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
             .bind { owner, profileData in
                 owner.profileImageView.setImage(with: profileData.profile ?? "", placeholder: .profile)
                 owner.userNameLabel.text = profileData.name
-                owner.userBirthDayLabel.text = "\(profileData.birthDay.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))"
+                owner.userBirthDayLabel.text = profileData.birthDay.map { "\($0.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))" } ?? "-"
                 owner.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"
                 owner.userIDLabel.text = profileData.accountID
             }.disposed(by: disposeBag)

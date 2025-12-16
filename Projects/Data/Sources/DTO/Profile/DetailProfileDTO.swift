@@ -4,7 +4,7 @@ import Domain
 
 public struct DetailProfileDTO: Decodable {
     let name: String
-    let birthDay: String
+    let birthDay: String?
     let grade: Int
     let classNum: Int
     let num: Int
