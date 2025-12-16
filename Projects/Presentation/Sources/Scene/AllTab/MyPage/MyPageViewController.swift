@@ -32,12 +32,10 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     }
 
     private var userNameLabel = AllTabLabel(type: .contentLabel)
-    private var userBirthDayLabel = AllTabLabel(type: .contentLabel)
     private var userSchoolIDLabel = AllTabLabel(type: .contentLabel)
     private var userIDLabel = AllTabLabel(type: .contentLabel)
     private lazy var userInfoStackView = UIStackView(arrangedSubviews: [
         userNameLabel,
-        userBirthDayLabel,
         userSchoolIDLabel,
         userIDLabel
     ]).then {
@@ -66,7 +64,6 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
             .bind { owner, profileData in
                 owner.profileImageView.setImage(with: profileData.profile ?? "", placeholder: .profile)
                 owner.userNameLabel.text = profileData.name
-                owner.userBirthDayLabel.text = profileData.birthDay.map { "\($0.toDate(type: .fullDate).toString(type: .fullDateKorForCalendar))" } ?? "-"
                 owner.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"
                 owner.userIDLabel.text = profileData.accountID
             }.disposed(by: disposeBag)
@@ -123,7 +120,7 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
     }
 
     private func setupMyPageLabel() {
-        let titleArray = ["이름", "생년월일", "학번", "아이디"]
+        let titleArray = ["이름", "학번", "아이디"]
         for title in titleArray {
             let titleLabel = AllTabLabel(
                 type: .contentTitleLabel,
