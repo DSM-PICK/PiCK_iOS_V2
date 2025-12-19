@@ -32,6 +32,7 @@ let project = Project.makeModule(
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
-        .PackageType.FirebasePerformance
+        .PackageType.FirebasePerformance,
+        .PackageType.Siren
     ]
 )
