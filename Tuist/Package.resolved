@@ -1,5 +1,5 @@
 {
-  "originHash" : "6706fb9172922fec09284685cc85d1bc55d8b45891813da5a4eeec0e85722f3c",
+  "originHash" : "e5d8ce77fa3c23825c7ccb9db4d66027558598e916b148c7f1ea26cf390fd43d",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -260,6 +260,15 @@
       "state" : {
         "revision" : "5dd1907d64f0d36f158f61a466bab75067224893",
         "version" : "6.9.0"
+      }
+    },
+    {
+      "identity" : "siren",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ArtSabintsev/Siren.git",
+      "state" : {
+        "revision" : "6139af3394bc3635c6c8d5255339796feaa7d1a0",
+        "version" : "6.1.3"
       }
     },
     {
