@@ -36,11 +36,21 @@ class BaseDataSource<API: PiCKAPI> {
 }
 
 private extension BaseDataSource {
-    func defaultRequest(_ api: API) -> Single<Response> {
+    func defaultRequest(_ api: API, isRetry: Bool = false) -> Single<Response> {
         return provider.rx
             .request(api)
             .timeout(.seconds(120), scheduler: MainScheduler.asyncInstance)
-            .catch { error in
+            .catch { [weak self] error in
+                guard let self = self else { return .error(error) }
+
+                if let moyaError = error as? MoyaError,
+                   let statusCode = moyaError.response?.statusCode,
+                   statusCode == 401,
+                   !isRetry {
+                    return self.autoLogin()
+                        .andThen(self.defaultRequest(api, isRetry: true))
+                }
+
                 guard let code = (error as? MoyaError)?.response?.statusCode else {
                     return .error(error)
                 }
@@ -60,8 +70,29 @@ private extension BaseDataSource {
         return api.pickHeader == .accessToken
     }
 
-    func refreshToken() -> Completable {
-        return AuthDataSourceImpl(keychain: keychain).refreshToken()
+    func autoLogin() -> Completable {
+        let accountID = keychain.load(type: .id)
+        let password = keychain.load(type: .password)
+
+        let loginRequest = SigninRequestParams(
+            accountID: accountID,
+            password: password,
+            deviceToken: nil
+        )
+
+        let authProvider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
+
+        return authProvider.rx
+            .request(.signin(req: loginRequest))
+            .timeout(.seconds(120), scheduler: MainScheduler.asyncInstance)
+            .map(TokenDTO.self)
+            .do(onSuccess: { [weak self] token in
+                self?.keychain.save(type: .accessToken, value: token.accessToken)
+                self?.keychain.save(type: .refreshToken, value: token.refreshToken)
+            })
             .asCompletable()
+            .catch { error in
+                return .error(error)
+            }
     }
 }
