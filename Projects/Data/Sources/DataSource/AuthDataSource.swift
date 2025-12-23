@@ -14,7 +14,6 @@ protocol AuthDataSource {
     func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func resign() -> Completable
-    func refreshToken() -> Single<TokenDTO>
 }
 
 class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
@@ -64,12 +63,6 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
                 self.keychain.delete(type: .password)
                 UserDefaultStorage.shared.remove(forKey: .userInfoData)
             })
-    }
-
-    func refreshToken() -> Single<TokenDTO> {
-        return request(.refreshToken)
-            .filterSuccessfulStatusCodes()
-            .map(TokenDTO.self)
     }
 
 }
