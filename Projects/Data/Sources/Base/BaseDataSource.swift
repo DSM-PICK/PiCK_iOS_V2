@@ -75,6 +75,18 @@ private extension BaseDataSource {
         let accountID = keychain.load(type: .id)
         let password = keychain.load(type: .password)
 
+        guard accountID != "Failed To Load Keychain Value",
+              password != "Failed To Load Keychain Value" else {
+            keychain.delete(type: .accessToken)
+            keychain.delete(type: .id)
+            keychain.delete(type: .password)
+            UserDefaultStorage.shared.remove(forKey: .userInfoData)
+
+            NotificationCenter.default.post(name: .autoLoginDidFail, object: nil)
+
+            return .error(PiCKError.error(message: "No saved credentials", errorBody: [:]))
+        }
+
         let loginRequest = SigninRequestParams(
             accountID: accountID,
             password: password,
