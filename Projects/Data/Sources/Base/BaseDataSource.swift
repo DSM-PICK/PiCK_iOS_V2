@@ -18,7 +18,6 @@ class BaseDataSource<API: PiCKAPI> {
 
     init(keychain: any Keychain) {
         self.keychain = keychain
-//        self.provider = MoyaProvider<API>(plugins: [JwtPlugin(keychain: keychain), MoyaLoggingPlugin()])
         self.provider = MoyaProvider<API>(plugins: [MoyaLoggingPlugin()])
     }
 
@@ -92,7 +91,14 @@ private extension BaseDataSource {
                 self?.keychain.save(type: .accessToken, value: token.accessToken)
             })
             .asCompletable()
-            .catch { error in
+            .catch { [weak self] error in
+                self?.keychain.delete(type: .accessToken)
+                self?.keychain.delete(type: .id)
+                self?.keychain.delete(type: .password)
+                UserDefaultStorage.shared.remove(forKey: .userInfoData)
+
+                NotificationCenter.default.post(name: .autoLoginDidFail, object: nil)
+
                 return .error(error)
             }
     }
