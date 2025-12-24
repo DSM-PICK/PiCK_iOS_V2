@@ -16,6 +16,8 @@ class BaseDataSource<API: PiCKAPI> {
 
     private let provider: MoyaProvider<API>
 
+    private static var ongoingAutoLogin: Completable?
+
     init(keychain: any Keychain) {
         self.keychain = keychain
         self.provider = MoyaProvider<API>(plugins: [MoyaLoggingPlugin()])
@@ -72,6 +74,10 @@ private extension BaseDataSource {
     }
 
     func autoLogin() -> Completable {
+        if let ongoing = Self.ongoingAutoLogin {
+            return ongoing
+        }
+
         let accountID = keychain.load(type: .id)
         let password = keychain.load(type: .password)
 
@@ -95,7 +101,7 @@ private extension BaseDataSource {
 
         let authProvider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
 
-        return authProvider.rx
+        let autoLogin = authProvider.rx
             .request(.signin(req: loginRequest))
             .timeout(.seconds(120), scheduler: MainScheduler.asyncInstance)
             .map(TokenDTO.self)
@@ -113,5 +119,13 @@ private extension BaseDataSource {
 
                 return .error(error)
             }
+            .do(
+                onCompleted: { Self.ongoingAutoLogin = nil },
+                onError: { _ in Self.ongoingAutoLogin = nil }
+            )
+            .share()
+
+        Self.ongoingAutoLogin = autoLogin
+        return autoLogin
     }
 }
