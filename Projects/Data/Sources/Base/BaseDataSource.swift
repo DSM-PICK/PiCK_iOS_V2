@@ -9,6 +9,8 @@ import Core
 import Domain
 import AppNetwork
 
+import FirebaseMessaging
+
 class BaseDataSource<API: PiCKAPI> {
     private let keychain: any Keychain
 
@@ -77,7 +79,7 @@ private extension BaseDataSource {
         let loginRequest = SigninRequestParams(
             accountID: accountID,
             password: password,
-            deviceToken: nil
+            deviceToken: Messaging.messaging().fcmToken ?? nil
         )
 
         let authProvider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
