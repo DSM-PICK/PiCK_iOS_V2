@@ -11,12 +11,15 @@ import AppNetwork
 
 import FirebaseMessaging
 
+private class AutoLoginCache {
+    static var cache: [String: Completable] = [:]
+    static let lock = NSLock()
+}
+
 class BaseDataSource<API: PiCKAPI> {
     private let keychain: any Keychain
 
     private let provider: MoyaProvider<API>
-
-    private static var ongoingAutoLogin: Completable?
 
     init(keychain: any Keychain) {
         self.keychain = keychain
@@ -74,9 +77,14 @@ private extension BaseDataSource {
     }
 
     func autoLogin() -> Completable {
-        if let ongoing = Self.ongoingAutoLogin {
+        let key = String(describing: API.self)
+
+        AutoLoginCache.lock.lock()
+        if let ongoing = AutoLoginCache.cache[key] {
+            AutoLoginCache.lock.unlock()
             return ongoing
         }
+        AutoLoginCache.lock.unlock()
 
         let accountID = keychain.load(type: .id)
         let password = keychain.load(type: .password)
@@ -120,12 +128,22 @@ private extension BaseDataSource {
                 return .error(error)
             }
             .do(
-                onCompleted: { Self.ongoingAutoLogin = nil },
-                onError: { _ in Self.ongoingAutoLogin = nil }
+                onError: { _ in
+                    AutoLoginCache.lock.lock()
+                    AutoLoginCache.cache.removeValue(forKey: key)
+                    AutoLoginCache.lock.unlock()
+                },
+                onCompleted: {
+                    AutoLoginCache.lock.lock()
+                    AutoLoginCache.cache.removeValue(forKey: key)
+                    AutoLoginCache.lock.unlock()
+                }
             )
-            .share()
 
-        Self.ongoingAutoLogin = autoLogin
+        AutoLoginCache.lock.lock()
+        AutoLoginCache.cache[key] = autoLogin
+        AutoLoginCache.lock.unlock()
+
         return autoLogin
     }
 }
