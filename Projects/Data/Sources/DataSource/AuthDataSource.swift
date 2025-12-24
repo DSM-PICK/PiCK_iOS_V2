@@ -14,7 +14,6 @@ protocol AuthDataSource {
     func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func resign() -> Completable
-    func refreshToken() -> Single<TokenDTO>
 }
 
 class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
@@ -46,7 +45,6 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
 
     func logout() {
         keychain.delete(type: .accessToken)
-        keychain.delete(type: .refreshToken)
         keychain.delete(type: .id)
         keychain.delete(type: .password)
         UserDefaultStorage.shared.remove(forKey: .userInfoData)
@@ -59,17 +57,10 @@ class AuthDataSourceImpl: BaseDataSource<AuthAPI>, AuthDataSource {
             .do(onCompleted: { [weak self] in
                 guard let self else { return }
                 self.keychain.delete(type: .accessToken)
-                self.keychain.delete(type: .refreshToken)
                 self.keychain.delete(type: .id)
                 self.keychain.delete(type: .password)
                 UserDefaultStorage.shared.remove(forKey: .userInfoData)
             })
-    }
-
-    func refreshToken() -> Single<TokenDTO> {
-        return request(.refreshToken)
-            .filterSuccessfulStatusCodes()
-            .map(TokenDTO.self)
     }
 
 }

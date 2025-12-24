@@ -25,7 +25,6 @@ class AuthRepositoryImpl: AuthRepository {
             self.remoteDataSource.signin(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
-                    self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
 
                     self.keyChain.save(type: .id, value: req.accountID)
                     self.keyChain.save(type: .password, value: req.password)
@@ -48,7 +47,6 @@ class AuthRepositoryImpl: AuthRepository {
             self.remoteDataSource.signup(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
-                    self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
 
                     self.keyChain.save(type: .id, value: req.accountID)
                     self.keyChain.save(type: .password, value: req.password)
@@ -74,25 +72,6 @@ class AuthRepositoryImpl: AuthRepository {
 
     func resign() -> Completable {
         return remoteDataSource.resign()
-    }
-
-    func refreshToken() -> Completable {
-        return Completable.create { [weak self] completable in
-            guard let self = self else { return Disposables.create {} }
-
-            self.remoteDataSource.refreshToken()
-                .subscribe(onSuccess: { tokenData in
-                    self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
-                    self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
-                    self.watchDataSource.activate()
-                    completable(.completed)
-                }, onFailure: {
-                    completable(.error($0))
-                })
-                .disposed(by: self.disposeBag)
-
-            return Disposables.create {}
-        }
     }
 
 }
