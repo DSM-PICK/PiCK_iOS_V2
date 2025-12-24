@@ -88,7 +88,6 @@ private extension BaseDataSource {
             .map(TokenDTO.self)
             .do(onSuccess: { [weak self] token in
                 self?.keychain.save(type: .accessToken, value: token.accessToken)
-                self?.keychain.save(type: .refreshToken, value: token.refreshToken)
             })
             .asCompletable()
             .catch { error in

@@ -25,7 +25,6 @@ class AuthRepositoryImpl: AuthRepository {
             self.remoteDataSource.signin(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
-                    self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
 
                     self.keyChain.save(type: .id, value: req.accountID)
                     self.keyChain.save(type: .password, value: req.password)
@@ -48,7 +47,6 @@ class AuthRepositoryImpl: AuthRepository {
             self.remoteDataSource.signup(req: req)
                 .subscribe(onSuccess: { tokenData in
                     self.keyChain.save(type: .accessToken, value: tokenData.accessToken)
-                    self.keyChain.save(type: .refreshToken, value: tokenData.refreshToken)
 
                     self.keyChain.save(type: .id, value: req.accountID)
                     self.keyChain.save(type: .password, value: req.password)
