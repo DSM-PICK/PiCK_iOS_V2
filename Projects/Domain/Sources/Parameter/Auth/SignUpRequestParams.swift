@@ -42,6 +42,7 @@ public struct SignupRequestParams: Encodable {
         case num
         case code
         case deviceToken = "device_token"
+        case os
     }
 
 }
