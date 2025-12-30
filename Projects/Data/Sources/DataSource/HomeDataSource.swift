@@ -60,6 +60,16 @@ extension HomeDataSourceImpl: URLSessionDataDelegate {
     func urlSession(
         _ session: URLSession,
         dataTask: URLSessionDataTask,
+        didReceive response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+    ) {
+        print("SSE is connected: \(response)")
+        completionHandler(.allow)
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        dataTask: URLSessionDataTask,
         didReceive data: Data
     ) {
         guard let chunk = String(data: data, encoding: .utf8) else { return }
@@ -67,11 +77,24 @@ extension HomeDataSourceImpl: URLSessionDataDelegate {
 
         while let range = buffer.range(of: "\n\n") {
             let rawEvent = String(buffer[..<range.lowerBound])
-            buffer.removeSubrange(...range.upperBound)
+            buffer.removeSubrange(..<range.upperBound)
             handle(event: rawEvent)
         }
     }
+
+    func urlSession(
+        _ session: URLSession,
+        task: URLSessionTask,
+        didCompleteWithError error: Error?
+    ) {
+        if let error = error {
+            print("SSE is error = \(error)")
+        } else {
+            print("SSE is disconnected")
+        }
+    }
 }
+
 private extension HomeDataSourceImpl {
     func handle(event raw: String) {
         let dataLines = raw
@@ -83,6 +106,7 @@ private extension HomeDataSourceImpl {
             }
 
         let jsonString = dataLines.joined(separator: "\n")
+        print("SSE received text: \(jsonString)")
 
         guard let data = jsonString.data(using: .utf8),
               let dto = try? JSONDecoder().decode(
