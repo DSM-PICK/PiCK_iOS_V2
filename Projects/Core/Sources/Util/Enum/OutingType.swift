@@ -4,6 +4,7 @@ public enum OutingType: String, Codable {
     case application = "APPLICATION"
     case earlyReturn = "EARLY_RETURN"
     case classroom = "CLASSROOM"
+    case none = "NONE"
 }
 
 extension OutingType {
@@ -15,6 +16,8 @@ extension OutingType {
             return "조기귀가 수락 대기 중입니다"
         case .classroom:
             return "교실 이동 수락 대기 중입니다"
+        case .none:
+            return ""
         }
     }
 
@@ -24,6 +27,8 @@ extension OutingType {
             return "외출증 보기"
         case .classroom:
             return "돌아가기"
+        case .none:
+            return ""
         }
     }
 }

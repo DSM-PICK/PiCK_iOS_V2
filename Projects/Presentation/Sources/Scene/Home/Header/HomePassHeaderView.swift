@@ -80,6 +80,8 @@ public class HomePassHeaderView: BaseView {
                 timeValue = "\(startTime ?? "")교시 - \(endTime ?? "")교시"
                 let classroom = classRoomText ?? "정보 없음"
                 message = "\(classroom) 이동 시간은\n\(timeValue)입니다"
+            case .none:
+                return
             }
 
             self.contentLabel.text = message

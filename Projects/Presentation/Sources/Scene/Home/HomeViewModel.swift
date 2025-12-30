@@ -199,6 +199,8 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 case .classroom:
                     return self.classroomReturnUseCase.execute()
                         .andThen(Observable<OutingPassEntity>.empty())
+                case .none:
+                    return Observable.empty()
                 }
             }
             .bind(to: outingPassData)

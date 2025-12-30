@@ -159,11 +159,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                let passIsHidden = data.type?.isEmpty
+                let passIsHidden = (data.type == OutingType.none.rawValue) ? true : false
                 let isWait = data.userName == .none
-                let outingType = OutingType(rawValue: data.type ?? "") ?? .application
+                let outingType = OutingType(rawValue: data.type) ?? .none
 
-                owner.passHeaderView.isHidden = passIsHidden ?? true
+                owner.passHeaderView.isHidden = passIsHidden
                 owner.passHeaderView.setup(
                     isWait: isWait,
                     type: outingType,
