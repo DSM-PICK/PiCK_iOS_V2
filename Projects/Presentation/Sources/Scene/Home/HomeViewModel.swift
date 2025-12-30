@@ -125,17 +125,6 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.viewWillAppear
             .flatMap {
-                self.fetchApplyStatusUseCase.execute()
-                    .catch {
-                        print($0.localizedDescription)
-                        return .never()
-                    }
-            }
-            .bind(to: applyStatusData)
-            .disposed(by: disposeBag)
-
-        input.viewWillAppear
-            .flatMap {
                 self.timeTableUseCase.execute()
                     .catch {
                         print($0.localizedDescription)
@@ -187,6 +176,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
                     }
             }
             .bind(to: selfStudyData)
+            .disposed(by: disposeBag)
+
+        fetchApplyStatusUseCase.execute()
+            .catch { _ in .never() }
+            .bind(to: applyStatusData)
             .disposed(by: disposeBag)
 
         input.outingPassType
