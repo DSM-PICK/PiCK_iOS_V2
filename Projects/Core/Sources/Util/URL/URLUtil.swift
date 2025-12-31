@@ -7,9 +7,4 @@ public extension URLUtil {
         string: Bundle.main.object(
             forInfoDictionaryKey: "API_BASE_URL"
         ) as? String ?? "") ?? URL(string: "")!
-
-    static let socketBaseURL: String = Bundle.main.object(
-        forInfoDictionaryKey: "SOCKET_BASE_URL"
-    ) as? String ?? ""
-
 }

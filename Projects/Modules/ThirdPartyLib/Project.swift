@@ -22,7 +22,6 @@ let project = Project.makeModule(
         .PackageType.FSCalendar,
         .PackageType.RxDataSources,
         .PackageType.ReactorKit,
-        .PackageType.Starscream,
         .PackageType.Realm,
         .PackageType.RealmSwift,
         .PackageType.GoogleSignIn,
