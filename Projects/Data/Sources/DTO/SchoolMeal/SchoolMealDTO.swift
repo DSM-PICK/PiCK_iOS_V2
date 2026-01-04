@@ -45,7 +45,10 @@ struct SchoolMealDTO: Decodable {
                 let menuItems = row.dishName
                     .replacingOccurrences(of: "<br/>", with: "\n")
                     .components(separatedBy: "\n")
-                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .map { item in
+                        item.replacingOccurrences(of: "\\s*\\([^)]*\\)", with: "", options: .regularExpression)
+                            .trimmingCharacters(in: .whitespaces)
+                    }
                     .filter { !$0.isEmpty }
 
                 let calInfo = row.calInfo
