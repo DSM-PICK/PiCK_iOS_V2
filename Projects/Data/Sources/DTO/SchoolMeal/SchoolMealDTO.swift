@@ -37,7 +37,10 @@ struct SchoolMealDTO: Decodable {
         var lunch = MealDTOElement(menu: [], cal: "")
         var dinner = MealDTOElement(menu: [], cal: "")
 
-        if let rows = neisResponse.mealServiceDietInfo?.first?.row {
+        if let mealInfoArray = neisResponse.mealServiceDietInfo,
+           mealInfoArray.count > 1,
+           let rows = mealInfoArray[1].row {
+
             for row in rows {
                 let menuItems = row.dishName
                     .replacingOccurrences(of: "<br/>", with: "\n")
