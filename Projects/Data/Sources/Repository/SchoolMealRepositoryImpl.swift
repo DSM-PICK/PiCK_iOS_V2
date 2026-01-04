@@ -36,7 +36,10 @@ class SchoolMealRepositoryImpl: SchoolMealRepository {
 
     private func fetchAndCacheFromRemote(date: String) -> Single<SchoolMealEntity> {
         return remoteDataSource.fetchSchoolMeal(date: date)
-            .map(SchoolMealDTO.self)
+            .map(NEISMealResponse.self)
+            .map { neisResponse -> SchoolMealDTO in
+                return SchoolMealDTO(from: neisResponse, date: date)
+            }
             .flatMap { [weak self] dto -> Single<SchoolMealEntity> in
                 guard let self = self else {
                     return .error(NSError(domain: "SchoolMealRepository", code: -1))
