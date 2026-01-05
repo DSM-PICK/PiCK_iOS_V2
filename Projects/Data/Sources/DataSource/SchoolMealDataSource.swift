@@ -12,9 +12,11 @@ protocol SchoolMealDataSource {
     func fetchSchoolMeal(date: String) -> Single<Response>
 }
 
-class SchoolMealDataSourceImpl: BaseDataSource<SchoolMealAPI>, SchoolMealDataSource {
+class SchoolMealDataSourceImpl: SchoolMealDataSource {
+    private let provider = MoyaProvider<SchoolMealAPI>(plugins: [MoyaLoggingPlugin()])
+
     func fetchSchoolMeal(date: String) -> Single<Response> {
-        return request(.fetchSchoolMeal(date: date))
+        return provider.rx.request(.fetchSchoolMeal(date: date))
             .filterSuccessfulStatusCodes()
     }
 
