@@ -22,7 +22,6 @@ let project = Project.makeModule(
         .PackageType.FSCalendar,
         .PackageType.RxDataSources,
         .PackageType.ReactorKit,
-        .PackageType.Starscream,
         .PackageType.Realm,
         .PackageType.RealmSwift,
         .PackageType.GoogleSignIn,
@@ -32,6 +31,7 @@ let project = Project.makeModule(
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
         .PackageType.FirebaseCrashlytics,
-        .PackageType.FirebasePerformance
+        .PackageType.FirebasePerformance,
+        .PackageType.Siren
     ]
 )

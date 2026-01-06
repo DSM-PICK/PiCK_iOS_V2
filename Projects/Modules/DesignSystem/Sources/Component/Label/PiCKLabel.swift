@@ -56,6 +56,7 @@ public class PiCKLabel: BaseLabel {
         self.layer.border(color: borderColor, width: borderWidth ?? 0)
         self.isHidden = isHidden ?? false
         self.clipsToBounds = true
+        self.adjustsFontSizeToFitWidth = true
     }
 
 }

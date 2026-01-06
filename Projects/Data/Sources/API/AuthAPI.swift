@@ -8,7 +8,6 @@ import AppNetwork
 
 public enum AuthAPI {
     case signin(req: SigninRequestParams)
-    case refreshToken
     case signup(req: SignupRequestParams)
     case passwordChange(req: PasswordChangeRequestParams)
     case resign
@@ -27,8 +26,6 @@ extension AuthAPI: PiCKAPI {
             return "/login"
         case .signup:
             return "/signup"
-        case .refreshToken:
-            return "/refresh"
         case .passwordChange:
             return "/password"
         case .resign:
@@ -40,8 +37,6 @@ extension AuthAPI: PiCKAPI {
         switch self {
         case .signin, .signup, .passwordChange:
             return .post
-        case .refreshToken:
-            return .put
         case .resign:
             return .delete
         }
@@ -62,8 +57,6 @@ extension AuthAPI: PiCKAPI {
 
     public var pickHeader: TokenType {
         switch self {
-        case .refreshToken:
-            return .refreshToken
         case .resign:
             return .accessToken
         default:

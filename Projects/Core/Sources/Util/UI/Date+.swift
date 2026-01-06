@@ -6,6 +6,17 @@ public extension Date {
         return Calendar.current.date(from: component) ?? Date()
     }
 
+    var mealDate: Date {
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: self)
+
+        if hour >= 19 {
+            return calendar.date(byAdding: .day, value: 1, to: self) ?? self
+        } else {
+            return self
+        }
+    }
+
     func toString(type: DateFormatIndicated) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = type.rawValue
