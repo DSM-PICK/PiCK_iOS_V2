@@ -9,13 +9,15 @@ public struct HomeApplyStatusDTO: Decodable {
     let startTime: String?
     let endTime: String?
     let classroom: String?
-    let type: OutingType.RawValue?
+    let type: OutingType.RawValue
 
     enum CodingKeys: String, CodingKey {
-        case userName, classroom, type
-        case userID = "userId"
+        case userID = "user_id"
+        case userName = "user_name"
         case startTime = "start"
         case endTime = "end"
+        case classroom
+        case type
     }
 
 }

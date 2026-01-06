@@ -8,7 +8,7 @@ public struct HomeApplyStatusEntity {
     public let startTime: String?
     public let endTime: String?
     public let classroom: String?
-    public let type: OutingType.RawValue?
+    public let type: OutingType.RawValue
 
     public init(
         userID: UUID?,
@@ -16,7 +16,7 @@ public struct HomeApplyStatusEntity {
         startTime: String?,
         endTime: String?,
         classroom: String?,
-        type: OutingType.RawValue?
+        type: OutingType.RawValue
     ) {
         self.userID = userID
         self.userName = userName

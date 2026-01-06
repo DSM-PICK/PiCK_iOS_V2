@@ -17,7 +17,6 @@ public extension TargetDependency.PackageType {
     static let FSCalendar = TargetDependency.external(name: "FSCalendar")
     static let RxDataSources = TargetDependency.external(name: "RxDataSources")
     static let ReactorKit = TargetDependency.external(name: "ReactorKit")
-    static let Starscream = TargetDependency.external(name: "Starscream")
     static let Realm = TargetDependency.external(name: "Realm")
     static let RealmSwift = TargetDependency.external(name: "RealmSwift")
     static let GoogleSignIn = TargetDependency.external(name: "GoogleSignIn")

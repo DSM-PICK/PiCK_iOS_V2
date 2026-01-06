@@ -8,10 +8,6 @@ public extension URLUtil {
             forInfoDictionaryKey: "API_BASE_URL"
         ) as? String ?? "") ?? URL(string: "")!
 
-    static let socketBaseURL: String = Bundle.main.object(
-        forInfoDictionaryKey: "SOCKET_BASE_URL"
-    ) as? String ?? ""
-
     static let neisBaseURL: URL = URL(string: "https://open.neis.go.kr/hub")!
 
     static let neisAPIKey: String = Bundle.main.object(
@@ -25,5 +21,4 @@ public extension URLUtil {
     static let neisSdSchulCode: String = Bundle.main.object(
         forInfoDictionaryKey: "NEIS_SD_SCHUL_CODE"
     ) as? String ?? ""
-
 }

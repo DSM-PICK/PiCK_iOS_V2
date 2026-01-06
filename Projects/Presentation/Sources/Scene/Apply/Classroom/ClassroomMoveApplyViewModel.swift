@@ -49,6 +49,7 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
             .withLatestFrom(info)
             .flatMap { floor, classroom, startPeriod, endPeriod in
                 self.classroomMoveApplyUseCase.execute(req: .init(
+                    move: "",
                     floor: floor,
                     classroomName: classroom,
                     startPeriod: startPeriod,
