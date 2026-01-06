@@ -15,6 +15,7 @@ class HomeDataSourceImpl: NSObject, HomeDataSource {
     private let keychain: Keychain
     private var task: URLSessionDataTask?
     private var buffer = ""
+    private var isConnecting = false
 
     private var applyStatusRelay = PublishRelay<HomeApplyStatusEntity>()
 
@@ -25,6 +26,9 @@ class HomeDataSourceImpl: NSObject, HomeDataSource {
     }
 
     func connectSSE() {
+        guard !isConnecting else { return }
+        isConnecting = true
+
         let url = URL(string: "\(URLUtil.baseURL)/event")!
         var request = URLRequest(url: url)
 
@@ -64,6 +68,7 @@ extension HomeDataSourceImpl: URLSessionDataDelegate {
         completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
     ) {
         print("SSE is connected: \(response)")
+        isConnecting = false
         completionHandler(.allow)
     }
 
@@ -87,10 +92,18 @@ extension HomeDataSourceImpl: URLSessionDataDelegate {
         task: URLSessionTask,
         didCompleteWithError error: Error?
     ) {
+        isConnecting = false
+
         if let error = error {
             print("SSE is error = \(error)")
         } else {
             print("SSE is disconnected")
+        }
+
+        print("Reconnecting SSE")
+        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+            self?.buffer = ""
+            self?.connectSSE()
         }
     }
 }
