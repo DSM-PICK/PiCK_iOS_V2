@@ -4,12 +4,6 @@
 <dict>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
-	<key>NEIS_API_KEY</key>
-	<string>$(NEIS_API_KEY)</string>
-	<key>NEIS_ATPT_OFCDC_SC_CODE</key>
-	<string>$(NEIS_ATPT_OFCDC_SC_CODE)</string>
-	<key>NEIS_SD_SCHUL_CODE</key>
-	<string>$(NEIS_SD_SCHUL_CODE)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -25,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.0</string>
+	<string>2.2.1</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
@@ -34,6 +28,12 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NEIS_API_KEY</key>
+	<string>$(NEIS_API_KEY)</string>
+	<key>NEIS_ATPT_OFCDC_SC_CODE</key>
+	<string>$(NEIS_ATPT_OFCDC_SC_CODE)</string>
+	<key>NEIS_SD_SCHUL_CODE</key>
+	<string>$(NEIS_SD_SCHUL_CODE)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
