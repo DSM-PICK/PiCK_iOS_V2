@@ -27,6 +27,7 @@ class ClassroomBackgroundCell: BaseCollectionViewCell<Any> {
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         $0.minimumLineSpacing = 15
         $0.minimumInteritemSpacing = 16
+        $0.scrollDirection = .vertical
     }
     private lazy var classroomCollectionView = UICollectionView(
         frame: .zero,
@@ -38,7 +39,10 @@ class ClassroomBackgroundCell: BaseCollectionViewCell<Any> {
             forCellWithReuseIdentifier: ClassroomCollectionViewCell.identifier
         )
         $0.contentInsetAdjustmentBehavior = .always
-        $0.bounces = false
+        $0.isScrollEnabled = true
+        $0.bounces = true
+        $0.alwaysBounceVertical = true
+        $0.showsVerticalScrollIndicator = true
     }
 
     public override init(frame: CGRect) {

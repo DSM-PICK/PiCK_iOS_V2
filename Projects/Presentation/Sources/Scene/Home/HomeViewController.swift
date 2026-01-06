@@ -46,7 +46,9 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView()
+    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView().then {
+        $0.isHidden = true
+    }
     private lazy var profileView = PiCKProfileView()
     private let passHeaderView = HomePassHeaderView().then {
         $0.isHidden = true
@@ -127,7 +129,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     public override func bind() {
         let input = HomeViewModel.Input(
-            todayDate: todayDate.toString(type: .fullDate),
+            todayDate: todayDate.mealDate.toString(type: .fullDate),
             viewWillAppear: viewWillAppearRelay.asObservable(),
             alertButtonDidTap: navigationBar.alertButtonTap.asObservable(),
             outingPassDidTap: passHeaderView.buttonTap.asObservable(),
@@ -157,11 +159,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
         output.applyStatusData.asObservable()
             .withUnretained(self)
             .bind { owner, data in
-                let passIsHidden = data.type?.isEmpty
+                let passIsHidden = (data.type == OutingType.none.rawValue) ? true : false
                 let isWait = data.userName == .none
-                let outingType = OutingType(rawValue: data.type ?? "") ?? .application
+                let outingType = OutingType(rawValue: data.type) ?? .none
 
-                owner.passHeaderView.isHidden = passIsHidden ?? true
+                owner.passHeaderView.isHidden = passIsHidden
                 owner.passHeaderView.setup(
                     isWait: isWait,
                     type: outingType,

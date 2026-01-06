@@ -15,14 +15,11 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
 
     private let keychain = KeychainImpl()
 
-    private let refreshTokenUseCase: RefreshTokenUseCase
     private let signinUseCase: SigninUseCase
 
     public init(
-        refreshTokenUseCase: RefreshTokenUseCase,
         signinUseCase: SigninUseCase
     ) {
-        self.refreshTokenUseCase = refreshTokenUseCase
         self.signinUseCase = signinUseCase
     }
 
@@ -44,27 +41,24 @@ public class OnboardingViewModel: BaseViewModel, Stepper {
     public func transform(input: Input) -> Output {
         input.viewWillAppear
             .flatMap {
-                self.refreshTokenUseCase.execute()
-                    .catch { _ in
-                        return self.signinUseCase.execute(req: .init(
-                            accountID: self.keychain.load(type: .id),
-                            password: self.keychain.load(type: .password),
-                            deviceToken: Messaging.messaging().fcmToken ?? nil
-                        ))
-                        .catch { error in
-                            guard let error = error as? PiCKError
-                            else { return .never() }
+                return self.signinUseCase.execute(req: .init(
+                    accountID: self.keychain.load(type: .id),
+                    password: self.keychain.load(type: .password),
+                    deviceToken: Messaging.messaging().fcmToken ?? nil
+                ))
+                .catch { error in
+                    guard let error = error as? PiCKError
+                    else { return .never() }
 
-                            switch error {
-                            case .serverError:
-                                self.presentAlert.accept(())
-                                return .never()
-                            default:
-                                return .never()
-                            }
-                        }
+                    switch error {
+                    case .serverError:
+                        self.presentAlert.accept(())
+                        return .never()
+                    default:
+                        return .never()
                     }
-                    .andThen(Single.just(PiCKStep.tabIsRequired))
+                }
+                .andThen(Single.just(PiCKStep.tabIsRequired))
             }
             .bind(to: steps)
             .disposed(by: disposeBag)

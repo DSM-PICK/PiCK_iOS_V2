@@ -1,5 +1,5 @@
 {
-  "originHash" : "6706fb9172922fec09284685cc85d1bc55d8b45891813da5a4eeec0e85722f3c",
+  "originHash" : "2c5d04b671aba2b3f75ff0f07e2fd4142c497e7a8ec4a6a991b5a6af60eeaa6c",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -263,21 +263,21 @@
       }
     },
     {
+      "identity" : "siren",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ArtSabintsev/Siren.git",
+      "state" : {
+        "revision" : "6139af3394bc3635c6c8d5255339796feaa7d1a0",
+        "version" : "6.1.3"
+      }
+    },
+    {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit.git",
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
-      }
-    },
-    {
-      "identity" : "starscream",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/daltoniam/Starscream.git",
-      "state" : {
-        "revision" : "c6bfd1af48efcc9a9ad203665db12375ba6b145a",
-        "version" : "4.0.8"
       }
     },
     {

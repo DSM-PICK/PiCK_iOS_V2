@@ -7,6 +7,8 @@ import FirebaseAnalytics
 
 import Flow
 
+import Siren
+
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var coordinator = FlowCoordinator()
@@ -25,6 +27,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             allowStepWhenDismissed: false
         )
         window?.makeKeyAndVisible()
+        
+        SirenConfiguration.setup()
+        SirenConfiguration.check()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

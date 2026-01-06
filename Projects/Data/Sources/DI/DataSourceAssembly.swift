@@ -53,8 +53,8 @@ public final class DataSourceAssembly: Assembly {
             AcademicScheduleDataSourceImpl(keychain: self.keychain(resolver))
         }
 
-        container.register(SchoolMealDataSource.self) { resolver in
-            SchoolMealDataSourceImpl(keychain: self.keychain(resolver))
+        container.register(SchoolMealDataSource.self) { _ in
+            SchoolMealDataSourceImpl()
         }
 
         container.register(SchoolMealLocalDataSource.self) { _ in

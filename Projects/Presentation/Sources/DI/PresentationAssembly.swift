@@ -15,7 +15,6 @@ public final class PresentationAssembly: Assembly {
         }
         container.register(OnboardingViewModel.self) { resolver in
             OnboardingViewModel(
-                refreshTokenUseCase: resolver.resolve(RefreshTokenUseCase.self)!,
                 signinUseCase: resolver.resolve(SigninUseCase.self)!
             )
         }

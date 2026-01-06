@@ -51,9 +51,9 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
             forCellWithReuseIdentifier: ClassroomBackgroundCell.identifier
         )
         $0.showsHorizontalScrollIndicator = false
-        $0.showsVerticalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = true
         $0.isPagingEnabled = true
-        $0.bounces = false
+        $0.bounces = true
     }
     private let nextButton = PiCKButton(buttonText: "다음")
 
@@ -185,7 +185,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         backgroundCollectionView.snp.makeConstraints {
             $0.top.equalTo(floorSegmentedControl.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(nextButton.snp.top)
         }
         nextButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
@@ -204,7 +204,7 @@ public class ClassroomMoveApplyViewController: BaseViewController<ClassroomMoveA
         if let layout = backgroundCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             let newSize = CGSize(
                 width: view.frame.width - 48,
-                height: safeHeight * 0.7
+                height: safeHeight * 0.55
             )
 
             if layout.itemSize != newSize {

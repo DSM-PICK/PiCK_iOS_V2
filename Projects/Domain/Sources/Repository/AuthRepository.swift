@@ -8,5 +8,4 @@ public protocol AuthRepository {
     func passwordChange(req: PasswordChangeRequestParams) -> Completable
     func logout()
     func resign() -> Completable
-    func refreshToken() -> Completable
 }
