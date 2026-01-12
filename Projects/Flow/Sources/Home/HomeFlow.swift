@@ -88,7 +88,10 @@ public class HomeFlow: Flow {
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
-        return .none
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
     }
 
 }
