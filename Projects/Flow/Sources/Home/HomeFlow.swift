@@ -29,6 +29,8 @@ public class HomeFlow: Flow {
             return navigateToNotice()
         case .noticeDetailIsRequired(let id):
             return navigateToNoticeDetail(id: id)
+        case .weekendMealApplyIsRequired:
+            return navigateToWeekendMealApply()
         default:
             return .none
         }
@@ -75,6 +77,14 @@ public class HomeFlow: Flow {
     private func navigateToNoticeDetail(id: UUID) -> FlowContributors {
         let vc = container.resolve(NoticeDetailViewController.self)!
         vc.id = id
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .none
+    }
+
+    private func navigateToWeekendMealApply() -> FlowContributors {
+        let vc = container.resolve(WeekendMealApplyViewController.self)!
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
