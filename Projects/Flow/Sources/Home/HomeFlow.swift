@@ -4,6 +4,7 @@ import RxFlow
 import Swinject
 
 import Core
+import DesignSystem
 import Presentation
 
 public class HomeFlow: Flow {
@@ -29,6 +30,10 @@ public class HomeFlow: Flow {
             return navigateToNotice()
         case .noticeDetailIsRequired(let id):
             return navigateToNoticeDetail(id: id)
+        case .weekendMealApplyIsRequired:
+            return navigateToWeekendMealApply()
+        case let .applyAlertIsRequired(successType, alertType):
+            return presentApplyAlert(successType: successType, alertType: alertType)
         default:
             return .none
         }
@@ -78,6 +83,33 @@ public class HomeFlow: Flow {
 
         vc.hidesBottomBarWhenPushed = true
         self.rootViewController.pushViewController(vc, animated: true)
+        return .none
+    }
+
+    private func navigateToWeekendMealApply() -> FlowContributors {
+        let vc = container.resolve(WeekendMealApplyViewController.self)!
+
+        vc.hidesBottomBarWhenPushed = true
+        self.rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(
+            withNextPresentable: vc,
+            withNextStepper: vc.viewModel
+        ))
+    }
+
+    private func presentApplyAlert(successType: SuccessType, alertType: DisappearAlertType) -> FlowContributors {
+        let alert = PiCKDisappearAlert(
+            successType: successType,
+            alertType: alertType
+        )
+        alert.modalPresentationStyle = .overFullScreen
+        alert.modalTransitionStyle = .crossDissolve
+
+        if successType == .success {
+            self.rootViewController.tabBarController?.selectedIndex = 0
+        }
+        self.rootViewController.popToRootViewController(animated: true)
+        self.rootViewController.present(alert, animated: true)
         return .none
     }
 

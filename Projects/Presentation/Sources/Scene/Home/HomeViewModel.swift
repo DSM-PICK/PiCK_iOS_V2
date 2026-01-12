@@ -56,6 +56,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
         let outingPassType: Observable<OutingType>
         let viewMoreNoticeButtonDidTap: Observable<Void>
         let noticeDidSelect: Observable<UUID>
+        let weekendMealPeriodHeaderViewDidTap: Observable<Void>
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
@@ -220,6 +221,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .map { id in
                 PiCKStep.noticeDetailIsRequired(id: id)
             }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.weekendMealPeriodHeaderViewDidTap
+            .map { PiCKStep.weekendMealApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

@@ -15,6 +15,7 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
     private var outingPassType = PublishRelay<OutingType>()
 
     private var noticeButtonDidTapRelay = PublishRelay<UUID>()
+    private var weekendMealPeriodHeaderViewDidTapRelay = PublishRelay<Void>()
 
     private let todayDate = Date()
 
@@ -46,8 +47,12 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
 
     private lazy var navigationBar = PiCKMainNavigationBar(view: self)
 
-    private let weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView().then {
+    private let weekendMealPeriodTapGesture = UITapGestureRecognizer()
+
+    private lazy var weekendMealPeriodHeaderView = WeekendMealPeriodHeaderView().then {
         $0.isHidden = true
+        $0.addGestureRecognizer(weekendMealPeriodTapGesture)
+        $0.isUserInteractionEnabled = true
     }
     private lazy var profileView = PiCKProfileView()
     private let passHeaderView = HomePassHeaderView().then {
@@ -135,7 +140,8 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             outingPassDidTap: passHeaderView.buttonTap.asObservable(),
             outingPassType: outingPassType.asObservable(),
             viewMoreNoticeButtonDidTap: viewMoreButton.rx.tap.asObservable(),
-            noticeDidSelect: noticeButtonDidTapRelay.asObservable()
+            noticeDidSelect: noticeButtonDidTapRelay.asObservable(),
+            weekendMealPeriodHeaderViewDidTap: weekendMealPeriodHeaderViewDidTapRelay.asObservable()
         )
         let output = viewModel.transform(input: input)
 
@@ -219,6 +225,11 @@ public class HomeViewController: BaseViewController<HomeViewModel> {
             .bind { owner, data in
                 owner.noticeButtonDidTapRelay.accept(data.id)
             }.disposed(by: disposeBag)
+
+        weekendMealPeriodTapGesture.rx.event
+            .map { _ in () }
+            .bind(to: weekendMealPeriodHeaderViewDidTapRelay)
+            .disposed(by: disposeBag)
 
         output.outingPassData.asObservable()
             .withUnretained(self)
