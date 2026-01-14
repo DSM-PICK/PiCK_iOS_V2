@@ -62,7 +62,11 @@ public class MyPageViewController: BaseViewController<MyPageViewModel> {
         output.profileData.asObservable()
             .withUnretained(self)
             .bind { owner, profileData in
-                owner.profileImageView.setImage(with: profileData.profile ?? "", placeholder: .profile)
+                owner.profileImageView.setImage(
+                    with: profileData.profile ?? "",
+                    placeholder: .profile,
+                    downsampleSize: CGSize(width: 80, height: 80)
+                )
                 owner.userNameLabel.text = profileData.name
                 owner.userSchoolIDLabel.text = "\(profileData.grade)학년 \(profileData.classNum)반 \(profileData.num)번"
                 owner.userIDLabel.text = profileData.accountID

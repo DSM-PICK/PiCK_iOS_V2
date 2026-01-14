@@ -3,24 +3,25 @@ import UIKit
 import Kingfisher
 
 public extension UIImageView {
-    func setImage(with urlString: String, placeholder: UIImage? = nil) {
-        if let placeholder = placeholder {
+    func setImage(with urlString: String, placeholder: UIImage? = nil, downsampleSize: CGSize? = nil) {
+        guard let url = URL(string: urlString) else {
             self.image = placeholder
+            return
         }
-        ImageCache.default.retrieveImage(forKey: urlString, options: nil) { result in
-            switch result {
-            case .success(let value):
-                if let image = value.image {
-                    self.image = image
-                } else {
-                    guard let url = URL(string: urlString) else { return }
-                    let resource = KF.ImageResource(downloadURL: url, cacheKey: urlString)
-                    self.kf.setImage(with: resource, placeholder: placeholder)
-                }
-            case .failure(let error):
-                print(error)
-            }
+
+        var options: KingfisherOptionsInfo = [
+            .scaleFactor(UIScreen.main.scale),
+            .transition(.fade(0.2)),
+            .cacheOriginalImage
+        ]
+
+        if let size = downsampleSize {
+            let resizedSize = CGSize(width: size.width * UIScreen.main.scale, height: size.height * UIScreen.main.scale)
+            let processor = DownsamplingImageProcessor(size: resizedSize)
+            options.append(.processor(processor))
         }
+
+        self.kf.setImage(with: url, placeholder: placeholder, options: options)
     }
 
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import WatchKit
 
 import Kingfisher
 
@@ -25,6 +26,8 @@ struct TimeTableCell: View {
                 .font(.pickFont(.label2))
                 .foregroundStyle(Color.modeWhite)
             KFImage(URL(string: subjectImage))
+                .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 12 * WKInterfaceDevice.current().screenScale, height: 12 * WKInterfaceDevice.current().screenScale)))
+                .scaleFactor(WKInterfaceDevice.current().screenScale)
                 .cacheMemoryOnly()
                 .fade(duration: 0.1)
                 .resizable()
