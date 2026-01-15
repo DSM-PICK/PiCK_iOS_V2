@@ -50,6 +50,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let todayDate: String
+        let schoolMealDate: String
         let viewWillAppear: Observable<Void>
         let alertButtonDidTap: Observable<Void>
         let outingPassDidTap: Observable<Void>
@@ -141,7 +142,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.viewWillAppear
             .flatMap {
-                self.schoolMealUseCase.execute(date: input.todayDate)
+                self.schoolMealUseCase.execute(date: input.schoolMealDate)
                     .catch {
                         print($0.localizedDescription)
                         return .never()
