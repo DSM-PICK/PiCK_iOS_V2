@@ -27,9 +27,16 @@ public class PiCKProfileView: BaseView {
         image: String,
         info: String
     ) {
+        let size = CGSize(width: 60 * UIScreen.main.scale, height: 60 * UIScreen.main.scale)
+        let processor = DownsamplingImageProcessor(size: size)
         self.profileImageView.kf.setImage(
             with: URL(string: image),
-            placeholder: UIImage.profile
+            placeholder: UIImage.profile,
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ]
         )
         self.userInfoLabel.text = "대덕소프트웨어마이스터고\n\(info)"
     }

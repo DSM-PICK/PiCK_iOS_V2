@@ -25,7 +25,7 @@ public class TimeTableCollectionViewCell: BaseCollectionViewCell<TimeTableEntity
 
         self.periodLabel.text = "\(model.period)교시"
         self.periodLabel.changePointColor(targetString: "\(model.period)", color: .main500)
-        self.subjectImageView.setImage(with: model.subjectImage)
+        self.subjectImageView.setImage(with: model.subjectImage, downsampleSize: CGSize(width: 28, height: 28))
         self.subjectLabel.text = model.subjectName
     }
 
