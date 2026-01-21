@@ -50,12 +50,14 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
     public struct Input {
         let todayDate: String
+        let schoolMealDate: String
         let viewWillAppear: Observable<Void>
         let alertButtonDidTap: Observable<Void>
         let outingPassDidTap: Observable<Void>
         let outingPassType: Observable<OutingType>
         let viewMoreNoticeButtonDidTap: Observable<Void>
         let noticeDidSelect: Observable<UUID>
+        let weekendMealPeriodHeaderViewDidTap: Observable<Void>
     }
     public struct Output {
         let viewMode: Signal<HomeViewType>
@@ -140,7 +142,7 @@ public class HomeViewModel: BaseViewModel, Stepper {
 
         input.viewWillAppear
             .flatMap {
-                self.schoolMealUseCase.execute(date: input.todayDate)
+                self.schoolMealUseCase.execute(date: input.schoolMealDate)
                     .catch {
                         print($0.localizedDescription)
                         return .never()
@@ -220,6 +222,11 @@ public class HomeViewModel: BaseViewModel, Stepper {
             .map { id in
                 PiCKStep.noticeDetailIsRequired(id: id)
             }
+            .bind(to: steps)
+            .disposed(by: disposeBag)
+
+        input.weekendMealPeriodHeaderViewDidTap
+            .map { PiCKStep.weekendMealApplyIsRequired }
             .bind(to: steps)
             .disposed(by: disposeBag)
 

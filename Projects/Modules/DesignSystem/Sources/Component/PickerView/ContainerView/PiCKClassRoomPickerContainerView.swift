@@ -12,6 +12,9 @@ import Core
 public class PiCKClassroomPickerContainerView: BaseView {
     public lazy var startPeriodValue = startPickerView.periodText.value
     public lazy var endPeriodValue = endPickerView.periodText.value
+    public lazy var periodValue = startPickerView.periodText.value
+
+    private let isSingleSelection: Bool
 
     private let backgroudView = UIView().then {
         $0.backgroundColor = .clear
@@ -39,6 +42,16 @@ public class PiCKClassroomPickerContainerView: BaseView {
         endPeriodLabel
     ]).then {
         $0.axis = .horizontal
+    }
+
+    public init(isSingleSelection: Bool = false) {
+        self.isSingleSelection = isSingleSelection
+        super.init(frame: .zero)
+    }
+
+    required init?(coder: NSCoder) {
+        self.isSingleSelection = false
+        super.init(coder: coder)
     }
 
     public override func layoutSubviews() {
@@ -71,22 +84,37 @@ public class PiCKClassroomPickerContainerView: BaseView {
         endPickerView.snp.makeConstraints {
             $0.width.equalTo(44)
         }
-        startPeriodStackView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(60)
-        }
-        dashLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        endPeriodStackView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(60)
+
+        if isSingleSelection {
+            dashLabel.isHidden = true
+            endPeriodStackView.isHidden = true
+
+            startPeriodStackView.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
+        } else {
+            dashLabel.isHidden = false
+            endPeriodStackView.isHidden = false
+
+            startPeriodStackView.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().inset(60)
+            }
+            dashLabel.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
+            endPeriodStackView.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.trailing.equalToSuperview().inset(60)
+            }
         }
     }
 
     private func pickerViewSetting() {
         startPickerView.subviews[1].backgroundColor = .clear
-        endPickerView.subviews[1].backgroundColor = .clear
+        if !isSingleSelection {
+            endPickerView.subviews[1].backgroundColor = .clear
+        }
     }
 
 }

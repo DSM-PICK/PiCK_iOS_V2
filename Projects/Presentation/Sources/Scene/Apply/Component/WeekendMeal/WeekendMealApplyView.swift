@@ -42,9 +42,7 @@ public class WeekendMealApplyView: BaseView {
             self.currnetMonthWeekendMealApplyLabel.changePointColor(targetString: "\(statusText)", color: .main500)
         }
 
-        self.buttonStackView.isHidden = !isApplicable
-        self.applyState.accept(status)
-        self.weekendMealStatusButtonDidTap(status ? .ok : .no)
+        buttonStackView.isHidden = !isApplicable
     }
 
     public init(
@@ -108,6 +106,10 @@ public class WeekendMealApplyView: BaseView {
         notApplyButton.isSelected = !applyState.value
 
         weekendMealStatusButtonDidTap(applyState.value == true ? .ok : .no)
+    }
+
+    public func setInitialStatus(_ status: WeekendMealType) {
+        applyState.accept(status == .ok)
     }
 
 }

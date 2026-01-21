@@ -53,6 +53,23 @@ public class WeekendMealApplyViewController: BaseViewController<WeekendMealApply
                 )
                 self?.saveButton.isHidden = !data.isApplicable
             }.disposed(by: disposeBag)
+
+        output.weekendMealStatus
+            .emit(onNext: { [weak self] status in
+                self?.weekendMealApplyView.setInitialStatus(status)
+            })
+            .disposed(by: disposeBag)
+
+        output.weekendMealApplicationPeriod
+            .emit(onNext: { [weak self] data in
+                self?.weekendMealApplyView.setup(
+                    status: true,
+                    isApplicable: data.isApplicable,
+                    month: data.month ?? 0
+                )
+                self?.saveButton.isHidden = !data.isApplicable
+            })
+            .disposed(by: disposeBag)
     }
 
     public override func addView() {
