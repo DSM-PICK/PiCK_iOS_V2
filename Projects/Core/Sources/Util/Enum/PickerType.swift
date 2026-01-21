@@ -1,7 +1,7 @@
 import Foundation
 
 public enum PickerType {
-    case classroom, outingStart, outingEnd, outingPeriod, earlyLeave, studentInfo
+    case classroom, outingStart, outingEnd, outingPeriod, earlyLeave, earlyLeavePeriod, studentInfo
 }
 
 public enum PickerTimeSelectType: String, Codable {

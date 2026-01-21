@@ -15,6 +15,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
 
     public var applyButtonDidTap: (() -> Void)?
     public var selectedPeriod: ((Int, Int) -> Void)?
+    public var selectEarlyLeavePeriod: ((Int) -> Void)?
     public var selectedTime: ((String, String) -> Void)?
     public var selectedStudentInfo: ((Int, Int, Int) -> Void)?
 
@@ -23,6 +24,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         font: .pickFont(.label1)
     )
     private let periodPickerView = PiCKClassroomPickerContainerView()
+    private let earlyLeavePeriodPickerView = PiCKClassroomPickerContainerView(isSingleSelection: true)
     private let timePickerView = PiCKOutingPickerContainerView()
     private let infoPickerView = PiCKInfoContainerView()
     private var applyButton = PiCKButton(buttonText: "신청하기")
@@ -74,6 +76,12 @@ public class PiCKApplyTimePickerAlert: UIViewController {
                     let minString = String(format: "%02d", min)
 
                     self?.selectedTime!(hourString, minString)
+
+                case .earlyLeavePeriod:
+                    let period = self?.earlyLeavePeriodPickerView.periodValue ?? 0
+                    self?.selectEarlyLeavePeriod?(period)
+                    self?.applyButtonDidTap?()
+
                 case .studentInfo:
                     let grade = self?.infoPickerView.gradeValue ?? 1
                     let classNum = self?.infoPickerView.classValue ?? 1
@@ -88,6 +96,7 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         [
             explainLabel,
             periodPickerView,
+            earlyLeavePeriodPickerView,
             timePickerView,
             infoPickerView,
             applyButton
@@ -97,30 +106,43 @@ public class PiCKApplyTimePickerAlert: UIViewController {
         case .classroom:
             timePickerView.isHidden = true
             infoPickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "교실 이동 시간을 선택해주세요"
 
         case .outingStart:
             periodPickerView.isHidden = true
             infoPickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "외출 시작 시간을 선택해주세요"
 
         case .outingEnd:
             periodPickerView.isHidden = true
             infoPickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "외출 복귀 시간을 선택해주세요"
 
         case .outingPeriod:
             timePickerView.isHidden = true
             infoPickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "외출 시작과 복귀 교시를 선택해주세요"
 
         case .earlyLeave:
             periodPickerView.isHidden = true
             infoPickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "조기귀가 희망 시간을 선택해주세요"
+
+        case .earlyLeavePeriod:
+            timePickerView.isHidden = true
+            infoPickerView.isHidden = true
+            periodPickerView.isHidden = true
+            explainLabel.text = "조기귀가 희망 교시를 선택해주세요"
+
         case .studentInfo:
             periodPickerView.isHidden = true
             timePickerView.isHidden = true
+            earlyLeavePeriodPickerView.isHidden = true
             explainLabel.text = "학번을 선택해주세요"
         }
 
@@ -129,6 +151,11 @@ public class PiCKApplyTimePickerAlert: UIViewController {
             $0.leading.equalToSuperview().inset(24)
         }
         periodPickerView.snp.makeConstraints {
+            $0.top.equalTo(explainLabel.snp.bottom).offset(28)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(204)
+        }
+        earlyLeavePeriodPickerView.snp.makeConstraints {
             $0.top.equalTo(explainLabel.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(204)
