@@ -76,6 +76,14 @@ private extension BaseDataSource {
         return api.pickHeader == .accessToken
     }
 
+    func handleAutoLoginFailure() {
+        keychain.delete(type: .accessToken)
+        keychain.delete(type: .id)
+        keychain.delete(type: .password)
+        UserDefaultStorage.shared.remove(forKey: .userInfoData)
+        NotificationCenter.default.post(name: .autoLoginDidFail, object: nil)
+    }
+
     func autoLogin() -> Completable {
         let key = String(describing: API.self)
 
@@ -109,36 +117,37 @@ private extension BaseDataSource {
 
         let authProvider = MoyaProvider<AuthAPI>(plugins: [MoyaLoggingPlugin()])
 
-        let autoLogin = authProvider.rx
-            .request(.signin(req: loginRequest))
-            .timeout(.seconds(120), scheduler: MainScheduler.asyncInstance)
-            .map(TokenDTO.self)
-            .do(onSuccess: { [weak self] token in
-                self?.keychain.save(type: .accessToken, value: token.accessToken)
-            })
-            .asCompletable()
-            .catch { [weak self] error in
-                self?.keychain.delete(type: .accessToken)
-                self?.keychain.delete(type: .id)
-                self?.keychain.delete(type: .password)
-                UserDefaultStorage.shared.remove(forKey: .userInfoData)
-
-                NotificationCenter.default.post(name: .autoLoginDidFail, object: nil)
-
-                return .error(error)
-            }
-            .do(
-                onError: { _ in
-                    AutoLoginCache.lock.lock()
-                    AutoLoginCache.cache.removeValue(forKey: key)
-                    AutoLoginCache.lock.unlock()
-                },
-                onCompleted: {
-                    AutoLoginCache.lock.lock()
-                    AutoLoginCache.cache.removeValue(forKey: key)
-                    AutoLoginCache.lock.unlock()
+        let autoLogin = Completable.create { [weak self] completable in
+            authProvider.request(.signin(req: loginRequest)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let token = try response.map(TokenDTO.self)
+                        self?.keychain.save(type: .accessToken, value: token.accessToken)
+                        completable(.completed)
+                    } catch {
+                        self?.handleAutoLoginFailure()
+                        completable(.error(error))
+                    }
+                case .failure(let error):
+                    self?.handleAutoLoginFailure()
+                    completable(.error(error))
                 }
-            )
+            }
+            return Disposables.create()
+        }
+        .do(
+            onError: { _ in
+                AutoLoginCache.lock.lock()
+                AutoLoginCache.cache.removeValue(forKey: key)
+                AutoLoginCache.lock.unlock()
+            },
+            onCompleted: {
+                AutoLoginCache.lock.lock()
+                AutoLoginCache.cache.removeValue(forKey: key)
+                AutoLoginCache.lock.unlock()
+            }
+        )
 
         AutoLoginCache.lock.lock()
         AutoLoginCache.cache[key] = autoLogin
