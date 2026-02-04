@@ -124,7 +124,7 @@ private extension BaseDataSource {
                     do {
                         let token = try response.map(TokenDTO.self)
                         self?.keychain.save(type: .accessToken, value: token.accessToken)
-                        completable(.completed)
+                        self != nil ? completable(.completed) : completable(.error(MoyaError.requestMapping("")))
                     } catch {
                         self?.handleAutoLoginFailure()
                         completable(.error(error))
