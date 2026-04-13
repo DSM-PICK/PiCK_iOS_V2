@@ -12,7 +12,7 @@ extension PiCKError: LocalizedError {
         case let .error(message, _):
             return message
         case .deploymentPipelineError:
-            return "배포 파이프라인 실행 중 오류가 발생했습니다"
+            return "스퀘어가 터졌습니다"
         case .serverError:
             return "PiCK 서버에 오류가 발생했습니다"
         }
