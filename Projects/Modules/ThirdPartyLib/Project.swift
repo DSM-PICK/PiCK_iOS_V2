@@ -30,8 +30,8 @@ let project = Project.makeModule(
         // .PackageType.Nimble,
         .PackageType.FirebaseAnalytics,
         .PackageType.FirebaseSupport,
-        .PackageType.FirebaseCrashlytics,
         .PackageType.FirebasePerformance,
-        .PackageType.Siren
+        .PackageType.Siren,
+        .PackageType.Sentry
     ]
 )

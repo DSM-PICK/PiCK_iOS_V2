@@ -42,7 +42,8 @@ nonisolated(unsafe) let package = Package(
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.0.0"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0"),
         .package(url: "https://github.com/realm/realm-swift.git", from: "20.0.5"),
-        .package(url: "https://github.com/ArtSabintsev/Siren.git", from: "6.0.0")
+        .package(url: "https://github.com/ArtSabintsev/Siren.git", from: "6.0.0"),
+        .package(url: "https://github.com/getsentry/sentry-cocoa", from: "9.32.0")
 //        .package(url: "https://github.com/Quick/Quick.git", from: "7.0.0"),
 //        .package(url: "https://github.com/Quick/Nimble.git", from: "12.0.0")
     ],
@@ -69,8 +70,8 @@ nonisolated(unsafe) let package = Package(
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                .product(name: "FirebasePerformance", package: "firebase-ios-sdk")
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+                .product(name: "Sentry", package: "sentry-cocoa")
             ]
         )
     ]
