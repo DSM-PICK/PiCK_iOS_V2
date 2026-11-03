@@ -3,8 +3,7 @@ import AppTrackingTransparency
 
 import RxFlow
 
-import FirebaseAnalytics
-
+import Core
 import Flow
 
 import Siren
@@ -39,9 +38,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ATTrackingManager.requestTrackingAuthorization { status in
                 switch status {
                 case .authorized:
-                    Analytics.setAnalyticsCollectionEnabled(true)
+                    AnalyticsService.setCollectionEnabled(isTrackingAuthorized: true)
                 case .denied, .restricted, .notDetermined:
-                    Analytics.setAnalyticsCollectionEnabled(false)
+                    AnalyticsService.setCollectionEnabled(isTrackingAuthorized: false)
                 @unknown default:
                     fatalError("ATTrakingManager status unknown")
                 }
