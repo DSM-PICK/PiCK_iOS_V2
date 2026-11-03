@@ -19,6 +19,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Sentry 설정 (크래시를 최대한 빨리 잡기 위해 가장 먼저 호출, PROD 에서만 동작)
+        SentryConfiguration.setup()
+
         assembler = Assembler([
             KeychainAssembly(),
             DataSourceAssembly(),
