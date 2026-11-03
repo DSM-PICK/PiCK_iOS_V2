@@ -97,6 +97,7 @@ STAGE 스킴으로 같은 테스트를 했을 때 Sentry 에 아무것도 오지
 | `screen_view` | 화면 진입 | `screen_name` (예: `Home`, `OutingApply`), `screen_class` |
 | `login` | 로그인 성공 | `method=id_password` |
 | `apply_submit` | 외출/조기귀가/교실이동/주말급식 신청 | `apply_type`, `result` (`success` / `fail`) |
+| `apply_cancel` | 주말급식 신청 취소 | `apply_type=weekend_meal`, `result` |
 | `pass_view` | 홈에서 외출증/조기귀가증 열람 | `pass_type` (`outing` / `early_leave`) |
 | `notice_open` | 공지 상세 열람 | 없음 |
 | `bug_report_submit` | 버그 제보 | `result` |
@@ -132,7 +133,13 @@ dSYM 이 없으면 Sentry 크래시 스택이 주소로만 보입니다. **auth 
 
 - **FirebaseCrashlytics 를 제거했습니다.** Sentry 와 Crashlytics 는 둘 다 크래시 시그널 핸들러를 가로채서 하나만 정상 동작합니다. 코드에서 Crashlytics 를 쓰는 곳은 없었습니다.
 - Firebase 자동 화면 추적(`FirebaseAutomaticScreenReportingEnabled`)을 껐습니다. 대신 `BaseViewController` / `BaseReactorViewController` 에서 `screen_view` 를 직접 보냅니다. 중복 수집과 UIKit 컨테이너 화면 수집을 막기 위해서입니다.
-- Info.plist 에 `FIREBASE_ANALYTICS_COLLECTION_ENABLED = false` 를 넣었습니다. 앱 시작 시에는 수집이 꺼져 있고, **PROD + ATT 허용**일 때만 `Analytics.setAnalyticsCollectionEnabled(true)` 로 켭니다.
+- Info.plist 에 `FIREBASE_ANALYTICS_COLLECTION_ENABLED = false` 를 넣었습니다. 다만 Firebase 는 `setAnalyticsCollectionEnabled` 값을 앱 재실행 후에도 유지하고, 그 값이 plist 보다 우선합니다. 그래서 다음처럼 처리합니다.
+  - 앱 시작 시 `FirebaseApp.configure()` **전에** 현재 ATT 권한을 읽어 수집 상태를 즉시 덮어씁니다 (`AnalyticsConfiguration.applyCurrentTrackingStatus()`). 예전에 허용했다가 설정에서 철회한 사용자도 첫 이벤트부터 수집되지 않습니다.
+  - 포그라운드로 돌아올 때(`sceneWillEnterForeground`)도 같은 처리를 합니다.
+  - **PROD + ATT 허용**일 때만 수집을 켭니다.
+- 수집이 꺼져 있는 동안 보인 화면은 기억해 두었다가, 수집이 켜지는 순간 `screen_view` 로 한 번 기록합니다. 새로 설치한 경우 ATT 팝업에 응답하기 전에 첫 화면이 지나가도 그 화면이 빠지지 않습니다.
+- 주말급식은 같은 API 로 신청과 취소를 모두 처리합니다. 신청은 `apply_submit`, 취소는 `apply_cancel` 로 나눠 기록합니다.
+- ATT 콜백의 `@unknown default: fatalError` 를 없앴습니다. 이제 `authorized` 가 아닌 상태는 모두 수집 꺼짐으로 처리합니다.
 
 ---
 
@@ -146,3 +153,6 @@ dSYM 이 없으면 Sentry 크래시 스택이 주소로만 보입니다. **auth 
 6. **RxSwift 에 넣은 `.do(onCompleted:)` / `.do(onSuccess:)` 타입 추론.** 특히 `WeekendMealApplyViewModel` 은 `.catch` 클로저를 여러 줄로 바꿨습니다.
 7. **`screen_view` 화면 이름.** 탭 전환과 push 할 때 DebugView 에 의도한 이름(`Home`, `Apply` 등)으로 찍히는지 확인해 주세요.
 8. SwiftLint 경고가 새로 생기지 않았는지.
+9. **`FirebaseApp.configure()` 전에 `Analytics.setAnalyticsCollectionEnabled` 를 부르는 부분** (`AppDelegate`). 공식 문서에 순서 제약은 없지만, 콘솔에 "Firebase not configured" 같은 오류가 찍히거나 값이 적용되지 않으면 `AnalyticsConfiguration.applyCurrentTrackingStatus()` 를 `FirebaseApp.configure()` 바로 다음 줄로 옮겨 주세요.
+10. **권한 철회 시나리오.** PROD 에서 추적 허용 → 설정에서 PiCK 추적 끄기 → 앱 복귀/재실행 했을 때 DebugView 에 이벤트가 더 이상 오지 않는지.
+11. **새 설치 시나리오.** 앱 삭제 → 재설치 → ATT 팝업 전에 첫 화면 표시 → "허용" 했을 때 DebugView 에 첫 화면의 `screen_view` 가 한 번 찍히는지.

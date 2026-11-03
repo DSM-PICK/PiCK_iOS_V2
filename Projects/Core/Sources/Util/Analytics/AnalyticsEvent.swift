@@ -5,6 +5,7 @@ import Foundation
 public enum AnalyticsEvent {
     case login
     case applySubmit(type: ApplyType, result: ResultType)
+    case applyCancel(type: ApplyType, result: ResultType)
     case passView(type: PassType)
     case noticeOpen
     case bugReportSubmit(result: ResultType)
@@ -36,6 +37,8 @@ extension AnalyticsEvent {
             return "login"
         case .applySubmit:
             return "apply_submit"
+        case .applyCancel:
+            return "apply_cancel"
         case .passView:
             return "pass_view"
         case .noticeOpen:
@@ -49,7 +52,8 @@ extension AnalyticsEvent {
         switch self {
         case .login:
             return ["method": "id_password"]
-        case let .applySubmit(type, result):
+        case let .applySubmit(type, result),
+             let .applyCancel(type, result):
             return ["apply_type": type.rawValue, "result": result.rawValue]
         case let .passView(type):
             return ["pass_type": type.rawValue]
