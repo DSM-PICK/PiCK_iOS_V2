@@ -30,6 +30,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             PresentationAssembly()
          ], container: AppDelegate.container)
 
+        // 이전 실행에서 저장된 Analytics 수집 상태가 남아 있지 않도록,
+        // Firebase 가 자동 이벤트를 수집하기 전에 현재 추적 권한을 먼저 적용
+        AnalyticsConfiguration.applyCurrentTrackingStatus()
+
         // Firebase 설정
         FirebaseApp.configure()
 
