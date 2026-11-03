@@ -22,12 +22,12 @@ public extension TargetDependency.PackageType {
     static let GoogleSignIn = TargetDependency.external(name: "GoogleSignIn")
     static let FCM = TargetDependency.external(name: "FirebaseMessaging")
     static let Siren = TargetDependency.external(name: "Siren")
+    static let Sentry = TargetDependency.external(name: "Sentry")
     //    static let Quick = TargetDependency.external(name: "Quick")
     //    static let Nimble = TargetDependency.external(name: "Nimble")
 
     static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalytics")
     static let FirebaseSupport = TargetDependency.external(name: "FirebaseAnalyticsWithoutAdIdSupport")
-    static let FirebaseCrashlytics = TargetDependency.external(name: "FirebaseCrashlytics")
     static let FirebasePerformance = TargetDependency.external(name: "FirebasePerformance")
 }
 

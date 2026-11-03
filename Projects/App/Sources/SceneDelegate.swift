@@ -1,10 +1,8 @@
 import UIKit
-import AppTrackingTransparency
 
 import RxFlow
 
-import FirebaseAnalytics
-
+import Core
 import Flow
 
 import Siren
@@ -36,22 +34,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                case .authorized:
-                    Analytics.setAnalyticsCollectionEnabled(true)
-                case .denied, .restricted, .notDetermined:
-                    Analytics.setAnalyticsCollectionEnabled(false)
-                @unknown default:
-                    fatalError("ATTrakingManager status unknown")
-                }
-            }
+            AnalyticsConfiguration.requestTrackingAuthorization()
         }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {}
 
-    func sceneWillEnterForeground(_ scene: UIScene) {}
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        // 설정 앱에서 추적 권한을 바꾸고 돌아온 경우를 바로 반영
+        AnalyticsConfiguration.applyCurrentTrackingStatus()
+    }
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
 

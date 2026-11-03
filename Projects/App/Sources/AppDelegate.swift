@@ -19,6 +19,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Sentry 설정 (크래시를 최대한 빨리 잡기 위해 가장 먼저 호출, PROD 에서만 동작)
+        SentryConfiguration.setup()
+
         assembler = Assembler([
             KeychainAssembly(),
             DataSourceAssembly(),
@@ -26,6 +29,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             UseCaseAssembly(),
             PresentationAssembly()
          ], container: AppDelegate.container)
+
+        // 이전 실행에서 저장된 Analytics 수집 상태가 남아 있지 않도록,
+        // Firebase 가 자동 이벤트를 수집하기 전에 현재 추적 권한을 먼저 적용
+        AnalyticsConfiguration.applyCurrentTrackingStatus()
 
         // Firebase 설정
         FirebaseApp.configure()

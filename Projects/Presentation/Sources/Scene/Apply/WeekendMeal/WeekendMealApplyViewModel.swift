@@ -68,6 +68,12 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
             .withLatestFrom(input.applyStatus)
             .flatMap { status in
                 let alertType = status == .ok ? DisappearAlertType.weekendMeal : .weekendMealCancel
+                // 같은 요청으로 신청(OK)과 취소(NO)를 모두 처리하므로 이벤트를 구분해서 기록
+                let analyticsEvent: (AnalyticsEvent.ResultType) -> AnalyticsEvent = { result in
+                    status == .ok
+                        ? .applySubmit(type: .weekendMeal, result: result)
+                        : .applyCancel(type: .weekendMeal, result: result)
+                }
 
                 return self.weekendMealStatusUseCase.execute()
                     .map { WeekendMealType(rawValue: $0.status) ?? .ok }
@@ -80,14 +86,20 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
                         }
 
                         return self.weekendMealApplyUseCase.execute(status: status)
+                            .do(onCompleted: {
+                                AnalyticsService.log(analyticsEvent(.success))
+                            })
                             .andThen(.just(.applyAlertIsRequired(
                                 successType: .success,
                                 alertType: alertType
                             )))
-                            .catch { _ in .just(.applyAlertIsRequired(
-                                successType: .fail,
-                                alertType: alertType
-                            ))}
+                            .catch { _ in
+                                AnalyticsService.log(analyticsEvent(.fail))
+                                return .just(.applyAlertIsRequired(
+                                    successType: .fail,
+                                    alertType: alertType
+                                ))
+                            }
                     }
             }
             .subscribe(onNext: { [weak self] in

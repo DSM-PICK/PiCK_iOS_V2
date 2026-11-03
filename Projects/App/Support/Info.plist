@@ -15,6 +15,14 @@
 	<string>$(NEIS_ATPT_OFCDC_SC_CODE)</string>
 	<key>NEIS_SD_SCHUL_CODE</key>
 	<string>$(NEIS_SD_SCHUL_CODE)</string>
+	<key>APP_CONFIGURATION</key>
+	<string>$(CONFIGURATION)</string>
+	<key>SENTRY_DSN</key>
+	<string>$(SENTRY_DSN)</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

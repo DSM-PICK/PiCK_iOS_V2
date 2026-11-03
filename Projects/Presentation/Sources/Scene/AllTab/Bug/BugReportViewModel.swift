@@ -57,7 +57,11 @@ public class BugReportViewModel: BaseViewModel, Stepper {
                         content: content ?? "",
                         fileName: images
                     ))
+                    .do(onCompleted: {
+                        AnalyticsService.log(.bugReportSubmit(result: .success))
+                    })
                     .catch {
+                        AnalyticsService.log(.bugReportSubmit(result: .fail))
                         print($0.localizedDescription)
                         return .never()
                     }

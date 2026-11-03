@@ -194,9 +194,15 @@ public class HomeViewModel: BaseViewModel, Stepper {
                 switch self.outingPassType.value {
                 case .application:
                     return self.fetchOutingPassUseCase.execute()
+                        .do(onSuccess: { _ in
+                            AnalyticsService.log(.passView(type: .outing))
+                        })
                         .asObservable()
                 case .earlyReturn:
                     return self.fetchEarlyLeavePassUseCase.execute()
+                        .do(onSuccess: { _ in
+                            AnalyticsService.log(.passView(type: .earlyLeave))
+                        })
                         .asObservable()
                 case .classroom:
                     return self.classroomReturnUseCase.execute()

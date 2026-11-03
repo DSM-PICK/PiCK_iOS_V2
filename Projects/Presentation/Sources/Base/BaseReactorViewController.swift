@@ -15,6 +15,12 @@ public class BaseReactorViewController<Reactor: BaseReactor>: UIViewController, 
 
     private let networkMonitor = NWPathMonitor()
 
+    // GA screen_view 에 쓰이는 화면 이름 (기본값: 클래스 이름에서 ViewController 를 뺀 값)
+    open var analyticsScreenName: String {
+        return String(describing: type(of: self))
+            .replacingOccurrences(of: "ViewController", with: "")
+    }
+
     public var navigationTitleText: String?
     private let navigationTitleLabel = PiCKLabel(
         textColor: .modeBlack,
@@ -43,6 +49,13 @@ public class BaseReactorViewController<Reactor: BaseReactor>: UIViewController, 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearRelay.accept(())
+    }
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AnalyticsService.logScreenView(
+            screenName: analyticsScreenName,
+            screenClass: String(describing: type(of: self))
+        )
     }
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
