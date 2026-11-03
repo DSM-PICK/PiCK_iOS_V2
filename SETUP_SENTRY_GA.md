@@ -14,7 +14,7 @@ Sentry 와 GA 는 **PROD 구성에서만** 동작합니다. STAGE 빌드에서�
 | `XCConfig/` 폴더 전체 | 비공개 레포 `DSM-PICK/PiCK_iOS_V2_XCConfig` 의 `XCConfig/` | 레포 루트의 `XCConfig/` |
 | `GoogleService-Stage-Info.plist` | 비공개 레포 `DSM-PICK/PiCK-iOS-GoogleInfo` 의 `FireBase/` | `Projects/App/Resources/Firebase/` |
 | `GoogleService-Prod-Info.plist` | 위와 같음 | `Projects/App/Resources/Firebase/` |
-| Sentry DSN | Sentry 프로젝트 → Settings → Client Keys (DSN) | `XCConfig/PiCK-iOS-V2/PROD.xcconfig` (아래 2번 참고) |
+| Sentry DSN | Sentry 프로젝트 → Settings → Client Keys (DSN) | `XCConfig/PiCK-iOS-v2/PROD.xcconfig` (아래 2번 참고) |
 
 `ci_scripts/ci_post_clone.sh` 가 하는 것과 같은 작업입니다.
 
@@ -30,7 +30,9 @@ git clone https://github.com/DSM-PICK/PiCK-iOS-GoogleInfo.git /tmp/googleinfo &&
 
 ## 2. xcconfig 에 추가할 줄
 
-`XCConfig/PiCK-iOS-V2/PROD.xcconfig` 에 아래 한 줄을 추가합니다. 이 파일은 비공개 XCConfig 레포에도 반영해 주세요.
+`XCConfig/PiCK-iOS-v2/PROD.xcconfig` 에 아래 한 줄을 추가합니다. 이 파일은 비공개 XCConfig 레포에도 반영해 주세요.
+
+- 폴더 이름은 소문자 `v` 인 `PiCK-iOS-v2` 입니다. 앱 타깃 이름은 `PiCK-iOS-V2` 인데, macOS 파일 시스템이 대소문자를 구분하지 않아서 그대로 찾아집니다. 파일을 열 때 헷갈리지 않도록 실제 이름을 적었습니다.
 
 ```
 SENTRY_DSN = https:/$()/<PUBLIC_KEY>@<ORG_HOST>.ingest.sentry.io/<PROJECT_ID>
