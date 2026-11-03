@@ -30,6 +30,9 @@ public class NoticeDetailViewModel: BaseViewModel, Stepper {
         input.viewWillAppear.asObservable()
             .flatMap { id in
                 self.noticeDetailUseCase.execute(id: id)
+                    .do(onSuccess: { _ in
+                        AnalyticsService.log(.noticeOpen)
+                    })
                     .catch {
                         print($0.localizedDescription)
                         return .never()

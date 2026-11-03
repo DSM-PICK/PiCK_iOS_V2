@@ -83,7 +83,11 @@ public class OutingApplyViewModel: BaseViewModel, Stepper {
                 }, onCompleted: { [weak self] in
                     self?.isApplying.accept(false)
                 })
+                .do(onCompleted: {
+                    AnalyticsService.log(.applySubmit(type: .outing, result: .success))
+                })
                 .catch {
+                    AnalyticsService.log(.applySubmit(type: .outing, result: .fail))
                     self.steps.accept(
                         PiCKStep.applyAlertIsRequired(
                             successType: .fail,

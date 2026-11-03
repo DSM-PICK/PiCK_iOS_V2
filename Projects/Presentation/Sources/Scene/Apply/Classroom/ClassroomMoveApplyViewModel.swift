@@ -55,7 +55,11 @@ public class ClassroomMoveApplyViewModel: BaseViewModel, Stepper {
                     startPeriod: startPeriod,
                     endPeriod: endPeriod
                 ))
+                .do(onCompleted: {
+                    AnalyticsService.log(.applySubmit(type: .classroomMove, result: .success))
+                })
                 .catch {
+                    AnalyticsService.log(.applySubmit(type: .classroomMove, result: .fail))
                     self.steps.accept(
                         PiCKStep.applyAlertIsRequired(
                             successType: .fail,

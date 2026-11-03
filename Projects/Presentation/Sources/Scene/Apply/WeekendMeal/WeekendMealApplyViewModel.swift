@@ -80,14 +80,20 @@ public class WeekendMealApplyViewModel: BaseViewModel, Stepper {
                         }
 
                         return self.weekendMealApplyUseCase.execute(status: status)
+                            .do(onCompleted: {
+                                AnalyticsService.log(.applySubmit(type: .weekendMeal, result: .success))
+                            })
                             .andThen(.just(.applyAlertIsRequired(
                                 successType: .success,
                                 alertType: alertType
                             )))
-                            .catch { _ in .just(.applyAlertIsRequired(
-                                successType: .fail,
-                                alertType: alertType
-                            ))}
+                            .catch { _ in
+                                AnalyticsService.log(.applySubmit(type: .weekendMeal, result: .fail))
+                                return .just(.applyAlertIsRequired(
+                                    successType: .fail,
+                                    alertType: alertType
+                                ))
+                            }
                     }
             }
             .subscribe(onNext: { [weak self] in

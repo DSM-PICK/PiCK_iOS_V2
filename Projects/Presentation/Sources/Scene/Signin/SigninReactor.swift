@@ -109,6 +109,9 @@ extension SigninReactor {
             password: password,
             deviceToken: Messaging.messaging().fcmToken ?? nil
         ))
+        .do(onCompleted: {
+            AnalyticsService.log(.login)
+        })
         .andThen(Observable.just(Mutation.signinSuccess))
         .catch { error in
             if let nsError = error as NSError? {
