@@ -133,3 +133,16 @@ dSYM 이 없으면 Sentry 크래시 스택이 주소로만 보입니다. **auth 
 - **FirebaseCrashlytics 를 제거했습니다.** Sentry 와 Crashlytics 는 둘 다 크래시 시그널 핸들러를 가로채서 하나만 정상 동작합니다. 코드에서 Crashlytics 를 쓰는 곳은 없었습니다.
 - Firebase 자동 화면 추적(`FirebaseAutomaticScreenReportingEnabled`)을 껐습니다. 대신 `BaseViewController` / `BaseReactorViewController` 에서 `screen_view` 를 직접 보냅니다. 중복 수집과 UIKit 컨테이너 화면 수집을 막기 위해서입니다.
 - Info.plist 에 `FIREBASE_ANALYTICS_COLLECTION_ENABLED = false` 를 넣었습니다. 앱 시작 시에는 수집이 꺼져 있고, **PROD + ATT 허용**일 때만 `Analytics.setAnalyticsCollectionEnabled(true)` 로 켭니다.
+
+---
+
+## 7. 빌드할 때 특히 봐야 할 곳 (Windows 에서 작성해 빌드로 확인하지 못한 부분)
+
+1. **`tuist install` 에서 sentry-cocoa 9.32.0 을 내려받는지.** `Sentry` 제품은 미리 빌드된 정적 xcframework 입니다. Tuist 가 정적 프레임워크인 `ThirdPartyLib` 에 붙여 앱까지 링크하는지 확인해 주세요. 링크 오류가 나면 `Tuist/Package.swift` 의 `productTypes` 에 `"Sentry": .staticFramework` 를 추가해 보세요.
+2. **앱 타깃에서 `import Sentry` 가 되는지** (`SentryConfiguration.swift`). Firebase 를 앱 타깃에서 import 하는 것과 같은 경로(ThirdPartyLib 경유)를 기대하고 있습니다.
+3. **Sentry 9.x 옵션 이름.** `releaseName`, `environment`, `sendDefaultPii`, `tracesSampleRate` 가 컴파일되는지 확인해 주세요. 공식 문서 기준으로 작성했습니다.
+4. **Crashlytics 제거 후 빌드.** 남은 `FirebaseCrashlytics` 참조나 dSYM 관련 Run Script 오류가 없는지 확인해 주세요.
+5. **`APP_CONFIGURATION`** 이 실제로 `PROD` / `STAGE` 로 들어가는지. 빌드된 앱의 Info.plist 를 열거나, 디버거에서 `AppEnvironment.configuration` 을 출력해 확인해 주세요.
+6. **RxSwift 에 넣은 `.do(onCompleted:)` / `.do(onSuccess:)` 타입 추론.** 특히 `WeekendMealApplyViewModel` 은 `.catch` 클로저를 여러 줄로 바꿨습니다.
+7. **`screen_view` 화면 이름.** 탭 전환과 push 할 때 DebugView 에 의도한 이름(`Home`, `Apply` 등)으로 찍히는지 확인해 주세요.
+8. SwiftLint 경고가 새로 생기지 않았는지.
