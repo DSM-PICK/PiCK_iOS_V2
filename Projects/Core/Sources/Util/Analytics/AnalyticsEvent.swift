@@ -12,20 +12,20 @@ public enum AnalyticsEvent {
 
 public extension AnalyticsEvent {
     enum ApplyType: String {
-        case outing = "outing"
+        case outing
         case earlyLeave = "early_leave"
         case classroomMove = "classroom_move"
         case weekendMeal = "weekend_meal"
     }
 
     enum PassType: String {
-        case outing = "outing"
+        case outing
         case earlyLeave = "early_leave"
     }
 
     enum ResultType: String {
-        case success = "success"
-        case fail = "fail"
+        case success
+        case fail
     }
 }
 

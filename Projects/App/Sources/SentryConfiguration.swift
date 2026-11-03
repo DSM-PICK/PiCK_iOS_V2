@@ -12,7 +12,11 @@ public class SentryConfiguration {
         SentrySDK.start { options in
             options.dsn = dsn
             options.environment = "production"
-            options.releaseName = "\(AppEnvironment.bundleID)@\(AppEnvironment.appVersion)+\(AppEnvironment.buildNumber)"
+            options.releaseName = [
+                AppEnvironment.bundleID,
+                "@\(AppEnvironment.appVersion)",
+                "+\(AppEnvironment.buildNumber)"
+            ].joined()
             options.sendDefaultPii = false
             options.tracesSampleRate = 0.2
         }
